@@ -1,7 +1,5 @@
 import json
 import os
-import shutil
-import tempfile
 
 import pytest
 
@@ -11,8 +9,8 @@ from app import app
 
 @pytest.fixture(autouse=True)
 def isolated_schedules_dir(monkeypatch, tmp_path):
-    """Point SCHEDULES_DIR at a temp directory for each test."""
     tmp_dir = str(tmp_path / "schedules")
+    os.makedirs(tmp_dir)
     monkeypatch.setattr(app_module, "SCHEDULES_DIR", tmp_dir)
     yield tmp_dir
 
