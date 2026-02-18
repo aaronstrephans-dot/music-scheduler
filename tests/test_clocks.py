@@ -182,7 +182,7 @@ def _make_tracks(client, count=6):
 
 
 def test_rotation_schedule_fills_slots(client):
-    _make_tracks(client, count=6)
+    _make_tracks(client, count=20)
     clock = client.post("/api/clocks", data=json.dumps({
         "name":  "Test Hour",
         "slots": [
@@ -198,10 +198,14 @@ def test_rotation_schedule_fills_slots(client):
     )
     assert resp.status_code == 201
     schedule = resp.get_json()
-    assert len(schedule["tracks"])    == 4
-    assert schedule["clock_id"]       == clock["id"]
+    assert schedule["clock_id"] == clock["id"]
     assert all("track_id" in t for t in schedule["tracks"])
     assert all("artist"   in t for t in schedule["tracks"])
+
+    # Clock cycles until a full hour (≥60 min) is filled — not just one pass
+    total_secs = sum(t.get("duration_seconds", 0) for t in schedule["tracks"])
+    assert total_secs >= 3600
+    assert len(schedule["tracks"]) > 4
 
 
 def test_rotation_schedule_bad_clock_id(client):

@@ -33,7 +33,12 @@ def test_index(client):
 def test_generate_schedule_creates_file(client, isolated_schedules_dir):
     payload = {
         "name": "Morning Classics",
-        "tracks": ["track1.mp3", "track2.mp3"],
+        "tracks": [
+            {"title": "Track 1", "artist": "Artist A",
+             "category": "Current", "duration_seconds": 210},
+            {"title": "Track 2", "artist": "Artist B",
+             "category": "Current", "duration_seconds": 210},
+        ],
         "duration_minutes": 30,
     }
     resp = client.post(

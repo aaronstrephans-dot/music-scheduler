@@ -24,13 +24,13 @@ def _score(track: dict, scheduled: list, rules: dict):
     title  = (track.get("title")  or "").lower()
 
     # Hard exclusion: same title too recently (approximate from hours → songs)
-    title_sep_songs = max(1, int(rules.get("title_separation_hours", 3) * 60 / 3.5))
-    recent_titles = [(t.get("title") or "").lower() for t in scheduled[-title_sep_songs:]]
+    title_sep_songs  = max(1, int(rules.get("title_separation_hours", 3) * 60 / 3.5))
+    recent_titles    = [(t.get("title") or "").lower() for t in scheduled[-title_sep_songs:]]
     if title in recent_titles:
         return None
 
     # Hard exclusion: same artist too recently
-    artist_sep    = rules.get("artist_separation_songs", 9)
+    artist_sep     = rules.get("artist_separation_songs", 9)
     recent_artists = [(t.get("artist") or "").lower() for t in scheduled[-artist_sep:]]
     if artist in recent_artists:
         return None
@@ -62,70 +62,111 @@ def _artist_recency_score(track: dict, scheduled: list) -> float:
     return float(len(scheduled) - last_pos)  # range: 1 (just played) to len+1 (never)
 
 
-def build_schedule(clock: dict, tracks: list, rules: dict) -> list:
-    """
-    Build a scheduled track list from a clock template and a track library.
+def _pick(candidates: list, scheduled: list, rules: dict) -> dict:
+    """Score every candidate and return the best pick, with fallback for tiny libraries."""
+    scored = []
+    for t in candidates:
+        s = _score(t, scheduled, rules)
+        if s is not None:
+            scored.append((s, t))
 
-    Each returned slot dict contains: position, category, track_id, title,
-    artist, duration_seconds, bpm, energy, mood, notes.
+    if scored:
+        # Weighted-random pick from top 3 for natural variety
+        scored.sort(key=lambda x: x[0], reverse=True)
+        pool  = scored[:3]
+        total = sum(s for s, _ in pool)
+        pick  = random.uniform(0, total) if total > 0 else 0.0
+
+        chosen     = pool[0][1]
+        cumulative = 0.0
+        for s, t in pool:
+            cumulative += s
+            if pick <= cumulative:
+                chosen = t
+                break
+        return chosen
+
+    # Tiny-library fallback: all candidates hard-excluded.
+    # Relax exclusions and pick deterministically by artist recency
+    # so we still alternate artists as well as possible.
+    fallback = sorted(
+        [(_artist_recency_score(t, scheduled), t) for t in candidates],
+        key=lambda x: x[0],
+        reverse=True,
+    )
+    return fallback[0][1]
+
+
+def build_schedule(
+    clock: dict,
+    tracks: list,
+    rules: dict,
+    target_seconds: int = 0,
+) -> list:
+    """
+    Build a scheduled track list by cycling the clock template until
+    ``target_seconds`` of content is accumulated.
+
+    Args:
+        clock:          clock template dict with a ``slots`` list.
+        tracks:         full track library.
+        rules:          separation / rotation rules.
+        target_seconds: stop once cumulative duration reaches this value.
+                        0 means "fill exactly one pass through the clock slots".
+
+    Each returned slot dict contains:
+        position, category, track_id, title, artist,
+        duration_seconds, bpm, energy, mood, notes.
     """
     if not tracks:
         return []
 
-    # Index tracks by category for fast lookup
+    slots = clock.get("slots", [])
+    if not slots:
+        return []
+
+    # Index tracks by category for fast lookup; fall back to full library
     by_cat: dict = {}
     for t in tracks:
         by_cat.setdefault(t.get("category", ""), []).append(t)
 
     scheduled: list = []
+    total_secs      = 0
+    position        = 1
+    slot_idx        = 0
+    _MAX_SLOTS      = 1000          # hard safety cap
 
-    for slot in clock.get("slots", []):
-        category   = slot.get("category", "")
-        candidates = by_cat.get(category) or tracks  # fall back to full library
+    while position <= _MAX_SLOTS:
+        slot     = slots[slot_idx % len(slots)]
+        category = slot.get("category", "")
+        pool     = by_cat.get(category) or tracks
 
-        # Score every candidate; hard-excluded tracks return None
-        scored = []
-        for t in candidates:
-            s = _score(t, scheduled, rules)
-            if s is not None:
-                scored.append((s, t))
-
-        if scored:
-            # Normal path: weighted-random pick from top 3 for natural variety
-            scored.sort(key=lambda x: x[0], reverse=True)
-            pool  = scored[:3]
-            total = sum(s for s, _ in pool)
-            pick  = random.uniform(0, total) if total > 0 else 0.0
-
-            chosen     = pool[0][1]
-            cumulative = 0.0
-            for s, t in pool:
-                cumulative += s
-                if pick <= cumulative:
-                    chosen = t
-                    break
-        else:
-            # Tiny-library fallback: all candidates hard-excluded.
-            # Relax exclusions and pick deterministically by artist recency
-            # so we still alternate artists as well as possible.
-            fallback = sorted(
-                [(_artist_recency_score(t, scheduled), t) for t in candidates],
-                key=lambda x: x[0],
-                reverse=True,
-            )
-            chosen = fallback[0][1]
+        chosen   = _pick(pool, scheduled, rules)
+        duration = chosen.get("duration_seconds") or slot.get("duration_seconds") or 210
 
         scheduled.append({
-            "position":         slot.get("position"),
+            "position":         position,
             "category":         category,
             "track_id":         chosen.get("id"),
             "title":            chosen.get("title"),
             "artist":           chosen.get("artist"),
-            "duration_seconds": chosen.get("duration_seconds") or slot.get("duration_seconds"),
+            "duration_seconds": duration,
             "bpm":              chosen.get("bpm"),
             "energy":           chosen.get("energy"),
             "mood":             chosen.get("mood"),
             "notes":            slot.get("notes", ""),
         })
+
+        total_secs += duration
+        position   += 1
+        slot_idx   += 1
+
+        if target_seconds > 0:
+            if total_secs >= target_seconds:
+                break
+        else:
+            # No target: fill exactly one pass through the clock slots
+            if slot_idx >= len(slots):
+                break
 
     return scheduled
