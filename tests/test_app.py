@@ -94,3 +94,35 @@ def test_get_schedule(client):
 def test_get_schedule_not_found(client):
     resp = client.get("/api/schedule/nonexistent-id")
     assert resp.status_code == 404
+
+
+def test_update_schedule(client):
+    gen = client.post(
+        "/api/schedule/generate",
+        data=json.dumps({"name": "Old Name"}),
+        content_type="application/json",
+    ).get_json()
+
+    resp = client.put(
+        f"/api/schedule/{gen['id']}",
+        data=json.dumps({"name": "New Name"}),
+        content_type="application/json",
+    )
+    assert resp.status_code == 200
+    assert resp.get_json()["name"] == "New Name"
+
+
+def test_delete_schedule(client):
+    gen = client.post(
+        "/api/schedule/generate",
+        data=json.dumps({"name": "To Delete"}),
+        content_type="application/json",
+    ).get_json()
+
+    resp = client.delete(f"/api/schedule/{gen['id']}")
+    assert resp.status_code == 204
+    assert client.get(f"/api/schedule/{gen['id']}").status_code == 404
+
+
+def test_delete_schedule_not_found(client):
+    assert client.delete("/api/schedule/nonexistent").status_code == 404
