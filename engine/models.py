@@ -411,6 +411,56 @@ SLOT_DEFAULTS = {
     "condition_daypart":    None,
     "condition_start_date": None,
     "condition_end_date":   None,
+
+    # --- Extended fill logic ---
+    #
+    # fill_mode controls how the scheduler finds a track for this slot:
+    #
+    #   "category" (default) — pick from the single `category` field, with
+    #                           category-level alternate fallback (alternate1/2/3).
+    #
+    #   "query"  — cross-category song search.  The `query` dict defines filter
+    #              criteria; any track in the library that matches is a candidate.
+    #              Useful when you want "a fast, female-vocal song from ANY of
+    #              these three categories" rather than a rigid single-category pick.
+    #
+    #   "chain"  — ordered try-list.  Each item in `chain` is attempted in turn;
+    #              the first item whose optional `condition` is satisfied AND which
+    #              yields at least one eligible track is used.  A "void" item type
+    #              signals an explicit skip (no song scheduled for this slot).
+    #              This is the if/then logic for clock slots.
+    "fill_mode": "category",
+
+    # Used when fill_mode = "query".
+    # All filters are optional (None / empty = unconstrained).
+    "query": {
+        "categories":    [],    # category names to include (empty = all)
+        "tempo_min":     None,  # minimum tempo value (1–5 scale)
+        "tempo_max":     None,  # maximum tempo value
+        "gender":        None,  # exact gender match (0=any, 1=male, 2=female …)
+        "mood":          None,  # exact mood match
+        "texture_min":   None,  # minimum texture
+        "texture_max":   None,  # maximum texture
+        "sound_codes":   [],    # required sound codes
+        "sc_and":        False, # True = all codes required; False = any
+        "min_duration_s": None, # minimum track duration in seconds
+        "max_duration_s": None, # maximum track duration in seconds
+    },
+
+    # Used when fill_mode = "chain".
+    # Each list item is tried in order.  Format:
+    #   {
+    #     "type": "category" | "query" | "void",
+    #     "category": "<name>",      # for type="category"
+    #     "query": { ... },          # for type="query"  (same keys as above)
+    #     "label": "<display name>", # optional label for UI / logs
+    #     "condition": {             # optional — skip item if context doesn't match
+    #       "daypart":    "<name>",
+    #       "start_date": "<ISO>",
+    #       "end_date":   "<ISO>"
+    #     }
+    #   }
+    "chain": [],
 }
 
 

@@ -495,6 +495,99 @@ def _apply_stack_rotation(candidates: list, stack_ptrs: dict,
 
 
 # ---------------------------------------------------------------------------
+# Query-pool builder  (for fill_mode = "query")
+# ---------------------------------------------------------------------------
+
+def _build_query_pool(query: dict, by_cat: dict) -> list:
+    """
+    Build a candidate track pool from a cross-category query filter.
+
+    ``query`` keys (all optional):
+        categories    — list of category names to search (empty = all)
+        tempo_min/max — tempo range (1–5 scale)
+        gender        — exact gender value
+        mood          — exact mood value
+        texture_min/max — texture range
+        sound_codes   — list of required sound-code numbers
+        sc_and        — True = all codes required; False = any
+        min/max_duration_s — duration bounds in seconds
+    """
+    categories = query.get("categories") or []
+    if categories:
+        pool = []
+        for cat in categories:
+            pool.extend(by_cat.get(cat, []))
+    else:
+        pool = [t for tracks in by_cat.values() for t in tracks]
+
+    tempo_min    = query.get("tempo_min")
+    tempo_max    = query.get("tempo_max")
+    gender       = query.get("gender")
+    mood         = query.get("mood")
+    texture_min  = query.get("texture_min")
+    texture_max  = query.get("texture_max")
+    min_dur      = query.get("min_duration_s")
+    max_dur      = query.get("max_duration_s")
+    sound_codes  = query.get("sound_codes") or []
+    sc_and       = query.get("sc_and", False)
+
+    filtered = []
+    for t in pool:
+        tempo   = t.get("tempo",   0) or 0
+        texture = t.get("texture", 0) or 0
+
+        if tempo_min   is not None and tempo   < tempo_min:    continue
+        if tempo_max   is not None and tempo   > tempo_max:    continue
+        if gender      is not None and (t.get("gender", 0) or 0) != gender:  continue
+        if mood        is not None and (t.get("mood",   0) or 0) != mood:    continue
+        if texture_min is not None and texture < texture_min:  continue
+        if texture_max is not None and texture > texture_max:  continue
+
+        dur_s = (
+            (t.get("duration_ms") or 0) // 1000
+            or t.get("duration_seconds") or 0
+        )
+        if min_dur is not None and dur_s < min_dur: continue
+        if max_dur is not None and dur_s > max_dur: continue
+
+        if sound_codes:
+            track_codes = set(t.get("sound_codes") or [])
+            required    = set(sound_codes)
+            if sc_and:
+                if not required.issubset(track_codes): continue
+            else:
+                if not (required & track_codes):        continue
+
+        filtered.append(t)
+    return filtered
+
+
+# ---------------------------------------------------------------------------
+# Chain item condition check  (for fill_mode = "chain")
+# ---------------------------------------------------------------------------
+
+def _chain_condition_met(item: dict, sched_date: str, daypart_name: str) -> bool:
+    """Return False if a chain item has a condition that the current context doesn't match."""
+    cond = item.get("condition")
+    if not cond:
+        return True
+
+    cond_dp = cond.get("daypart")
+    if cond_dp and daypart_name and cond_dp.strip().lower() != daypart_name.strip().lower():
+        return False
+
+    cond_start = cond.get("start_date")
+    if cond_start and sched_date and sched_date < cond_start:
+        return False
+
+    cond_end = cond.get("end_date")
+    if cond_end and sched_date and sched_date > cond_end:
+        return False
+
+    return True
+
+
+# ---------------------------------------------------------------------------
 # Conditional slot helper
 # ---------------------------------------------------------------------------
 
@@ -638,40 +731,113 @@ def build_schedule(
             position   += 1
             slot_idx   += 1
         else:
-            # --- Build candidate pool with alternate fallback ---
-            pool, effective_cat = _build_pool(slot, by_cat, cat_lookup)
-            if not pool:
-                slot_idx += 1
-                if target_seconds == 0 and slot_idx >= len(slots):
-                    break
-                continue
-
-            # --- Force-rank rotation? ---
-            cat_rec    = cat_lookup.get(effective_cat, {})
-            force_rank = cat_rec.get("force_rank_rotation", False) if cat_rec else False
-
-            # --- Estimate slot count in hour for position flags ---
+            # --- Estimate slot count in hour for position flags (shared by all modes) ---
             est_total = len(slots) if target_seconds == 0 else max(len(slots), 10)
             pos_in_hr = (position - 1) % max(1, est_total)
 
-            # --- Filter eligible candidates ---
-            eligible = [
-                t for t in pool
-                if _is_eligible(
-                    t, scheduled, slot, rules,
-                    hour=hour,
-                    position_in_hour=pos_in_hr,
-                    total_in_hour=est_total,
-                    clock=clock,
-                    artist_lookup=artist_lookup,
-                    cat_lookup=cat_lookup,
-                    effective_cat=effective_cat,
-                )
-                and t.get("id") not in prev_day_set
-            ]
+            fill_mode = slot.get("fill_mode", "category")
 
-            # Relax prev-day restriction if needed
-            if not eligible:
+            # ---------------------------------------------------------------
+            # fill_mode = "chain"
+            # Try each chain item in order; use the first that yields eligible
+            # tracks.  A "void" item type means: explicitly skip this slot.
+            # ---------------------------------------------------------------
+            if fill_mode == "chain":
+                chain   = slot.get("chain") or []
+                chosen  = None
+                effective_cat = slot.get("category", "")
+
+                for item in chain:
+                    # Check the item-level condition gate
+                    if not _chain_condition_met(item, sched_date, daypart_name):
+                        continue
+
+                    item_type = item.get("type", "category")
+
+                    if item_type == "void":
+                        break  # explicit skip — leave chosen = None
+
+                    if item_type == "category":
+                        item_pool = by_cat.get(item.get("category", "")) or []
+                        item_cat  = item.get("category", "")
+                    elif item_type == "query":
+                        item_pool = _build_query_pool(item.get("query") or {}, by_cat)
+                        item_cat  = item.get("label", "")
+                    else:
+                        continue
+
+                    if not item_pool:
+                        continue  # nothing in this pool — try next chain item
+
+                    # Check eligibility within this item's pool
+                    item_elig = [
+                        t for t in item_pool
+                        if _is_eligible(
+                            t, scheduled, slot, rules,
+                            hour=hour,
+                            position_in_hour=pos_in_hr,
+                            total_in_hour=est_total,
+                            clock=clock,
+                            artist_lookup=artist_lookup,
+                            cat_lookup=cat_lookup,
+                            effective_cat=item_cat,
+                        )
+                        and t.get("id") not in prev_day_set
+                    ]
+                    # Relax prev-day restriction if needed
+                    if not item_elig:
+                        item_elig = [
+                            t for t in item_pool
+                            if _is_eligible(
+                                t, scheduled, slot, rules,
+                                hour=hour,
+                                position_in_hour=pos_in_hr,
+                                total_in_hour=est_total,
+                                clock=clock,
+                                artist_lookup=artist_lookup,
+                                cat_lookup=cat_lookup,
+                                effective_cat=item_cat,
+                            )
+                        ]
+
+                    if not item_elig:
+                        continue  # no eligible tracks in this item — try next
+
+                    # Found a viable chain item — pick from it
+                    effective_cat = item_cat
+                    if stack_pool:
+                        item_elig = _apply_stack_rotation(item_elig, stack_ptrs, stack_pool)
+                    cat_rec    = cat_lookup.get(effective_cat, {})
+                    force_rank = cat_rec.get("force_rank_rotation", False) if cat_rec else False
+                    chosen = _pick(item_elig, scheduled, slot, rules,
+                                   force_rank=force_rank,
+                                   rank_state=rank_state,
+                                   cat_name=effective_cat)
+                    break
+
+                if chosen is None:
+                    # All chain items exhausted (or void hit) — skip this slot
+                    slot_idx += 1
+                    if target_seconds == 0 and slot_idx >= len(slots):
+                        break
+                    continue
+
+            # ---------------------------------------------------------------
+            # fill_mode = "query"  (cross-category search with attribute filters)
+            # ---------------------------------------------------------------
+            elif fill_mode == "query":
+                pool          = _build_query_pool(slot.get("query") or {}, by_cat)
+                effective_cat = slot.get("category", "")
+
+                if not pool:
+                    slot_idx += 1
+                    if target_seconds == 0 and slot_idx >= len(slots):
+                        break
+                    continue
+
+                cat_rec    = cat_lookup.get(effective_cat, {})
+                force_rank = cat_rec.get("force_rank_rotation", False) if cat_rec else False
+
                 eligible = [
                     t for t in pool
                     if _is_eligible(
@@ -684,25 +850,104 @@ def build_schedule(
                         cat_lookup=cat_lookup,
                         effective_cat=effective_cat,
                     )
+                    and t.get("id") not in prev_day_set
+                ]
+                if not eligible:
+                    eligible = [
+                        t for t in pool
+                        if _is_eligible(
+                            t, scheduled, slot, rules,
+                            hour=hour,
+                            position_in_hour=pos_in_hr,
+                            total_in_hour=est_total,
+                            clock=clock,
+                            artist_lookup=artist_lookup,
+                            cat_lookup=cat_lookup,
+                            effective_cat=effective_cat,
+                        )
+                    ]
+
+                if stack_pool and eligible:
+                    eligible = _apply_stack_rotation(eligible, stack_ptrs, stack_pool)
+
+                if not eligible:
+                    fallback_pool = pool
+                    if stack_pool:
+                        rotated = _apply_stack_rotation(pool, stack_ptrs, stack_pool)
+                        if rotated:
+                            fallback_pool = rotated
+                    chosen = _fallback_pick(fallback_pool, scheduled)
+                else:
+                    chosen = _pick(eligible, scheduled, slot, rules,
+                                   force_rank=force_rank,
+                                   rank_state=rank_state,
+                                   cat_name=effective_cat)
+
+            # ---------------------------------------------------------------
+            # fill_mode = "category"  (default — single category + alternates)
+            # ---------------------------------------------------------------
+            else:
+                # --- Build candidate pool with alternate fallback ---
+                pool, effective_cat = _build_pool(slot, by_cat, cat_lookup)
+                if not pool:
+                    slot_idx += 1
+                    if target_seconds == 0 and slot_idx >= len(slots):
+                        break
+                    continue
+
+                # --- Force-rank rotation? ---
+                cat_rec    = cat_lookup.get(effective_cat, {})
+                force_rank = cat_rec.get("force_rank_rotation", False) if cat_rec else False
+
+                # --- Filter eligible candidates ---
+                eligible = [
+                    t for t in pool
+                    if _is_eligible(
+                        t, scheduled, slot, rules,
+                        hour=hour,
+                        position_in_hour=pos_in_hr,
+                        total_in_hour=est_total,
+                        clock=clock,
+                        artist_lookup=artist_lookup,
+                        cat_lookup=cat_lookup,
+                        effective_cat=effective_cat,
+                    )
+                    and t.get("id") not in prev_day_set
                 ]
 
-            # --- Apply stack rotation: enforce FIFO order within each stack_key ---
-            if stack_pool and eligible:
-                eligible = _apply_stack_rotation(eligible, stack_ptrs, stack_pool)
+                # Relax prev-day restriction if needed
+                if not eligible:
+                    eligible = [
+                        t for t in pool
+                        if _is_eligible(
+                            t, scheduled, slot, rules,
+                            hour=hour,
+                            position_in_hour=pos_in_hr,
+                            total_in_hour=est_total,
+                            clock=clock,
+                            artist_lookup=artist_lookup,
+                            cat_lookup=cat_lookup,
+                            effective_cat=effective_cat,
+                        )
+                    ]
 
-            if not eligible:
-                # Tiny library — relax all constraints, but still honour stack rotation
-                fallback_pool = pool
-                if stack_pool:
-                    rotated = _apply_stack_rotation(pool, stack_ptrs, stack_pool)
-                    if rotated:
-                        fallback_pool = rotated
-                chosen = _fallback_pick(fallback_pool, scheduled)
-            else:
-                chosen = _pick(eligible, scheduled, slot, rules,
-                               force_rank=force_rank,
-                               rank_state=rank_state,
-                               cat_name=effective_cat)
+                # --- Apply stack rotation: enforce FIFO order within each stack_key ---
+                if stack_pool and eligible:
+                    eligible = _apply_stack_rotation(eligible, stack_ptrs, stack_pool)
+
+                if not eligible:
+                    # Tiny library — relax all constraints, but still honour stack rotation
+                    fallback_pool = pool
+                    if stack_pool:
+                        rotated = _apply_stack_rotation(pool, stack_ptrs, stack_pool)
+                        if rotated:
+                            fallback_pool = rotated
+                    chosen = _fallback_pick(fallback_pool, scheduled)
+                else:
+                    chosen = _pick(eligible, scheduled, slot, rules,
+                                   force_rank=force_rank,
+                                   rank_state=rank_state,
+                                   cat_name=effective_cat)
 
             # Advance the stack pointer when a stacked track is chosen
             sk = _stack_key(chosen)
