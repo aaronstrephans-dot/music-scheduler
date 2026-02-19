@@ -731,8 +731,176 @@ def import_dayparts(m1_path, dry_run=False):
 
 
 # ---------------------------------------------------------------------------
+# Import: SongPlays → seed track play counts and last_played_at
+# ---------------------------------------------------------------------------
+
+def _parse_m1_datetime(val):
+    """Parse Music1 datetime string (M/D/YY or M/D/YYYY H:MM:SS) → ISO string or None."""
+    if not val or str(val).strip() in ("", "0", "12/30/99 00:00:00"):
+        return None
+    s = str(val).strip()
+    for fmt in ("%m/%d/%y %H:%M:%S", "%m/%d/%Y %H:%M:%S", "%m/%d/%y", "%m/%d/%Y"):
+        try:
+            dt = datetime.strptime(s, fmt)
+            return dt.isoformat() + "Z"
+        except ValueError:
+            continue
+    return None
+
+
+def patch_song_plays(m1_path, dry_run=False):
+    """
+    Read SongPlays and update matching track JSON files with:
+      play_count      ← TotalPlays
+      plays_this_list ← PlaysThisList
+      last_played_at  ← LastPlayed (converted from M1 datetime string)
+      date_added      ← DateAdded
+    Matches on m1_id stored in the track file.
+    """
+    print("\n=== Patching SongPlays → track play counts ===")
+    rows = read_table(m1_path, "SongPlays")
+
+    # Build m1_song_id → stats map
+    stats = {}
+    for row in rows:
+        m1_id      = _int(row.get("Song", 0))
+        total      = _int(row.get("TotalPlays", 0))
+        this_list  = _int(row.get("PlaysThisList", 0))
+        last_play  = _parse_m1_datetime(row.get("LastPlayed"))
+        date_added = _parse_m1_datetime(row.get("DateAdded"))
+        if m1_id:
+            stats[m1_id] = {
+                "play_count":      total,
+                "plays_this_list": this_list,
+                "last_played_at":  last_play,
+                "date_added":      date_added,
+            }
+
+    if dry_run:
+        print(f"  Would patch {len(stats)} tracks with play stats")
+        return
+
+    updated = 0
+    for fname in os.listdir(TRACKS_DIR):
+        if not fname.endswith(".json"):
+            continue
+        path = os.path.join(TRACKS_DIR, fname)
+        with open(path) as f:
+            track = json.load(f)
+        m1_id = track.get("m1_id")
+        if m1_id and m1_id in stats:
+            track.update(stats[m1_id])
+            with open(path, "w") as f:
+                json.dump(track, f, indent=2)
+            updated += 1
+
+    print(f"  Updated {updated} tracks with play history from SongPlays")
+
+
+# ---------------------------------------------------------------------------
+# Import: CatItems → seed per-category rotation rank on tracks
+# ---------------------------------------------------------------------------
+
+def patch_cat_items(m1_path, dry_run=False):
+    """
+    Read CatItems and add rotation_rank dict to each track:
+      track["rotation_ranks"][category_id] = {"rank": N, "play_num": N, "play_credits": N}
+    Enables force_rank_rotation to start from the correct position.
+    """
+    print("\n=== Patching CatItems → rotation ranks ===")
+    rows = read_table(m1_path, "CatItems")
+
+    # Build m1_song_id → { m1_cat_id: {rank, play_num, play_credits} }
+    cat_items = {}
+    for row in rows:
+        m1_song = _int(row.get("Song", 0))
+        m1_cat  = _int(row.get("Category", 0))
+        if m1_song and m1_cat:
+            cat_items.setdefault(m1_song, {})[str(m1_cat)] = {
+                "rank":         _int(row.get("Rank", 0)),
+                "play_num":     _int(row.get("PlayNum", 0)),
+                "play_credits": _int(row.get("PlayCredits", 0)),
+            }
+
+    if dry_run:
+        print(f"  Would patch rotation ranks for {len(cat_items)} songs")
+        return
+
+    updated = 0
+    for fname in os.listdir(TRACKS_DIR):
+        if not fname.endswith(".json"):
+            continue
+        path = os.path.join(TRACKS_DIR, fname)
+        with open(path) as f:
+            track = json.load(f)
+        m1_id = track.get("m1_id")
+        if m1_id and m1_id in cat_items:
+            track["rotation_ranks"] = cat_items[m1_id]
+            with open(path, "w") as f:
+                json.dump(track, f, indent=2)
+            updated += 1
+
+    print(f"  Added rotation_ranks to {updated} tracks")
+
+
+# ---------------------------------------------------------------------------
+# Import: Notes → attach song annotations to tracks
+# ---------------------------------------------------------------------------
+
+def patch_notes(m1_path, dry_run=False):
+    """
+    Read Notes table and add a notes_m1 list to each track:
+      [{"rank": 1, "text": "ENERGETIC", "start_date": null, "end_date": null}]
+    """
+    print("\n=== Patching Notes → song annotations ===")
+    rows = read_table(m1_path, "Notes")
+
+    # Build m1_song_id → list of note dicts
+    notes_map = {}
+    for row in rows:
+        m1_song = _int(row.get("Song", 0))
+        txt     = _str(row.get("Txt", ""))
+        if m1_song and txt:
+            note = {
+                "rank":       _int(row.get("Rank", 1)),
+                "text":       txt,
+                "start_date": _parse_m1_datetime(row.get("StartDate")) if _int(row.get("StartDate", 0)) else None,
+                "end_date":   _parse_m1_datetime(row.get("EndDate"))   if _int(row.get("EndDate",   0)) else None,
+            }
+            notes_map.setdefault(m1_song, []).append(note)
+
+    # Sort each song's notes by rank
+    for m1_id in notes_map:
+        notes_map[m1_id].sort(key=lambda n: n["rank"])
+
+    if dry_run:
+        print(f"  Would attach notes to {len(notes_map)} songs")
+        return
+
+    updated = 0
+    for fname in os.listdir(TRACKS_DIR):
+        if not fname.endswith(".json"):
+            continue
+        path = os.path.join(TRACKS_DIR, fname)
+        with open(path) as f:
+            track = json.load(f)
+        m1_id = track.get("m1_id")
+        if m1_id and m1_id in notes_map:
+            track["notes_m1"] = notes_map[m1_id]
+            with open(path, "w") as f:
+                json.dump(track, f, indent=2)
+            updated += 1
+
+    print(f"  Attached notes to {updated} tracks")
+
+
+# ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
+
+ALL_STEPS = {"songs", "artists", "categories", "clocks", "days", "dayparts",
+             "song_plays", "cat_items", "notes"}
+
 
 def main():
     import argparse
@@ -744,7 +912,7 @@ def main():
                         help="Parse and report without writing files")
     parser.add_argument(
         "--only", nargs="*",
-        choices=["songs", "artists", "categories", "clocks", "days", "dayparts"],
+        choices=sorted(ALL_STEPS),
         help="Import only specific tables (default: all)"
     )
     args = parser.parse_args()
@@ -753,8 +921,7 @@ def main():
         print(f"ERROR: File not found: {args.m1_file}")
         sys.exit(1)
 
-    only = set(args.only) if args.only else {"songs", "artists", "categories",
-                                              "clocks", "days", "dayparts"}
+    only = set(args.only) if args.only else ALL_STEPS
 
     ensure_dirs()
 
@@ -777,6 +944,16 @@ def main():
         import_songs(args.m1_file, artist_id_map, cat_id_map, dry_run=args.dry_run)
         if not args.dry_run and "artists" in only:
             resolve_song_artists(artist_id_map, args.m1_file, dry_run=args.dry_run)
+
+    # Patch steps — require tracks to already exist in TRACKS_DIR
+    if "song_plays" in only:
+        patch_song_plays(args.m1_file, dry_run=args.dry_run)
+
+    if "cat_items" in only:
+        patch_cat_items(args.m1_file, dry_run=args.dry_run)
+
+    if "notes" in only:
+        patch_notes(args.m1_file, dry_run=args.dry_run)
 
     if "clocks" in only:
         clock_id_map = import_clocks(args.m1_file, dry_run=args.dry_run)
