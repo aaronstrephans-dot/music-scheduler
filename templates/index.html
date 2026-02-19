@@ -127,6 +127,58 @@
   .viol-item { padding: 6px 8px; border-radius: 6px; margin-bottom: 4px; font-size: 12px; }
   .viol-item.error   { background: rgba(252,129,129,.12); color: var(--danger); }
   .viol-item.warning { background: rgba(246,173,85,.12); color: var(--warn); }
+
+  /* ── Program Grid (week view) ── */
+  .prog-grid-wrap { overflow-x: auto; }
+  .prog-grid { border-collapse: collapse; font-size: 12px; min-width: 700px; width: 100%; }
+  .prog-grid th { padding: 6px 8px; background: var(--surface2); border: 1px solid var(--border); white-space: nowrap; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); text-align: center; }
+  .prog-grid td { border: 1px solid var(--border); padding: 0; vertical-align: top; min-width: 100px; }
+  .prog-grid .hour-label { background: var(--surface2); color: var(--muted); font-size: 11px; padding: 5px 8px; text-align: right; white-space: nowrap; min-width: 48px; font-weight: 600; }
+  .grid-cell { min-height: 32px; padding: 4px 6px; cursor: pointer; transition: background .1s; display: flex; align-items: center; justify-content: space-between; gap: 4px; }
+  .grid-cell:hover { background: var(--surface2); }
+  .grid-cell .gc-name { font-size: 11px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+  .grid-cell .gc-empty { font-size: 11px; color: var(--border); font-style: italic; }
+  .grid-cell .gc-clr { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .cell-assigned { background: rgba(108,99,255,.08); }
+  .day-col-head { font-weight: 700; color: var(--text); }
+  /* Grid cell picker dropdown */
+  .gc-select { width: 100%; background: var(--surface); border: none; color: var(--text); font-size: 11px; padding: 4px; border-radius: 4px; cursor: pointer; }
+  .gc-select:focus { outline: 1px solid var(--accent); }
+
+  /* ── Schedule view modes ── */
+  .view-toggle { display: flex; gap: 4px; margin-bottom: 12px; }
+  .view-toggle button { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); padding: 5px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all .15s; }
+  .view-toggle button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* Hour-block view */
+  .hour-block { margin-bottom: 12px; }
+  .hour-block-head { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px 6px 0 0; padding: 6px 12px; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+  .hour-block-body { border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; }
+  .hb-row { display: flex; align-items: center; gap: 10px; padding: 7px 12px; border-bottom: 1px solid var(--border); }
+  .hb-row:last-child { border-bottom: none; }
+  .hb-pos { color: var(--muted); font-size: 11px; width: 24px; flex-shrink: 0; }
+  .hb-time { color: var(--warn); font-size: 11px; width: 52px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+  .hb-title { font-weight: 500; flex: 1; font-size: 13px; }
+  .hb-artist { color: var(--muted); font-size: 12px; width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .hb-dur { color: var(--muted); font-size: 11px; width: 40px; text-align: right; flex-shrink: 0; }
+
+  /* Timeline view */
+  .timeline-wrap { overflow-x: auto; padding-bottom: 8px; }
+  .timeline { position: relative; height: auto; }
+  .tl-ruler { display: flex; height: 20px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+  .tl-tick { border-left: 1px solid var(--border); flex-shrink: 0; font-size: 10px; color: var(--muted); padding-left: 3px; padding-top: 4px; }
+  .tl-track { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .tl-label { width: 130px; flex-shrink: 0; font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right; }
+  .tl-bar-wrap { flex: 1; position: relative; height: 22px; }
+  .tl-bar { position: absolute; height: 20px; border-radius: 3px; display: flex; align-items: center; padding: 0 6px; font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: default; transition: opacity .1s; }
+  .tl-bar:hover { opacity: .85; }
+  .tl-spot  { background: rgba(252,129,129,.5); color: #fca5a5; }
+  .tl-liner { background: rgba(246,173,85,.4); color: #fbd38d; }
+  .tl-lognote { background: rgba(128,128,128,.4); color: var(--muted); }
+  .tl-music-0 { background: rgba(108,99,255,.6); color: #b8b0ff; }
+  .tl-music-1 { background: rgba(72,187,120,.5); color: #9ae6b4; }
+  .tl-music-2 { background: rgba(246,173,85,.5); color: #fbd38d; }
+  .tl-music-3 { background: rgba(255,101,132,.5); color: #fbb6ce; }
 </style>
 </head>
 <body>
@@ -139,6 +191,7 @@
     <button onclick="showTab('tracks',this)">Tracks</button>
     <button onclick="showTab('clocks',this)">Clocks</button>
     <button onclick="showTab('schedules',this)">Schedules</button>
+    <button onclick="showTab('program',this)">Program</button>
     <button onclick="showTab('export',this)">Export</button>
     <button onclick="showTab('rules',this)">Rules</button>
   </nav>
@@ -268,6 +321,71 @@
       </table>
     </div>
     <div id="schedules-empty" class="empty" style="display:none">No schedules yet.</div>
+  </div>
+</div>
+
+<!-- ======================== PROGRAM GRID TAB ======================== -->
+<div id="tab-program" class="tab">
+
+  <!-- Day template selector / create -->
+  <div class="card">
+    <h2>Program Grid</h2>
+    <div class="toolbar" style="margin-bottom:8px">
+      <select id="pg-tmpl-sel" onchange="loadProgramGrid()">
+        <option value="">— Select a day template —</option>
+      </select>
+      <input type="text" id="pg-new-name" placeholder="New template name…" style="max-width:200px">
+      <button class="btn btn-primary btn-sm" onclick="createDayTemplate()">+ New Template</button>
+      <button class="btn btn-danger btn-sm" id="pg-del-btn" style="display:none" onclick="deleteDayTemplate()">Delete Template</button>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:14px">
+      Click any cell to assign a clock to that day/hour. Changes save automatically.
+    </p>
+
+    <!-- Week grid -->
+    <div class="prog-grid-wrap">
+      <table class="prog-grid" id="prog-grid">
+        <thead>
+          <tr>
+            <th style="min-width:48px">Hr</th>
+            <th class="day-col-head">Mon</th>
+            <th class="day-col-head">Tue</th>
+            <th class="day-col-head">Wed</th>
+            <th class="day-col-head">Thu</th>
+            <th class="day-col-head">Fri</th>
+            <th class="day-col-head">Sat</th>
+            <th class="day-col-head">Sun</th>
+          </tr>
+        </thead>
+        <tbody id="prog-grid-body"></tbody>
+      </table>
+    </div>
+    <div id="prog-grid-empty" class="empty" style="display:none">Select or create a day template to start programming.</div>
+  </div>
+
+  <!-- Generate from template -->
+  <div class="card" id="pg-gen-card" style="display:none">
+    <h2>Generate from Template</h2>
+    <div class="form-grid" style="margin-bottom:12px">
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" id="pg-gen-date">
+      </div>
+      <div class="form-group">
+        <label>Start Hour</label>
+        <input type="number" id="pg-gen-start-hr" value="0" min="0" max="23">
+      </div>
+      <div class="form-group">
+        <label>End Hour</label>
+        <input type="number" id="pg-gen-end-hr" value="23" min="0" max="23">
+      </div>
+      <div class="form-group">
+        <label>Schedule Name</label>
+        <input type="text" id="pg-gen-name" placeholder="Optional…">
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="generateFromTemplate()">&#9654; Generate Full Day</button>
+    <span id="pg-gen-status" style="font-size:12px;color:var(--muted);margin-left:12px"></span>
   </div>
 </div>
 
@@ -401,9 +519,16 @@
 
 <!-- Schedule Viewer -->
 <div class="modal-bg" id="modal-schedule">
-  <div class="modal" style="width:740px">
+  <div class="modal" style="width:780px">
     <h3 id="modal-sched-title"></h3>
-    <div id="modal-sched-stats" class="stats" style="margin-bottom:16px"></div>
+    <div id="modal-sched-stats" class="stats" style="margin-bottom:12px"></div>
+
+    <!-- View mode toggle -->
+    <div class="view-toggle">
+      <button class="active" id="vt-list"     onclick="switchView('list')">&#9776; List</button>
+      <button              id="vt-blocks"   onclick="switchView('blocks')">&#9632; Hour Blocks</button>
+      <button              id="vt-timeline" onclick="switchView('timeline')">&#9472; Timeline</button>
+    </div>
 
     <!-- Violation panel -->
     <div id="viol-panel" class="viol-panel" style="display:none">
@@ -411,12 +536,25 @@
       <div class="viol-list" id="viol-list"></div>
     </div>
 
-    <div class="tbl-wrap" style="margin-top:12px">
+    <!-- LIST view -->
+    <div id="view-list" class="tbl-wrap">
       <table>
         <thead><tr><th>#</th><th>Air</th><th>Title</th><th>Artist</th><th>Category</th><th>Dur</th></tr></thead>
         <tbody id="modal-sched-body"></tbody>
       </table>
     </div>
+
+    <!-- HOUR BLOCKS view -->
+    <div id="view-blocks" style="display:none;max-height:60vh;overflow-y:auto"></div>
+
+    <!-- TIMELINE view -->
+    <div id="view-timeline" style="display:none;max-height:60vh;overflow-y:auto">
+      <div class="timeline-wrap">
+        <div class="tl-ruler" id="tl-ruler"></div>
+        <div class="timeline" id="tl-tracks"></div>
+      </div>
+    </div>
+
     <div class="modal-actions" id="modal-sched-actions">
       <button class="btn btn-muted" onclick="closeModal('modal-schedule')">Close</button>
     </div>
@@ -459,7 +597,7 @@ const catPill = c => `<span class="pill ${CAT_COLORS[c]||'pill-blue'}">${c||'—
 function esc(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-const navBtn = name => document.querySelector(`nav button:nth-child(${['dashboard','tracks','clocks','schedules','export','rules'].indexOf(name)+1})`);
+const navBtn = name => document.querySelector(`nav button:nth-child(${['dashboard','tracks','clocks','schedules','program','export','rules'].indexOf(name)+1})`);
 
 // ── Tabs ─────────────────────────────────────────────────────────────────────
 function showTab(name, btn) {
@@ -471,6 +609,7 @@ function showTab(name, btn) {
   if (name==='tracks')    loadTracks();
   if (name==='clocks')    loadClocks();
   if (name==='schedules') { loadSchedules(); loadClocksForGen(); }
+  if (name==='program')   loadProgramTab();
   if (name==='export')    loadExportTab();
   if (name==='rules')     loadRules();
 }
@@ -714,6 +853,8 @@ async function viewScheduleById(id) {
 }
 
 function openSchedule(s) {
+  _currentSched = s;
+
   $('modal-sched-title').textContent = s.name || 'Schedule';
   const stats = s.stats || {};
   $('modal-sched-stats').innerHTML = [
@@ -724,16 +865,21 @@ function openSchedule(s) {
 
   $('viol-panel').style.display = 'none';
 
+  // Reset to list view
+  switchView('list');
+
   const tracks = s.tracks || [];
-  $('modal-sched-body').innerHTML = tracks.map((t, i) => `
-    <tr id="srow-${i}">
+  $('modal-sched-body').innerHTML = tracks.map((t, i) => {
+    const isNonMusic = t.type && t.type !== 'music';
+    return `<tr id="srow-${i}" ${isNonMusic ? 'style="opacity:.7"' : ''}>
       <td class="track-pos">${i+1}</td>
       <td class="air-time">${t.air_time||'—'}</td>
-      <td>${esc(t.title||'—')}</td>
+      <td>${esc(t.title || (t.type==='lognote' ? '[lognote]' : t.type) || '—')}${t.lognote_command ? `<span style="font-size:10px;color:var(--muted);margin-left:6px">${esc(t.lognote_command)}</span>` : ''}</td>
       <td>${esc(t.artist||'—')}</td>
-      <td>${catPill(t.category)}</td>
+      <td>${isNonMusic ? `<span class="pill pill-orange">${t.type}</span>` : catPill(t.category)}</td>
       <td class="dur">${fmtDur(t.duration_seconds)}</td>
-    </tr>`).join('') || '<tr><td colspan="6" class="empty">No tracks</td></tr>';
+    </tr>`;
+  }).join('') || '<tr><td colspan="6" class="empty">No tracks</td></tr>';
 
   const csvHref = `/api/schedule/${s.id}/export?format=csv${s.start_time?'&start_time='+s.start_time:''}`;
   $('modal-sched-actions').innerHTML = `
@@ -870,6 +1016,264 @@ async function saveRules() {
   const res = await api('PUT', '/api/rules', body);
   if (res.error) return toast(res.error, false);
   toast('Rules saved!');
+}
+
+// ── Program Grid ──────────────────────────────────────────────────────────────
+let _pgClocks   = [];   // all clock records
+let _pgTmplId   = null; // currently loaded day template id
+let _pgTmpl     = null; // currently loaded day template object
+const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+// Day template stores hours "0"-"23" with a single clock_id (applies to all days).
+// We extend this to per-day storage by using keys like "mon_6", "tue_6" etc.
+// For backward compat we fall back to the flat "hours" map for all days.
+
+async function loadProgramTab() {
+  _pgClocks = await api('GET', '/api/clocks');
+  const res  = await api('GET', '/api/day-templates');
+  const tmpls = (res.day_templates || []);
+
+  const sel = $('pg-tmpl-sel');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">— Select a day template —</option>' +
+    tmpls.map(t => `<option value="${t.id}" ${t.id===cur?'selected':''}>${esc(t.name)}</option>`).join('');
+
+  if (_pgTmplId) sel.value = _pgTmplId;
+  loadProgramGrid();
+}
+
+async function createDayTemplate() {
+  const name = $('pg-new-name').value.trim();
+  if (!name) return toast('Enter a template name first.', false);
+  const res = await api('POST', '/api/day-templates', { name });
+  if (res.error) return toast(res.error, false);
+  $('pg-new-name').value = '';
+  _pgTmplId = res.id;
+  toast('Template created!');
+  loadProgramTab();
+}
+
+async function deleteDayTemplate() {
+  if (!_pgTmplId) return;
+  if (!confirm('Delete this day template?')) return;
+  await api('DELETE', `/api/day-templates/${_pgTmplId}`);
+  _pgTmplId = null; _pgTmpl = null;
+  $('pg-tmpl-sel').value = '';
+  toast('Template deleted.');
+  loadProgramTab();
+}
+
+async function loadProgramGrid() {
+  const sel = $('pg-tmpl-sel');
+  const tmplId = sel.value;
+  _pgTmplId = tmplId || null;
+
+  $('pg-del-btn').style.display    = tmplId ? '' : 'none';
+  $('pg-gen-card').style.display   = tmplId ? '' : 'none';
+  $('prog-grid-empty').style.display = tmplId ? 'none' : '';
+
+  if (!tmplId) {
+    $('prog-grid-body').innerHTML = '';
+    _pgTmpl = null;
+    return;
+  }
+
+  _pgTmpl = await api('GET', `/api/day-templates/${tmplId}`);
+  renderProgramGrid();
+}
+
+function renderProgramGrid() {
+  if (!_pgTmpl) return;
+  const clockById = Object.fromEntries(_pgClocks.map(c => [c.id, c]));
+  const clockOptHTML = '<option value="">—</option>' +
+    _pgClocks.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
+
+  // Build rows: hours 0-23, columns Mon-Sun
+  let html = '';
+  for (let h = 0; h < 24; h++) {
+    html += `<tr><td class="hour-label">${String(h).padStart(2,'0')}:00</td>`;
+    for (let d = 0; d < 7; d++) {
+      const dayKey = DAYS[d].toLowerCase() + '_' + h;   // e.g. mon_6
+      const flatKey = String(h);                          // fallback: flat hours map
+      // Check per-day key first, then fall back to the flat "hours" map
+      let clockId = (_pgTmpl[dayKey] !== undefined) ? _pgTmpl[dayKey]
+                  : ((_pgTmpl.hours || {})[flatKey] || null);
+      const clock = clockId ? clockById[clockId] : null;
+      html += `<td>
+        <select class="gc-select" data-day="${d}" data-hour="${h}" onchange="pgCellChange(this)">
+          ${clockOptHTML}
+        </select>
+      </td>`;
+    }
+    html += '</tr>';
+  }
+  $('prog-grid-body').innerHTML = html;
+
+  // Set dropdown values after render
+  $('prog-grid-body').querySelectorAll('select.gc-select').forEach(sel => {
+    const d = +sel.dataset.day;
+    const h = +sel.dataset.hour;
+    const dayKey = DAYS[d].toLowerCase() + '_' + h;
+    const flatKey = String(h);
+    const clockId = (_pgTmpl[dayKey] !== undefined) ? _pgTmpl[dayKey]
+                  : ((_pgTmpl.hours || {})[flatKey] || '');
+    sel.value = clockId || '';
+  });
+
+  // Set today's date default for generate form
+  if (!$('pg-gen-date').value) {
+    $('pg-gen-date').value = new Date().toISOString().slice(0, 10);
+  }
+}
+
+async function pgCellChange(sel) {
+  if (!_pgTmpl || !_pgTmplId) return;
+  const d       = +sel.dataset.day;
+  const h       = +sel.dataset.hour;
+  const dayKey  = DAYS[d].toLowerCase() + '_' + h;
+  const clockId = sel.value || null;
+
+  // Persist to the template: store in both the per-day key and (for Mon) the flat hours map
+  const update = { [dayKey]: clockId };
+  // If all days are the same for this hour, also update the flat hours map
+  if (d === 0) {
+    // Update flat hours map for backward compat
+    const hours = { ...(_pgTmpl.hours || {}) };
+    hours[String(h)] = clockId;
+    update.hours = hours;
+  }
+
+  const res = await api('PUT', `/api/day-templates/${_pgTmplId}`, update);
+  if (res && !res.error) {
+    _pgTmpl = res;
+    // Flash the cell briefly
+    sel.parentElement.style.background = 'rgba(108,99,255,.2)';
+    setTimeout(() => { sel.parentElement.style.background = ''; }, 500);
+  }
+}
+
+async function generateFromTemplate() {
+  if (!_pgTmplId) return;
+  const body = {
+    template_id: _pgTmplId,
+    date:       $('pg-gen-date').value || undefined,
+    start_hour: +$('pg-gen-start-hr').value,
+    end_hour:   +$('pg-gen-end-hr').value,
+    name:       $('pg-gen-name').value.trim() || undefined,
+  };
+  const st = $('pg-gen-status');
+  st.textContent = 'Generating…';
+  const res = await api('POST', '/api/schedule/generate-day', body);
+  if (res && res.error) { st.textContent = ''; return toast(res.error, false); }
+  st.textContent = `Done — ${(res.tracks||[]).length} tracks scheduled.`;
+  toast('Day schedule generated!');
+  openSchedule(res);
+}
+
+
+// ── Schedule view modes ────────────────────────────────────────────────────────
+let _currentSched = null;   // last opened schedule object
+
+function switchView(mode) {
+  ['list','blocks','timeline'].forEach(m => {
+    $('view-'  +m).style.display = m===mode ? '' : 'none';
+    $('vt-'    +m).classList.toggle('active', m===mode);
+  });
+  if (mode==='blocks')   renderHourBlocks(_currentSched);
+  if (mode==='timeline') renderTimeline(_currentSched);
+}
+
+function renderHourBlocks(s) {
+  const tracks = (s && s.tracks) || [];
+  if (!tracks.length) { $('view-blocks').innerHTML = '<div class="empty">No tracks</div>'; return; }
+
+  // Group by hour (derive from air_time, or group every ~60 min)
+  const blocks = {};
+  let hourIdx = 0, blockSecs = 0;
+  tracks.forEach((t, i) => {
+    if (t.air_time) {
+      hourIdx = parseInt(t.air_time.split(':')[0], 10);
+    } else {
+      if (i > 0 && blockSecs >= 3600) { hourIdx++; blockSecs = 0; }
+      blockSecs += (t.duration_seconds || 0);
+    }
+    const key = t.air_time ? hourIdx : hourIdx;
+    if (!blocks[key]) blocks[key] = [];
+    blocks[key].push(t);
+  });
+
+  $('view-blocks').innerHTML = Object.entries(blocks).map(([hr, trks]) => {
+    const label = `Hour ${String(hr).padStart(2,'0')}:00`;
+    const rows = trks.map((t, i) => {
+      const typeClass = t.type !== 'music' ? 'color:var(--warn)' : '';
+      return `<div class="hb-row">
+        <span class="hb-pos">${i+1}</span>
+        <span class="hb-time">${t.air_time||'—'}</span>
+        <span class="hb-title" style="${typeClass}">${esc(t.title||t.type||'—')}</span>
+        <span class="hb-artist">${esc(t.artist||'')}</span>
+        <span class="hb-dur">${fmtDur(t.duration_seconds)}</span>
+      </div>`;
+    }).join('');
+    return `<div class="hour-block">
+      <div class="hour-block-head">${label}</div>
+      <div class="hour-block-body">${rows}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderTimeline(s) {
+  const tracks = (s && s.tracks) || [];
+  if (!tracks.length) {
+    $('tl-tracks').innerHTML = '<div class="empty">No tracks</div>';
+    $('tl-ruler').innerHTML = '';
+    return;
+  }
+
+  // Total duration in seconds for scaling
+  const totalSecs = tracks.reduce((sum, t) => sum + (t.duration_seconds || 0), 0) || 3600;
+  const PX_PER_SEC = 600 / totalSecs;   // fit to 600px base width
+
+  // Ruler: one tick per 5 minutes
+  let ruler = '';
+  for (let s2 = 0; s2 <= totalSecs; s2 += 300) {
+    const pct = (s2 / totalSecs * 100).toFixed(1);
+    const label = `${Math.floor(s2/60)}m`;
+    ruler += `<div class="tl-tick" style="width:${300/totalSecs*100}%;max-width:60px">${label}</div>`;
+  }
+  $('tl-ruler').innerHTML = ruler;
+
+  const CAT_CLASSES = ['tl-music-0','tl-music-1','tl-music-2','tl-music-3'];
+  const catIdxMap = {};
+  let catCounter = 0;
+
+  let offsetSecs = 0;
+  $('tl-tracks').innerHTML = tracks.map((t, i) => {
+    const dur = t.duration_seconds || 0;
+    const left  = (offsetSecs / totalSecs * 100).toFixed(2);
+    const width = (dur / totalSecs * 100).toFixed(2);
+    offsetSecs += dur;
+
+    let barClass = 'tl-music-0';
+    if (t.type === 'spot')    barClass = 'tl-spot';
+    else if (t.type === 'liner') barClass = 'tl-liner';
+    else if (t.type === 'lognote') barClass = 'tl-lognote';
+    else {
+      const cat = t.category || '';
+      if (!(cat in catIdxMap)) catIdxMap[cat] = catCounter++ % 4;
+      barClass = CAT_CLASSES[catIdxMap[cat]];
+    }
+
+    const label = t.title || t.type || '?';
+    return `<div class="tl-track">
+      <div class="tl-label" title="${esc(t.artist||'')}">
+        <span style="font-size:10px;color:var(--border)">${i+1}</span> ${esc(t.artist||t.type||'')}
+      </div>
+      <div class="tl-bar-wrap">
+        <div class="tl-bar ${barClass}" style="left:${left}%;width:${Math.max(0.5,+width)}%" title="${esc(label)} — ${fmtDur(dur)}">
+          ${+width > 3 ? esc(label) : ''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
