@@ -7,6 +7,10 @@ from collections import Counter
 from datetime import datetime
 
 import ai
+from engine.models import (
+    make_track, make_artist, make_category, make_daypart,
+    make_day_template, make_clock, make_slot, DEFAULT_DAYPARTS,
+)
 from engine.rotator import build_schedule
 from engine.rules import DEFAULT_RULES, merge_rules
 from engine.validator import validate_schedule, _hms
@@ -14,12 +18,18 @@ from flask import Flask, Response, jsonify, render_template, request
 
 app = Flask(__name__)
 
-SCHEDULES_DIR = os.path.join(os.path.dirname(__file__), "data", "schedules")
-TRACKS_DIR    = os.path.join(os.path.dirname(__file__), "data", "tracks")
-CLOCKS_DIR    = os.path.join(os.path.dirname(__file__), "data", "clocks")
-RULES_FILE    = os.path.join(os.path.dirname(__file__), "data", "rules.json")
+SCHEDULES_DIR     = os.path.join(os.path.dirname(__file__), "data", "schedules")
+TRACKS_DIR        = os.path.join(os.path.dirname(__file__), "data", "tracks")
+CLOCKS_DIR        = os.path.join(os.path.dirname(__file__), "data", "clocks")
+ARTISTS_DIR       = os.path.join(os.path.dirname(__file__), "data", "artists")
+CATEGORIES_DIR    = os.path.join(os.path.dirname(__file__), "data", "categories")
+DAYPARTS_DIR      = os.path.join(os.path.dirname(__file__), "data", "dayparts")
+DAY_TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "data", "day_templates")
+PLAY_HISTORY_DIR  = os.path.join(os.path.dirname(__file__), "data", "play_history")
+RULES_FILE        = os.path.join(os.path.dirname(__file__), "data", "rules.json")
 
-for _d in (SCHEDULES_DIR, TRACKS_DIR, CLOCKS_DIR):
+for _d in (SCHEDULES_DIR, TRACKS_DIR, CLOCKS_DIR, ARTISTS_DIR, CATEGORIES_DIR,
+            DAYPARTS_DIR, DAY_TEMPLATES_DIR, PLAY_HISTORY_DIR):
     os.makedirs(_d, exist_ok=True)
 
 
@@ -32,7 +42,10 @@ def _load_all(directory: str) -> list:
     for fname in os.listdir(directory):
         if fname.endswith(".json"):
             with open(os.path.join(directory, fname)) as f:
-                items.append(json.load(f))
+                try:
+                    items.append(json.load(f))
+                except json.JSONDecodeError:
+                    pass
     return items
 
 
@@ -86,11 +99,13 @@ def _save_rules(rules: dict) -> None:
 # ---------------------------------------------------------------------------
 
 def _schedule_stats(track_list: list) -> dict:
-    artists    = Counter(t.get("artist") for t in track_list if t.get("artist"))
-    categories = Counter(t.get("category") or "Unknown" for t in track_list)
+    music  = [t for t in track_list if t.get("type", "music") == "music"]
+    artists    = Counter(t.get("artist") for t in music if t.get("artist"))
+    categories = Counter(t.get("category") or "Unknown" for t in music)
     total_secs = sum((t.get("duration_seconds") or 0) for t in track_list)
     return {
         "total_tracks":           len(track_list),
+        "music_tracks":           len(music),
         "unique_artists":         len(artists),
         "top_artists":            dict(artists.most_common(5)),
         "category_breakdown":     dict(categories),
@@ -100,7 +115,6 @@ def _schedule_stats(track_list: list) -> dict:
 
 
 def _add_air_times(track_list: list, start_time_str: str) -> list:
-    """Attach an air_time string to each slot given a HH:MM or HH:MM:SS start."""
     if not start_time_str:
         return track_list
     try:
@@ -116,6 +130,30 @@ def _add_air_times(track_list: list, start_time_str: str) -> list:
         result.append({**slot, "air_time": f"{h:02d}:{m:02d}:{s:02d}"})
         total_secs += slot.get("duration_seconds") or 0
     return result
+
+
+# ---------------------------------------------------------------------------
+# Play history helpers
+# ---------------------------------------------------------------------------
+
+def _play_history_path(day_str: str, hour: int) -> str:
+    """Return path for a play-history file keyed by date+hour."""
+    safe = day_str.replace("-", "")
+    return os.path.join(PLAY_HISTORY_DIR, f"{safe}_h{hour:02d}.json")
+
+
+def _load_play_history(day_str: str, hour: int) -> list:
+    path = _play_history_path(day_str, hour)
+    if not os.path.exists(path):
+        return []
+    with open(path) as f:
+        return json.load(f)
+
+
+def _save_play_history(day_str: str, hour: int, track_ids: list) -> None:
+    path = _play_history_path(day_str, hour)
+    with open(path, "w") as f:
+        json.dump(track_ids, f)
 
 
 # ---------------------------------------------------------------------------
@@ -154,28 +192,226 @@ def update_rules():
 
 
 # ---------------------------------------------------------------------------
+# Artists
+# ---------------------------------------------------------------------------
+
+@app.route("/api/artists", methods=["GET"])
+def list_artists():
+    artists = _load_all(ARTISTS_DIR)
+    search  = (request.args.get("search") or "").strip().lower()
+    if search:
+        artists = [a for a in artists if search in (a.get("name") or "").lower()]
+    artists.sort(key=lambda a: (a.get("name") or "").lower())
+    return jsonify({"total": len(artists), "artists": artists})
+
+
+@app.route("/api/artists", methods=["POST"])
+def create_artist():
+    data = request.get_json(silent=True) or {}
+    if not data.get("name"):
+        return jsonify({"error": "Missing required field: name"}), 400
+    artist = make_artist(data)
+    _save(ARTISTS_DIR, artist)
+    return jsonify(artist), 201
+
+
+@app.route("/api/artists/<artist_id>", methods=["GET"])
+def get_artist(artist_id):
+    a = _load_one(ARTISTS_DIR, artist_id)
+    if a is None:
+        return jsonify({"error": "Artist not found"}), 404
+    return jsonify(a)
+
+
+@app.route("/api/artists/<artist_id>", methods=["PUT"])
+def update_artist(artist_id):
+    a = _load_one(ARTISTS_DIR, artist_id)
+    if a is None:
+        return jsonify({"error": "Artist not found"}), 404
+    data = request.get_json(silent=True) or {}
+    for k, v in data.items():
+        if k not in {"id", "added_at"}:
+            a[k] = v
+    a["updated_at"] = _now()
+    _save(ARTISTS_DIR, a)
+    return jsonify(a)
+
+
+@app.route("/api/artists/<artist_id>", methods=["DELETE"])
+def delete_artist(artist_id):
+    if not _delete(ARTISTS_DIR, artist_id):
+        return jsonify({"error": "Artist not found"}), 404
+    return "", 204
+
+
+# ---------------------------------------------------------------------------
+# Categories
+# ---------------------------------------------------------------------------
+
+@app.route("/api/categories", methods=["GET"])
+def list_categories():
+    cats = _load_all(CATEGORIES_DIR)
+    cats.sort(key=lambda c: (c.get("priority", 0), (c.get("name") or "").lower()))
+    return jsonify({"total": len(cats), "categories": cats})
+
+
+@app.route("/api/categories", methods=["POST"])
+def create_category():
+    data = request.get_json(silent=True) or {}
+    if not data.get("name"):
+        return jsonify({"error": "Missing required field: name"}), 400
+    cat = make_category(data)
+    _save(CATEGORIES_DIR, cat)
+    return jsonify(cat), 201
+
+
+@app.route("/api/categories/<cat_id>", methods=["GET"])
+def get_category(cat_id):
+    cat = _load_one(CATEGORIES_DIR, cat_id)
+    if cat is None:
+        return jsonify({"error": "Category not found"}), 404
+    return jsonify(cat)
+
+
+@app.route("/api/categories/<cat_id>", methods=["PUT"])
+def update_category(cat_id):
+    cat = _load_one(CATEGORIES_DIR, cat_id)
+    if cat is None:
+        return jsonify({"error": "Category not found"}), 404
+    data = request.get_json(silent=True) or {}
+    for k, v in data.items():
+        if k not in {"id", "added_at"}:
+            cat[k] = v
+    cat["updated_at"] = _now()
+    _save(CATEGORIES_DIR, cat)
+    return jsonify(cat)
+
+
+@app.route("/api/categories/<cat_id>", methods=["DELETE"])
+def delete_category(cat_id):
+    if not _delete(CATEGORIES_DIR, cat_id):
+        return jsonify({"error": "Category not found"}), 404
+    return "", 204
+
+
+# ---------------------------------------------------------------------------
+# Dayparts
+# ---------------------------------------------------------------------------
+
+@app.route("/api/dayparts", methods=["GET"])
+def list_dayparts():
+    dps = _load_all(DAYPARTS_DIR)
+    if not dps:
+        # Return default dayparts if none configured yet
+        return jsonify({"total": len(DEFAULT_DAYPARTS), "dayparts": DEFAULT_DAYPARTS,
+                        "default": True})
+    dps.sort(key=lambda d: d.get("start_hour", 0))
+    return jsonify({"total": len(dps), "dayparts": dps})
+
+
+@app.route("/api/dayparts", methods=["POST"])
+def create_daypart():
+    data = request.get_json(silent=True) or {}
+    if not data.get("name"):
+        return jsonify({"error": "Missing required field: name"}), 400
+    dp = make_daypart(data)
+    _save(DAYPARTS_DIR, dp)
+    return jsonify(dp), 201
+
+
+@app.route("/api/dayparts/<dp_id>", methods=["GET"])
+def get_daypart(dp_id):
+    dp = _load_one(DAYPARTS_DIR, dp_id)
+    if dp is None:
+        return jsonify({"error": "Daypart not found"}), 404
+    return jsonify(dp)
+
+
+@app.route("/api/dayparts/<dp_id>", methods=["PUT"])
+def update_daypart(dp_id):
+    dp = _load_one(DAYPARTS_DIR, dp_id)
+    if dp is None:
+        return jsonify({"error": "Daypart not found"}), 404
+    data = request.get_json(silent=True) or {}
+    for k, v in data.items():
+        if k not in {"id", "added_at"}:
+            dp[k] = v
+    dp["updated_at"] = _now()
+    _save(DAYPARTS_DIR, dp)
+    return jsonify(dp)
+
+
+@app.route("/api/dayparts/<dp_id>", methods=["DELETE"])
+def delete_daypart(dp_id):
+    if not _delete(DAYPARTS_DIR, dp_id):
+        return jsonify({"error": "Daypart not found"}), 404
+    return "", 204
+
+
+# ---------------------------------------------------------------------------
+# Day Templates  (weekly format: maps each hour 0-23 to a clock_id)
+# ---------------------------------------------------------------------------
+
+@app.route("/api/day-templates", methods=["GET"])
+def list_day_templates():
+    tmpls = _load_all(DAY_TEMPLATES_DIR)
+    tmpls.sort(key=lambda t: (t.get("name") or ""))
+    return jsonify({"total": len(tmpls), "day_templates": tmpls})
+
+
+@app.route("/api/day-templates", methods=["POST"])
+def create_day_template():
+    data = request.get_json(silent=True) or {}
+    if not data.get("name"):
+        return jsonify({"error": "Missing required field: name"}), 400
+    tmpl = make_day_template(data)
+    _save(DAY_TEMPLATES_DIR, tmpl)
+    return jsonify(tmpl), 201
+
+
+@app.route("/api/day-templates/<tmpl_id>", methods=["GET"])
+def get_day_template(tmpl_id):
+    tmpl = _load_one(DAY_TEMPLATES_DIR, tmpl_id)
+    if tmpl is None:
+        return jsonify({"error": "Day template not found"}), 404
+    return jsonify(tmpl)
+
+
+@app.route("/api/day-templates/<tmpl_id>", methods=["PUT"])
+def update_day_template(tmpl_id):
+    tmpl = _load_one(DAY_TEMPLATES_DIR, tmpl_id)
+    if tmpl is None:
+        return jsonify({"error": "Day template not found"}), 404
+    data = request.get_json(silent=True) or {}
+    incoming_hours = data.pop("hours", None)
+    for k, v in data.items():
+        if k not in {"id", "added_at"}:
+            tmpl[k] = v
+    if incoming_hours is not None:
+        tmpl["hours"] = {**tmpl.get("hours", {}), **{str(k): v for k, v in incoming_hours.items()}}
+    tmpl["updated_at"] = _now()
+    _save(DAY_TEMPLATES_DIR, tmpl)
+    return jsonify(tmpl)
+
+
+@app.route("/api/day-templates/<tmpl_id>", methods=["DELETE"])
+def delete_day_template(tmpl_id):
+    if not _delete(DAY_TEMPLATES_DIR, tmpl_id):
+        return jsonify({"error": "Day template not found"}), 404
+    return "", 204
+
+
+# ---------------------------------------------------------------------------
 # Tracks
 # ---------------------------------------------------------------------------
 
 _TRACK_REQUIRED = {"title", "artist", "category"}
 
 
-def _make_track(data: dict) -> dict:
-    """Build a new track dict from user-supplied data, with sane defaults."""
-    return {
-        "id":             str(uuid.uuid4()),
-        "added_at":       _now(),
-        "play_count":     0,
-        "last_played_at": None,
-        **{k: v for k, v in data.items() if k not in {"id", "added_at"}},
-    }
-
-
 @app.route("/api/tracks", methods=["GET"])
 def list_tracks():
     tracks = _load_all(TRACKS_DIR)
 
-    # --- Filter ---
     category = request.args.get("category")
     if category:
         tracks = [t for t in tracks if t.get("category") == category]
@@ -188,11 +424,11 @@ def list_tracks():
             or search in (t.get("artist") or "").lower()
         ]
 
-    # --- Sort ---
     sort_by    = request.args.get("sort", "added_at")
     order_desc = request.args.get("order", "asc").lower() == "desc"
-    _SORTABLE  = {"added_at", "title", "artist", "play_count", "last_played_at", "bpm", "energy"}
-    _NUMERIC   = {"play_count", "bpm", "energy"}
+    _SORTABLE  = {"added_at", "title", "artist", "play_count", "last_played_at",
+                  "bpm", "energy", "tempo", "mood", "gender"}
+    _NUMERIC   = {"play_count", "bpm", "energy", "tempo", "mood", "gender"}
     if sort_by in _SORTABLE:
         if sort_by in _NUMERIC:
             tracks.sort(
@@ -207,7 +443,6 @@ def list_tracks():
 
     total = len(tracks)
 
-    # --- Paginate ---
     try:
         offset = max(0, int(request.args.get("offset", 0)))
         limit  = max(0, int(request.args.get("limit",  0)))
@@ -228,14 +463,13 @@ def create_track():
     missing = _TRACK_REQUIRED - data.keys()
     if missing:
         return jsonify({"error": f"Missing required fields: {', '.join(sorted(missing))}"}), 400
-    track = _make_track(data)
+    track = make_track(data)
     _save(TRACKS_DIR, track)
     return jsonify(track), 201
 
 
 @app.route("/api/tracks/import", methods=["POST"])
 def import_tracks():
-    """Bulk-import tracks from a JSON array or {\"tracks\": [...]} body."""
     body = request.get_json(silent=True) or {}
     raw  = body if isinstance(body, list) else body.get("tracks", [])
 
@@ -249,15 +483,15 @@ def import_tracks():
                 "data":  item,
             })
             continue
-        track = _make_track(item)
+        track = make_track(item)
         _save(TRACKS_DIR, track)
         created.append(track)
 
     status = 201 if created else 400
     return jsonify({
-        "imported":     len(created),
-        "errors":       len(errors),
-        "tracks":       created,
+        "imported":      len(created),
+        "errors":        len(errors),
+        "tracks":        created,
         "error_details": errors,
     }), status
 
@@ -293,24 +527,66 @@ def delete_track(track_id):
 
 @app.route("/api/tracks/<track_id>/play", methods=["POST"])
 def log_play(track_id):
-    """Record that a track was played: increments play_count, updates last_played_at."""
+    """Record that a track was played. Updates play_count and play history."""
     track = _load_one(TRACKS_DIR, track_id)
     if track is None:
         return jsonify({"error": "Track not found"}), 404
 
     data      = request.get_json(silent=True) or {}
     played_at = data.get("played_at") or _now()
+    hour      = data.get("hour")   # 0-23; optional
+    day       = data.get("day")    # ISO date string; optional
 
     track["play_count"]     = (track.get("play_count") or 0) + 1
     track["last_played_at"] = played_at
     track["updated_at"]     = _now()
     _save(TRACKS_DIR, track)
 
+    # Record in play history for prev-day separation
+    if day is not None and hour is not None:
+        try:
+            hour = int(hour)
+            hist = _load_play_history(day, hour)
+            if track_id not in hist:
+                hist.append(track_id)
+            _save_play_history(day, hour, hist)
+        except (ValueError, TypeError):
+            pass
+
     return jsonify({
         "track_id":       track_id,
         "play_count":     track["play_count"],
         "last_played_at": track["last_played_at"],
     })
+
+
+# ---------------------------------------------------------------------------
+# Play history
+# ---------------------------------------------------------------------------
+
+@app.route("/api/play-history", methods=["GET"])
+def get_play_history():
+    """Return play history for a given day and optional hour."""
+    day  = request.args.get("day")
+    hour = request.args.get("hour")
+    if not day:
+        return jsonify({"error": "Missing required query param: day"}), 400
+    try:
+        hour_int = int(hour) if hour is not None else None
+    except (ValueError, TypeError):
+        return jsonify({"error": "hour must be an integer 0-23"}), 400
+
+    if hour_int is not None:
+        history = _load_play_history(day, hour_int)
+        return jsonify({"day": day, "hour": hour_int, "track_ids": history})
+
+    # Return all hours for the day
+    result = {}
+    for h in range(24):
+        hist = _load_play_history(day, h)
+        if hist:
+            result[str(h)] = hist
+    return jsonify({"day": day, "hours": result})
 
 
 # ---------------------------------------------------------------------------
@@ -327,14 +603,9 @@ def create_clock():
     data = request.get_json(silent=True) or {}
     if not data.get("name") or not data.get("slots"):
         return jsonify({"error": "Missing required fields: name, slots"}), 400
-
-    clock = {
-        "id":         str(uuid.uuid4()),
-        "created_at": _now(),
-        "updated_at": _now(),
-        "name":       data["name"],
-        "slots":      data["slots"],
-    }
+    # Normalise slots to full slot dicts
+    data["slots"] = [make_slot(s) for s in data["slots"]]
+    clock = make_clock(data)
     _save(CLOCKS_DIR, clock)
     return jsonify(clock), 201
 
@@ -353,6 +624,8 @@ def update_clock(clock_id):
     if clock is None:
         return jsonify({"error": "Clock not found"}), 404
     data = request.get_json(silent=True) or {}
+    if "slots" in data:
+        data["slots"] = [make_slot(s) for s in data["slots"]]
     for key, val in data.items():
         if key not in {"id", "created_at"}:
             clock[key] = val
@@ -408,7 +681,6 @@ def delete_schedule(schedule_id):
 
 @app.route("/api/schedule/<schedule_id>/validate", methods=["POST"])
 def validate_schedule_route(schedule_id):
-    """Validate a stored schedule against separation rules."""
     schedule = _load_one(SCHEDULES_DIR, schedule_id)
     if schedule is None:
         return jsonify({"error": "Schedule not found"}), 404
@@ -417,8 +689,9 @@ def validate_schedule_route(schedule_id):
     stored_rules = schedule.get("rules") or {}
     override     = data.get("rules") or {}
     rules        = merge_rules({**stored_rules, **override})
+    categories   = _load_all(CATEGORIES_DIR)
 
-    result = validate_schedule(schedule.get("tracks", []), rules)
+    result = validate_schedule(schedule.get("tracks", []), rules, categories=categories)
     return jsonify(result)
 
 
@@ -426,9 +699,9 @@ def validate_schedule_route(schedule_id):
 def export_schedule(schedule_id):
     """
     Export a schedule.
-    ?format=csv  (default) — returns a CSV file attachment
+    ?format=csv  (default) — returns a CSV file
     ?format=json           — returns enriched JSON
-    ?start_time=HH:MM      — compute and add air times to each slot
+    ?start_time=HH:MM      — compute air times
     """
     schedule = _load_one(SCHEDULES_DIR, schedule_id)
     if schedule is None:
@@ -444,10 +717,11 @@ def export_schedule(schedule_id):
     if fmt == "json":
         return jsonify({**schedule, "tracks": tracks})
 
-    # CSV export
     fields = [
-        "position", "air_time", "title", "artist", "category",
-        "duration_seconds", "bpm", "energy", "mood", "notes",
+        "position", "air_time", "type", "title", "artist", "category",
+        "duration_seconds", "intro_ms", "outro_ms", "mix_in_ms", "mix_out_ms",
+        "bpm", "energy", "gender", "tempo", "texture", "mood",
+        "cart", "file_path", "notes",
     ]
     buf = io.StringIO()
     w   = csv.DictWriter(buf, fieldnames=fields, extrasaction="ignore")
@@ -471,19 +745,36 @@ def generate_schedule():
     data     = request.get_json(silent=True) or {}
     clock_id = data.get("clock_id")
 
-    # Global rules as base, then per-request overrides
     base_rules = _load_rules()
     rules      = merge_rules({**base_rules, **(data.get("rules") or {})})
 
+    artists    = _load_all(ARTISTS_DIR)
+    categories = _load_all(CATEGORIES_DIR)
+
     if clock_id:
-        # --- Rotation mode ---
         clock = _load_one(CLOCKS_DIR, clock_id)
         if clock is None:
             return jsonify({"error": "Clock not found"}), 404
 
         tracks         = _load_all(TRACKS_DIR)
         target_seconds = int(data.get("duration_minutes", 60)) * 60
-        track_list     = build_schedule(clock, tracks, rules, target_seconds=target_seconds)
+        hour           = int(data.get("hour", 0))
+
+        # Load prev-day play history if requested
+        prev_day_plays = []
+        if rules.get("check_prev_day_song") or data.get("check_prev_day"):
+            from datetime import date, timedelta
+            yesterday = (date.today() - timedelta(days=1)).isoformat()
+            prev_day_plays = _load_play_history(yesterday, hour)
+
+        track_list = build_schedule(
+            clock, tracks, rules,
+            target_seconds=target_seconds,
+            hour=hour,
+            artists=artists,
+            categories=categories,
+            prev_day_plays=prev_day_plays,
+        )
 
         start_time = data.get("start_time")
         if start_time:
@@ -501,13 +792,13 @@ def generate_schedule():
             "clock_id":         clock_id,
             "clock_name":       clock.get("name"),
             "start_time":       start_time,
+            "hour":             hour,
             "tracks":           track_list,
             "duration_minutes": sum((t.get("duration_seconds") or 0) for t in track_list) // 60,
             "rules":            rules,
             "stats":            _schedule_stats(track_list),
         }
     else:
-        # --- Manual / backwards-compatible mode ---
         track_list  = data.get("tracks", [])
         schedule_id = str(uuid.uuid4())
         schedule = {
@@ -519,6 +810,103 @@ def generate_schedule():
             "stats":            _schedule_stats(track_list),
         }
 
+    _save(SCHEDULES_DIR, schedule)
+    return jsonify(schedule), 201
+
+
+# ---------------------------------------------------------------------------
+# Day-schedule generation  (full day using a day template)
+# ---------------------------------------------------------------------------
+
+@app.route("/api/schedule/generate-day", methods=["POST"])
+def generate_day_schedule():
+    """
+    Generate a full-day schedule by iterating each hour of a day template,
+    loading the clock assigned to that hour, and running the scheduler.
+
+    Body params:
+        template_id:      (required) day template ID
+        name:             schedule name (optional)
+        date:             ISO date string for prev-day checks (optional)
+        start_hour:       first hour to schedule (default 0)
+        end_hour:         last hour to schedule inclusive (default 23)
+    """
+    data        = request.get_json(silent=True) or {}
+    template_id = data.get("template_id")
+    if not template_id:
+        return jsonify({"error": "Missing required field: template_id"}), 400
+
+    tmpl = _load_one(DAY_TEMPLATES_DIR, template_id)
+    if tmpl is None:
+        return jsonify({"error": "Day template not found"}), 404
+
+    base_rules = _load_rules()
+    rules      = merge_rules({**base_rules, **(data.get("rules") or {})})
+    artists    = _load_all(ARTISTS_DIR)
+    categories = _load_all(CATEGORIES_DIR)
+    tracks     = _load_all(TRACKS_DIR)
+
+    start_hour = int(data.get("start_hour", 0))
+    end_hour   = int(data.get("end_hour",  23))
+    target_day = data.get("date", datetime.utcnow().date().isoformat())
+
+    from datetime import date, timedelta
+    yesterday = (date.fromisoformat(target_day) - timedelta(days=1)).isoformat()
+
+    all_slots     = []
+    position      = 1
+    total_secs    = 0
+    hour_clock_map = tmpl.get("hours", {})
+
+    for hour in range(start_hour, end_hour + 1):
+        clock_id = hour_clock_map.get(str(hour))
+        if not clock_id:
+            continue
+        clock = _load_one(CLOCKS_DIR, clock_id)
+        if clock is None:
+            continue
+
+        prev_day_plays = []
+        if rules.get("check_prev_day_song"):
+            prev_day_plays = _load_play_history(yesterday, hour)
+
+        hour_slots = build_schedule(
+            clock, tracks, rules,
+            target_seconds=3600,
+            hour=hour,
+            artists=artists,
+            categories=categories,
+            prev_day_plays=prev_day_plays,
+        )
+
+        # Re-number positions sequentially across the day
+        for slot in hour_slots:
+            slot["position"]  = position
+            slot["hour"]      = hour
+            total_secs       += slot.get("duration_seconds") or 0
+            position         += 1
+        all_slots.extend(hour_slots)
+
+    # Add air times starting from start_hour:00:00
+    start_time = f"{start_hour:02d}:00:00"
+    all_slots  = _add_air_times(all_slots, start_time)
+
+    schedule_id = str(uuid.uuid4())
+    name        = data.get("name") or f"{tmpl['name']} — {target_day}"
+    schedule = {
+        "id":               schedule_id,
+        "created_at":       _now(),
+        "name":             name,
+        "template_id":      template_id,
+        "template_name":    tmpl.get("name"),
+        "date":             target_day,
+        "start_hour":       start_hour,
+        "end_hour":         end_hour,
+        "tracks":           all_slots,
+        "duration_minutes": total_secs // 60,
+        "rules":            rules,
+        "stats":            _schedule_stats(all_slots),
+    }
     _save(SCHEDULES_DIR, schedule)
     return jsonify(schedule), 201
 
