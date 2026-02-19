@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Music Scheduler</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #252836;
+    --border: #2e3147; --accent: #6c63ff; --accent2: #ff6584;
+    --text: #e2e8f0; --muted: #7c85a2; --success: #48bb78; --danger: #fc8181;
+    --warn: #f6ad55;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; min-height: 100vh; }
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; gap: 16px; height: 56px; }
+  header h1 { font-size: 18px; font-weight: 700; color: var(--accent); letter-spacing: .5px; }
+  header .badge { background: var(--accent); color: #fff; font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 600; }
+  nav { display: flex; gap: 2px; margin-left: auto; }
+  nav button { background: none; border: none; color: var(--muted); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all .15s; }
+  nav button:hover { background: var(--surface2); color: var(--text); }
+  nav button.active { background: var(--accent); color: #fff; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px; }
+  .tab { display: none; } .tab.active { display: block; }
+  h2 { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
+  /* Cards */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+  /* Toolbar */
+  .toolbar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  input[type=text], input[type=number], input[type=time], select, textarea {
+    background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+    border-radius: 6px; padding: 7px 12px; font-size: 13px; outline: none;
+    transition: border .15s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+  input[type=text] { min-width: 180px; }
+  /* Buttons */
+  .btn { padding: 7px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: opacity .15s; }
+  .btn:hover { opacity: .85; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-danger  { background: var(--danger); color: #fff; }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-muted   { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-sm { padding: 4px 10px; font-size: 12px; }
+  /* Table */
+  .tbl-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); padding: 8px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 600; }
+  .pill-purple { background: #3d3571; color: #b8b0ff; }
+  .pill-blue   { background: #1e3a5f; color: #90cdf4; }
+  .pill-green  { background: #1d4a2e; color: #9ae6b4; }
+  .pill-orange { background: #4a2d0d; color: #fbd38d; }
+  .pill-pink   { background: #4a1d2e; color: #fbb6ce; }
+  /* Forms */
+  .form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .form-group { display: flex; flex-direction: column; gap: 4px; }
+  label { font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
+  .form-grid input, .form-grid select { width: 100%; }
+  /* Stats */
+  .stats { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+  .stat { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; flex: 1; min-width: 120px; }
+  .stat-val { font-size: 22px; font-weight: 700; color: var(--accent); }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  /* Toast */
+  #toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 20px; font-size: 13px; box-shadow: 0 4px 20px #0008; opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 999; }
+  #toast.show { opacity: 1; }
+  #toast.ok   { border-left: 3px solid var(--success); }
+  #toast.err  { border-left: 3px solid var(--danger); }
+  /* Empty */
+  .empty { text-align: center; color: var(--muted); padding: 40px; }
+  /* Modal */
+  .modal-bg { display: none; position: fixed; inset: 0; background: #0009; z-index: 100; align-items: center; justify-content: center; }
+  .modal-bg.open { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; width: 500px; max-width: 95vw; max-height: 90vh; overflow-y: auto; }
+  .modal h3 { margin-bottom: 16px; font-size: 15px; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+  /* Clock slots */
+  #slots-list .slot-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  #slots-list .slot-row select, #slots-list .slot-row input { flex: 1; }
+  /* Schedule track list */
+  .track-pos { color: var(--muted); font-size: 12px; width: 32px; }
+  .air-time  { color: var(--warn); font-size: 12px; white-space: nowrap; }
+  .dur       { color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>&#127925; Music Scheduler</h1>
+  <span class="badge" id="ai-badge" style="display:none">AI</span>
+  <nav>
+    <button class="active" onclick="showTab('tracks')">Tracks</button>
+    <button onclick="showTab('clocks')">Clocks</button>
+    <button onclick="showTab('schedules')">Schedules</button>
+    <button onclick="showTab('rules')">Rules</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- ======================== TRACKS TAB ======================== -->
+<div id="tab-tracks" class="tab active">
+  <div class="stats" id="track-stats"></div>
+  <div class="card">
+    <div class="toolbar">
+      <input type="text" id="track-search" placeholder="Search title / artist…" oninput="loadTracks()">
+      <select id="track-cat" onchange="loadTracks()">
+        <option value="">All categories</option>
+      </select>
+      <select id="track-sort" onchange="loadTracks()">
+        <option value="added_at">Date added</option>
+        <option value="title">Title</option>
+        <option value="artist">Artist</option>
+        <option value="play_count">Play count</option>
+        <option value="bpm">BPM</option>
+        <option value="energy">Energy</option>
+      </select>
+      <select id="track-order" onchange="loadTracks()">
+        <option value="asc">Asc</option>
+        <option value="desc">Desc</option>
+      </select>
+      <button class="btn btn-primary" onclick="openAddTrack()">+ Add Track</button>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>#</th><th>Title</th><th>Artist</th><th>Category</th>
+          <th>Duration</th><th>BPM</th><th>Energy</th><th>Plays</th><th></th>
+        </tr></thead>
+        <tbody id="tracks-body"></tbody>
+      </table>
+    </div>
+    <div id="tracks-empty" class="empty" style="display:none">No tracks yet — add one above.</div>
+  </div>
+</div>
+
+<!-- ======================== CLOCKS TAB ======================== -->
+<div id="tab-clocks" class="tab">
+  <div class="card">
+    <div class="toolbar">
+      <button class="btn btn-primary" onclick="openClockModal()">+ New Clock Template</button>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Slots</th><th>Created</th><th></th></tr></thead>
+        <tbody id="clocks-body"></tbody>
+      </table>
+    </div>
+    <div id="clocks-empty" class="empty" style="display:none">No clock templates yet.</div>
+  </div>
+</div>
+
+<!-- ======================== SCHEDULES TAB ======================== -->
+<div id="tab-schedules" class="tab">
+  <div class="card">
+    <h2>Generate Schedule</h2>
+    <div class="form-grid" style="margin-bottom:12px">
+      <div class="form-group">
+        <label>Clock Template</label>
+        <select id="gen-clock"></select>
+      </div>
+      <div class="form-group">
+        <label>Duration (minutes)</label>
+        <input type="number" id="gen-duration" value="60" min="1">
+      </div>
+      <div class="form-group">
+        <label>Start Time</label>
+        <input type="time" id="gen-start">
+      </div>
+      <div class="form-group">
+        <label>Schedule Name</label>
+        <input type="text" id="gen-name" placeholder="Optional name…">
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="generateSchedule()">Generate</button>
+  </div>
+
+  <div class="card">
+    <h2>Saved Schedules</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Clock</th><th>Tracks</th><th>Duration</th><th>Created</th><th></th></tr></thead>
+        <tbody id="schedules-body"></tbody>
+      </table>
+    </div>
+    <div id="schedules-empty" class="empty" style="display:none">No schedules yet.</div>
+  </div>
+</div>
+
+<!-- ======================== RULES TAB ======================== -->
+<div id="tab-rules" class="tab">
+  <div class="card">
+    <h2>Global Rotation Rules</h2>
+    <div class="form-grid" id="rules-form"></div>
+    <div style="margin-top:16px">
+      <button class="btn btn-primary" onclick="saveRules()">Save Rules</button>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- ======================== MODALS ======================== -->
+
+<!-- Add Track -->
+<div class="modal-bg" id="modal-track">
+  <div class="modal">
+    <h3>Add Track</h3>
+    <div class="form-grid">
+      <div class="form-group"><label>Title *</label><input type="text" id="t-title"></div>
+      <div class="form-group"><label>Artist *</label><input type="text" id="t-artist"></div>
+      <div class="form-group">
+        <label>Category *</label>
+        <select id="t-category">
+          <option value="Current">Current</option>
+          <option value="Recurrent">Recurrent</option>
+          <option value="Gold">Gold</option>
+          <option value="Power">Power</option>
+          <option value="Jingle">Jingle</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Duration (seconds)</label><input type="number" id="t-duration" min="1"></div>
+      <div class="form-group"><label>BPM</label><input type="number" id="t-bpm" min="1" max="300"></div>
+      <div class="form-group"><label>Energy (1–10)</label><input type="number" id="t-energy" min="1" max="10"></div>
+      <div class="form-group"><label>Mood</label><input type="text" id="t-mood" placeholder="e.g. Upbeat"></div>
+      <div class="form-group"><label>Notes</label><input type="text" id="t-notes"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-muted" onclick="closeModal('modal-track')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTrack()">Add Track</button>
+    </div>
+  </div>
+</div>
+
+<!-- Clock Builder -->
+<div class="modal-bg" id="modal-clock">
+  <div class="modal">
+    <h3>New Clock Template</h3>
+    <div class="form-group" style="margin-bottom:12px">
+      <label>Clock Name</label>
+      <input type="text" id="clock-name" style="width:100%" placeholder="e.g. Morning Drive">
+    </div>
+    <label style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);display:block;margin-bottom:8px">Slots</label>
+    <div id="slots-list"></div>
+    <button class="btn btn-muted btn-sm" onclick="addSlot()" style="margin-top:4px">+ Add Slot</button>
+    <div class="modal-actions">
+      <button class="btn btn-muted" onclick="closeModal('modal-clock')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveClock()">Create Clock</button>
+    </div>
+  </div>
+</div>
+
+<!-- Schedule Viewer -->
+<div class="modal-bg" id="modal-schedule">
+  <div class="modal" style="width:680px">
+    <h3 id="modal-sched-title"></h3>
+    <div id="modal-sched-stats" class="stats" style="margin-bottom:16px"></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Air</th><th>Title</th><th>Artist</th><th>Category</th><th>Dur</th></tr></thead>
+        <tbody id="modal-sched-body"></tbody>
+      </table>
+    </div>
+    <div class="modal-actions" id="modal-sched-actions">
+      <button class="btn btn-muted" onclick="closeModal('modal-schedule')">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── Utilities ────────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const api = async (method, path, body) => {
+  const r = await fetch(path, {
+    method,
+    headers: body ? {'Content-Type':'application/json'} : {},
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  if (r.status === 204) return null;
+  return r.json();
+};
+const toast = (msg, ok=true) => {
+  const el = $('toast');
+  el.textContent = msg;
+  el.className = 'show ' + (ok ? 'ok' : 'err');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => el.className = '', 2800);
+};
+const fmtDur = s => s ? `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}` : '—';
+const fmtDate = s => s ? new Date(s).toLocaleDateString() : '—';
+const CAT_COLORS = {Current:'pill-purple',Recurrent:'pill-blue',Gold:'pill-orange',Power:'pill-green',Jingle:'pill-pink'};
+const catPill = c => `<span class="pill ${CAT_COLORS[c]||'pill-blue'}">${c||'—'}</span>`;
+
+// ── Tabs ─────────────────────────────────────────────────────────────────────
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  $('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+  if (name==='tracks')    loadTracks();
+  if (name==='clocks')    loadClocks();
+  if (name==='schedules') { loadSchedules(); loadClocksForGen(); }
+  if (name==='rules')     loadRules();
+}
+
+// ── Modals ────────────────────────────────────────────────────────────────────
+function openModal(id)  { $(id).classList.add('open'); }
+function closeModal(id) { $(id).classList.remove('open'); }
+
+// ── Tracks ────────────────────────────────────────────────────────────────────
+let allTracks = [];
+async function loadTracks() {
+  const search = $('track-search').value.trim();
+  const cat    = $('track-cat').value;
+  const sort   = $('track-sort').value;
+  const order  = $('track-order').value;
+  let url = `/api/tracks?sort=${sort}&order=${order}`;
+  if (search) url += `&search=${encodeURIComponent(search)}`;
+  if (cat)    url += `&category=${encodeURIComponent(cat)}`;
+  const data = await api('GET', url);
+  allTracks = data.tracks || [];
+  renderTracks(allTracks, data.total);
+  updateTrackStats(allTracks);
+  populateCatFilter(allTracks);
+}
+function populateCatFilter(tracks) {
+  const cats = [...new Set(tracks.map(t => t.category).filter(Boolean))];
+  const sel = $('track-cat');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">All categories</option>' +
+    cats.map(c => `<option value="${c}" ${c===cur?'selected':''}>${c}</option>`).join('');
+}
+function renderTracks(tracks) {
+  const tb = $('tracks-body');
+  $('tracks-empty').style.display = tracks.length ? 'none' : '';
+  tb.innerHTML = tracks.map((t, i) => `
+    <tr>
+      <td class="track-pos">${i+1}</td>
+      <td><strong>${esc(t.title)}</strong></td>
+      <td>${esc(t.artist)}</td>
+      <td>${catPill(t.category)}</td>
+      <td class="dur">${fmtDur(t.duration_seconds)}</td>
+      <td>${t.bpm||'—'}</td>
+      <td>${t.energy||'—'}</td>
+      <td>${t.play_count||0}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteTrack('${t.id}')">✕</button></td>
+    </tr>`).join('');
+}
+function updateTrackStats(tracks) {
+  const total = tracks.length;
+  const totalDur = tracks.reduce((s,t) => s+(t.duration_seconds||0), 0);
+  const cats = new Set(tracks.map(t=>t.category).filter(Boolean)).size;
+  $('track-stats').innerHTML = [
+    ['Tracks', total],
+    ['Total Duration', fmtDur(totalDur)],
+    ['Categories', cats],
+  ].map(([l,v]) => `<div class="stat"><div class="stat-val">${v}</div><div class="stat-label">${l}</div></div>`).join('');
+}
+
+function openAddTrack() {
+  ['t-title','t-artist','t-mood','t-notes'].forEach(id => $(id).value='');
+  ['t-duration','t-bpm','t-energy'].forEach(id => $(id).value='');
+  openModal('modal-track');
+}
+async function saveTrack() {
+  const body = {
+    title: $('t-title').value.trim(),
+    artist: $('t-artist').value.trim(),
+    category: $('t-category').value,
+  };
+  if (!body.title || !body.artist) return toast('Title and Artist are required.', false);
+  if ($('t-duration').value) body.duration_seconds = +$('t-duration').value;
+  if ($('t-bpm').value)      body.bpm = +$('t-bpm').value;
+  if ($('t-energy').value)   body.energy = +$('t-energy').value;
+  if ($('t-mood').value)     body.mood = $('t-mood').value.trim();
+  if ($('t-notes').value)    body.notes = $('t-notes').value.trim();
+  const res = await api('POST', '/api/tracks', body);
+  if (res.error) return toast(res.error, false);
+  closeModal('modal-track');
+  toast('Track added!');
+  loadTracks();
+}
+async function deleteTrack(id) {
+  if (!confirm('Delete this track?')) return;
+  await api('DELETE', `/api/tracks/${id}`);
+  toast('Track deleted.');
+  loadTracks();
+}
+
+// ── Clocks ────────────────────────────────────────────────────────────────────
+const CAT_OPTIONS = ['Current','Recurrent','Gold','Power','Jingle'].map(c=>`<option>${c}</option>`).join('');
+function openClockModal() {
+  $('clock-name').value = '';
+  $('slots-list').innerHTML = '';
+  addSlot(); addSlot(); addSlot();
+  openModal('modal-clock');
+}
+function addSlot() {
+  const div = document.createElement('div');
+  div.className = 'slot-row';
+  div.innerHTML = `<select>${CAT_OPTIONS}</select><input type="number" placeholder="Min secs" min="0"><button class="btn btn-danger btn-sm" onclick="this.parentNode.remove()">✕</button>`;
+  $('slots-list').appendChild(div);
+}
+async function saveClock() {
+  const name = $('clock-name').value.trim();
+  if (!name) return toast('Clock name required.', false);
+  const rows = $('slots-list').querySelectorAll('.slot-row');
+  const slots = [...rows].map(r => {
+    const [sel, inp] = r.querySelectorAll('select, input');
+    return { category: sel.value, min_duration_seconds: +inp.value || 0 };
+  });
+  if (!slots.length) return toast('Add at least one slot.', false);
+  const res = await api('POST', '/api/clocks', { name, slots });
+  if (res.error) return toast(res.error, false);
+  closeModal('modal-clock');
+  toast('Clock created!');
+  loadClocks();
+}
+async function loadClocks() {
+  const clocks = await api('GET', '/api/clocks');
+  const tb = $('clocks-body');
+  $('clocks-empty').style.display = clocks.length ? 'none' : '';
+  tb.innerHTML = clocks.map(c => `
+    <tr>
+      <td><strong>${esc(c.name)}</strong></td>
+      <td>${(c.slots||[]).length} slots</td>
+      <td>${fmtDate(c.created_at)}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteClock('${c.id}')">✕</button></td>
+    </tr>`).join('');
+}
+async function deleteClock(id) {
+  if (!confirm('Delete this clock?')) return;
+  await api('DELETE', `/api/clocks/${id}`);
+  toast('Clock deleted.');
+  loadClocks();
+}
+
+// ── Schedules ─────────────────────────────────────────────────────────────────
+async function loadClocksForGen() {
+  const clocks = await api('GET', '/api/clocks');
+  $('gen-clock').innerHTML = '<option value="">— No clock (manual) —</option>' +
+    clocks.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
+}
+async function generateSchedule() {
+  const body = { duration_minutes: +$('gen-duration').value || 60 };
+  const clockId = $('gen-clock').value;
+  const name    = $('gen-name').value.trim();
+  const start   = $('gen-start').value;
+  if (clockId) body.clock_id = clockId;
+  if (name)    body.name = name;
+  if (start)   body.start_time = start;
+  const res = await api('POST', '/api/schedule/generate', body);
+  if (res.error) return toast(res.error, false);
+  toast('Schedule generated!');
+  loadSchedules();
+  openSchedule(res);
+}
+async function loadSchedules() {
+  const schedules = await api('GET', '/api/schedules');
+  const tb = $('schedules-body');
+  $('schedules-empty').style.display = schedules.length ? 'none' : '';
+  schedules.sort((a,b) => (b.created_at||'').localeCompare(a.created_at||''));
+  tb.innerHTML = schedules.map(s => `
+    <tr>
+      <td><strong>${esc(s.name||'Untitled')}</strong></td>
+      <td>${esc(s.clock_name||'—')}</td>
+      <td>${(s.tracks||[]).length}</td>
+      <td>${s.duration_minutes||0} min</td>
+      <td>${fmtDate(s.created_at)}</td>
+      <td style="display:flex;gap:6px">
+        <button class="btn btn-muted btn-sm" onclick="viewSchedule('${s.id}')">View</button>
+        <a class="btn btn-success btn-sm" href="/api/schedule/${s.id}/export?format=csv" download>CSV</a>
+        <button class="btn btn-danger btn-sm" onclick="deleteSchedule('${s.id}')">✕</button>
+      </td>
+    </tr>`).join('');
+}
+async function viewSchedule(id) {
+  const s = await api('GET', `/api/schedule/${id}`);
+  openSchedule(s);
+}
+function openSchedule(s) {
+  $('modal-sched-title').textContent = s.name || 'Schedule';
+  const stats = s.stats || {};
+  $('modal-sched-stats').innerHTML = [
+    ['Tracks', stats.total_tracks ?? (s.tracks||[]).length],
+    ['Duration', stats.total_duration_hms || fmtDur(stats.total_duration_seconds)],
+    ['Artists', stats.unique_artists ?? '—'],
+  ].map(([l,v]) => `<div class="stat"><div class="stat-val">${v}</div><div class="stat-label">${l}</div></div>`).join('');
+
+  const tracks = s.tracks || [];
+  $('modal-sched-body').innerHTML = tracks.map((t, i) => `
+    <tr>
+      <td class="track-pos">${i+1}</td>
+      <td class="air-time">${t.air_time||'—'}</td>
+      <td>${esc(t.title||'—')}</td>
+      <td>${esc(t.artist||'—')}</td>
+      <td>${catPill(t.category)}</td>
+      <td class="dur">${fmtDur(t.duration_seconds)}</td>
+    </tr>`).join('') || '<tr><td colspan="6" class="empty">No tracks</td></tr>';
+
+  $('modal-sched-actions').innerHTML = `
+    <button class="btn btn-muted" onclick="closeModal('modal-schedule')">Close</button>
+    <a class="btn btn-success" href="/api/schedule/${s.id}/export?format=csv" download>Export CSV</a>`;
+  openModal('modal-schedule');
+}
+async function deleteSchedule(id) {
+  if (!confirm('Delete this schedule?')) return;
+  await api('DELETE', `/api/schedule/${id}`);
+  toast('Schedule deleted.');
+  loadSchedules();
+}
+
+// ── Rules ─────────────────────────────────────────────────────────────────────
+const RULE_META = {
+  artist_separation_minutes:  { label: 'Artist Separation (min)', type: 'number' },
+  title_separation_minutes:   { label: 'Title Separation (min)', type: 'number' },
+  category_separation_minutes:{ label: 'Category Separation (min)', type: 'number' },
+  max_tempo_jump:             { label: 'Max Tempo Jump (BPM)', type: 'number' },
+  max_energy_jump:            { label: 'Max Energy Jump', type: 'number' },
+};
+let rulesData = {};
+async function loadRules() {
+  rulesData = await api('GET', '/api/rules');
+  const form = $('rules-form');
+  form.innerHTML = Object.entries(RULE_META).map(([k,m]) => `
+    <div class="form-group">
+      <label>${m.label}</label>
+      <input type="${m.type}" id="rule-${k}" value="${rulesData[k]??''}">
+    </div>`).join('') +
+    Object.entries(rulesData)
+      .filter(([k]) => !RULE_META[k])
+      .map(([k,v]) => `
+        <div class="form-group">
+          <label>${k}</label>
+          <input type="text" id="rule-${k}" value="${esc(String(v))}">
+        </div>`).join('');
+}
+async function saveRules() {
+  const body = {};
+  Object.keys(RULE_META).forEach(k => {
+    const el = $(`rule-${k}`);
+    if (el) body[k] = +el.value || 0;
+  });
+  const res = await api('PUT', '/api/rules', body);
+  if (res.error) return toast(res.error, false);
+  toast('Rules saved!');
+}
+
+// ── XSS-safe escape ───────────────────────────────────────────────────────────
+function esc(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Boot ──────────────────────────────────────────────────────────────────────
+(async () => {
+  const status = await api('GET', '/api/status');
+  if (status.ai_available) $('ai-badge').style.display = '';
+  loadTracks();
+})();
+</script>
+</body>
+</html>

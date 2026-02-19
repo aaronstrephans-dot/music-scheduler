@@ -10,7 +10,7 @@ import ai
 from engine.rotator import build_schedule
 from engine.rules import DEFAULT_RULES, merge_rules
 from engine.validator import validate_schedule, _hms
-from flask import Flask, Response, jsonify, request
+from flask import Flask, Response, jsonify, render_template, request
 
 app = Flask(__name__)
 
@@ -124,6 +124,11 @@ def _add_air_times(track_list: list, start_time_str: str) -> list:
 
 @app.route("/")
 def index():
+    return render_template("index.html")
+
+
+@app.route("/api/status")
+def status():
     return jsonify({
         "service":      "music-scheduler",
         "status":       "ok",
