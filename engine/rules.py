@@ -41,6 +41,11 @@ DEFAULT_RULES = {
 
     # --- Date restrictions ---
     "enforce_date_range": True,   # skip tracks where today is outside start_date/end_date
+
+    # --- Song stacking ---
+    # Minimum songs between any two tracks that share the same stack_key.
+    # Individual categories can override this with their own stack_key_separation_songs.
+    "stack_key_separation_songs": 3,
 }
 
 

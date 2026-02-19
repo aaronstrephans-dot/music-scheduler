@@ -14,6 +14,24 @@ Key features implemented to match Music1:
 - Slot-level attribute filters
 - Double-shot support
 - Time-budget awareness (nominal/max clock time)
+
+Song stacking:
+- stack_key on tracks groups songs for rotation fairness and separation.
+  Use case A — many songs by one artist ("artist:phil-collins"):
+    The scheduler cycles through all stacked songs in FIFO order
+    (oldest last-played first), so every song in the stack plays before
+    any repeats rather than the same few titles dominating.
+  Use case B — multiple versions of a title ("we-three-kings"):
+    The stack_key_separation_songs rule keeps versions apart in the
+    schedule, just as artist separation keeps artists apart.
+- active=False on a track excludes it from scheduling entirely (e.g.
+  seasonal content that should not air outside its date range).
+
+Clock versatility additions:
+- lognote slot type: passes an automation command string through to the
+  schedule output without selecting a music track.
+- Conditional slots: condition_daypart / condition_start_date /
+  condition_end_date let a slot be active only in certain contexts.
 """
 
 import random
@@ -123,6 +141,10 @@ def _title_key(track: dict) -> str:
     return (track.get("title") or "").strip().lower()
 
 
+def _stack_key(track: dict) -> str:
+    return (track.get("stack_key") or "").strip().lower()
+
+
 def _passes_artist_sep(track: dict, scheduled: list, rules: dict,
                         artist_lookup: dict = None) -> bool:
     """True if artist separation is satisfied."""
@@ -181,6 +203,33 @@ def _passes_title_sep(track: dict, scheduled: list, rules: dict,
     sep_songs = max(1, int(sep_ms / 210000))
     recent    = [_title_key(s) for s in scheduled[-sep_songs:]]
     return title not in recent
+
+
+def _passes_stack_key_sep(track: dict, scheduled: list, rules: dict,
+                           cat_lookup: dict = None, effective_cat: str = "") -> bool:
+    """True if stack-key separation is satisfied.
+
+    Keeps songs with the same stack_key apart by at least
+    stack_key_separation_songs positions in the schedule.
+    The category record can tighten or loosen this per-category.
+    """
+    sk = _stack_key(track)
+    if not sk:
+        return True
+
+    sep = rules.get("stack_key_separation_songs", 3)
+    if cat_lookup and effective_cat:
+        cat_rec = cat_lookup.get(effective_cat)
+        if cat_rec:
+            cat_sep = cat_rec.get("stack_key_separation_songs", 0)
+            if cat_sep > 0:
+                sep = cat_sep
+
+    if sep <= 0:
+        return True
+
+    recent = [_stack_key(s) for s in scheduled[-sep:]]
+    return sk not in recent
 
 
 # ---------------------------------------------------------------------------
@@ -254,8 +303,11 @@ def _passes_run_limits(track: dict, scheduled: list, rules: dict,
 def _is_eligible(track: dict, scheduled: list, slot: dict, rules: dict,
                   hour: int = 0, position_in_hour: int = 0,
                   total_in_hour: int = 0, clock: dict = None,
-                  artist_lookup: dict = None, cat_lookup: dict = None) -> bool:
+                  artist_lookup: dict = None, cat_lookup: dict = None,
+                  effective_cat: str = "") -> bool:
     """Return True if track passes ALL hard constraints for this slot."""
+    if not track.get("active", True):
+        return False
     if not _passes_date_restriction(track, rules):
         return False
     if not _passes_hour_restriction(track, hour):
@@ -265,6 +317,8 @@ def _is_eligible(track: dict, scheduled: list, slot: dict, rules: dict,
     if not _passes_artist_sep(track, scheduled, rules, artist_lookup):
         return False
     if not _passes_title_sep(track, scheduled, rules, cat_lookup):
+        return False
+    if not _passes_stack_key_sep(track, scheduled, rules, cat_lookup, effective_cat):
         return False
     if not _passes_slot_filters(track, slot):
         return False
@@ -399,6 +453,69 @@ def _fallback_pick(candidates: list, scheduled: list) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Stack rotation helper
+# ---------------------------------------------------------------------------
+
+def _apply_stack_rotation(candidates: list, stack_ptrs: dict,
+                           stack_pool: dict) -> list:
+    """
+    For each stack_key represented in candidates, keep only the track that
+    is current in the FIFO rotation for that stack (or the next one that
+    appears in candidates, wrapping around).  Non-stacked tracks pass through
+    unchanged.
+
+    This ensures that when you have 50 Phil Collins songs or 15 versions of
+    "We Three Kings", the scheduler cycles through ALL of them in order
+    rather than randomly picking the same few titles repeatedly.
+    """
+    non_stacked = [t for t in candidates if not _stack_key(t)]
+
+    stacked_picks = []
+    seen_stacks   = set()
+    id_set        = {t.get("id") for t in candidates}
+
+    for sk, stk_tracks in stack_pool.items():
+        if sk in seen_stacks:
+            continue
+        # Check whether any track from this stack is actually a candidate
+        if not any(t.get("id") in id_set for t in stk_tracks):
+            continue
+        seen_stacks.add(sk)
+        ptr = stack_ptrs.get(sk, 0)
+        n   = len(stk_tracks)
+        for i in range(n):
+            candidate = stk_tracks[(ptr + i) % n]
+            if candidate.get("id") in id_set:
+                stacked_picks.append(candidate)
+                break
+        # If no eligible stack track found for this key, nothing is added —
+        # non-stacked candidates will still fill the slot.
+
+    return non_stacked + stacked_picks
+
+
+# ---------------------------------------------------------------------------
+# Conditional slot helper
+# ---------------------------------------------------------------------------
+
+def _slot_condition_met(slot: dict, sched_date: str, daypart_name: str) -> bool:
+    """Return False if this slot has a condition that the current context doesn't satisfy."""
+    cond_dp = slot.get("condition_daypart")
+    if cond_dp and daypart_name and cond_dp.strip().lower() != daypart_name.strip().lower():
+        return False
+
+    cond_start = slot.get("condition_start_date")
+    if cond_start and sched_date and sched_date < cond_start:
+        return False
+
+    cond_end = slot.get("condition_end_date")
+    if cond_end and sched_date and sched_date > cond_end:
+        return False
+
+    return True
+
+
+# ---------------------------------------------------------------------------
 # Main scheduler
 # ---------------------------------------------------------------------------
 
@@ -411,6 +528,8 @@ def build_schedule(
     artists: list = None,
     categories: list = None,
     prev_day_plays: list = None,   # list of track IDs played in same hour yesterday
+    sched_date: str = None,        # ISO date string for slot conditions (default: today)
+    daypart_name: str = None,      # current daypart name for conditional slots
 ) -> list:
     """
     Build a scheduled track list for one clock (one hour or block).
@@ -425,6 +544,8 @@ def build_schedule(
         artists:          list of artist records (for group/time-based separation).
         categories:       list of category records (for alternates, rank rotation, etc.).
         prev_day_plays:   track IDs that played in this hour yesterday (for prev-day sep).
+        sched_date:       ISO date for conditional slot date-range checks (default: today).
+        daypart_name:     Daypart name for conditional slot daypart checks.
 
     Returns:
         list of slot dicts, each with position, category, track_id, title, artist, etc.
@@ -435,6 +556,12 @@ def build_schedule(
     slots = clock.get("slots", [])
     if not slots:
         return []
+
+    if not sched_date:
+        sched_date = _today_iso()
+
+    # --- Filter inactive tracks up front ---
+    tracks = [t for t in tracks if t.get("active", True)]
 
     # --- Build lookup indexes ---
     by_cat: dict = {}
@@ -456,6 +583,24 @@ def build_schedule(
 
     prev_day_set = set(prev_day_plays or [])
 
+    # --- Build stack rotation state ---
+    # For each stack_key, sort tracks into FIFO order:
+    #   1. explicit stack_order (if set)
+    #   2. last_played_at ascending (most-rested first)
+    # The pointer advances each time a track from that stack is scheduled,
+    # ensuring every song in a stack plays before any repeats.
+    stack_pool: dict = {}   # stack_key → ordered list of tracks
+    for t in tracks:
+        sk = _stack_key(t)
+        if sk:
+            stack_pool.setdefault(sk, []).append(t)
+    for sk in stack_pool:
+        stack_pool[sk].sort(key=lambda t: (
+            t.get("stack_order") or 0,
+            t.get("last_played_at") or "",
+        ))
+    stack_ptrs: dict = {sk: 0 for sk in stack_pool}
+
     rank_state: dict = {}    # category_name → rotation index
 
     scheduled:  list = []
@@ -468,16 +613,27 @@ def build_schedule(
         slot     = slots[slot_idx % len(slots)]
         slot_typ = slot.get("type", "music")
 
-        # Non-music slots (spots, liners, etc.) pass through without a track
+        # --- Conditional slot: skip if the scheduling context doesn't match ---
+        if not _slot_condition_met(slot, sched_date, daypart_name):
+            slot_idx += 1
+            if target_seconds == 0 and slot_idx >= len(slots):
+                break
+            continue
+
+        # Non-music slots (spots, liners, lognotes, etc.) pass through without a track
         if slot_typ != "music":
-            scheduled.append({
+            entry = {
                 "position":         position,
                 "type":             slot_typ,
                 "category":         slot.get("category", ""),
                 "title":            slot.get("title", ""),
                 "duration_seconds": slot.get("nominal_length_s") or 0,
                 "notes":            slot.get("notes", ""),
-            })
+            }
+            # Lognote: include the automation command string
+            if slot_typ == "lognote":
+                entry["lognote_command"] = slot.get("lognote_command", "")
+            scheduled.append(entry)
             total_secs += slot.get("nominal_length_s") or 0
             position   += 1
             slot_idx   += 1
@@ -509,6 +665,7 @@ def build_schedule(
                     clock=clock,
                     artist_lookup=artist_lookup,
                     cat_lookup=cat_lookup,
+                    effective_cat=effective_cat,
                 )
                 and t.get("id") not in prev_day_set
             ]
@@ -525,17 +682,32 @@ def build_schedule(
                         clock=clock,
                         artist_lookup=artist_lookup,
                         cat_lookup=cat_lookup,
+                        effective_cat=effective_cat,
                     )
                 ]
 
+            # --- Apply stack rotation: enforce FIFO order within each stack_key ---
+            if stack_pool and eligible:
+                eligible = _apply_stack_rotation(eligible, stack_ptrs, stack_pool)
+
             if not eligible:
-                # Tiny library — relax all constraints
-                chosen = _fallback_pick(pool, scheduled)
+                # Tiny library — relax all constraints, but still honour stack rotation
+                fallback_pool = pool
+                if stack_pool:
+                    rotated = _apply_stack_rotation(pool, stack_ptrs, stack_pool)
+                    if rotated:
+                        fallback_pool = rotated
+                chosen = _fallback_pick(fallback_pool, scheduled)
             else:
                 chosen = _pick(eligible, scheduled, slot, rules,
                                force_rank=force_rank,
                                rank_state=rank_state,
                                cat_name=effective_cat)
+
+            # Advance the stack pointer when a stacked track is chosen
+            sk = _stack_key(chosen)
+            if sk in stack_ptrs:
+                stack_ptrs[sk] = (stack_ptrs[sk] + 1) % max(1, len(stack_pool[sk]))
 
             # --- Determine duration ---
             duration_ms = (

@@ -118,6 +118,21 @@ TRACK_DEFAULTS = {
     "play_count":      0,
     "last_played_at":  None,
     "added_at":        None,
+
+    # --- Active status ---
+    # False = track is excluded from scheduling (e.g. inactive seasonal content)
+    "active":          True,
+
+    # --- Song stacking ---
+    # stack_key: group name for rotation stacking.
+    #   All tracks sharing a key cycle through each other in order before repeating,
+    #   and are kept separated by stack_key_separation_songs.
+    #   Use cases:
+    #     - Many songs by one artist: stack_key = "artist:phil-collins"
+    #     - Multiple versions of a title: stack_key = "we-three-kings"
+    "stack_key":       "",
+    # stack_order: explicit position within the stack (0 = auto-ordered by last_played_at)
+    "stack_order":     0,
 }
 
 
@@ -201,6 +216,10 @@ CATEGORY_DEFAULTS = {
     "auto_set_prev_day_sep":  False,
     "auto_set_search_depth":  True,
     "auto_set_min_rotation":  True,
+
+    # Stacking: minimum songs between tracks that share the same stack_key.
+    # 0 = use the global rules value (stack_key_separation_songs).
+    "stack_key_separation_songs": 0,
 
     # Scheduling mode
     "sched_mode":             1,       # 1=normal 2=packet
@@ -379,6 +398,19 @@ SLOT_DEFAULTS = {
     "insert_if_empty": False,
     "notes":           "",
     "color":           None,
+
+    # --- Lognote (automation command) ---
+    # Used when type = "lognote".  The command string is passed through verbatim
+    # to the playout automation system (e.g. ",,COM,DALIVE,\"20:00 STOPSET\",,0").
+    "lognote_command": "",
+
+    # --- Conditional slot ---
+    # If set, this slot is only included when the scheduling context matches.
+    # condition_daypart: name of the daypart (e.g. "Morning Drive") — None = always
+    # condition_start_date / condition_end_date: ISO date strings — None = no limit
+    "condition_daypart":    None,
+    "condition_start_date": None,
+    "condition_end_date":   None,
 }
 
 
