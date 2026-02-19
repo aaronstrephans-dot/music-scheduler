@@ -128,12 +128,44 @@
   .viol-item.error   { background: rgba(252,129,129,.12); color: var(--danger); }
   .viol-item.warning { background: rgba(246,173,85,.12); color: var(--warn); }
 
+  /* ── Daypart bands ── */
+  :root {
+    --dp-overnight: rgba(0,188,212,.13);
+    --dp-early:     rgba(255,138,101,.14);
+    --dp-morning:   rgba(255,214,0,.16);
+    --dp-midmorn:   rgba(102,187,106,.13);
+    --dp-midday:    rgba(255,152,0,.13);
+    --dp-afternoon: rgba(229,57,53,.13);
+    --dp-evening:   rgba(236,64,122,.13);
+    --dp-latenight: rgba(126,87,194,.13);
+  }
+  tr.dp-overnight td { background: var(--dp-overnight); }
+  tr.dp-early td     { background: var(--dp-early); }
+  tr.dp-morning td   { background: var(--dp-morning); }
+  tr.dp-midmorn td   { background: var(--dp-midmorn); }
+  tr.dp-midday td    { background: var(--dp-midday); }
+  tr.dp-afternoon td { background: var(--dp-afternoon); }
+  tr.dp-evening td   { background: var(--dp-evening); }
+  tr.dp-latenight td { background: var(--dp-latenight); }
+  /* hour-label overrides to keep its own bg */
+  tr.dp-overnight td.hour-label { background: var(--surface2); border-left: 3px solid #00bcd4; }
+  tr.dp-early td.hour-label     { background: var(--surface2); border-left: 3px solid #ff8a65; }
+  tr.dp-morning td.hour-label   { background: var(--surface2); border-left: 3px solid #ffd600; }
+  tr.dp-midmorn td.hour-label   { background: var(--surface2); border-left: 3px solid #66bb6a; }
+  tr.dp-midday td.hour-label    { background: var(--surface2); border-left: 3px solid #ff9800; }
+  tr.dp-afternoon td.hour-label { background: var(--surface2); border-left: 3px solid #e53935; }
+  tr.dp-evening td.hour-label   { background: var(--surface2); border-left: 3px solid #ec407a; }
+  tr.dp-latenight td.hour-label { background: var(--surface2); border-left: 3px solid #7e57c2; }
+
   /* ── Program Grid (week view) ── */
+  .pg-view-toggle { display: flex; gap: 4px; margin-bottom: 16px; }
+  .pg-view-toggle button { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); padding: 5px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all .15s; }
+  .pg-view-toggle button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
   .prog-grid-wrap { overflow-x: auto; }
   .prog-grid { border-collapse: collapse; font-size: 12px; min-width: 700px; width: 100%; }
   .prog-grid th { padding: 6px 8px; background: var(--surface2); border: 1px solid var(--border); white-space: nowrap; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); text-align: center; }
   .prog-grid td { border: 1px solid var(--border); padding: 0; vertical-align: top; min-width: 100px; }
-  .prog-grid .hour-label { background: var(--surface2); color: var(--muted); font-size: 11px; padding: 5px 8px; text-align: right; white-space: nowrap; min-width: 48px; font-weight: 600; }
+  .prog-grid .hour-label { background: var(--surface2); color: var(--muted); font-size: 11px; padding: 5px 8px; text-align: right; white-space: nowrap; min-width: 56px; font-weight: 600; }
   .grid-cell { min-height: 32px; padding: 4px 6px; cursor: pointer; transition: background .1s; display: flex; align-items: center; justify-content: space-between; gap: 4px; }
   .grid-cell:hover { background: var(--surface2); }
   .grid-cell .gc-name { font-size: 11px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
@@ -142,8 +174,36 @@
   .cell-assigned { background: rgba(108,99,255,.08); }
   .day-col-head { font-weight: 700; color: var(--text); }
   /* Grid cell picker dropdown */
-  .gc-select { width: 100%; background: var(--surface); border: none; color: var(--text); font-size: 11px; padding: 4px; border-radius: 4px; cursor: pointer; }
-  .gc-select:focus { outline: 1px solid var(--accent); }
+  .gc-select { width: 100%; background: transparent; border: none; color: var(--text); font-size: 11px; padding: 4px; border-radius: 4px; cursor: pointer; }
+  .gc-select:focus { outline: 1px solid var(--accent); background: var(--surface); }
+  /* Daypart map mode — solid colored cells */
+  .dp-map-cell { height: 28px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; letter-spacing: .4px; color: rgba(0,0,0,.45); cursor: default; }
+
+  /* ── Day Detail view ── */
+  .day-detail-wrap { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; max-height: 70vh; }
+  .ddl-panel { width: 190px; flex-shrink: 0; border-right: 1px solid var(--border); overflow-y: auto; background: var(--surface2); }
+  .ddl-item { padding: 9px 14px; cursor: pointer; font-size: 13px; border-bottom: 1px solid var(--border); transition: background .1s; }
+  .ddl-item:hover { background: var(--surface); }
+  .ddl-item.active { background: rgba(108,99,255,.18); color: var(--accent); font-weight: 600; }
+  .ddl-item.add-btn { color: var(--accent); font-size: 12px; }
+  .dd-center { flex: 1; overflow-y: auto; }
+  .dd-row { display: flex; align-items: center; gap: 0; border-bottom: 1px solid var(--border); }
+  .dd-row:last-child { border-bottom: none; }
+  .dd-hour { width: 70px; flex-shrink: 0; font-size: 11px; color: var(--muted); font-weight: 600; padding: 5px 10px; white-space: nowrap; }
+  .dd-hour-name { font-size: 9px; display: block; text-transform: uppercase; letter-spacing: .4px; margin-top: 1px; }
+  .dd-sel { flex: 1; background: transparent; border: none; color: var(--text); font-size: 12px; padding: 5px 8px; cursor: pointer; }
+  .dd-sel:focus { outline: 1px solid var(--accent); background: var(--surface2); }
+
+  /* ── Daypart legend (map mode) ── */
+  .dp-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; align-items: center; }
+  .dp-leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
+  .dp-swatch { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+
+  /* ── Clock pie chart ── */
+  .pie-modal-body { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; justify-content: center; }
+  .pie-legend { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .pie-leg-row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .pie-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
 
   /* ── Schedule view modes ── */
   .view-toggle { display: flex; gap: 4px; margin-bottom: 12px; }
@@ -283,6 +343,20 @@
   </div>
 </div>
 
+<!-- Clock Pie Chart Modal -->
+<div class="modal-bg" id="modal-pie">
+  <div class="modal" style="width:520px">
+    <h3 id="pie-title">Clock Composition</h3>
+    <div class="pie-modal-body">
+      <svg id="pie-svg" width="220" height="220" viewBox="0 0 220 220"></svg>
+      <div class="pie-legend" id="pie-legend"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-muted" onclick="closeModal('modal-pie')">Close</button>
+    </div>
+  </div>
+</div>
+
 <!-- ======================== SCHEDULES TAB ======================== -->
 <div id="tab-schedules" class="tab">
   <div class="card">
@@ -327,10 +401,10 @@
 <!-- ======================== PROGRAM GRID TAB ======================== -->
 <div id="tab-program" class="tab">
 
-  <!-- Day template selector / create -->
+  <!-- Template selector + create toolbar -->
   <div class="card">
     <h2>Program Grid</h2>
-    <div class="toolbar" style="margin-bottom:8px">
+    <div class="toolbar" style="margin-bottom:12px">
       <select id="pg-tmpl-sel" onchange="loadProgramGrid()">
         <option value="">— Select a day template —</option>
       </select>
@@ -338,29 +412,78 @@
       <button class="btn btn-primary btn-sm" onclick="createDayTemplate()">+ New Template</button>
       <button class="btn btn-danger btn-sm" id="pg-del-btn" style="display:none" onclick="deleteDayTemplate()">Delete Template</button>
     </div>
-    <p style="font-size:12px;color:var(--muted);margin-bottom:14px">
-      Click any cell to assign a clock to that day/hour. Changes save automatically.
-    </p>
 
-    <!-- Week grid -->
-    <div class="prog-grid-wrap">
-      <table class="prog-grid" id="prog-grid">
-        <thead>
-          <tr>
-            <th style="min-width:48px">Hr</th>
-            <th class="day-col-head">Mon</th>
-            <th class="day-col-head">Tue</th>
-            <th class="day-col-head">Wed</th>
-            <th class="day-col-head">Thu</th>
-            <th class="day-col-head">Fri</th>
-            <th class="day-col-head">Sat</th>
-            <th class="day-col-head">Sun</th>
-          </tr>
-        </thead>
-        <tbody id="prog-grid-body"></tbody>
-      </table>
+    <!-- View mode toggle -->
+    <div class="pg-view-toggle">
+      <button class="active" id="pgv-grid"     onclick="switchPgView('grid')">&#9783; Week Grid</button>
+      <button              id="pgv-detail"   onclick="switchPgView('detail')">&#9776; Day Detail</button>
+      <button              id="pgv-daypart"  onclick="switchPgView('daypart')">&#9632; Daypart Map</button>
     </div>
-    <div id="prog-grid-empty" class="empty" style="display:none">Select or create a day template to start programming.</div>
+
+    <!-- ── WEEK GRID view ── -->
+    <div id="pg-view-grid">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px">
+        Each cell: pick a clock for that day &amp; hour. Row colors show daypart bands. Changes save immediately.
+      </p>
+      <div class="prog-grid-wrap">
+        <table class="prog-grid" id="prog-grid">
+          <thead>
+            <tr>
+              <th style="min-width:56px">Hr</th>
+              <th class="day-col-head">Mon</th>
+              <th class="day-col-head">Tue</th>
+              <th class="day-col-head">Wed</th>
+              <th class="day-col-head">Thu</th>
+              <th class="day-col-head">Fri</th>
+              <th class="day-col-head">Sat</th>
+              <th class="day-col-head">Sun</th>
+            </tr>
+          </thead>
+          <tbody id="prog-grid-body"></tbody>
+        </table>
+      </div>
+      <div id="prog-grid-empty" class="empty" style="display:none">Select or create a day template to start programming.</div>
+    </div>
+
+    <!-- ── DAY DETAIL view ── -->
+    <div id="pg-view-detail" style="display:none">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:10px">
+        Select a day template on the left to see &amp; edit its full 24-hour clock schedule.
+      </p>
+      <div class="day-detail-wrap">
+        <div class="ddl-panel" id="ddl-panel">
+          <div class="empty" style="padding:16px;font-size:12px">No templates yet.</div>
+        </div>
+        <div class="dd-center" id="dd-center">
+          <div class="empty" style="padding:40px 20px">Select a template on the left.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DAYPART MAP view ── -->
+    <div id="pg-view-daypart" style="display:none">
+      <div class="dp-legend" id="dp-legend"></div>
+      <div class="prog-grid-wrap">
+        <table class="prog-grid" id="dp-map-grid">
+          <thead>
+            <tr>
+              <th style="min-width:56px">Hr</th>
+              <th class="day-col-head">Mon</th>
+              <th class="day-col-head">Tue</th>
+              <th class="day-col-head">Wed</th>
+              <th class="day-col-head">Thu</th>
+              <th class="day-col-head">Fri</th>
+              <th class="day-col-head">Sat</th>
+              <th class="day-col-head">Sun</th>
+            </tr>
+          </thead>
+          <tbody id="dp-map-body"></tbody>
+        </table>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:8px">
+        Bands show standard daypart groupings. Switch to Week Grid to change clock assignments.
+      </p>
+    </div>
   </div>
 
   <!-- Generate from template -->
@@ -761,7 +884,10 @@ async function loadClocks() {
       <td><strong>${esc(c.name)}</strong></td>
       <td>${(c.slots||[]).map(s=>catPill(s.category)).join(' ')}</td>
       <td>${fmtDate(c.created_at)}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="deleteClock('${c.id}')">✕</button></td>
+      <td style="display:flex;gap:6px">
+        <button class="btn btn-muted btn-sm" onclick='openClockPie(${JSON.stringify(c)})'>&#9685; Chart</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteClock('${c.id}')">✕</button>
+      </td>
     </tr>`).join('');
 }
 async function deleteClock(id) {
@@ -1019,28 +1145,65 @@ async function saveRules() {
 }
 
 // ── Program Grid ──────────────────────────────────────────────────────────────
-let _pgClocks   = [];   // all clock records
-let _pgTmplId   = null; // currently loaded day template id
-let _pgTmpl     = null; // currently loaded day template object
+let _pgClocks   = [];
+let _pgTmplId   = null;
+let _pgTmpl     = null;
+let _pgTmpls    = [];     // all templates (for Day Detail list)
+let _pgView     = 'grid'; // 'grid' | 'detail' | 'daypart'
+let _ddTmplId   = null;   // selected template in Day Detail view
 const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-// Day template stores hours "0"-"23" with a single clock_id (applies to all days).
-// We extend this to per-day storage by using keys like "mon_6", "tue_6" etc.
-// For backward compat we fall back to the flat "hours" map for all days.
 
-async function loadProgramTab() {
-  _pgClocks = await api('GET', '/api/clocks');
-  const res  = await api('GET', '/api/day-templates');
-  const tmpls = (res.day_templates || []);
+// Daypart definitions — name, color, hours covered, CSS class
+const DAYPARTS = [
+  { name:'Overnight',      color:'#00bcd4', cls:'dp-overnight', hours:[0,1,2,3,4]   },
+  { name:'Early Morning',  color:'#ff8a65', cls:'dp-early',     hours:[5]            },
+  { name:'Morning Drive',  color:'#ffd600', cls:'dp-morning',   hours:[6,7,8,9]      },
+  { name:'Mid-morning',    color:'#66bb6a', cls:'dp-midmorn',   hours:[10,11]        },
+  { name:'Midday',         color:'#ff9800', cls:'dp-midday',    hours:[12,13,14]     },
+  { name:'Afternoon Drive',color:'#e53935', cls:'dp-afternoon', hours:[15,16,17,18]  },
+  { name:'Evening',        color:'#ec407a', cls:'dp-evening',   hours:[19,20,21]     },
+  { name:'Late Night',     color:'#7e57c2', cls:'dp-latenight', hours:[22,23]        },
+];
+const hourDpClass = h => (DAYPARTS.find(d => d.hours.includes(h)) || DAYPARTS[0]).cls;
+const hourDpName  = h => (DAYPARTS.find(d => d.hours.includes(h)) || DAYPARTS[0]).name;
+const hourDpColor = h => (DAYPARTS.find(d => d.hours.includes(h)) || DAYPARTS[0]).color;
 
-  const sel = $('pg-tmpl-sel');
-  const cur = sel.value;
-  sel.innerHTML = '<option value="">— Select a day template —</option>' +
-    tmpls.map(t => `<option value="${t.id}" ${t.id===cur?'selected':''}>${esc(t.name)}</option>`).join('');
-
-  if (_pgTmplId) sel.value = _pgTmplId;
-  loadProgramGrid();
+// Format hour as "6 am" / "12 pm" / "6 pm"
+function fmtHour(h) {
+  if (h === 0)  return '12 am';
+  if (h < 12)   return `${h} am`;
+  if (h === 12) return '12 pm';
+  return `${h-12} pm`;
 }
 
+// ── Program tab load ──────────────────────────────────────────────────────────
+async function loadProgramTab() {
+  [_pgClocks, { day_templates: _pgTmpls = [] }] = await Promise.all([
+    api('GET', '/api/clocks'),
+    api('GET', '/api/day-templates'),
+  ]);
+
+  // Populate template selector
+  const sel = $('pg-tmpl-sel');
+  sel.innerHTML = '<option value="">— Select a day template —</option>' +
+    _pgTmpls.map(t => `<option value="${t.id}" ${t.id===_pgTmplId?'selected':''}>${esc(t.name)}</option>`).join('');
+
+  loadProgramGrid();
+  renderDaypLegend();
+}
+
+// ── View switching ────────────────────────────────────────────────────────────
+function switchPgView(mode) {
+  _pgView = mode;
+  ['grid','detail','daypart'].forEach(m => {
+    $('pg-view-' + m).style.display = m === mode ? '' : 'none';
+    $('pgv-'     + m).classList.toggle('active', m === mode);
+  });
+  if (mode === 'detail')  renderDayDetail();
+  if (mode === 'daypart') renderDaypartMap();
+}
+
+// ── Template management ───────────────────────────────────────────────────────
 async function createDayTemplate() {
   const name = $('pg-new-name').value.trim();
   if (!name) return toast('Enter a template name first.', false);
@@ -1063,80 +1226,73 @@ async function deleteDayTemplate() {
 }
 
 async function loadProgramGrid() {
-  const sel = $('pg-tmpl-sel');
+  const sel    = $('pg-tmpl-sel');
   const tmplId = sel.value;
-  _pgTmplId = tmplId || null;
+  _pgTmplId    = tmplId || null;
 
-  $('pg-del-btn').style.display    = tmplId ? '' : 'none';
-  $('pg-gen-card').style.display   = tmplId ? '' : 'none';
-  $('prog-grid-empty').style.display = tmplId ? 'none' : '';
+  $('pg-del-btn').style.display  = tmplId ? '' : 'none';
+  $('pg-gen-card').style.display = tmplId ? '' : 'none';
 
   if (!tmplId) {
     $('prog-grid-body').innerHTML = '';
+    $('prog-grid-empty').style.display = '';
     _pgTmpl = null;
+    if (_pgView === 'detail')  renderDayDetail();
+    if (_pgView === 'daypart') renderDaypartMap();
     return;
   }
-
+  $('prog-grid-empty').style.display = 'none';
   _pgTmpl = await api('GET', `/api/day-templates/${tmplId}`);
+
   renderProgramGrid();
+  if (_pgView === 'detail')  renderDayDetail();
+  if (_pgView === 'daypart') renderDaypartMap();
+
+  if (!$('pg-gen-date').value)
+    $('pg-gen-date').value = new Date().toISOString().slice(0, 10);
 }
 
+// Helper: read clock id for a given day index + hour from _pgTmpl
+function tmplClockAt(d, h) {
+  if (!_pgTmpl) return null;
+  const dayKey = DAYS[d].toLowerCase() + '_' + h;
+  return _pgTmpl[dayKey] !== undefined
+    ? _pgTmpl[dayKey]
+    : ((_pgTmpl.hours || {})[String(h)] || null);
+}
+
+// ── WEEK GRID rendering ───────────────────────────────────────────────────────
 function renderProgramGrid() {
   if (!_pgTmpl) return;
-  const clockById = Object.fromEntries(_pgClocks.map(c => [c.id, c]));
   const clockOptHTML = '<option value="">—</option>' +
     _pgClocks.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
 
-  // Build rows: hours 0-23, columns Mon-Sun
   let html = '';
   for (let h = 0; h < 24; h++) {
-    html += `<tr><td class="hour-label">${String(h).padStart(2,'0')}:00</td>`;
+    const dpCls = hourDpClass(h);
+    html += `<tr class="${dpCls}"><td class="hour-label">${fmtHour(h)}</td>`;
     for (let d = 0; d < 7; d++) {
-      const dayKey = DAYS[d].toLowerCase() + '_' + h;   // e.g. mon_6
-      const flatKey = String(h);                          // fallback: flat hours map
-      // Check per-day key first, then fall back to the flat "hours" map
-      let clockId = (_pgTmpl[dayKey] !== undefined) ? _pgTmpl[dayKey]
-                  : ((_pgTmpl.hours || {})[flatKey] || null);
-      const clock = clockId ? clockById[clockId] : null;
-      html += `<td>
-        <select class="gc-select" data-day="${d}" data-hour="${h}" onchange="pgCellChange(this)">
-          ${clockOptHTML}
-        </select>
-      </td>`;
+      html += `<td><select class="gc-select" data-day="${d}" data-hour="${h}" onchange="pgCellChange(this)">${clockOptHTML}</select></td>`;
     }
     html += '</tr>';
   }
   $('prog-grid-body').innerHTML = html;
 
-  // Set dropdown values after render
+  // Set values
   $('prog-grid-body').querySelectorAll('select.gc-select').forEach(sel => {
-    const d = +sel.dataset.day;
-    const h = +sel.dataset.hour;
-    const dayKey = DAYS[d].toLowerCase() + '_' + h;
-    const flatKey = String(h);
-    const clockId = (_pgTmpl[dayKey] !== undefined) ? _pgTmpl[dayKey]
-                  : ((_pgTmpl.hours || {})[flatKey] || '');
-    sel.value = clockId || '';
+    sel.value = tmplClockAt(+sel.dataset.day, +sel.dataset.hour) || '';
   });
-
-  // Set today's date default for generate form
-  if (!$('pg-gen-date').value) {
-    $('pg-gen-date').value = new Date().toISOString().slice(0, 10);
-  }
 }
 
 async function pgCellChange(sel) {
   if (!_pgTmpl || !_pgTmplId) return;
-  const d       = +sel.dataset.day;
-  const h       = +sel.dataset.hour;
-  const dayKey  = DAYS[d].toLowerCase() + '_' + h;
+  const d      = +sel.dataset.day;
+  const h      = +sel.dataset.hour;
+  const dayKey = DAYS[d].toLowerCase() + '_' + h;
   const clockId = sel.value || null;
 
-  // Persist to the template: store in both the per-day key and (for Mon) the flat hours map
   const update = { [dayKey]: clockId };
-  // If all days are the same for this hour, also update the flat hours map
   if (d === 0) {
-    // Update flat hours map for backward compat
     const hours = { ...(_pgTmpl.hours || {}) };
     hours[String(h)] = clockId;
     update.hours = hours;
@@ -1145,12 +1301,130 @@ async function pgCellChange(sel) {
   const res = await api('PUT', `/api/day-templates/${_pgTmplId}`, update);
   if (res && !res.error) {
     _pgTmpl = res;
-    // Flash the cell briefly
-    sel.parentElement.style.background = 'rgba(108,99,255,.2)';
+    sel.parentElement.style.transition = 'background .05s';
+    sel.parentElement.style.background = 'rgba(108,99,255,.35)';
     setTimeout(() => { sel.parentElement.style.background = ''; }, 500);
+    // Sync Day Detail if visible
+    if (_pgView === 'detail') renderDayDetail();
   }
 }
 
+// ── DAY DETAIL view ───────────────────────────────────────────────────────────
+function renderDayDetail() {
+  const panel  = $('ddl-panel');
+  const center = $('dd-center');
+  const clockById = Object.fromEntries(_pgClocks.map(c => [c.id, c]));
+  const clockOptHTML = '<option value="">— not used —</option>' +
+    _pgClocks.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
+
+  // Left panel: template list
+  if (!_pgTmpls.length) {
+    panel.innerHTML = '<div class="empty" style="padding:16px;font-size:12px">No templates yet.</div>';
+  } else {
+    panel.innerHTML = _pgTmpls.map(t => `
+      <div class="ddl-item ${t.id===(_ddTmplId||_pgTmplId)?'active':''}"
+           onclick="ddSelectTmpl('${t.id}')">${esc(t.name)}</div>
+    `).join('');
+  }
+
+  // Default selection
+  if (!_ddTmplId) _ddTmplId = _pgTmplId;
+
+  const tmpl = _pgTmpls.find(t => t.id === _ddTmplId);
+  if (!tmpl) {
+    center.innerHTML = '<div class="empty" style="padding:40px 20px">Select a template on the left.</div>';
+    return;
+  }
+
+  // Load and render the 24-hour list for this template
+  api('GET', `/api/day-templates/${tmpl.id}`).then(data => {
+    let rows = '';
+    for (let h = 0; h < 24; h++) {
+      const dpColor = hourDpColor(h);
+      const dpName  = hourDpName(h);
+      // For Day Detail, show the Mon clock (or flat hours as reference)
+      const clockId = (data['mon_' + h] !== undefined)
+        ? data['mon_' + h]
+        : ((data.hours || {})[String(h)] || '');
+      rows += `<div class="dd-row">
+        <div class="dd-hour" style="border-left:3px solid ${dpColor}">
+          ${fmtHour(h)}<span class="dd-hour-name">${dpName}</span>
+        </div>
+        <select class="dd-sel" data-tmpl="${tmpl.id}" data-hour="${h}" onchange="ddCellChange(this)">
+          ${clockOptHTML}
+        </select>
+      </div>`;
+    }
+    center.innerHTML = `<div style="padding:10px 14px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--border);font-weight:600">${esc(tmpl.name)} — editing Mon column (applies as default for all days)</div>` + rows;
+    // Set values
+    center.querySelectorAll('select.dd-sel').forEach(sel => {
+      const h      = +sel.dataset.hour;
+      const clockId = (data['mon_' + h] !== undefined)
+        ? data['mon_' + h]
+        : ((data.hours || {})[String(h)] || '');
+      sel.value = clockId || '';
+    });
+  });
+}
+
+async function ddSelectTmpl(id) {
+  _ddTmplId = id;
+  renderDayDetail();
+}
+
+async function ddCellChange(sel) {
+  const tmplId  = sel.dataset.tmpl;
+  const h       = +sel.dataset.hour;
+  const clockId = sel.value || null;
+  const hours   = {};
+  // Build a full hours update from current center selects
+  $('dd-center').querySelectorAll('select.dd-sel').forEach(s => {
+    hours[String(+s.dataset.hour)] = s.value || null;
+  });
+  const update = { ['mon_' + h]: clockId, hours };
+  const res = await api('PUT', `/api/day-templates/${tmplId}`, update);
+  if (res && !res.error) {
+    // If this is the active week-grid template, sync it
+    if (tmplId === _pgTmplId) {
+      _pgTmpl = res;
+      renderProgramGrid();
+    }
+    sel.style.background = 'rgba(108,99,255,.2)';
+    setTimeout(() => { sel.style.background = ''; }, 500);
+  }
+}
+
+// ── DAYPART MAP view ──────────────────────────────────────────────────────────
+function renderDaypLegend() {
+  $('dp-legend').innerHTML = DAYPARTS.map(dp => `
+    <div class="dp-leg-item">
+      <div class="dp-swatch" style="background:${dp.color}"></div>
+      <span>${dp.name}</span>
+    </div>`).join('');
+}
+
+function renderDaypartMap() {
+  const clockById = Object.fromEntries(_pgClocks.map(c => [c.id, c]));
+  let html = '';
+  for (let h = 0; h < 24; h++) {
+    const dp    = DAYPARTS.find(d => d.hours.includes(h)) || DAYPARTS[0];
+    html += `<tr><td class="hour-label" style="border-left:3px solid ${dp.color}">${fmtHour(h)}</td>`;
+    for (let d = 0; d < 7; d++) {
+      const clockId  = _pgTmpl ? tmplClockAt(d, h) : null;
+      const clock    = clockId ? clockById[clockId] : null;
+      const tooltip  = clock ? clock.name : '(not assigned)';
+      html += `<td title="${esc(tooltip)}">
+        <div class="dp-map-cell" style="background:${dp.color};opacity:${clock ? 0.85 : 0.25}">
+          ${clock ? esc(clock.name.length > 12 ? clock.name.slice(0,12)+'…' : clock.name) : ''}
+        </div>
+      </td>`;
+    }
+    html += '</tr>';
+  }
+  $('dp-map-body').innerHTML = html;
+}
+
+// ── Generate from template ────────────────────────────────────────────────────
 async function generateFromTemplate() {
   if (!_pgTmplId) return;
   const body = {
@@ -1169,6 +1443,60 @@ async function generateFromTemplate() {
   openSchedule(res);
 }
 
+// ── Clock Pie Chart ───────────────────────────────────────────────────────────
+const PIE_COLORS = [
+  '#6c63ff','#48bb78','#ff6584','#f6ad55','#00bcd4',
+  '#ec407a','#66bb6a','#7e57c2','#ff9800','#e53935',
+];
+function openClockPie(clock) {
+  $('pie-title').textContent = clock.name + ' — Composition';
+  const slots = clock.slots || [];
+  if (!slots.length) {
+    $('pie-svg').innerHTML = '<text x="110" y="115" text-anchor="middle" fill="#7c85a2" font-size="13">No slots defined</text>';
+    $('pie-legend').innerHTML = '';
+    openModal('modal-pie');
+    return;
+  }
+
+  // Count slots by category
+  const counts = {};
+  slots.forEach(s => { counts[s.category] = (counts[s.category] || 0) + 1; });
+  const entries = Object.entries(counts);
+  const total   = entries.reduce((s,[,v]) => s+v, 0);
+
+  // Draw SVG pie
+  const cx = 110, cy = 110, r = 90;
+  let startAngle = -Math.PI / 2;
+  let paths = '', legend = '';
+
+  entries.forEach(([cat, count], i) => {
+    const angle = (count / total) * 2 * Math.PI;
+    const endAngle = startAngle + angle;
+    const x1 = cx + r * Math.cos(startAngle);
+    const y1 = cy + r * Math.sin(startAngle);
+    const x2 = cx + r * Math.cos(endAngle);
+    const y2 = cy + r * Math.sin(endAngle);
+    const large = angle > Math.PI ? 1 : 0;
+    const col = PIE_COLORS[i % PIE_COLORS.length];
+
+    // Mid-point for label placement
+    const midA = startAngle + angle / 2;
+    const lx = cx + (r * 0.62) * Math.cos(midA);
+    const ly = cy + (r * 0.62) * Math.sin(midA);
+    const pct = Math.round(count / total * 100);
+
+    paths += `<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} Z" fill="${col}" stroke="#1a1d27" stroke-width="1.5"/>`;
+    if (pct >= 6)
+      paths += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-size="11" font-weight="700">${pct}%</text>`;
+
+    legend += `<div class="pie-leg-row"><div class="pie-dot" style="background:${col}"></div><span>${esc(cat)} (${count})</span></div>`;
+    startAngle = endAngle;
+  });
+
+  $('pie-svg').innerHTML = paths;
+  $('pie-legend').innerHTML = legend;
+  openModal('modal-pie');
+}
 
 // ── Schedule view modes ────────────────────────────────────────────────────────
 let _currentSched = null;   // last opened schedule object
