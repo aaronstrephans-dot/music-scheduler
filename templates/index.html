@@ -600,14 +600,7 @@
       <div class="form-group"><label>Artist *</label><input type="text" id="t-artist"></div>
       <div class="form-group">
         <label>Category *</label>
-        <select id="t-category">
-          <option value="Current">Current</option>
-          <option value="Recurrent">Recurrent</option>
-          <option value="Gold">Gold</option>
-          <option value="Power">Power</option>
-          <option value="Jingle">Jingle</option>
-          <option value="Other">Other</option>
-        </select>
+        <select id="t-category"></select>
       </div>
       <div class="form-group"><label>Duration (seconds)</label><input type="number" id="t-duration" min="1"></div>
       <div class="form-group"><label>BPM</label><input type="number" id="t-bpm" min="1" max="300"></div>
@@ -642,7 +635,7 @@
 
 <!-- Schedule Viewer -->
 <div class="modal-bg" id="modal-schedule">
-  <div class="modal" style="width:780px">
+  <div class="modal" style="width:min(1020px,96vw);max-height:94vh">
     <h3 id="modal-sched-title"></h3>
     <div id="modal-sched-stats" class="stats" style="margin-bottom:12px"></div>
 
@@ -689,6 +682,36 @@
 <script>
 // ── Utilities ────────────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
+
+// ── Category map ─────────────────────────────────────────────────────────────
+// Keyed by m1_id (string), uuid, and name — all pointing to the category record.
+let _catMap  = {};   // key → category record
+let _catList = [];   // sorted list of schedulable categories (for dropdowns)
+
+async function loadCategories() {
+  const data = await api('GET', '/api/categories');
+  const all  = data.categories || [];
+  _catMap = {};
+  for (const cat of all) {
+    if (cat.m1_id != null)  _catMap[String(cat.m1_id)] = cat;
+    if (cat.id)             _catMap[cat.id]             = cat;
+    if (cat.name)           _catMap[cat.name]           = cat;
+  }
+  // Schedulable categories for dropdowns (exclude housekeeping ones)
+  _catList = all.filter(c =>
+    c.schedulable !== false &&
+    !(c.name || '').startsWith('(')
+  ).sort((a, b) => (a.priority || 0) - (b.priority || 0));
+}
+
+// Resolve any category key (m1_id / uuid / name) to a display record
+function catResolve(c) {
+  return _catMap[String(c)] || null;
+}
+// Value to use in selects for a category record (prefer m1_id, fall back to name)
+function catValue(rec) {
+  return rec.m1_id != null ? String(rec.m1_id) : (rec.name || rec.id);
+}
 const api = async (method, path, body) => {
   const r = await fetch(path, {
     method,
@@ -716,7 +739,16 @@ const timeAgo = s => {
   return `${Math.floor(d/86400)}d ago`;
 };
 const CAT_COLORS = {Current:'pill-purple',Recurrent:'pill-blue',Gold:'pill-orange',Power:'pill-green',Jingle:'pill-pink'};
-const catPill = c => `<span class="pill ${CAT_COLORS[c]||'pill-blue'}">${c||'—'}</span>`;
+const catPill = c => {
+  const rec  = catResolve(c);
+  const name = rec ? rec.name : (c || '—');
+  if (rec && rec.color) {
+    // Use the category's own M1 colour with a subtle tint
+    const hex = rec.color;
+    return `<span class="pill" style="background:${hex}28;color:${hex};border:1px solid ${hex}55" title="${esc(name)}">${esc(name)}</span>`;
+  }
+  return `<span class="pill ${CAT_COLORS[name]||'pill-blue'}">${esc(name)}</span>`;
+};
 function esc(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
@@ -787,11 +819,20 @@ async function loadTracks() {
   populateCatFilter(tracks);
 }
 function populateCatFilter(tracks) {
-  const cats = [...new Set(tracks.map(t => t.category).filter(Boolean))];
+  const catIds = [...new Set(tracks.map(t => t.category).filter(Boolean))];
   const sel = $('track-cat');
   const cur = sel.value;
+  // Sort by resolved name, show name as label but keep raw ID as value
+  catIds.sort((a, b) => {
+    const na = catResolve(a)?.name || a;
+    const nb = catResolve(b)?.name || b;
+    return na.localeCompare(nb);
+  });
   sel.innerHTML = '<option value="">All categories</option>' +
-    cats.map(c => `<option value="${c}" ${c===cur?'selected':''}>${c}</option>`).join('');
+    catIds.map(c => {
+      const name = catResolve(c)?.name || c;
+      return `<option value="${esc(c)}" ${c===cur?'selected':''}>${esc(name)}</option>`;
+    }).join('');
 }
 function renderTracks(tracks) {
   $('tracks-empty').style.display = tracks.length ? 'none' : '';
@@ -820,6 +861,7 @@ function updateTrackStats(tracks, total) {
 function openAddTrack() {
   ['t-title','t-artist','t-mood','t-notes'].forEach(id => $(id).value='');
   ['t-duration','t-bpm','t-energy'].forEach(id => $(id).value='');
+  $('t-category').innerHTML = _buildCatOptions('');
   openModal('modal-track');
 }
 async function saveTrack() {
@@ -848,7 +890,18 @@ async function deleteTrack(id) {
 }
 
 // ── Clocks ────────────────────────────────────────────────────────────────────
-const CAT_OPTIONS = ['Current','Recurrent','Gold','Power','Jingle'].map(c=>`<option>${c}</option>`).join('');
+function _buildCatOptions(selectedVal) {
+  // Use real categories loaded from API; value = m1_id (or name), label = name
+  const opts = _catList.length
+    ? _catList.map(c => {
+        const v = catValue(c);
+        const sel = v === String(selectedVal) ? ' selected' : '';
+        return `<option value="${esc(v)}"${sel}>${esc(c.name)}</option>`;
+      }).join('')
+    : `<option>Current</option><option>Recurrent</option><option>Gold</option>`;
+  return opts;
+}
+
 function openClockModal() {
   $('clock-name').value = '';
   $('slots-list').innerHTML = '';
@@ -858,7 +911,7 @@ function openClockModal() {
 function addSlot() {
   const div = document.createElement('div');
   div.className = 'slot-row';
-  div.innerHTML = `<select>${CAT_OPTIONS}</select><input type="number" placeholder="Min secs" min="0"><button class="btn btn-danger btn-sm" onclick="this.parentNode.remove()">✕</button>`;
+  div.innerHTML = `<select>${_buildCatOptions('')}</select><input type="number" placeholder="Min secs" min="0"><button class="btn btn-danger btn-sm" onclick="this.parentNode.remove()">✕</button>`;
   $('slots-list').appendChild(div);
 }
 async function saveClock() {
@@ -1530,7 +1583,7 @@ function renderHourBlocks(s) {
   });
 
   $('view-blocks').innerHTML = Object.entries(blocks).map(([hr, trks]) => {
-    const label = `Hour ${String(hr).padStart(2,'0')}:00`;
+    const label = `${fmtHour(+hr)} — ${trks.length} tracks`;
     const rows = trks.map((t, i) => {
       const typeClass = t.type !== 'music' ? 'color:var(--warn)' : '';
       return `<div class="hb-row">
@@ -1606,8 +1659,11 @@ function renderTimeline(s) {
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 (async () => {
-  const status = await api('GET', '/api/status');
-  if (status.ai_available) $('ai-badge').style.display = '';
+  const [status] = await Promise.all([
+    api('GET', '/api/status'),
+    loadCategories(),          // must load before any rendering
+  ]);
+  if (status && status.ai_available) $('ai-badge').style.display = '';
   loadDashboard();
 })();
 </script>
