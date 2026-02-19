@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Scheduler - Dashboard</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0f1117; --surface: #1a1d27; --surface2: #252836;
+            --border: #2e3147; --accent: #6c63ff; --accent2: #ff6584;
+            --text: #e2e8f0; --muted: #7c85a2; --success: #48bb78;
+            --danger: #fc8181; --warn: #f6ad55;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; min-height: 100vh; }
+
+        /* Header */
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 1.25rem; font-weight: 700; color: var(--accent); letter-spacing: .5px; }
+        .user-info { color: var(--muted); font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; }
+        .user-avatar {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--accent); display: flex; align-items: center;
+            justify-content: center; color: #fff; font-weight: 600; font-size: 0.875rem;
+        }
+
+        /* Navigation */
+        .nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; }
+        .nav-links { list-style: none; display: flex; gap: 2rem; }
+        .nav-links a {
+            display: block; padding: 1rem 0; text-decoration: none;
+            color: var(--muted); border-bottom: 3px solid transparent;
+            transition: all 0.2s; font-weight: 500;
+        }
+        .nav-links a:hover { color: var(--text); }
+        .nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+        /* Container */
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .page-header { margin-bottom: 2rem; }
+        .page-title { font-size: 2rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; }
+        .page-subtitle { color: var(--muted); font-size: 1rem; }
+
+        /* Cards */
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative; overflow: hidden;
+        }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 3px; background: var(--accent);
+        }
+        .card.card-green::before { background: var(--success); }
+        .card.card-blue::before { background: #60a5fa; }
+        .card.card-purple::before { background: var(--accent); }
+        .card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .card-title { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; font-weight: 600; }
+        .card-value { font-size: 2.25rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; }
+        .card-footer { font-size: 0.8rem; color: var(--muted); }
+
+        /* Action Section */
+        .action-section {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 2rem; margin-bottom: 2rem;
+        }
+        .action-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text); }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.75rem 1.5rem; border: none; border-radius: 8px;
+            font-size: 0.9rem; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; text-decoration: none;
+        }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-success { background: var(--success); color: #052e16; }
+        .btn-success:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--border); }
+        .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+        /* Activity List */
+        .activity-list { list-style: none; }
+        .activity-item {
+            padding: 1rem; border-radius: 8px; margin-bottom: 0.75rem;
+            background: var(--surface2); display: flex;
+            justify-content: space-between; align-items: center;
+            transition: background 0.2s;
+        }
+        .activity-item:hover { background: var(--border); }
+        .activity-item:last-child { margin-bottom: 0; }
+        .activity-content { display: flex; align-items: center; gap: 1rem; }
+        .activity-icon {
+            width: 36px; height: 36px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; background: var(--surface);
+        }
+        .activity-text { color: var(--text); font-weight: 500; }
+        .activity-time { color: var(--muted); font-size: 0.8rem; white-space: nowrap; }
+
+        .status-badge {
+            display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px;
+            font-size: 0.7rem; font-weight: 600; margin-left: 0.5rem;
+        }
+        .status-success { background: rgba(72,187,120,0.2); color: var(--success); }
+        .status-pending { background: rgba(246,173,85,0.2); color: var(--warn); }
+        .status-error   { background: rgba(252,129,129,0.2); color: var(--danger); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🎵 Music Scheduler</div>
+        <div class="user-info">
+            <div class="user-avatar">A</div>
+            <span>Praise FM</span>
+        </div>
+    </div>
+
+    <nav class="nav">
+        <ul class="nav-links">
+            <li><a href="/" class="active">Dashboard</a></li>
+            <li><a href="/generate">Generate Schedule</a></li>
+            <li><a href="/view">View Schedules</a></li>
+            <li><a href="/export">Export</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Dashboard</h1>
+            <p class="page-subtitle">Overview of your music scheduling system</p>
+        </div>
+
+        <div class="cards">
+            <div class="card card-purple">
+                <div class="card-icon">📅</div>
+                <div class="card-title">Current Week</div>
+                <div class="card-value" id="stat-week">Feb 16–22</div>
+                <div class="card-footer" id="stat-slots">— songs scheduled</div>
+            </div>
+            <div class="card card-blue">
+                <div class="card-icon">📊</div>
+                <div class="card-title">Fill Rate</div>
+                <div class="card-value" id="stat-fill">—%</div>
+                <div class="card-footer" id="stat-fill-detail">Loading...</div>
+            </div>
+            <div class="card card-green">
+                <div class="card-icon">🎵</div>
+                <div class="card-title">Total Songs</div>
+                <div class="card-value" id="stat-songs">—</div>
+                <div class="card-footer" id="stat-active">Active in library</div>
+            </div>
+        </div>
+
+        <div class="action-section">
+            <h2 class="action-title">⚡ Quick Actions</h2>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="window.location.href='/generate'">✨ Generate New Week</button>
+                <button class="btn btn-success" onclick="window.location.href='/export'">📤 Export Logs</button>
+                <button class="btn btn-secondary" onclick="window.location.href='/view'">📋 View Schedule</button>
+            </div>
+        </div>
+
+        <div class="action-section">
+            <h2 class="action-title">📈 Recent Activity</h2>
+            <ul class="activity-list" id="activity-list">
+                <li class="activity-item">
+                    <div class="activity-content">
+                        <div class="activity-icon">✅</div>
+                        <div class="activity-text">
+                            Week schedule generated for Feb 16–22
+                            <span class="status-badge status-success">Completed</span>
+                        </div>
+                    </div>
+                    <div class="activity-time">2 hours ago</div>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-content">
+                        <div class="activity-icon">📤</div>
+                        <div class="activity-text">
+                            Exported Zetta LOG files (7 days)
+                            <span class="status-badge status-success">Completed</span>
+                        </div>
+                    </div>
+                    <div class="activity-time">5 hours ago</div>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-content">
+                        <div class="activity-icon">📥</div>
+                        <div class="activity-text">
+                            Imported songs from Music1 library
+                            <span class="status-badge status-success">Completed</span>
+                        </div>
+                    </div>
+                    <div class="activity-time">Yesterday</div>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-content">
+                        <div class="activity-icon">⚠️</div>
+                        <div class="activity-text">
+                            Low fill rate detected
+                            <span class="status-badge status-pending">Warning</span>
+                        </div>
+                    </div>
+                    <div class="activity-time">2 days ago</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+    async function loadStats() {
+        try {
+            const response = await fetch('/api/stats');
+            const stats = await response.json();
+            if (stats.error) return;
+            document.getElementById('stat-week').textContent = stats.current_week || 'Feb 16–22';
+            document.getElementById('stat-fill').textContent = (stats.fill_rate || 0).toFixed(1) + '%';
+            document.getElementById('stat-fill-detail').textContent = `${stats.slots_filled || 0} of ${stats.total_slots || 0} slots`;
+            document.getElementById('stat-songs').textContent = (stats.total_songs || 0).toLocaleString();
+            document.getElementById('stat-active').textContent = `${stats.active_songs || 0} active in library`;
+        } catch (e) { console.error('Stats load error:', e); }
+    }
+    window.addEventListener('DOMContentLoaded', loadStats);
+    </script>
+</body>
+</html>

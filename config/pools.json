@@ -1,0 +1,474 @@
+{
+  "pools": [
+    {
+      "pool_id": "p_rot_1",
+      "name": "Africa Christmas",
+      "include": {
+        "rotation": [
+          "Africa Christmas"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_rot_2",
+      "name": "Christmas-Instrumental",
+      "include": {
+        "rotation": [
+          "Christmas-Instrumental"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_rot_3",
+      "name": "Christmas-Priority",
+      "include": {
+        "rotation": [
+          "Christmas-Priority"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_rot_4",
+      "name": "Contemporary Christmas A",
+      "include": {
+        "rotation": [
+          "Contemporary Christmas A"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_rot_5",
+      "name": "Current",
+      "include": {
+        "rotation": [
+          "Current"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_rot_6",
+      "name": "Gold",
+      "include": {
+        "rotation": [
+          "Gold"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_rot_7",
+      "name": "New Easter",
+      "include": {
+        "rotation": [
+          "New Easter"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_rot_8",
+      "name": "PowerGold",
+      "include": {
+        "rotation": [
+          "PowerGold"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_rot_9",
+      "name": "Recurrent",
+      "include": {
+        "rotation": [
+          "Recurrent"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_rot_10",
+      "name": "Rest Home!",
+      "include": {
+        "rotation": [
+          "Rest Home!"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_rot_11",
+      "name": "Traditional Christmas A",
+      "include": {
+        "rotation": [
+          "Traditional Christmas A"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_type_12",
+      "name": "Africa-CallOnly",
+      "include": {
+        "song_type": [
+          "Africa-Call"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_type_13",
+      "name": "Africa-ProcOnly",
+      "include": {
+        "song_type": [
+          "Africa-Proc"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_type_14",
+      "name": "Africa-TestOnly",
+      "include": {
+        "song_type": [
+          "Africa-Test"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_type_15",
+      "name": "Africa-VertOnly",
+      "include": {
+        "song_type": [
+          "Africa-Vert"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_type_16",
+      "name": "CallOnly",
+      "include": {
+        "song_type": [
+          "Call"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_type_17",
+      "name": "ChristmasOnly",
+      "include": {
+        "song_type": [
+          "Christmas"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_type_18",
+      "name": "HorizontalOnly",
+      "include": {
+        "song_type": [
+          "Horizontal"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_type_19",
+      "name": "ProclamationOnly",
+      "include": {
+        "song_type": [
+          "Proclamation"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_type_20",
+      "name": "TestimonyOnly",
+      "include": {
+        "song_type": [
+          "Testimony"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_type_21",
+      "name": "VerticalOnly",
+      "include": {
+        "song_type": [
+          "Vertical"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_22",
+      "name": "PowerGold_Call",
+      "include": {
+        "rotation": [
+          "PowerGold"
+        ],
+        "song_type": [
+          "Call"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_23",
+      "name": "PowerGold_Proclamation",
+      "include": {
+        "rotation": [
+          "PowerGold"
+        ],
+        "song_type": [
+          "Proclamation"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_24",
+      "name": "PowerGold_Testimony",
+      "include": {
+        "rotation": [
+          "PowerGold"
+        ],
+        "song_type": [
+          "Testimony"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_25",
+      "name": "PowerGold_Horizontal",
+      "include": {
+        "rotation": [
+          "PowerGold"
+        ],
+        "song_type": [
+          "Horizontal"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_26",
+      "name": "PowerGold_Vertical",
+      "include": {
+        "rotation": [
+          "PowerGold"
+        ],
+        "song_type": [
+          "Vertical"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_27",
+      "name": "Current_Call",
+      "include": {
+        "rotation": [
+          "Current"
+        ],
+        "song_type": [
+          "Call"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_28",
+      "name": "Current_Proclamation",
+      "include": {
+        "rotation": [
+          "Current"
+        ],
+        "song_type": [
+          "Proclamation"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_29",
+      "name": "Current_Testimony",
+      "include": {
+        "rotation": [
+          "Current"
+        ],
+        "song_type": [
+          "Testimony"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_30",
+      "name": "Current_Horizontal",
+      "include": {
+        "rotation": [
+          "Current"
+        ],
+        "song_type": [
+          "Horizontal"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_31",
+      "name": "Current_Vertical",
+      "include": {
+        "rotation": [
+          "Current"
+        ],
+        "song_type": [
+          "Vertical"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_32",
+      "name": "Recurrent_Call",
+      "include": {
+        "rotation": [
+          "Recurrent"
+        ],
+        "song_type": [
+          "Call"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_33",
+      "name": "Recurrent_Proclamation",
+      "include": {
+        "rotation": [
+          "Recurrent"
+        ],
+        "song_type": [
+          "Proclamation"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_34",
+      "name": "Recurrent_Testimony",
+      "include": {
+        "rotation": [
+          "Recurrent"
+        ],
+        "song_type": [
+          "Testimony"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_35",
+      "name": "Recurrent_Horizontal",
+      "include": {
+        "rotation": [
+          "Recurrent"
+        ],
+        "song_type": [
+          "Horizontal"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_36",
+      "name": "Recurrent_Vertical",
+      "include": {
+        "rotation": [
+          "Recurrent"
+        ],
+        "song_type": [
+          "Vertical"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_37",
+      "name": "Gold_Call",
+      "include": {
+        "rotation": [
+          "Gold"
+        ],
+        "song_type": [
+          "Call"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_38",
+      "name": "Gold_Proclamation",
+      "include": {
+        "rotation": [
+          "Gold"
+        ],
+        "song_type": [
+          "Proclamation"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_39",
+      "name": "Gold_Testimony",
+      "include": {
+        "rotation": [
+          "Gold"
+        ],
+        "song_type": [
+          "Testimony"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_40",
+      "name": "Gold_Horizontal",
+      "include": {
+        "rotation": [
+          "Gold"
+        ],
+        "song_type": [
+          "Horizontal"
+        ]
+      },
+      "active": true
+    },
+    {
+      "pool_id": "p_combo_41",
+      "name": "Gold_Vertical",
+      "include": {
+        "rotation": [
+          "Gold"
+        ],
+        "song_type": [
+          "Vertical"
+        ]
+      },
+      "active": true
+    }
+  ]
+}

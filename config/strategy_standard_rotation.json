@@ -1,0 +1,32 @@
+{
+  "name": "Standard Rotation Strategy",
+  "strategy_type": "rotation_based",
+  
+  "description": "Traditional rotation-based scheduling for most CCM/Christian radio stations",
+  
+  "separation": {
+    "artist_minutes": 90,
+    "song_minutes": 1440
+  },
+  
+  "constraints": [
+    {
+      "type": "max_per_hour",
+      "category": "Current",
+      "limit": 5,
+      "severity": "error"
+    },
+    {
+      "type": "min_per_hour",
+      "category": "Gold",
+      "minimum": 1,
+      "severity": "warning"
+    }
+  ],
+  
+  "notes": [
+    "This strategy uses simple rotation priority: Power > Current > Recurrent > Gold",
+    "Clocks define slot order and fallbacks",
+    "No quotas or patterns - just standard separation rules"
+  ]
+}

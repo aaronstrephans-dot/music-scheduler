@@ -1,0 +1,23 @@
+{
+  "clocks": [
+    {
+      "clock_id": "c1",
+      "name": "WeekdayHalfHour",
+      "duration_minutes": 30,
+      "slots": [
+        {"slot_id":"sl1","name":"Call preferred","primary_pool":"PowerGold","require_song_type":"Call",
+          "fallbacks":[{"pool":"Recurrent","require_song_type":"Call"},{"pool":"Recurrent","require_song_type":"Proclamation"}]
+        },
+        {"slot_id":"sl2","name":"Proclamation","primary_pool":"Recurrent","require_song_type":"Proclamation",
+          "fallbacks":[{"pool":"Recurrent","require_song_type":"Testimony"}]
+        },
+        {"slot_id":"sl3","name":"Testimony","primary_pool":"Current","require_song_type":"Testimony"},
+        {"slot_id":"sl4","name":"Testimony","primary_pool":"Current","require_song_type":"Testimony"},
+        {"slot_id":"sl5","name":"Horizontal","primary_pool":"Current","require_song_type":"Horizontal",
+          "fallbacks":[{"pool":"Recurrent","require_song_type":"Horizontal"}]
+        },
+        {"slot_id":"sl6","name":"Vertical (terminal)","primary_pool":"Recurrent","require_song_type":"Vertical","terminal": true}
+      ]
+    }
+  ]
+}

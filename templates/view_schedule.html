@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Schedule - Music Scheduler</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0f1117; --surface: #1a1d27; --surface2: #252836;
+            --border: #2e3147; --accent: #6c63ff; --accent2: #ff6584;
+            --text: #e2e8f0; --muted: #7c85a2; --success: #48bb78;
+            --danger: #fc8181; --warn: #f6ad55;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; min-height: 100vh; }
+
+        .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.25rem; font-weight: 700; color: var(--accent); letter-spacing: .5px; }
+        .user-info { color: var(--muted); font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 0.875rem; }
+
+        .nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; }
+        .nav-links { list-style: none; display: flex; gap: 2rem; }
+        .nav-links a { display: block; padding: 1rem 0; text-decoration: none; color: var(--muted); border-bottom: 3px solid transparent; transition: all 0.2s; font-weight: 500; }
+        .nav-links a:hover { color: var(--text); }
+        .nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+
+        .page-header {
+            margin-bottom: 1.5rem; display: flex;
+            justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 1rem;
+        }
+        .page-title-group { flex: 1; min-width: 260px; }
+        .page-title { font-size: 2rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
+        .page-subtitle { color: var(--muted); }
+
+        /* Day Navigator */
+        .day-navigator {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 10px; padding: 0.75rem 1.25rem;
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        .nav-arrow {
+            width: 36px; height: 36px; border: 1px solid var(--border);
+            background: var(--surface2); border-radius: 8px; cursor: pointer;
+            font-size: 1rem; transition: all 0.2s; display: flex;
+            align-items: center; justify-content: center; color: var(--text);
+        }
+        .nav-arrow:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .nav-current { font-weight: 700; font-size: 1rem; color: var(--text); min-width: 180px; text-align: center; }
+        .nav-today {
+            padding: 0.4rem 0.875rem; border: none;
+            background: var(--accent); color: #fff;
+            border-radius: 6px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; font-size: 0.8rem;
+        }
+        .nav-today:hover { opacity: 0.9; }
+
+        /* View Switcher */
+        .view-switcher { display: flex; gap: 0.4rem; background: var(--surface); border: 1px solid var(--border); padding: 0.375rem; border-radius: 10px; }
+        .view-btn { padding: 0.4rem 0.875rem; border: none; background: transparent; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.2s; color: var(--muted); font-size: 0.8rem; }
+        .view-btn.active { background: var(--accent); color: #fff; }
+
+        /* Filter Bar */
+        .filter-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.25rem; }
+        .filter-row { display: flex; gap: 1rem; align-items: end; margin-bottom: 0.875rem; flex-wrap: wrap; }
+        .filter-row:last-child { margin-bottom: 0; }
+        .filter-group { flex: 1; min-width: 160px; }
+        .filter-label { display: block; margin-bottom: 0.4rem; font-weight: 500; color: var(--muted); font-size: 0.8rem; }
+        .filter-select { width: 100%; padding: 0.6rem 0.75rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.875rem; }
+        .filter-select:focus { outline: none; border-color: var(--accent); }
+
+        /* Hour Navigator */
+        .hour-navigator {
+            display: flex; gap: 0.375rem; overflow-x: auto; overflow-y: hidden;
+            padding: 0.375rem 0 0.75rem 0; scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--surface2); width: 100%;
+        }
+        .hour-navigator::-webkit-scrollbar { height: 6px; }
+        .hour-navigator::-webkit-scrollbar-track { background: var(--surface2); border-radius: 3px; }
+        .hour-navigator::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+        .hour-btn {
+            padding: 0.5rem 0.875rem; border: 1px solid var(--border);
+            background: var(--surface2); border-radius: 6px; cursor: pointer;
+            font-weight: 600; transition: all 0.2s; white-space: nowrap;
+            min-width: 70px; text-align: center; flex-shrink: 0; color: var(--muted); font-size: 0.8rem;
+        }
+        .hour-btn:hover { border-color: var(--accent); color: var(--text); }
+        .hour-btn.active { background: var(--accent); color: #fff; border-color: transparent; }
+        .hour-btn.has-errors { border-color: var(--danger); background: rgba(252,129,129,0.1); color: var(--danger); }
+        .hour-btn.has-warnings { border-color: var(--warn); background: rgba(246,173,85,0.1); color: var(--warn); }
+
+        /* Violation Summary */
+        .violation-summary { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.25rem; display: none; }
+        .violation-summary.show { display: block; }
+        .summary-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .summary-title { font-size: 1rem; font-weight: 700; color: var(--text); }
+        .summary-close { border: none; background: none; font-size: 1.25rem; cursor: pointer; color: var(--muted); }
+        .summary-stats { display: flex; gap: 1.5rem; margin-bottom: 1rem; }
+        .stat-item { display: flex; align-items: center; gap: 0.5rem; }
+        .stat-icon { font-size: 1.25rem; }
+        .stat-value { font-size: 1.25rem; font-weight: 700; color: var(--text); }
+        .stat-label { font-size: 0.75rem; color: var(--muted); }
+        .violation-list { list-style: none; }
+        .violation-item { padding: 0.75rem; background: rgba(252,129,129,0.1); border-left: 3px solid var(--danger); border-radius: 6px; margin-bottom: 0.375rem; }
+        .violation-item.warning { background: rgba(246,173,85,0.1); border-left-color: var(--warn); }
+        .violation-time { font-weight: 700; color: var(--text); margin-bottom: 0.2rem; font-size: 0.875rem; }
+        .violation-message { color: var(--muted); font-size: 0.8rem; }
+
+        .btn { padding: 0.6rem 1.25rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.875rem; }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { opacity: 0.9; }
+
+        /* Schedule Table */
+        .schedule-container { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+        .schedule-table { width: 100%; border-collapse: collapse; }
+        .schedule-table thead th {
+            text-align: left; padding: 0.75rem 1rem;
+            background: var(--surface2); font-weight: 600;
+            color: var(--muted); border-bottom: 1px solid var(--border);
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .schedule-table tbody td { padding: 0.875rem 1rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        .schedule-table tbody tr:last-child td { border-bottom: none; }
+        .schedule-table tbody tr:hover { background: var(--surface2); }
+        .schedule-table tbody tr.has-error { background: rgba(252,129,129,0.06); border-left: 3px solid var(--danger); }
+        .schedule-table tbody tr.has-warning { background: rgba(246,173,85,0.06); border-left: 3px solid var(--warn); }
+
+        .error-icon { display: inline-flex; align-items: center; gap: 0.2rem; padding: 0.2rem 0.5rem; background: rgba(252,129,129,0.2); color: var(--danger); border-radius: 5px; font-size: 0.7rem; font-weight: 600; margin-left: 0.5rem; }
+        .warning-icon { display: inline-flex; align-items: center; gap: 0.2rem; padding: 0.2rem 0.5rem; background: rgba(246,173,85,0.2); color: var(--warn); border-radius: 5px; font-size: 0.7rem; font-weight: 600; margin-left: 0.5rem; }
+
+        .time-badge { display: inline-block; padding: 0.3rem 0.75rem; background: var(--accent); color: #fff; border-radius: 5px; font-weight: 600; font-size: 0.8rem; }
+        .song-title { font-weight: 600; color: var(--text); margin-bottom: 0.2rem; font-size: 0.9rem; }
+        .song-artist { color: var(--muted); font-size: 0.8rem; }
+
+        .category-badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 10px; font-size: 0.7rem; font-weight: 600; }
+        .category-current   { background: rgba(96,165,250,0.2); color: #60a5fa; }
+        .category-power     { background: rgba(72,187,120,0.2); color: var(--success); }
+        .category-powergold { background: rgba(72,187,120,0.2); color: var(--success); }
+        .category-recurrent { background: rgba(167,139,250,0.2); color: #a78bfa; }
+        .category-gold      { background: rgba(246,173,85,0.2); color: var(--warn); }
+
+        .actions { display: flex; gap: 0.375rem; }
+        .action-btn {
+            padding: 0.375rem 0.625rem; border: 1px solid var(--border);
+            background: var(--surface2); border-radius: 5px; cursor: pointer;
+            transition: all 0.2s; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; color: var(--text);
+        }
+        .action-btn:hover { background: var(--border); border-color: var(--accent); transform: scale(1.05); }
+        .action-btn.move-btn { background: rgba(108,99,255,0.1); color: var(--accent); border-color: rgba(108,99,255,0.3); font-weight: 700; }
+        .action-btn.move-btn:hover { background: rgba(108,99,255,0.2); }
+        .action-divider { width: 1px; background: var(--border); margin: 0 0.125rem; }
+
+        .empty-state { text-align: center; padding: 4rem 2rem; color: var(--muted); }
+        .empty-state-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+        .empty-state-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text); }
+
+        .loading { text-align: center; padding: 3rem; color: var(--muted); font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🎵 Music Scheduler</div>
+        <div class="user-info"><div class="user-avatar">A</div><span>Praise FM</span></div>
+    </div>
+    <nav class="nav">
+        <ul class="nav-links">
+            <li><a href="/">Dashboard</a></li>
+            <li><a href="/generate">Generate Schedule</a></li>
+            <li><a href="/view" class="active">View Schedules</a></li>
+            <li><a href="/export">Export</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <div class="page-title-group">
+                <h1 class="page-title">View Schedule</h1>
+                <p class="page-subtitle">Browse and manage your scheduled music</p>
+            </div>
+
+            <div class="day-navigator">
+                <button class="nav-arrow" onclick="previousDay()">◀</button>
+                <div class="nav-current" id="navCurrent">Loading...</div>
+                <button class="nav-arrow" onclick="nextDay()">▶</button>
+                <button class="nav-today" onclick="goToToday()">Today</button>
+            </div>
+
+            <div class="view-switcher">
+                <button class="view-btn active">📋 List</button>
+                <button class="view-btn">📅 Calendar</button>
+                <button class="view-btn">📊 Timeline</button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label class="filter-label">Week</label>
+                    <select class="filter-select" onchange="changeWeek(this)">
+                        <option value="current">Current Week (Feb 16–22)</option>
+                        <option value="next">Next Week (Feb 23–Mar 1)</option>
+                        <option value="prev">Previous Week (Feb 9–15)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Category</label>
+                    <select class="filter-select" id="categoryFilter" onchange="filterByCategory()">
+                        <option value="">All Categories</option>
+                        <option value="Current">Current</option>
+                        <option value="PowerGold">PowerGold</option>
+                        <option value="Recurrent">Recurrent</option>
+                        <option value="Gold">Gold</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="toggleViolations()">🔍 Scan for Violations</button>
+            </div>
+
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label class="filter-label">Hour Navigator</label>
+                    <div class="hour-navigator" id="hourNavigator">
+                        <button class="hour-btn active" onclick="scrollToHour(null, this)">All Day</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Violation Summary -->
+        <div class="violation-summary" id="violationSummary">
+            <div class="summary-header">
+                <h3 class="summary-title" id="violationTitle">📊 Violation Summary</h3>
+                <button class="summary-close" onclick="toggleViolations()">✕</button>
+            </div>
+            <div class="summary-stats">
+                <div class="stat-item">
+                    <span class="stat-icon">🔴</span>
+                    <div><div class="stat-value" id="errorCount">0</div><div class="stat-label">Errors</div></div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">🟡</span>
+                    <div><div class="stat-value" id="warnCount">0</div><div class="stat-label">Warnings</div></div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">✅</span>
+                    <div><div class="stat-value" id="passRate">100%</div><div class="stat-label">Rules Passed</div></div>
+                </div>
+            </div>
+            <ul class="violation-list" id="violationList"></ul>
+        </div>
+
+        <!-- Schedule Table -->
+        <div class="schedule-container">
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Song</th>
+                        <th>Category</th>
+                        <th>Length</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleBody">
+                    <tr><td colspan="5" class="loading">⏳ Loading schedule...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let currentDate = new Date().toISOString().split('T')[0];
+        let allScheduleData = [];
+
+        function formatDate(dateStr) {
+            const d = new Date(dateStr + 'T12:00:00');
+            return d.toLocaleDateString('en-US', {weekday: 'long', month: 'short', day: 'numeric'});
+        }
+
+        function updateNavDisplay() {
+            document.getElementById('navCurrent').textContent = formatDate(currentDate);
+        }
+
+        function buildHourNav(schedule) {
+            const nav = document.getElementById('hourNavigator');
+            // Keep "All Day" button
+            nav.innerHTML = '<button class="hour-btn active" onclick="scrollToHour(null, this)">All Day</button>';
+
+            const hours = new Set();
+            schedule.forEach(item => {
+                if (item.time) {
+                    const match = item.time.match(/^(\d+):/);
+                    if (match) {
+                        let h = parseInt(match[1]);
+                        const isPm = item.time.includes('PM');
+                        const isAm = item.time.includes('AM');
+                        if (isPm && h !== 12) h += 12;
+                        if (isAm && h === 12) h = 0;
+                        hours.add(h);
+                    }
+                }
+            });
+
+            Array.from(hours).sort((a,b)=>a-b).forEach(h => {
+                const label = h === 0 ? '12 AM' : h < 12 ? `${h} AM` : h === 12 ? '12 PM' : `${h-12} PM`;
+                const hasErrors   = schedule.some(i => { const ih = getHourFromTime(i.time); return ih === h && i.has_error; });
+                const hasWarnings = schedule.some(i => { const ih = getHourFromTime(i.time); return ih === h && i.has_warning; });
+                const cls = hasErrors ? 'has-errors' : hasWarnings ? 'has-warnings' : '';
+                nav.innerHTML += `<button class="hour-btn ${cls}" onclick="scrollToHour(${h}, this)">${label}</button>`;
+            });
+        }
+
+        function getHourFromTime(timeStr) {
+            if (!timeStr) return -1;
+            const match = timeStr.match(/^(\d+):/);
+            if (!match) return -1;
+            let h = parseInt(match[1]);
+            if (timeStr.includes('PM') && h !== 12) h += 12;
+            if (timeStr.includes('AM') && h === 12) h = 0;
+            return h;
+        }
+
+        function scrollToHour(hour, btn) {
+            document.querySelectorAll('.hour-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if (hour === null) {
+                window.scrollTo({top: 0, behavior: 'smooth'});
+                renderSchedule(allScheduleData);
+                return;
+            }
+            const filtered = allScheduleData.filter(i => getHourFromTime(i.time) === hour);
+            if (filtered.length > 0) renderSchedule(filtered);
+        }
+
+        function filterByCategory() {
+            const cat = document.getElementById('categoryFilter').value;
+            if (!cat) renderSchedule(allScheduleData);
+            else renderSchedule(allScheduleData.filter(i => i.category === cat));
+        }
+
+        function renderSchedule(schedule) {
+            const tbody = document.getElementById('scheduleBody');
+            if (!schedule || schedule.length === 0) {
+                tbody.innerHTML = `
+                    <tr><td colspan="5">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🎵</div>
+                            <div class="empty-state-title">No schedule found for this date</div>
+                            <p style="color:var(--muted); margin-top:0.5rem;">Generate a schedule first!</p>
+                        </div>
+                    </td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = schedule.map(item => {
+                const errorBadge   = item.has_error   ? `<span class="error-icon">❌ ${item.error || 'Error'}</span>`     : '';
+                const warningBadge = item.has_warning ? `<span class="warning-icon">⚠️ ${item.warning || 'Warning'}</span>` : '';
+                const rowClass     = item.has_error ? 'has-error' : item.has_warning ? 'has-warning' : '';
+                const catKey       = (item.category || '').toLowerCase().replace(/\s+/g,'');
+                return `
+                <tr class="${rowClass}">
+                    <td><span class="time-badge">${item.time || '—'}</span></td>
+                    <td>
+                        <div class="song-title">${item.title || '—'}${errorBadge}${warningBadge}</div>
+                        <div class="song-artist">${item.artist || ''}</div>
+                    </td>
+                    <td><span class="category-badge category-${catKey}">${item.category || '—'}</span></td>
+                    <td>${item.length || item.duration || '—'}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn move-btn" title="Move Up" onclick="moveTrack(${item.position||0}, -1)">↑</button>
+                            <button class="action-btn move-btn" title="Move Down" onclick="moveTrack(${item.position||0}, 1)">↓</button>
+                            <div class="action-divider"></div>
+                            <button class="action-btn" title="Edit" onclick="editTrack('${item.song_id||item.id||''}')">✏️</button>
+                            <button class="action-btn" title="Replace" onclick="replaceTrack('${item.song_id||item.id||''}')">🔄</button>
+                            <button class="action-btn" title="Delete" onclick="deleteTrack('${item.song_id||item.id||''}')">🗑️</button>
+                        </div>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        async function loadSchedule(date) {
+            document.getElementById('scheduleBody').innerHTML = '<tr><td colspan="5" class="loading">⏳ Loading schedule...</td></tr>';
+            try {
+                const response = await fetch('/api/schedule/date/' + date);
+                const data = await response.json();
+                allScheduleData = data.schedule || [];
+                buildHourNav(allScheduleData);
+                renderSchedule(allScheduleData);
+
+                // Update violation display
+                document.getElementById('violationTitle').textContent = `📊 Violation Summary – ${formatDate(date)}`;
+                const errors = allScheduleData.filter(i => i.has_error);
+                const warns  = allScheduleData.filter(i => i.has_warning);
+                document.getElementById('errorCount').textContent = errors.length;
+                document.getElementById('warnCount').textContent  = warns.length;
+                const total = allScheduleData.length;
+                const passed = total > 0 ? Math.round(((total - errors.length) / total) * 100) : 100;
+                document.getElementById('passRate').textContent = passed + '%';
+
+                const vList = document.getElementById('violationList');
+                vList.innerHTML = [
+                    ...errors.map(i => `<li class="violation-item"><div class="violation-time">${i.time} – "${i.title}"</div><div class="violation-message">❌ ${i.error}</div></li>`),
+                    ...warns.map(i  => `<li class="violation-item warning"><div class="violation-time">${i.time} – "${i.title}"</div><div class="violation-message">⚠️ ${i.warning}</div></li>`)
+                ].join('') || '<li style="color:var(--success);padding:0.5rem">✅ No violations found!</li>';
+
+            } catch (error) {
+                document.getElementById('scheduleBody').innerHTML = `<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--danger)">Error loading schedule: ${error.message}</td></tr>`;
+            }
+        }
+
+        function previousDay() {
+            const d = new Date(currentDate + 'T12:00:00');
+            d.setDate(d.getDate() - 1);
+            currentDate = d.toISOString().split('T')[0];
+            updateNavDisplay();
+            loadSchedule(currentDate);
+        }
+
+        function nextDay() {
+            const d = new Date(currentDate + 'T12:00:00');
+            d.setDate(d.getDate() + 1);
+            currentDate = d.toISOString().split('T')[0];
+            updateNavDisplay();
+            loadSchedule(currentDate);
+        }
+
+        function goToToday() {
+            currentDate = new Date().toISOString().split('T')[0];
+            updateNavDisplay();
+            loadSchedule(currentDate);
+        }
+
+        function toggleViolations() {
+            document.getElementById('violationSummary').classList.toggle('show');
+        }
+
+        function moveTrack(pos, dir)    { alert(`Move track at position ${pos} ${dir < 0 ? 'up' : 'down'}`); }
+        function editTrack(id)          { alert(`Edit track: ${id}`); }
+        function replaceTrack(id)       { alert(`Replace track: ${id}`); }
+        function deleteTrack(id)        { alert(`Delete track: ${id}`); }
+        function changeWeek(sel)        { /* future: change week view */ }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            updateNavDisplay();
+            loadSchedule(currentDate);
+        });
+    </script>
+</body>
+</html>

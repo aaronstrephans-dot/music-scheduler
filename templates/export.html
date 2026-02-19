@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export - Music Scheduler</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0f1117; --surface: #1a1d27; --surface2: #252836;
+            --border: #2e3147; --accent: #6c63ff; --accent2: #ff6584;
+            --text: #e2e8f0; --muted: #7c85a2; --success: #48bb78;
+            --danger: #fc8181; --warn: #f6ad55;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; min-height: 100vh; }
+
+        .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.25rem; font-weight: 700; color: var(--accent); letter-spacing: .5px; }
+        .user-info { color: var(--muted); font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 0.875rem; }
+
+        .nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; }
+        .nav-links { list-style: none; display: flex; gap: 2rem; }
+        .nav-links a { display: block; padding: 1rem 0; text-decoration: none; color: var(--muted); border-bottom: 3px solid transparent; transition: all 0.2s; font-weight: 500; }
+        .nav-links a:hover { color: var(--text); }
+        .nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+        .page-header { margin-bottom: 2rem; }
+        .page-title { font-size: 2rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; }
+        .page-subtitle { color: var(--muted); }
+
+        /* Export Format Cards */
+        .export-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .export-card {
+            background: var(--surface); border: 2px solid var(--border);
+            border-radius: 12px; padding: 1.5rem;
+            transition: all 0.2s; cursor: pointer;
+        }
+        .export-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); border-color: var(--muted); }
+        .export-card.selected { border-color: var(--accent); background: rgba(108,99,255,0.08); }
+        .export-card-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .export-card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text); }
+        .export-card-description { color: var(--muted); font-size: 0.8rem; margin-bottom: 0.75rem; }
+        .export-card-formats { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+        .format-tag { padding: 0.2rem 0.6rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; font-size: 0.7rem; font-weight: 600; color: var(--muted); }
+
+        /* Options Panel */
+        .options-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
+        .panel-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text); }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--muted); font-size: 0.875rem; }
+        .form-input, .form-select {
+            width: 100%; padding: 0.75rem; background: var(--surface2);
+            border: 1px solid var(--border); border-radius: 8px;
+            color: var(--text); font-size: 0.9rem; transition: border 0.2s;
+        }
+        .form-input:focus, .form-select:focus { outline: none; border-color: var(--accent); }
+
+        .checkbox-group { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .checkbox-item { display: flex; align-items: center; gap: 0.5rem; color: var(--text); }
+        .checkbox-item input { width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); }
+
+        .export-actions { display: flex; gap: 1rem; }
+        .btn {
+            padding: 0.75rem 1.5rem; border: none; border-radius: 8px;
+            font-size: 0.9rem; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem;
+        }
+        .btn-primary { background: var(--accent); color: #fff; flex: 1; justify-content: center; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--border); }
+
+        /* Recent Exports */
+        .recent-exports { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; }
+        .export-list { list-style: none; }
+        .export-item {
+            padding: 1rem; background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 8px; margin-bottom: 0.625rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .export-item:last-child { margin-bottom: 0; }
+        .export-info { flex: 1; }
+        .export-name { font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+        .export-meta { font-size: 0.8rem; color: var(--muted); }
+        .export-actions-item { display: flex; gap: 0.5rem; }
+        .action-btn {
+            padding: 0.4rem 0.875rem; border: 1px solid var(--border);
+            background: var(--surface); border-radius: 6px; cursor: pointer;
+            font-weight: 600; transition: all 0.2s; color: var(--text); font-size: 0.8rem;
+        }
+        .action-btn:hover { background: var(--surface2); border-color: var(--accent); }
+
+        .alert { padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-weight: 500; }
+        .alert-success { background: rgba(72,187,120,0.15); border: 1px solid var(--success); color: var(--success); }
+        .alert-error   { background: rgba(252,129,129,0.15); border: 1px solid var(--danger); color: var(--danger); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🎵 Music Scheduler</div>
+        <div class="user-info"><div class="user-avatar">A</div><span>Praise FM</span></div>
+    </div>
+    <nav class="nav">
+        <ul class="nav-links">
+            <li><a href="/">Dashboard</a></li>
+            <li><a href="/generate">Generate Schedule</a></li>
+            <li><a href="/view">View Schedules</a></li>
+            <li><a href="/export" class="active">Export</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Export Logs</h1>
+            <p class="page-subtitle">Download schedules for your automation system</p>
+        </div>
+
+        <div id="alertArea"></div>
+
+        <!-- Format Selection -->
+        <div class="export-grid">
+            <div class="export-card selected" onclick="toggleCard(this)">
+                <div class="export-card-icon">📻</div>
+                <div class="export-card-title">Zetta</div>
+                <div class="export-card-description">RCS Zetta automation system format</div>
+                <div class="export-card-formats">
+                    <span class="format-tag">.LOG</span>
+                    <span class="format-tag">.XML</span>
+                </div>
+            </div>
+            <div class="export-card" onclick="toggleCard(this)">
+                <div class="export-card-icon">🎛️</div>
+                <div class="export-card-title">WideOrbit</div>
+                <div class="export-card-description">WideOrbit automation system format</div>
+                <div class="export-card-formats"><span class="format-tag">.WO</span></div>
+            </div>
+            <div class="export-card" onclick="toggleCard(this)">
+                <div class="export-card-icon">🎚️</div>
+                <div class="export-card-title">ENCO</div>
+                <div class="export-card-description">ENCO DAD automation system</div>
+                <div class="export-card-formats"><span class="format-tag">.TXT</span></div>
+            </div>
+            <div class="export-card" onclick="toggleCard(this)">
+                <div class="export-card-icon">📊</div>
+                <div class="export-card-title">CSV</div>
+                <div class="export-card-description">Universal spreadsheet format</div>
+                <div class="export-card-formats"><span class="format-tag">.CSV</span></div>
+            </div>
+        </div>
+
+        <!-- Options -->
+        <div class="options-panel">
+            <h2 class="panel-title">Export Options</h2>
+            <div class="form-group">
+                <label class="form-label">Date Range</label>
+                <select class="form-select" id="dateRange">
+                    <option value="current">Current Week (Feb 16–22, 2026)</option>
+                    <option value="next">Next Week (Feb 23–Mar 1, 2026)</option>
+                    <option value="month">This Month (February 2026)</option>
+                    <option value="custom">Custom Range...</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Export Scope</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="radio" name="scope" value="day" checked>
+                        <span>One file per day</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="radio" name="scope" value="week">
+                        <span>Single week file</span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Additional Options</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="checkbox" checked><span>Include overnight fill</span></label>
+                    <label class="checkbox-item"><input type="checkbox"><span>Include cart IDs</span></label>
+                    <label class="checkbox-item"><input type="checkbox"><span>Include metadata</span></label>
+                </div>
+            </div>
+            <div class="export-actions">
+                <button class="btn btn-primary" onclick="exportSchedule()">📤 Export Files</button>
+                <button class="btn btn-secondary">👁️ Preview</button>
+            </div>
+        </div>
+
+        <!-- Recent Exports -->
+        <div class="recent-exports">
+            <h2 class="panel-title">Recent Exports</h2>
+            <ul class="export-list" id="recentExports">
+                <li class="export-item">
+                    <div class="export-info">
+                        <div class="export-name">Zetta LOG – Week of Feb 16–22</div>
+                        <div class="export-meta">Exported 2 hours ago · 7 files · 845 KB</div>
+                    </div>
+                    <div class="export-actions-item">
+                        <button class="action-btn">📥 Download</button>
+                        <button class="action-btn">🔄 Re-export</button>
+                    </div>
+                </li>
+                <li class="export-item">
+                    <div class="export-info">
+                        <div class="export-name">CSV – February 2026</div>
+                        <div class="export-meta">Exported yesterday · 1 file · 1.2 MB</div>
+                    </div>
+                    <div class="export-actions-item">
+                        <button class="action-btn">📥 Download</button>
+                        <button class="action-btn">🔄 Re-export</button>
+                    </div>
+                </li>
+                <li class="export-item">
+                    <div class="export-info">
+                        <div class="export-name">WideOrbit – Week of Feb 9–15</div>
+                        <div class="export-meta">Exported 3 days ago · 7 files · 723 KB</div>
+                    </div>
+                    <div class="export-actions-item">
+                        <button class="action-btn">📥 Download</button>
+                        <button class="action-btn">🔄 Re-export</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function toggleCard(card) { card.classList.toggle('selected'); }
+
+        function showAlert(msg, type) {
+            const area = document.getElementById('alertArea');
+            area.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
+            setTimeout(() => { area.innerHTML = ''; }, 5000);
+        }
+
+        async function exportSchedule() {
+            const selectedCards = document.querySelectorAll('.export-card.selected');
+            const formats = Array.from(selectedCards).map(card => {
+                const title = card.querySelector('.export-card-title').textContent.toLowerCase();
+                if (title.includes('zetta'))     return 'zetta-log';
+                if (title.includes('wideorbit')) return 'wideorbit';
+                if (title.includes('enco'))      return 'enco';
+                if (title.includes('csv'))       return 'csv';
+                return null;
+            }).filter(Boolean);
+
+            if (formats.length === 0) { showAlert('❌ Please select at least one export format', 'error'); return; }
+
+            const dateRange = document.getElementById('dateRange').value;
+            const scope     = document.querySelector('input[name="scope"]:checked').value;
+
+            try {
+                const response = await fetch('/api/export', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ formats, date_range: dateRange, scope })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    showAlert(`✅ ${result.message} — ${result.files_created} file(s) created`, 'success');
+                } else {
+                    showAlert('❌ Error: ' + (result.error || 'Export failed'), 'error');
+                }
+            } catch (error) {
+                showAlert('❌ Error: ' + error.message, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "name": "Standard Rotation Strategy",
+  "description": "Standard rotation-based scheduling for Christian radio",
+  
+  "separation": {
+    "artist_minutes": 90,
+    "song_minutes": 1440,
+    "title_minutes": 240
+  },
+  
+  "quotas": [
+    {
+      "category": "Current",
+      "min_per_day": 35,
+      "max_per_day": 45,
+      "max_per_hour": 2,
+      "target_percentage": 15.0,
+      "description": "Current hits - 35-45 per day, max 2/hour, 15% of total"
+    },
+    {
+      "category": "PowerGold",
+      "min_per_day": 50,
+      "max_per_day": 70,
+      "max_per_hour": 3,
+      "target_percentage": 20.0,
+      "description": "Power golds - 50-70 per day, max 3/hour, 20% of total"
+    },
+    {
+      "category": "Recurrent",
+      "min_per_day": 180,
+      "max_per_day": 220,
+      "target_percentage": 65.0,
+      "description": "Recurrents - bulk of playlist, 65% of total"
+    }
+  ],
+  
+  "_notes": [
+    "This is the default strategy configuration",
+    "Quotas ensure proper category balance",
+    "Separation rules prevent artist/song repetition",
+    "Can be customized per station"
+  ]
+}

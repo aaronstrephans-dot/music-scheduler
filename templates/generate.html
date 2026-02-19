@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Schedule - Music Scheduler</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0f1117; --surface: #1a1d27; --surface2: #252836;
+            --border: #2e3147; --accent: #6c63ff; --accent2: #ff6584;
+            --text: #e2e8f0; --muted: #7c85a2; --success: #48bb78;
+            --danger: #fc8181; --warn: #f6ad55;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; min-height: 100vh; }
+
+        /* Header */
+        .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.25rem; font-weight: 700; color: var(--accent); letter-spacing: .5px; }
+        .user-info { color: var(--muted); font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 0.875rem; }
+
+        /* Navigation */
+        .nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; }
+        .nav-links { list-style: none; display: flex; gap: 2rem; }
+        .nav-links a { display: block; padding: 1rem 0; text-decoration: none; color: var(--muted); border-bottom: 3px solid transparent; transition: all 0.2s; font-weight: 500; }
+        .nav-links a:hover { color: var(--text); }
+        .nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+        /* Container */
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .page-header { margin-bottom: 2rem; }
+        .page-title { font-size: 2rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; }
+        .page-subtitle { color: var(--muted); }
+
+        /* Form Card */
+        .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
+        .form-section { margin-bottom: 2rem; }
+        .form-section:last-child { margin-bottom: 0; }
+        .section-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text); display: flex; align-items: center; gap: 0.5rem; }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--muted); font-size: 0.875rem; }
+        .form-input, .form-select {
+            width: 100%; padding: 0.75rem; background: var(--surface2);
+            border: 1px solid var(--border); border-radius: 8px;
+            color: var(--text); font-size: 0.9rem; transition: border 0.2s;
+            font-family: inherit;
+        }
+        .form-input:focus, .form-select:focus { outline: none; border-color: var(--accent); }
+        .form-input::placeholder { color: var(--muted); }
+        .form-help { font-size: 0.8rem; color: var(--muted); margin-top: 0.4rem; }
+
+        /* Checkbox Group */
+        .checkbox-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; }
+        .checkbox-item {
+            display: flex; align-items: center; gap: 0.5rem;
+            padding: 0.625rem 0.875rem; border: 1px solid var(--border);
+            border-radius: 8px; cursor: pointer; transition: all 0.2s;
+            color: var(--text); background: var(--surface2);
+        }
+        .checkbox-item:hover { border-color: var(--accent); }
+        .checkbox-item input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); }
+        .checkbox-item.checked { border-color: var(--accent); background: rgba(108,99,255,0.1); }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+            padding: 0.75rem 1.5rem; border: none; border-radius: 8px;
+            font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-primary { background: var(--accent); color: #fff; width: 100%; padding: 1rem; font-size: 1rem; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* Progress Section */
+        .progress-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; display: none; }
+        .progress-section.active { display: block; }
+        .progress-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center; color: var(--text); }
+        .progress-bar-container { background: var(--surface2); border-radius: 12px; height: 10px; overflow: hidden; margin-bottom: 0.75rem; }
+        .progress-bar { height: 100%; background: var(--accent); border-radius: 12px; transition: width 0.3s; width: 0%; }
+        .progress-text { text-align: center; color: var(--muted); font-size: 0.875rem; margin-bottom: 1.5rem; }
+        .progress-steps { list-style: none; }
+        .progress-step { display: flex; align-items: center; gap: 0.75rem; padding: 0.625rem; margin-bottom: 0.375rem; border-radius: 8px; color: var(--muted); }
+        .progress-step.completed { background: rgba(72,187,120,0.1); color: var(--success); }
+        .progress-step.active { background: rgba(108,99,255,0.1); color: var(--text); }
+        .progress-step-icon { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; }
+        .progress-step-text { flex: 1; font-weight: 500; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🎵 Music Scheduler</div>
+        <div class="user-info"><div class="user-avatar">A</div><span>Praise FM</span></div>
+    </div>
+    <nav class="nav">
+        <ul class="nav-links">
+            <li><a href="/">Dashboard</a></li>
+            <li><a href="/generate" class="active">Generate Schedule</a></li>
+            <li><a href="/view">View Schedules</a></li>
+            <li><a href="/export">Export</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Generate Schedule</h1>
+            <p class="page-subtitle">Create a new week-long music schedule</p>
+        </div>
+
+        <div class="form-card" id="generateForm">
+            <!-- Week Selection -->
+            <div class="form-section">
+                <h2 class="section-title">📅 Week Selection</h2>
+                <div class="form-group">
+                    <label class="form-label">Start Date</label>
+                    <input type="date" class="form-input" id="startDate" value="2026-02-16">
+                    <div class="form-help">Schedule will run from this Sunday through the following Saturday</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Week Template</label>
+                    <select class="form-select" id="weekTemplate">
+                        <option value="standard">Standard Week</option>
+                        <option value="holiday">Holiday Week</option>
+                        <option value="special">Special Event Week</option>
+                        <option value="custom">Custom Template</option>
+                    </select>
+                    <div class="form-help">Choose a pre-configured week template</div>
+                </div>
+            </div>
+
+            <!-- Strategy -->
+            <div class="form-section">
+                <h2 class="section-title">🎯 Strategy</h2>
+                <div class="form-group">
+                    <label class="form-label">Scheduling Strategy</label>
+                    <select class="form-select" id="strategy">
+                        <option value="standard">Standard Rotation Strategy</option>
+                        <option value="heavy_current">Heavy Current Rotation</option>
+                        <option value="gold_focus">Gold-Focused Strategy</option>
+                        <option value="custom">Custom Strategy</option>
+                    </select>
+                    <div class="form-help">Artist separation: 90 min · Song rest: 1440 min</div>
+                </div>
+            </div>
+
+            <!-- Export Options -->
+            <div class="form-section">
+                <h2 class="section-title">📤 Export Options</h2>
+                <div class="form-group">
+                    <label class="form-label">Export Formats (select all that apply)</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item checked">
+                            <input type="checkbox" value="zetta-log" checked>
+                            <span>Zetta LOG</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="zetta-xml">
+                            <span>Zetta XML</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="wideorbit">
+                            <span>WideOrbit</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="enco">
+                            <span>ENCO</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="csv">
+                            <span>CSV</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Export Scope</label>
+                    <select class="form-select" id="exportScope">
+                        <option value="day">One file per day (7 files)</option>
+                        <option value="week">Single week file</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Advanced Options -->
+            <div class="form-section">
+                <h2 class="section-title">⚙️ Advanced Options</h2>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="clear-history">
+                        <span>Clear scheduling history</span>
+                    </label>
+                    <label class="checkbox-item checked">
+                        <input type="checkbox" value="overnight-fill" checked>
+                        <span>Apply overnight fill</span>
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="startGeneration()">✨ Generate Schedule</button>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-section" id="progressSection">
+            <h2 class="progress-title">Generating Schedule...</h2>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">Initializing...</div>
+            <ul class="progress-steps">
+                <li class="progress-step" id="step1">
+                    <span class="progress-step-icon">⏳</span>
+                    <span class="progress-step-text">Loading songs and configuration</span>
+                </li>
+                <li class="progress-step" id="step2">
+                    <span class="progress-step-icon">⏳</span>
+                    <span class="progress-step-text">Building song pools</span>
+                </li>
+                <li class="progress-step" id="step3">
+                    <span class="progress-step-icon">⏳</span>
+                    <span class="progress-step-text">Scheduling 224 time slots</span>
+                </li>
+                <li class="progress-step" id="step4">
+                    <span class="progress-step-icon">⏳</span>
+                    <span class="progress-step-text">Applying overnight fill</span>
+                </li>
+                <li class="progress-step" id="step5">
+                    <span class="progress-step-icon">⏳</span>
+                    <span class="progress-step-text">Exporting logs</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Toggle checked class on checkboxes
+        document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', function() {
+                this.parentElement.classList.toggle('checked', this.checked);
+            });
+        });
+
+        function markStep(id, done) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.remove('active', 'completed');
+            el.classList.add(done ? 'completed' : 'active');
+            el.querySelector('.progress-step-icon').textContent = done ? '✅' : '⏳';
+        }
+
+        function startGeneration() {
+            const startDate = document.getElementById('startDate').value;
+            const strategy  = document.getElementById('strategy').value.toLowerCase();
+
+            document.getElementById('generateForm').style.display = 'none';
+            document.getElementById('progressSection').classList.add('active');
+
+            let progress = 0;
+            const progressBar  = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+
+            const steps = ['step1','step2','step3','step4','step5'];
+            let stepIdx = 0;
+            markStep(steps[0], false);
+
+            const progressInterval = setInterval(() => {
+                progress += 4;
+                progressBar.style.width = Math.min(progress, 90) + '%';
+                progressText.textContent = `Processing... ${Math.min(progress,90)}%`;
+                const newIdx = Math.min(Math.floor(progress / 20), steps.length - 1);
+                if (newIdx > stepIdx) {
+                    markStep(steps[stepIdx], true);
+                    stepIdx = newIdx;
+                    markStep(steps[stepIdx], false);
+                }
+                if (progress >= 90) clearInterval(progressInterval);
+            }, 200);
+
+            fetch('/api/generate', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ start_date: startDate, strategy: strategy })
+            })
+            .then(r => r.json())
+            .then(result => {
+                clearInterval(progressInterval);
+                steps.forEach(s => markStep(s, true));
+                progressBar.style.width = '100%';
+                progressText.textContent = 'Complete!';
+
+                if (result.success) {
+                    setTimeout(() => {
+                        const fillRate = result.fill_rate ? result.fill_rate.toFixed(1) : '0.0';
+                        alert(`✅ ${result.message || 'Schedule generated!'}\nFilled: ${result.slots_filled || 0}/${result.total_slots || 0} (${fillRate}%)`);
+                        window.location.href = '/view';
+                    }, 500);
+                } else {
+                    alert('❌ Error: ' + (result.error || 'Unknown error'));
+                    document.getElementById('generateForm').style.display = 'block';
+                    document.getElementById('progressSection').classList.remove('active');
+                }
+            })
+            .catch(error => {
+                clearInterval(progressInterval);
+                alert('❌ Error: ' + error.message);
+                document.getElementById('generateForm').style.display = 'block';
+                document.getElementById('progressSection').classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>

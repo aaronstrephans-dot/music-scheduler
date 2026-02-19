@@ -1,0 +1,239 @@
+{
+  "rules_config": {
+    "name": "Complete Industry-Standard Rules",
+    "description": "Full rule set based on Music1, MusicMaster, PowerGold, Aiir",
+    
+    "separation_rules": {
+      "artist_separation": {
+        "enabled": true,
+        "type": "unbreakable",
+        "priority": "critical",
+        "separation_minutes": 90,
+        "per_artist_overrides": {
+          "Chris Tomlin": 60,
+          "Hillsong": 120
+        }
+      },
+      
+      "artist_keyword_separation": {
+        "enabled": false,
+        "type": "unbreakable",
+        "priority": "critical",
+        "separation_minutes": 90,
+        "per_keyword_overrides": {}
+      },
+      
+      "title_separation": {
+        "enabled": true,
+        "type": "unbreakable",
+        "priority": "high",
+        "separation_minutes": 240,
+        "description": "Separate different versions of same song"
+      },
+      
+      "previous_day_separation": {
+        "enabled": false,
+        "type": "breakable",
+        "priority": "medium",
+        "window_minutes": 30,
+        "apply_to": "artist",
+        "description": "Prevent same artist at similar time yesterday"
+      },
+      
+      "hour_opener_separation": {
+        "enabled": false,
+        "type": "breakable",
+        "priority": "medium",
+        "separation_minutes": 180,
+        "apply_to": "both",
+        "description": "Don't repeat song/artist as hour opener"
+      },
+      
+      "sweep_opener_separation": {
+        "enabled": false,
+        "type": "breakable",
+        "priority": "medium",
+        "separation_minutes": 180,
+        "apply_to": "both",
+        "description": "Don't repeat after commercial breaks"
+      }
+    },
+    
+    "flow_rules": {
+      "gender_separation": {
+        "enabled": true,
+        "type": "unbreakable",
+        "priority": "high",
+        "max_in_a_row": 3,
+        "separation_minutes": null
+      },
+      
+      "sound_code_separation": {
+        "enabled": false,
+        "type": "breakable",
+        "priority": "medium",
+        "max_in_a_row": 2,
+        "codes_to_separate": ["Ballad", "Instrumental"]
+      },
+      
+      "mood_flow": {
+        "enabled": false,
+        "type": "breakable",
+        "priority": "medium",
+        "max_mood_jump": 3,
+        "description": "Prevent mood whiplash (1=sad, 5=happy)"
+      },
+      
+      "energy_flow": {
+        "enabled": false,
+        "type": "breakable",
+        "priority": "medium",
+        "max_energy_drop": 3,
+        "description": "Prevent energy from dropping too fast"
+      },
+      
+      "ending_type": {
+        "enabled": false,
+        "type": "breakable",
+        "priority": "low",
+        "description": "Prevent cold ending → no intro (awkward)"
+      },
+      
+      "bpm_matching": {
+        "enabled": false,
+        "type": "breakable",
+        "priority": "low",
+        "max_bpm_difference": 20,
+        "description": "For beat-matched crossfades"
+      }
+    },
+    
+    "pattern_rules": {
+      "tempo_patterns": {
+        "enabled": true,
+        "type": "unbreakable",
+        "priority": "high",
+        "field_name": "tempo",
+        "disallowed_patterns": [
+          "VeryFastVerySlow",
+          "VerySlowVeryFast"
+        ],
+        "description": "Prevent jarring tempo sequences"
+      },
+      
+      "mood_patterns": {
+        "enabled": false,
+        "type": "breakable",
+        "priority": "medium",
+        "field_name": "mood",
+        "disallowed_patterns": [
+          "1??1"
+        ],
+        "description": "Example: no Sad-X-X-Sad"
+      }
+    },
+    
+    "rotation_rules": {
+      "same_day_repeat": {
+        "enabled": true,
+        "type": "unbreakable",
+        "priority": "high",
+        "description": "No repeat workday positioning"
+      },
+      
+      "category_balance": {
+        "enabled": false,
+        "type": "breakable",
+        "priority": "medium",
+        "scope": "hour",
+        "tolerance": 5.0,
+        "target_percentages": {
+          "Current": 15.0,
+          "PowerGold": 20.0,
+          "Recurrent": 65.0
+        }
+      },
+      
+      "daypart_distribution": {
+        "enabled": false,
+        "type": "breakable",
+        "priority": "low",
+        "lookback_days": 7,
+        "max_percentage_in_one": 40.0,
+        "dayparts": ["Morning Drive", "Midday", "Afternoon Drive", "Evening"]
+      },
+      
+      "hour_restriction": {
+        "enabled": false,
+        "type": "unbreakable",
+        "priority": "critical",
+        "allowed_hours": null,
+        "blocked_hours": [],
+        "allowed_days": null,
+        "description": "Dayparting - only allow in certain hours/days"
+      }
+    },
+    
+    "rule_groups": [
+      {
+        "name": "Morning Drive Rules",
+        "enabled": true,
+        "mode": "independent",
+        "dayparts": ["Morning Drive"],
+        "clocks": [],
+        "categories": [],
+        "apply_in_auto": true,
+        "apply_in_manual": true,
+        "rules": [
+          {
+            "type": "tempo_average",
+            "target": 3.8,
+            "min": 3.5,
+            "max": 4.2,
+            "description": "Keep morning upbeat"
+          }
+        ]
+      },
+      
+      {
+        "name": "Evening Relaxed Rules",
+        "enabled": true,
+        "mode": "independent",
+        "dayparts": ["Evening"],
+        "clocks": [],
+        "categories": [],
+        "apply_in_auto": true,
+        "apply_in_manual": true,
+        "rules": [
+          {
+            "type": "tempo_average",
+            "target": 2.5,
+            "min": 2.0,
+            "max": 3.0,
+            "description": "Wind down in evening"
+          }
+        ]
+      }
+    ]
+  },
+  
+  "_notes": [
+    "Complete industry-standard rule configuration",
+    "Based on Music1, MusicMaster, PowerGold, and Aiir",
+    "Enable/disable any rule independently",
+    "Breakable vs unbreakable for flexible scheduling",
+    "Priority order determines testing sequence",
+    "Rule groups apply different rules to different dayparts/clocks",
+    "",
+    "Rule Types:",
+    "  unbreakable = hard rule, must pass",
+    "  breakable = soft rule, prefer to pass but can break",
+    "  goal = aspirational, nice to have",
+    "",
+    "Priorities:",
+    "  critical = test first (artist separation, legal)",
+    "  high = test second (tempo, gender)",
+    "  medium = test third (sound codes, mood)",
+    "  low = test last (nice-to-haves)"
+  ]
+}

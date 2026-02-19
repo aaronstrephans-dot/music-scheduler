@@ -1,0 +1,97 @@
+{
+  "tempo_rules": {
+    "enabled": true,
+    "use_defaults": true,
+    
+    "limits": [
+      {
+        "tempo": "Very Fast",
+        "max_count": 3,
+        "scope": "hour",
+        "description": "No more than 3 Very Fast songs per hour"
+      },
+      {
+        "tempo": "Slow",
+        "max_count": 2,
+        "min_count": 1,
+        "scope": "hour",
+        "description": "1-2 Slow songs per hour"
+      },
+      {
+        "tempo": "Very Slow",
+        "max_count": 1,
+        "scope": "hour",
+        "description": "At most 1 Very Slow song per hour"
+      }
+    ],
+    
+    "transitions": [
+      {
+        "from": "Very Fast",
+        "to": "Very Slow",
+        "allowed": false,
+        "message": "Cannot go from Very Fast to Very Slow - too jarring"
+      },
+      {
+        "from": "Very Fast",
+        "to": "Slow",
+        "allowed": false,
+        "message": "Cannot go from Very Fast to Slow"
+      },
+      {
+        "from": "Fast",
+        "to": "Very Slow",
+        "allowed": true,
+        "penalty": 0.7,
+        "message": "Fast to Very Slow is discouraged but allowed"
+      },
+      {
+        "from": "Very Slow",
+        "to": "Very Fast",
+        "allowed": false,
+        "message": "Cannot go from Very Slow to Very Fast"
+      }
+    ],
+    
+    "averages": [
+      {
+        "daypart": "Morning Drive",
+        "target": 3.8,
+        "min": 3.5,
+        "max": 4.2,
+        "description": "Morning drive should be upbeat (target 3.8/5.0)"
+      },
+      {
+        "daypart": "Midday",
+        "target": 3.0,
+        "min": 2.5,
+        "max": 3.5,
+        "description": "Midday should be balanced (target 3.0/5.0)"
+      },
+      {
+        "daypart": "Afternoon Drive",
+        "target": 3.5,
+        "min": 3.0,
+        "max": 4.0,
+        "description": "Afternoon drive should be moderately upbeat"
+      },
+      {
+        "daypart": "Evening",
+        "target": 2.5,
+        "min": 2.0,
+        "max": 3.0,
+        "description": "Evening should wind down (target 2.5/5.0)"
+      }
+    ]
+  },
+  
+  "_notes": [
+    "This is an example tempo rules configuration",
+    "Enable by setting 'enabled': true",
+    "use_defaults: true adds standard transition rules automatically",
+    "Limits: restrict how many songs of each tempo per hour/block",
+    "Transitions: control which tempo changes are allowed",
+    "Averages: set target energy levels for different dayparts",
+    "Tempo scale: Very Slow=1, Slow=2, Medium=3, Fast=4, Very Fast=5"
+  ]
+}

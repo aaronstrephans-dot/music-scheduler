@@ -1,0 +1,75 @@
+{
+  "name": "Goal-Based Strategy (Example)",
+  "strategy_type": "goal_based",
+  
+  "description": "Goal-based scheduling with hourly quotas and weighted current selection",
+  
+  "separation": {
+    "artist_minutes": 20,
+    "song_minutes": 1440,
+    "current_artist_minutes": 20
+  },
+  
+  "goal_rules": {
+    "current_quota_pattern": [2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3],
+    "daily_current_target": 40,
+    "current_pools": {
+      "Heavy": {
+        "weight": 3,
+        "pool": "Current-Heavy"
+      },
+      "Medium": {
+        "weight": 2,
+        "pool": "Current-Medium"
+      },
+      "Light": {
+        "weight": 1,
+        "pool": "Current-Light"
+      }
+    }
+  },
+  
+  "slot_template": {
+    "fallback_pools": {
+      "Call": ["Recurrent", "Gold"],
+      "Proclamation": ["Recurrent", "Gold"],
+      "Testimony": ["Recurrent", "Gold"],
+      "Horizontal": ["Recurrent", "Gold"],
+      "Vertical": ["Recurrent", "Gold"]
+    }
+  },
+  
+  "constraints": [
+    {
+      "type": "max_per_hour",
+      "category": "Current",
+      "limit": 3,
+      "severity": "error"
+    }
+  ],
+  
+  "rules": [
+    {
+      "name": "PreferCurrentWhenUnderQuota",
+      "condition": {
+        "field": "Current_count",
+        "operator": "<",
+        "value": 2,
+        "scope": "hour"
+      },
+      "action": {
+        "type": "prefer",
+        "target": "Current"
+      },
+      "priority": 10
+    }
+  ],
+  
+  "notes": [
+    "This is an EXAMPLE goal-based strategy",
+    "Modify current_quota_pattern to match your station's needs",
+    "Modify current_pools to match your pool names",
+    "Adjust separation times as needed",
+    "Add custom rules for your workflow"
+  ]
+}

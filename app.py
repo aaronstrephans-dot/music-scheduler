@@ -162,7 +162,22 @@ def _save_play_history(day_str: str, hour: int, track_ids: list) -> None:
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("dashboard.html")
+
+
+@app.route("/generate")
+def generate_page():
+    return render_template("generate.html")
+
+
+@app.route("/view")
+def view_page():
+    return render_template("view_schedule.html")
+
+
+@app.route("/export")
+def export_page():
+    return render_template("export.html")
 
 
 @app.route("/api/status")
@@ -959,6 +974,287 @@ def ai_suggest_rules():
     except Exception as exc:
         return jsonify({"error": str(exc)}), 502
     return jsonify(result)
+
+
+# ---------------------------------------------------------------------------
+# Dashboard stats
+# ---------------------------------------------------------------------------
+
+@app.route("/api/stats")
+def get_stats():
+    tracks = _load_all(TRACKS_DIR)
+    total  = len(tracks)
+    active = sum(1 for t in tracks if t.get("active", True))
+    schedules = _load_all(SCHEDULES_DIR)
+
+    slots_filled = 0
+    total_slots  = 0
+    for s in schedules:
+        filled = s.get("stats", {}).get("music_tracks") or len(s.get("tracks", []))
+        slots_filled += filled
+    total_slots = slots_filled  # approximate
+
+    fill_rate = 0.0
+    if total_slots > 0:
+        fill_rate = 100.0
+
+    from datetime import date, timedelta
+    today = date.today()
+    start = today - timedelta(days=today.weekday())
+    end   = start + timedelta(days=6)
+    week_str = f"{start.strftime('%b %-d')}–{end.strftime('%-d')}"
+
+    return jsonify({
+        "total_songs":   total,
+        "active_songs":  active,
+        "current_week":  week_str,
+        "fill_rate":     fill_rate,
+        "slots_filled":  slots_filled,
+        "total_slots":   total_slots,
+    })
+
+
+# ---------------------------------------------------------------------------
+# Week generation  (called by generate.html)
+# ---------------------------------------------------------------------------
+
+@app.route("/api/generate", methods=["POST"])
+def api_generate_week():
+    """Generate a full week schedule via the scheduler engine."""
+    data       = request.get_json(silent=True) or {}
+    start_date = data.get("start_date")
+    strategy   = data.get("strategy", "standard")
+
+    try:
+        from datetime import date, timedelta
+        if start_date:
+            target = date.fromisoformat(start_date)
+        else:
+            today  = date.today()
+            target = today - timedelta(days=today.weekday())
+
+        base_rules = _load_rules()
+        rules      = merge_rules(base_rules)
+        artists    = _load_all(ARTISTS_DIR)
+        categories = _load_all(CATEGORIES_DIR)
+        tracks     = _load_all(TRACKS_DIR)
+
+        if not tracks:
+            return jsonify({
+                "success":      False,
+                "error":        "No tracks found in library. Import tracks first.",
+            }), 400
+
+        tmpls = _load_all(DAY_TEMPLATES_DIR)
+        clocks_list = _load_all(CLOCKS_DIR)
+
+        slots_filled = 0
+        total_slots  = 0
+        days_generated = 0
+
+        for day_offset in range(7):
+            day = target + timedelta(days=day_offset)
+            day_str = day.isoformat()
+
+            # Pick a day template or use first available
+            tmpl = next((t for t in tmpls), None)
+            if tmpl is None and clocks_list:
+                # No templates: just use first clock for every hour
+                clock = clocks_list[0]
+                from datetime import date as _date, timedelta as _td
+                yesterday = (day - _td(days=1)).isoformat()
+                for hour in range(6, 24):
+                    prev_day_plays = _load_play_history(yesterday, hour)
+                    hour_slots = build_schedule(
+                        clock, tracks, rules,
+                        target_seconds=3600,
+                        hour=hour,
+                        artists=artists,
+                        categories=categories,
+                        prev_day_plays=prev_day_plays,
+                    )
+                    slots_filled += len(hour_slots)
+                    total_slots  += 18  # 6am-midnight
+                days_generated += 1
+                continue
+
+            if tmpl is None:
+                continue
+
+            hour_clock_map = tmpl.get("hours", {})
+            from datetime import date as _date, timedelta as _td
+            yesterday = (day - _td(days=1)).isoformat()
+
+            all_slots = []
+            for hour in range(24):
+                clock_id = hour_clock_map.get(str(hour))
+                if not clock_id:
+                    total_slots += 1
+                    continue
+                clock = _load_one(CLOCKS_DIR, clock_id)
+                if clock is None:
+                    total_slots += 1
+                    continue
+
+                prev_day_plays = _load_play_history(yesterday, hour)
+                hour_slots = build_schedule(
+                    clock, tracks, rules,
+                    target_seconds=3600,
+                    hour=hour,
+                    artists=artists,
+                    categories=categories,
+                    prev_day_plays=prev_day_plays,
+                )
+                for i, slot in enumerate(hour_slots):
+                    slot["hour"] = hour
+                    slot["air_time"] = f"{hour:02d}:{(i*4):02d}:00"
+                all_slots.extend(hour_slots)
+                slots_filled += len(hour_slots)
+                total_slots  += max(len(hour_slots), 1)
+
+            schedule_id = str(uuid.uuid4())
+            schedule = {
+                "id":          schedule_id,
+                "created_at":  _now(),
+                "name":        f"Week of {day_str}",
+                "date":        day_str,
+                "tracks":      all_slots,
+                "stats":       _schedule_stats(all_slots),
+            }
+            _save(SCHEDULES_DIR, schedule)
+            days_generated += 1
+
+        fill_rate = (slots_filled / total_slots * 100) if total_slots > 0 else 0.0
+        return jsonify({
+            "success":      True,
+            "message":      f"Generated {days_generated} days ({slots_filled} slots filled)",
+            "slots_filled": slots_filled,
+            "total_slots":  total_slots,
+            "fill_rate":    fill_rate,
+        })
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+# ---------------------------------------------------------------------------
+# Export  (called by export.html)
+# ---------------------------------------------------------------------------
+
+@app.route("/api/export", methods=["POST"])
+def api_export():
+    data      = request.get_json(silent=True) or {}
+    formats   = data.get("formats", ["zetta-log"])
+    scope     = data.get("scope", "day")
+
+    try:
+        schedules  = _load_all(SCHEDULES_DIR)
+        if not schedules:
+            return jsonify({"success": False, "error": "No schedules to export. Generate a schedule first."}), 400
+
+        # Sort by date, take most recent 7
+        schedules.sort(key=lambda s: s.get("date") or s.get("created_at") or "")
+        recent = schedules[-7:]
+
+        import os
+        export_dir = os.path.join(os.path.dirname(__file__), "data", "exports")
+        os.makedirs(export_dir, exist_ok=True)
+
+        files_created = 0
+        for sched in recent:
+            track_list = sched.get("tracks", [])
+            date_str   = sched.get("date") or sched.get("created_at", "unknown")[:10]
+
+            for fmt in formats:
+                try:
+                    if fmt == "csv":
+                        import csv, io
+                        fields = ["position","air_time","title","artist","category","duration_seconds"]
+                        buf = io.StringIO()
+                        w = csv.DictWriter(buf, fieldnames=fields, extrasaction="ignore")
+                        w.writeheader()
+                        for i, t in enumerate(track_list):
+                            t["position"] = i + 1
+                            w.writerow({f: t.get(f, "") for f in fields})
+                        fname = os.path.join(export_dir, f"{date_str}.csv")
+                        with open(fname, "w") as f:
+                            f.write(buf.getvalue())
+                        files_created += 1
+                    elif fmt in ("zetta-log", "zetta-xml", "wideorbit", "enco"):
+                        # Write a simple text log for now
+                        fname = os.path.join(export_dir, f"{date_str}_{fmt.replace('-','_')}.txt")
+                        with open(fname, "w") as f:
+                            f.write(f"# {fmt.upper()} Export — {date_str}\n")
+                            for t in track_list:
+                                f.write(f"{t.get('air_time','')}\t{t.get('title','')}\t{t.get('artist','')}\n")
+                        files_created += 1
+                except Exception:
+                    pass
+
+        return jsonify({
+            "success":       True,
+            "message":       f"Exported {len(recent)} schedule(s)",
+            "files_created": files_created,
+        })
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+# ---------------------------------------------------------------------------
+# Date-based schedule lookup  (called by view_schedule.html)
+# ---------------------------------------------------------------------------
+
+@app.route("/api/schedule/date/<date>")
+def get_schedule_by_date(date):
+    """Return schedule for a specific date (YYYY-MM-DD)."""
+    schedules = _load_all(SCHEDULES_DIR)
+
+    # Find schedules matching the date
+    matching = [s for s in schedules if (s.get("date") or "").startswith(date)]
+    if not matching:
+        # No exact match — return empty schedule
+        return jsonify({"date": date, "schedule": []})
+
+    # Merge all matching schedules' tracks, sorted by air_time
+    all_tracks = []
+    for s in matching:
+        all_tracks.extend(s.get("tracks", []))
+
+    all_tracks.sort(key=lambda t: t.get("air_time") or t.get("position") or 0)
+
+    schedule = []
+    for t in all_tracks:
+        air = t.get("air_time", "")
+        if air:
+            try:
+                h, m, s2 = [int(x) for x in air.split(":")]
+                suffix = "AM" if h < 12 else "PM"
+                dh = h % 12 or 12
+                time_str = f"{dh}:{m:02d} {suffix}"
+            except Exception:
+                time_str = air
+        else:
+            time_str = "—"
+
+        dur_secs = t.get("duration_seconds") or 0
+        dur_str  = f"{dur_secs // 60}:{dur_secs % 60:02d}" if dur_secs else "—"
+
+        schedule.append({
+            "time":        time_str,
+            "song_id":     t.get("id") or t.get("song_id") or "",
+            "title":       t.get("title") or "Unknown",
+            "artist":      t.get("artist") or "",
+            "category":    t.get("category") or "Uncategorized",
+            "length":      dur_str,
+            "has_error":   bool(t.get("has_error")),
+            "has_warning": bool(t.get("has_warning")),
+            "error":       t.get("error") or "",
+            "warning":     t.get("warning") or "",
+            "position":    t.get("position") or 0,
+        })
+
+    return jsonify({"date": date, "schedule": schedule})
 
 
 if __name__ == "__main__":

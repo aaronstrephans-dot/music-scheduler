@@ -1,0 +1,190 @@
+{
+  "week_name": "Standard Week Example",
+  "default_strategy": "config/strategy_standard_rotation.json",
+  
+  "schedule": {
+    "monday": {
+      "06:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "07:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "08:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "09:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "10:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "11:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "12:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "13:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "14:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "15:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "16:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "17:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "18:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "19:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "20:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "21:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "22:00": null,
+      "23:00": null
+    },
+    
+    "tuesday": {
+      "06:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "07:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "08:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "09:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "10:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "11:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "12:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "13:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "14:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "15:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "16:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "17:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "18:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "19:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "20:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "21:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "22:00": null,
+      "23:00": null
+    },
+    
+    "wednesday": {
+      "06:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "07:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "08:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "09:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "10:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "11:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "12:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "13:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "14:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "15:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "16:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "17:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "18:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "19:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "20:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "21:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "22:00": null,
+      "23:00": null
+    },
+    
+    "thursday": {
+      "06:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "07:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "08:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "09:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "10:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "11:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "12:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "13:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "14:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "15:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "16:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "17:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "18:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "19:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "20:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "21:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "22:00": null,
+      "23:00": null
+    },
+    
+    "friday": {
+      "06:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "07:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "08:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "09:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "10:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "11:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "12:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "13:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "14:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "15:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "16:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "17:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "18:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "19:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "20:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "21:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "22:00": null,
+      "23:00": null
+    },
+    
+    "saturday": {
+      "06:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "07:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "08:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "09:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "10:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "11:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "12:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "13:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "14:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "15:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "16:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "17:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "18:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "19:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "20:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "21:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "22:00": null,
+      "23:00": null
+    },
+    
+    "sunday": {
+      "06:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "07:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "08:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "09:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "10:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "11:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "12:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "13:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "14:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "15:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "16:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "17:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "18:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "19:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "20:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "21:00": ["WeekdayHalfHour", "WeekdayHalfHour"],
+      "22:00": null,
+      "23:00": null
+    }
+  },
+  
+  "fill_overnight": {
+    "enabled": true,
+    "copy_rules": [
+      {
+        "target": "22:00-23:59",
+        "source": "10:00-11:59",
+        "source_day": "same",
+        "description": "Copy 10am-noon to 10pm-midnight (same day)"
+      },
+      {
+        "target": "00:00-05:59",
+        "source": "12:00-17:59",
+        "source_day": "previous",
+        "description": "Copy noon-6pm to midnight-6am (next day)"
+      }
+    ]
+  },
+  
+  "overrides": [
+    {
+      "start_date": "12-01",
+      "end_date": "12-25",
+      "replacements": {
+        "WeekdayHalfHour": "ChristmasHalfHour"
+      }
+    }
+  ],
+  
+  "_notes": [
+    "This is an example week configuration",
+    "Uses WeekdayHalfHour clock for 6am-10pm (16 hours)",
+    "22:00-23:00 are empty (overnight)",
+    "Override replaces regular clock with Christmas clock Dec 1-25",
+    "Each hour uses 2 half-hour clocks (array of 2)",
+    "Modify this file for your station's schedule"
+  ]
+}
