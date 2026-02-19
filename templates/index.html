@@ -27,19 +27,19 @@
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
   /* Toolbar */
   .toolbar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-  input[type=text], input[type=number], input[type=time], select, textarea {
+  input[type=text], input[type=number], input[type=time], input[type=date], select, textarea {
     background: var(--surface2); border: 1px solid var(--border); color: var(--text);
-    border-radius: 6px; padding: 7px 12px; font-size: 13px; outline: none;
-    transition: border .15s;
+    border-radius: 6px; padding: 7px 12px; font-size: 13px; outline: none; transition: border .15s;
   }
   input:focus, select:focus, textarea:focus { border-color: var(--accent); }
   input[type=text] { min-width: 180px; }
   /* Buttons */
-  .btn { padding: 7px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: opacity .15s; }
+  .btn { padding: 7px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: opacity .15s; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
   .btn:hover { opacity: .85; }
   .btn-primary { background: var(--accent); color: #fff; }
   .btn-danger  { background: var(--danger); color: #fff; }
   .btn-success { background: var(--success); color: #fff; }
+  .btn-warn    { background: var(--warn); color: #1a1200; }
   .btn-muted   { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
   .btn-sm { padding: 4px 10px; font-size: 12px; }
   /* Table */
@@ -49,12 +49,15 @@
   td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: var(--surface2); }
+  tr.row-error td { background: rgba(252,129,129,.07); }
+  tr.row-warn  td { background: rgba(246,173,85,.07); }
   .pill { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 600; }
   .pill-purple { background: #3d3571; color: #b8b0ff; }
   .pill-blue   { background: #1e3a5f; color: #90cdf4; }
   .pill-green  { background: #1d4a2e; color: #9ae6b4; }
   .pill-orange { background: #4a2d0d; color: #fbd38d; }
   .pill-pink   { background: #4a1d2e; color: #fbb6ce; }
+  .pill-red    { background: #4a1d1d; color: #fca5a5; }
   /* Forms */
   .form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
   .form-group { display: flex; flex-direction: column; gap: 4px; }
@@ -85,6 +88,45 @@
   .track-pos { color: var(--muted); font-size: 12px; width: 32px; }
   .air-time  { color: var(--warn); font-size: 12px; white-space: nowrap; }
   .dur       { color: var(--muted); font-size: 12px; }
+  /* Progress bar */
+  .progress-wrap { background: var(--surface2); border-radius: 99px; height: 8px; overflow: hidden; margin: 12px 0; }
+  .progress-bar  { height: 100%; background: var(--accent); border-radius: 99px; transition: width .4s ease; width: 0%; }
+  /* Dashboard quick actions */
+  .quick-actions { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .quick-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; cursor: pointer; transition: border-color .15s, transform .15s; display: flex; align-items: center; gap: 12px; }
+  .quick-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .quick-card .icon { font-size: 24px; }
+  .quick-card .label { font-weight: 600; font-size: 13px; }
+  .quick-card .sub   { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  /* Activity feed */
+  .activity-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .activity-text { flex: 1; font-size: 13px; }
+  .activity-time { font-size: 11px; color: var(--muted); white-space: nowrap; }
+  /* Export format cards */
+  .export-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .export-card { background: var(--surface2); border: 2px solid var(--border); border-radius: 10px; padding: 16px; cursor: pointer; transition: all .15s; }
+  .export-card:hover { border-color: var(--muted); }
+  .export-card.selected { border-color: var(--accent); background: rgba(108,99,255,.08); }
+  .export-card .ec-icon { font-size: 28px; margin-bottom: 8px; }
+  .export-card .ec-title { font-weight: 700; font-size: 14px; }
+  .export-card .ec-desc  { font-size: 11px; color: var(--muted); margin: 4px 0 8px; }
+  .export-card .ec-tags  { display: flex; gap: 4px; flex-wrap: wrap; }
+  .ec-tag { background: var(--border); color: var(--muted); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+  /* Violation panel */
+  .viol-panel { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 16px; }
+  .viol-stats { display: flex; gap: 16px; margin-bottom: 12px; }
+  .viol-stat { flex: 1; text-align: center; }
+  .viol-stat-val { font-size: 28px; font-weight: 700; }
+  .viol-stat-val.err  { color: var(--danger); }
+  .viol-stat-val.warn { color: var(--warn); }
+  .viol-stat-val.ok   { color: var(--success); }
+  .viol-stat-label { font-size: 11px; color: var(--muted); }
+  .viol-list { max-height: 200px; overflow-y: auto; }
+  .viol-item { padding: 6px 8px; border-radius: 6px; margin-bottom: 4px; font-size: 12px; }
+  .viol-item.error   { background: rgba(252,129,129,.12); color: var(--danger); }
+  .viol-item.warning { background: rgba(246,173,85,.12); color: var(--warn); }
 </style>
 </head>
 <body>
@@ -93,17 +135,51 @@
   <h1>&#127925; Music Scheduler</h1>
   <span class="badge" id="ai-badge" style="display:none">AI</span>
   <nav>
-    <button class="active" onclick="showTab('tracks')">Tracks</button>
-    <button onclick="showTab('clocks')">Clocks</button>
-    <button onclick="showTab('schedules')">Schedules</button>
-    <button onclick="showTab('rules')">Rules</button>
+    <button class="active" onclick="showTab('dashboard',this)">Dashboard</button>
+    <button onclick="showTab('tracks',this)">Tracks</button>
+    <button onclick="showTab('clocks',this)">Clocks</button>
+    <button onclick="showTab('schedules',this)">Schedules</button>
+    <button onclick="showTab('export',this)">Export</button>
+    <button onclick="showTab('rules',this)">Rules</button>
   </nav>
 </header>
 
 <main>
 
+<!-- ======================== DASHBOARD TAB ======================== -->
+<div id="tab-dashboard" class="tab active">
+  <div class="stats" id="dash-stats"></div>
+
+  <div class="card">
+    <h2>Quick Actions</h2>
+    <div class="quick-actions">
+      <div class="quick-card" onclick="showTab('schedules',navBtn('schedules'))">
+        <div class="icon">&#9654;</div>
+        <div><div class="label">Generate Schedule</div><div class="sub">Build a new rotation</div></div>
+      </div>
+      <div class="quick-card" onclick="showTab('tracks',navBtn('tracks'))">
+        <div class="icon">&#127925;</div>
+        <div><div class="label">Track Library</div><div class="sub">Add or manage tracks</div></div>
+      </div>
+      <div class="quick-card" onclick="showTab('clocks',navBtn('clocks'))">
+        <div class="icon">&#128336;</div>
+        <div><div class="label">Clock Templates</div><div class="sub">Design hour clocks</div></div>
+      </div>
+      <div class="quick-card" onclick="showTab('export',navBtn('export'))">
+        <div class="icon">&#128229;</div>
+        <div><div class="label">Export</div><div class="sub">Download schedule files</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Recent Schedules</h2>
+    <div id="dash-activity"></div>
+  </div>
+</div>
+
 <!-- ======================== TRACKS TAB ======================== -->
-<div id="tab-tracks" class="tab active">
+<div id="tab-tracks" class="tab">
   <div class="stats" id="track-stats"></div>
   <div class="card">
     <div class="toolbar">
@@ -176,7 +252,11 @@
         <input type="text" id="gen-name" placeholder="Optional name…">
       </div>
     </div>
-    <button class="btn btn-primary" onclick="generateSchedule()">Generate</button>
+    <div id="gen-progress" style="display:none">
+      <div style="color:var(--muted);font-size:13px;margin-bottom:4px" id="gen-status-text">Generating…</div>
+      <div class="progress-wrap"><div class="progress-bar" id="gen-bar"></div></div>
+    </div>
+    <button class="btn btn-primary" id="gen-btn" onclick="generateSchedule()">&#9654; Generate</button>
   </div>
 
   <div class="card">
@@ -188,6 +268,70 @@
       </table>
     </div>
     <div id="schedules-empty" class="empty" style="display:none">No schedules yet.</div>
+  </div>
+</div>
+
+<!-- ======================== EXPORT TAB ======================== -->
+<div id="tab-export" class="tab">
+  <div class="card">
+    <h2>Export Format</h2>
+    <div class="export-grid" id="export-cards">
+      <div class="export-card selected" data-fmt="csv" onclick="toggleExportCard(this)">
+        <div class="ec-icon">&#128202;</div>
+        <div class="ec-title">CSV</div>
+        <div class="ec-desc">Universal spreadsheet format</div>
+        <div class="ec-tags"><span class="ec-tag">.CSV</span></div>
+      </div>
+      <div class="export-card" data-fmt="zetta-log" onclick="toggleExportCard(this)">
+        <div class="ec-icon">&#128251;</div>
+        <div class="ec-title">Zetta LOG</div>
+        <div class="ec-desc">RCS Zetta automation system</div>
+        <div class="ec-tags"><span class="ec-tag">.LOG</span></div>
+      </div>
+      <div class="export-card" data-fmt="zetta-xml" onclick="toggleExportCard(this)">
+        <div class="ec-icon">&#128251;</div>
+        <div class="ec-title">Zetta XML</div>
+        <div class="ec-desc">RCS Zetta XML format</div>
+        <div class="ec-tags"><span class="ec-tag">.XML</span></div>
+      </div>
+      <div class="export-card" data-fmt="wideorbit" onclick="toggleExportCard(this)">
+        <div class="ec-icon">&#127925;</div>
+        <div class="ec-title">WideOrbit</div>
+        <div class="ec-desc">WideOrbit automation system</div>
+        <div class="ec-tags"><span class="ec-tag">.WO</span></div>
+      </div>
+      <div class="export-card" data-fmt="enco" onclick="toggleExportCard(this)">
+        <div class="ec-icon">&#127926;</div>
+        <div class="ec-title">ENCO DAD</div>
+        <div class="ec-desc">ENCO automation system</div>
+        <div class="ec-tags"><span class="ec-tag">.TXT</span></div>
+      </div>
+    </div>
+    <div class="form-grid" style="margin-bottom:16px">
+      <div class="form-group">
+        <label>Schedule</label>
+        <select id="export-sched-sel"></select>
+      </div>
+      <div class="form-group">
+        <label>Start Time (for air times)</label>
+        <input type="time" id="export-start">
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn btn-primary" onclick="doExport()">&#128229; Export</button>
+      <span id="export-note" style="font-size:12px;color:var(--muted)"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Saved Schedules</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Clock</th><th>Tracks</th><th>Created</th><th></th></tr></thead>
+        <tbody id="export-schedules-body"></tbody>
+      </table>
+    </div>
+    <div id="export-schedules-empty" class="empty" style="display:none">No schedules yet.</div>
   </div>
 </div>
 
@@ -257,10 +401,17 @@
 
 <!-- Schedule Viewer -->
 <div class="modal-bg" id="modal-schedule">
-  <div class="modal" style="width:680px">
+  <div class="modal" style="width:740px">
     <h3 id="modal-sched-title"></h3>
     <div id="modal-sched-stats" class="stats" style="margin-bottom:16px"></div>
-    <div class="tbl-wrap">
+
+    <!-- Violation panel -->
+    <div id="viol-panel" class="viol-panel" style="display:none">
+      <div class="viol-stats" id="viol-stats"></div>
+      <div class="viol-list" id="viol-list"></div>
+    </div>
+
+    <div class="tbl-wrap" style="margin-top:12px">
       <table>
         <thead><tr><th>#</th><th>Air</th><th>Title</th><th>Artist</th><th>Category</th><th>Dur</th></tr></thead>
         <tbody id="modal-sched-body"></tbody>
@@ -295,18 +446,32 @@ const toast = (msg, ok=true) => {
 };
 const fmtDur = s => s ? `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}` : '—';
 const fmtDate = s => s ? new Date(s).toLocaleDateString() : '—';
+const timeAgo = s => {
+  if (!s) return '—';
+  const d = (Date.now() - new Date(s)) / 1000;
+  if (d < 60)   return 'just now';
+  if (d < 3600) return `${Math.floor(d/60)}m ago`;
+  if (d < 86400) return `${Math.floor(d/3600)}h ago`;
+  return `${Math.floor(d/86400)}d ago`;
+};
 const CAT_COLORS = {Current:'pill-purple',Recurrent:'pill-blue',Gold:'pill-orange',Power:'pill-green',Jingle:'pill-pink'};
 const catPill = c => `<span class="pill ${CAT_COLORS[c]||'pill-blue'}">${c||'—'}</span>`;
+function esc(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+const navBtn = name => document.querySelector(`nav button:nth-child(${['dashboard','tracks','clocks','schedules','export','rules'].indexOf(name)+1})`);
 
 // ── Tabs ─────────────────────────────────────────────────────────────────────
-function showTab(name) {
+function showTab(name, btn) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
   $('tab-'+name).classList.add('active');
-  event.target.classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (name==='dashboard') loadDashboard();
   if (name==='tracks')    loadTracks();
   if (name==='clocks')    loadClocks();
   if (name==='schedules') { loadSchedules(); loadClocksForGen(); }
+  if (name==='export')    loadExportTab();
   if (name==='rules')     loadRules();
 }
 
@@ -314,8 +479,37 @@ function showTab(name) {
 function openModal(id)  { $(id).classList.add('open'); }
 function closeModal(id) { $(id).classList.remove('open'); }
 
+// ── Dashboard ─────────────────────────────────────────────────────────────────
+async function loadDashboard() {
+  const [tracksData, schedules, clocks] = await Promise.all([
+    api('GET', '/api/tracks?limit=0'),
+    api('GET', '/api/schedules'),
+    api('GET', '/api/clocks'),
+  ]);
+  const tracks = tracksData.tracks || [];
+  const totalDur = tracks.reduce((s,t) => s+(t.duration_seconds||0), 0);
+
+  $('dash-stats').innerHTML = [
+    ['Total Tracks', tracksData.total ?? tracks.length],
+    ['Library Duration', fmtDur(totalDur)],
+    ['Schedules', schedules.length],
+    ['Clock Templates', clocks.length],
+  ].map(([l,v]) => `<div class="stat"><div class="stat-val">${v}</div><div class="stat-label">${l}</div></div>`).join('');
+
+  // Recent schedules
+  const recent = [...schedules].sort((a,b)=>(b.created_at||'').localeCompare(a.created_at||'')).slice(0,5);
+  $('dash-activity').innerHTML = recent.length
+    ? recent.map(s => `
+        <div class="activity-item">
+          <div class="activity-dot"></div>
+          <div class="activity-text"><strong>${esc(s.name||'Untitled')}</strong> — ${(s.tracks||[]).length} tracks, ${s.duration_minutes||0} min</div>
+          <div class="activity-time">${timeAgo(s.created_at)}</div>
+          <button class="btn btn-muted btn-sm" onclick="viewScheduleById('${s.id}')">View</button>
+        </div>`).join('')
+    : '<div class="empty">No schedules yet — generate one!</div>';
+}
+
 // ── Tracks ────────────────────────────────────────────────────────────────────
-let allTracks = [];
 async function loadTracks() {
   const search = $('track-search').value.trim();
   const cat    = $('track-cat').value;
@@ -325,10 +519,10 @@ async function loadTracks() {
   if (search) url += `&search=${encodeURIComponent(search)}`;
   if (cat)    url += `&category=${encodeURIComponent(cat)}`;
   const data = await api('GET', url);
-  allTracks = data.tracks || [];
-  renderTracks(allTracks, data.total);
-  updateTrackStats(allTracks);
-  populateCatFilter(allTracks);
+  const tracks = data.tracks || [];
+  renderTracks(tracks);
+  updateTrackStats(tracks, data.total);
+  populateCatFilter(tracks);
 }
 function populateCatFilter(tracks) {
   const cats = [...new Set(tracks.map(t => t.category).filter(Boolean))];
@@ -338,9 +532,8 @@ function populateCatFilter(tracks) {
     cats.map(c => `<option value="${c}" ${c===cur?'selected':''}>${c}</option>`).join('');
 }
 function renderTracks(tracks) {
-  const tb = $('tracks-body');
   $('tracks-empty').style.display = tracks.length ? 'none' : '';
-  tb.innerHTML = tracks.map((t, i) => `
+  $('tracks-body').innerHTML = tracks.map((t, i) => `
     <tr>
       <td class="track-pos">${i+1}</td>
       <td><strong>${esc(t.title)}</strong></td>
@@ -353,17 +546,15 @@ function renderTracks(tracks) {
       <td><button class="btn btn-danger btn-sm" onclick="deleteTrack('${t.id}')">✕</button></td>
     </tr>`).join('');
 }
-function updateTrackStats(tracks) {
-  const total = tracks.length;
+function updateTrackStats(tracks, total) {
   const totalDur = tracks.reduce((s,t) => s+(t.duration_seconds||0), 0);
   const cats = new Set(tracks.map(t=>t.category).filter(Boolean)).size;
   $('track-stats').innerHTML = [
-    ['Tracks', total],
+    ['Tracks', total ?? tracks.length],
     ['Total Duration', fmtDur(totalDur)],
     ['Categories', cats],
   ].map(([l,v]) => `<div class="stat"><div class="stat-val">${v}</div><div class="stat-label">${l}</div></div>`).join('');
 }
-
 function openAddTrack() {
   ['t-title','t-artist','t-mood','t-notes'].forEach(id => $(id).value='');
   ['t-duration','t-bpm','t-energy'].forEach(id => $(id).value='');
@@ -425,12 +616,11 @@ async function saveClock() {
 }
 async function loadClocks() {
   const clocks = await api('GET', '/api/clocks');
-  const tb = $('clocks-body');
   $('clocks-empty').style.display = clocks.length ? 'none' : '';
-  tb.innerHTML = clocks.map(c => `
+  $('clocks-body').innerHTML = clocks.map(c => `
     <tr>
       <td><strong>${esc(c.name)}</strong></td>
-      <td>${(c.slots||[]).length} slots</td>
+      <td>${(c.slots||[]).map(s=>catPill(s.category)).join(' ')}</td>
       <td>${fmtDate(c.created_at)}</td>
       <td><button class="btn btn-danger btn-sm" onclick="deleteClock('${c.id}')">✕</button></td>
     </tr>`).join('');
@@ -448,6 +638,7 @@ async function loadClocksForGen() {
   $('gen-clock').innerHTML = '<option value="">— No clock (manual) —</option>' +
     clocks.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
 }
+
 async function generateSchedule() {
   const body = { duration_minutes: +$('gen-duration').value || 60 };
   const clockId = $('gen-clock').value;
@@ -456,47 +647,86 @@ async function generateSchedule() {
   if (clockId) body.clock_id = clockId;
   if (name)    body.name = name;
   if (start)   body.start_time = start;
+
+  // Show progress bar
+  const btn = $('gen-btn');
+  const prog = $('gen-progress');
+  const bar  = $('gen-bar');
+  const txt  = $('gen-status-text');
+  btn.disabled = true;
+  prog.style.display = '';
+  bar.style.width = '0%';
+  txt.textContent = 'Analysing track library…';
+
+  const steps = [
+    [20,  'Applying rotation rules…'],
+    [50,  'Building hour schedule…'],
+    [75,  'Checking artist separation…'],
+    [90,  'Finalising track order…'],
+    [100, 'Done!'],
+  ];
+  let si = 0;
+  const tick = setInterval(() => {
+    if (si < steps.length) {
+      bar.style.width = steps[si][0] + '%';
+      txt.textContent = steps[si][1];
+      si++;
+    }
+  }, 350);
+
   const res = await api('POST', '/api/schedule/generate', body);
+  clearInterval(tick);
+  bar.style.width = '100%';
+
+  setTimeout(() => {
+    prog.style.display = 'none';
+    btn.disabled = false;
+  }, 600);
+
   if (res.error) return toast(res.error, false);
   toast('Schedule generated!');
   loadSchedules();
   openSchedule(res);
 }
+
 async function loadSchedules() {
   const schedules = await api('GET', '/api/schedules');
-  const tb = $('schedules-body');
   $('schedules-empty').style.display = schedules.length ? 'none' : '';
   schedules.sort((a,b) => (b.created_at||'').localeCompare(a.created_at||''));
-  tb.innerHTML = schedules.map(s => `
+  $('schedules-body').innerHTML = schedules.map(s => `
     <tr>
       <td><strong>${esc(s.name||'Untitled')}</strong></td>
       <td>${esc(s.clock_name||'—')}</td>
       <td>${(s.tracks||[]).length}</td>
       <td>${s.duration_minutes||0} min</td>
       <td>${fmtDate(s.created_at)}</td>
-      <td style="display:flex;gap:6px">
-        <button class="btn btn-muted btn-sm" onclick="viewSchedule('${s.id}')">View</button>
-        <a class="btn btn-success btn-sm" href="/api/schedule/${s.id}/export?format=csv" download>CSV</a>
+      <td style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn btn-muted btn-sm" onclick="viewScheduleById('${s.id}')">View</button>
+        <a class="btn btn-success btn-sm" href="/api/schedule/${s.id}/export?format=csv${s.start_time?'&start_time='+s.start_time:''}" download>CSV</a>
         <button class="btn btn-danger btn-sm" onclick="deleteSchedule('${s.id}')">✕</button>
       </td>
     </tr>`).join('');
 }
-async function viewSchedule(id) {
+
+async function viewScheduleById(id) {
   const s = await api('GET', `/api/schedule/${id}`);
   openSchedule(s);
 }
+
 function openSchedule(s) {
   $('modal-sched-title').textContent = s.name || 'Schedule';
   const stats = s.stats || {};
   $('modal-sched-stats').innerHTML = [
-    ['Tracks', stats.total_tracks ?? (s.tracks||[]).length],
+    ['Tracks',   stats.total_tracks ?? (s.tracks||[]).length],
     ['Duration', stats.total_duration_hms || fmtDur(stats.total_duration_seconds)],
-    ['Artists', stats.unique_artists ?? '—'],
+    ['Artists',  stats.unique_artists ?? '—'],
   ].map(([l,v]) => `<div class="stat"><div class="stat-val">${v}</div><div class="stat-label">${l}</div></div>`).join('');
+
+  $('viol-panel').style.display = 'none';
 
   const tracks = s.tracks || [];
   $('modal-sched-body').innerHTML = tracks.map((t, i) => `
-    <tr>
+    <tr id="srow-${i}">
       <td class="track-pos">${i+1}</td>
       <td class="air-time">${t.air_time||'—'}</td>
       <td>${esc(t.title||'—')}</td>
@@ -505,11 +735,42 @@ function openSchedule(s) {
       <td class="dur">${fmtDur(t.duration_seconds)}</td>
     </tr>`).join('') || '<tr><td colspan="6" class="empty">No tracks</td></tr>';
 
+  const csvHref = `/api/schedule/${s.id}/export?format=csv${s.start_time?'&start_time='+s.start_time:''}`;
   $('modal-sched-actions').innerHTML = `
     <button class="btn btn-muted" onclick="closeModal('modal-schedule')">Close</button>
-    <a class="btn btn-success" href="/api/schedule/${s.id}/export?format=csv" download>Export CSV</a>`;
+    <button class="btn btn-warn btn-sm" onclick="scanViolations('${s.id}')">&#9888; Scan Violations</button>
+    <a class="btn btn-success" href="${csvHref}" download>Export CSV</a>`;
   openModal('modal-schedule');
 }
+
+async function scanViolations(schedId) {
+  const res = await api('POST', `/api/schedule/${schedId}/validate`);
+  if (!res) return toast('Validation failed', false);
+
+  const errors   = res.errors   || [];
+  const warnings = res.warnings || [];
+  const total    = (res.total_tracks || 0);
+  const ok       = total - errors.length - warnings.length;
+  const pct      = total ? Math.round((ok / total) * 100) : 100;
+
+  const panel = $('viol-panel');
+  panel.style.display = '';
+  $('viol-stats').innerHTML = `
+    <div class="viol-stat"><div class="viol-stat-val err">${errors.length}</div><div class="viol-stat-label">Errors</div></div>
+    <div class="viol-stat"><div class="viol-stat-val warn">${warnings.length}</div><div class="viol-stat-label">Warnings</div></div>
+    <div class="viol-stat"><div class="viol-stat-val ok">${pct}%</div><div class="viol-stat-label">Compliance</div></div>`;
+
+  const items = [...errors.map(v=>({...v,type:'error'})), ...warnings.map(v=>({...v,type:'warning'}))];
+  $('viol-list').innerHTML = items.length
+    ? items.map(v => `<div class="viol-item ${v.type}">${esc(v.message||JSON.stringify(v))}</div>`).join('')
+    : '<div style="color:var(--success);font-size:13px;padding:8px">&#10003; No violations found!</div>';
+
+  // Highlight rows
+  document.querySelectorAll('#modal-sched-body tr').forEach(r => r.classList.remove('row-error','row-warn'));
+  errors.forEach(v   => { if (v.position != null) { const r = $('srow-'+(v.position-1)); if(r) r.classList.add('row-error'); } });
+  warnings.forEach(v => { if (v.position != null) { const r = $('srow-'+(v.position-1)); if(r) r.classList.add('row-warn');  } });
+}
+
 async function deleteSchedule(id) {
   if (!confirm('Delete this schedule?')) return;
   await api('DELETE', `/api/schedule/${id}`);
@@ -517,19 +778,77 @@ async function deleteSchedule(id) {
   loadSchedules();
 }
 
+// ── Export tab ────────────────────────────────────────────────────────────────
+function toggleExportCard(card) {
+  card.classList.toggle('selected');
+}
+
+async function loadExportTab() {
+  const schedules = await api('GET', '/api/schedules');
+  schedules.sort((a,b) => (b.created_at||'').localeCompare(a.created_at||''));
+
+  $('export-sched-sel').innerHTML = '<option value="">— Select a schedule —</option>' +
+    schedules.map(s => `<option value="${s.id}">${esc(s.name||'Untitled')} (${fmtDate(s.created_at)})</option>`).join('');
+
+  $('export-schedules-empty').style.display = schedules.length ? 'none' : '';
+  $('export-schedules-body').innerHTML = schedules.map(s => `
+    <tr>
+      <td><strong>${esc(s.name||'Untitled')}</strong></td>
+      <td>${esc(s.clock_name||'—')}</td>
+      <td>${(s.tracks||[]).length}</td>
+      <td>${fmtDate(s.created_at)}</td>
+      <td style="display:flex;gap:6px">
+        <a class="btn btn-success btn-sm" href="/api/schedule/${s.id}/export?format=csv" download>CSV</a>
+        <a class="btn btn-muted btn-sm" href="/api/schedule/${s.id}/export?format=json" download>JSON</a>
+      </td>
+    </tr>`).join('');
+}
+
+async function doExport() {
+  const schedId = $('export-sched-sel').value;
+  if (!schedId) return toast('Please select a schedule.', false);
+
+  const selected = [...document.querySelectorAll('#export-cards .export-card.selected')];
+  if (!selected.length) return toast('Select at least one export format.', false);
+
+  const fmts = selected.map(c => c.dataset.fmt);
+  const start = $('export-start').value;
+  const note  = $('export-note');
+
+  // CSV is the only server-supported format; others download as CSV with a note
+  const csvFmt = fmts.includes('csv');
+  const otherFmts = fmts.filter(f => f !== 'csv');
+
+  let url = `/api/schedule/${schedId}/export?format=csv`;
+  if (start) url += `&start_time=${start}`;
+
+  // Trigger CSV download
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  if (otherFmts.length) {
+    note.textContent = `Note: ${otherFmts.join(', ')} export coming soon — downloaded as CSV.`;
+  } else {
+    note.textContent = '';
+  }
+  toast('Export downloaded!');
+}
+
 // ── Rules ─────────────────────────────────────────────────────────────────────
 const RULE_META = {
-  artist_separation_minutes:  { label: 'Artist Separation (min)', type: 'number' },
-  title_separation_minutes:   { label: 'Title Separation (min)', type: 'number' },
-  category_separation_minutes:{ label: 'Category Separation (min)', type: 'number' },
-  max_tempo_jump:             { label: 'Max Tempo Jump (BPM)', type: 'number' },
-  max_energy_jump:            { label: 'Max Energy Jump', type: 'number' },
+  artist_separation_minutes:   { label: 'Artist Separation (min)', type: 'number' },
+  title_separation_minutes:    { label: 'Title Separation (min)', type: 'number' },
+  category_separation_minutes: { label: 'Category Separation (min)', type: 'number' },
+  max_tempo_jump:              { label: 'Max Tempo Jump (BPM)', type: 'number' },
+  max_energy_jump:             { label: 'Max Energy Jump', type: 'number' },
 };
-let rulesData = {};
 async function loadRules() {
-  rulesData = await api('GET', '/api/rules');
-  const form = $('rules-form');
-  form.innerHTML = Object.entries(RULE_META).map(([k,m]) => `
+  const rulesData = await api('GET', '/api/rules');
+  $('rules-form').innerHTML = Object.entries(RULE_META).map(([k,m]) => `
     <div class="form-group">
       <label>${m.label}</label>
       <input type="${m.type}" id="rule-${k}" value="${rulesData[k]??''}">
@@ -553,16 +872,11 @@ async function saveRules() {
   toast('Rules saved!');
 }
 
-// ── XSS-safe escape ───────────────────────────────────────────────────────────
-function esc(str) {
-  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
 // ── Boot ──────────────────────────────────────────────────────────────────────
 (async () => {
   const status = await api('GET', '/api/status');
   if (status.ai_available) $('ai-badge').style.display = '';
-  loadTracks();
+  loadDashboard();
 })();
 </script>
 </body>
