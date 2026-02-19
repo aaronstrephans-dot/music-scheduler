@@ -1,0 +1,15 @@
+{
+  "id": "d8bdcc7b-b3d8-45ad-a61a-546c584d92f2",
+  "m1_id": 208,
+  "added_at": "2026-02-19T05:19:26.670722Z",
+  "name": "Ron Huff",
+  "name_key": "RON HUFF",
+  "alpha_key": "RON HUFF",
+  "canon_key": "RONHUF",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

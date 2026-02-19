@@ -1,0 +1,15 @@
+{
+  "id": "dbb3573d-8a4a-4d01-b8ce-17d20a2d1ed2",
+  "m1_id": 1357,
+  "added_at": "2026-02-19T05:19:26.763464Z",
+  "name": "Michael Gungor",
+  "name_key": "MICHAEL GUNGOR",
+  "alpha_key": "MICHAEL GUNGOR",
+  "canon_key": "MICHAELGUNGOR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

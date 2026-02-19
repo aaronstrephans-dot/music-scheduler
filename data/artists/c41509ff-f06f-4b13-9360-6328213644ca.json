@@ -1,0 +1,15 @@
+{
+  "id": "c41509ff-f06f-4b13-9360-6328213644ca",
+  "m1_id": 97,
+  "added_at": "2026-02-19T05:19:26.658855Z",
+  "name": "Ed Kerr",
+  "name_key": "ED KERR",
+  "alpha_key": "ED KERR",
+  "canon_key": "EDKER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

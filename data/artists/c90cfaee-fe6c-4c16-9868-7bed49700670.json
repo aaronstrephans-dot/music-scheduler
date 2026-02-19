@@ -1,0 +1,15 @@
+{
+  "id": "c90cfaee-fe6c-4c16-9868-7bed49700670",
+  "m1_id": 10,
+  "added_at": "2026-02-19T05:19:26.648443Z",
+  "name": "Alicia Williamson",
+  "name_key": "ALICIA WILLIAMSON",
+  "alpha_key": "ALICIA WILLIAMSON",
+  "canon_key": "ALICIAWILIAMSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

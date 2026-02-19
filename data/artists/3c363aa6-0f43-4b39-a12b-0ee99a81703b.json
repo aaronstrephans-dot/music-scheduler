@@ -1,0 +1,15 @@
+{
+  "id": "3c363aa6-0f43-4b39-a12b-0ee99a81703b",
+  "m1_id": 1341,
+  "added_at": "2026-02-19T05:19:26.757826Z",
+  "name": "Israel Houghton",
+  "name_key": "ISRAEL HOUGHTON",
+  "alpha_key": "ISRAEL HOUGHTON",
+  "canon_key": "ISRAELHOUGHTON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

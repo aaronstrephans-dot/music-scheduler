@@ -1,0 +1,15 @@
+{
+  "id": "410abf15-cdd4-4304-9650-c9d1e0efa631",
+  "m1_id": 1458,
+  "added_at": "2026-02-19T05:19:26.806417Z",
+  "name": "Missi Hale",
+  "name_key": "MISSI HALE",
+  "alpha_key": "MISSI HALE",
+  "canon_key": "MISIHALE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

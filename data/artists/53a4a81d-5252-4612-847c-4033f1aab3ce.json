@@ -1,0 +1,15 @@
+{
+  "id": "53a4a81d-5252-4612-847c-4033f1aab3ce",
+  "m1_id": 1491,
+  "added_at": "2026-02-19T05:19:26.817136Z",
+  "name": "Mandisa",
+  "name_key": "MANDISA",
+  "alpha_key": "MANDISA",
+  "canon_key": "MANDISA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

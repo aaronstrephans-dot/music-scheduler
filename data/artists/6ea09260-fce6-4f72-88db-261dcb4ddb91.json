@@ -1,0 +1,15 @@
+{
+  "id": "6ea09260-fce6-4f72-88db-261dcb4ddb91",
+  "m1_id": 1691,
+  "added_at": "2026-02-19T05:19:26.881195Z",
+  "name": "Josh Gilbert",
+  "name_key": "JOSH GILBERT",
+  "alpha_key": "JOSH GILBERT",
+  "canon_key": "JOSHGILBERT",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

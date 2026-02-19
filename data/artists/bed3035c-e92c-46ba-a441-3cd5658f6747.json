@@ -1,0 +1,15 @@
+{
+  "id": "bed3035c-e92c-46ba-a441-3cd5658f6747",
+  "m1_id": 1723,
+  "added_at": "2026-02-19T05:19:26.891633Z",
+  "name": "Crystal Yates",
+  "name_key": "CRYSTAL YATES",
+  "alpha_key": "CRYSTAL YATES",
+  "canon_key": "CRISTALIATES",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

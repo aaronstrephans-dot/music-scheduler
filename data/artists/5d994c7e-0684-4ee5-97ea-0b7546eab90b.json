@@ -1,0 +1,15 @@
+{
+  "id": "5d994c7e-0684-4ee5-97ea-0b7546eab90b",
+  "m1_id": 1812,
+  "added_at": "2026-02-19T05:19:26.921371Z",
+  "name": "Francis Armah",
+  "name_key": "FRANCIS ARMAH",
+  "alpha_key": "FRANCIS ARMAH",
+  "canon_key": "FRANCISARMAH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

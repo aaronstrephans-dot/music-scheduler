@@ -1,0 +1,15 @@
+{
+  "id": "5a78415c-e280-44a6-868b-0c1adf6ce7a4",
+  "m1_id": 294,
+  "added_at": "2026-02-19T05:19:26.680843Z",
+  "name": "The Apan-Miller Ensemble",
+  "name_key": "THE APAN-MILLER ENSEMBLE",
+  "alpha_key": "APAN-MILLER ENSEMBLE",
+  "canon_key": "APANMILERENSEMBLE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "73ac4eb0-52cd-4188-8833-1461a10a0e11",
+  "m1_id": 1653,
+  "added_at": "2026-02-19T05:19:26.867793Z",
+  "name": "Ellie Holcomb",
+  "name_key": "ELLIE HOLCOMB",
+  "alpha_key": "ELLIE HOLCOMB",
+  "canon_key": "ELIEHOLCOMB",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

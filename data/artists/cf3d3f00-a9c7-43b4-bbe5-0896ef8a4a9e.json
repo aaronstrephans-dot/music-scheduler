@@ -1,0 +1,15 @@
+{
+  "id": "cf3d3f00-a9c7-43b4-bbe5-0896ef8a4a9e",
+  "m1_id": 48,
+  "added_at": "2026-02-19T05:19:26.653302Z",
+  "name": "Brent Henderson",
+  "name_key": "BRENT HENDERSON",
+  "alpha_key": "BRENT HENDERSON",
+  "canon_key": "BRENTHENDERSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

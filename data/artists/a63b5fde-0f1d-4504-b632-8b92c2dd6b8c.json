@@ -1,0 +1,15 @@
+{
+  "id": "a63b5fde-0f1d-4504-b632-8b92c2dd6b8c",
+  "m1_id": 309,
+  "added_at": "2026-02-19T05:19:26.681196Z",
+  "name": "The Hosanna Choir",
+  "name_key": "THE HOSANNA CHOIR",
+  "alpha_key": "HOSANNA CHOIR",
+  "canon_key": "HOSANACHOIR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "d8b013cd-d2c3-4ba9-9b77-ce59e8dd29d1",
+  "m1_id": 1369,
+  "added_at": "2026-02-19T05:19:26.768230Z",
+  "name": "Jadon Lavik",
+  "name_key": "JADON LAVIK",
+  "alpha_key": "JADON LAVIK",
+  "canon_key": "JADONLAVIK",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

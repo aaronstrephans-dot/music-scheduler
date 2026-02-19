@@ -1,0 +1,15 @@
+{
+  "id": "8d2bdd35-6680-4ddc-a9d6-a7336e8da8f0",
+  "m1_id": 1592,
+  "added_at": "2026-02-19T05:19:26.848084Z",
+  "name": "Austin Adamec",
+  "name_key": "AUSTIN ADAMEC",
+  "alpha_key": "AUSTIN ADAMEC",
+  "canon_key": "AUSTINADAMEC",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

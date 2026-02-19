@@ -1,0 +1,15 @@
+{
+  "id": "39781a51-f9a5-451c-bd44-1443c6728195",
+  "m1_id": 1222,
+  "added_at": "2026-02-19T05:19:26.725512Z",
+  "name": "David Gate",
+  "name_key": "DAVID GATE",
+  "alpha_key": "DAVID GATE",
+  "canon_key": "DAVIDGATE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

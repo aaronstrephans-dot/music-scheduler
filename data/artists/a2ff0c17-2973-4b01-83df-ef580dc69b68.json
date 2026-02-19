@@ -1,0 +1,15 @@
+{
+  "id": "a2ff0c17-2973-4b01-83df-ef580dc69b68",
+  "m1_id": 37,
+  "added_at": "2026-02-19T05:19:26.651488Z",
+  "name": "Billy & Sarah Gaines",
+  "name_key": "BILLY & SARAH GAINES",
+  "alpha_key": "BILLY & SARAH GAINES",
+  "canon_key": "BILISARAHGAINES",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

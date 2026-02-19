@@ -1,0 +1,15 @@
+{
+  "id": "850db64c-bf2c-4373-ad9e-27136ed5c8b0",
+  "m1_id": 1703,
+  "added_at": "2026-02-19T05:19:26.885576Z",
+  "name": "Madison Cunningham",
+  "name_key": "MADISON CUNNINGHAM",
+  "alpha_key": "MADISON CUNNINGHAM",
+  "canon_key": "MADISONCUNINGHAM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

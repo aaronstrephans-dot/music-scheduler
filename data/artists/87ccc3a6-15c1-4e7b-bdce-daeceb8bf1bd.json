@@ -1,0 +1,15 @@
+{
+  "id": "87ccc3a6-15c1-4e7b-bdce-daeceb8bf1bd",
+  "m1_id": 1241,
+  "added_at": "2026-02-19T05:19:26.731370Z",
+  "name": "PDI",
+  "name_key": "PDI",
+  "alpha_key": "PDI",
+  "canon_key": "PDI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

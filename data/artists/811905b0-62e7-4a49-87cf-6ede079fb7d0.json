@@ -1,0 +1,15 @@
+{
+  "id": "811905b0-62e7-4a49-87cf-6ede079fb7d0",
+  "m1_id": 1800,
+  "added_at": "2026-02-19T05:19:26.917025Z",
+  "name": "MOGmusic",
+  "name_key": "MOGMUSIC",
+  "alpha_key": "MOGMUSIC",
+  "canon_key": "MOGMUSIC",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

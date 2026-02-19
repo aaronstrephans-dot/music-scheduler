@@ -1,0 +1,15 @@
+{
+  "id": "8ad52b89-8a77-418d-9cc4-0e15e286d662",
+  "m1_id": 1534,
+  "added_at": "2026-02-19T05:19:26.828549Z",
+  "name": "Studio 316",
+  "name_key": "STUDIO 316",
+  "alpha_key": "STUDIO 316",
+  "canon_key": "STUDIO316",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

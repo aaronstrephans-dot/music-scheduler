@@ -1,0 +1,15 @@
+{
+  "id": "fa84c276-332e-416b-8182-e5ea6c5470b2",
+  "m1_id": 52,
+  "added_at": "2026-02-19T05:19:26.653744Z",
+  "name": "Bruce Carroll",
+  "name_key": "BRUCE CARROLL",
+  "alpha_key": "BRUCE CARROLL",
+  "canon_key": "BRUCECAROL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

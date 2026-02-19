@@ -1,0 +1,15 @@
+{
+  "id": "b9ffd98d-fd2e-4e8c-af05-1300217930b5",
+  "m1_id": 29,
+  "added_at": "2026-02-19T05:19:26.650147Z",
+  "name": "Bebe & Cece Winans",
+  "name_key": "BEBE & CECE WINANS",
+  "alpha_key": "BEBE & CECE WINANS",
+  "canon_key": "BEBECECEWINANS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "4704ca18-ff7e-46ad-a1ad-d3ee7f88abf4",
+  "m1_id": 1428,
+  "added_at": "2026-02-19T05:19:26.796001Z",
+  "name": "Josh Bates",
+  "name_key": "JOSH BATES",
+  "alpha_key": "JOSH BATES",
+  "canon_key": "JOSHBATES",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

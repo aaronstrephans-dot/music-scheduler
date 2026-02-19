@@ -1,0 +1,15 @@
+{
+  "id": "62ae2a18-7b15-4509-bffa-42233cf22c2c",
+  "m1_id": 1581,
+  "added_at": "2026-02-19T05:19:26.844047Z",
+  "name": "Peter Furler",
+  "name_key": "PETER FURLER",
+  "alpha_key": "PETER FURLER",
+  "canon_key": "PETERFURLER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

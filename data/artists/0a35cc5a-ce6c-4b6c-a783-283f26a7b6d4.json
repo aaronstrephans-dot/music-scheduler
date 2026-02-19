@@ -1,0 +1,15 @@
+{
+  "id": "0a35cc5a-ce6c-4b6c-a783-283f26a7b6d4",
+  "m1_id": 218,
+  "added_at": "2026-02-19T05:19:26.671950Z",
+  "name": "Morris Chapman",
+  "name_key": "MORRIS CHAPMAN",
+  "alpha_key": "MORRIS CHAPMAN",
+  "canon_key": "MORISCHAPMAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

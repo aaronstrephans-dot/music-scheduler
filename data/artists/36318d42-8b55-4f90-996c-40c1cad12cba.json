@@ -1,0 +1,15 @@
+{
+  "id": "36318d42-8b55-4f90-996c-40c1cad12cba",
+  "m1_id": 1570,
+  "added_at": "2026-02-19T05:19:26.839988Z",
+  "name": "Brooklyn Tabernacle Choir",
+  "name_key": "BROOKLYN TABERNACLE CHOIR",
+  "alpha_key": "BROOKLYN TABERNACLE CHOIR",
+  "canon_key": "BROKLINTABERNACLECHOIR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

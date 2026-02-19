@@ -1,0 +1,15 @@
+{
+  "id": "b82c69e6-c410-4828-a3f6-849d5f593573",
+  "m1_id": 1275,
+  "added_at": "2026-02-19T05:19:26.738806Z",
+  "name": "Chris Bowater",
+  "name_key": "CHRIS BOWATER",
+  "alpha_key": "CHRIS BOWATER",
+  "canon_key": "CHRISBOWATER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

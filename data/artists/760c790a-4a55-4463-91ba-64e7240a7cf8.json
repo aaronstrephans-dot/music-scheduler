@@ -1,0 +1,15 @@
+{
+  "id": "760c790a-4a55-4463-91ba-64e7240a7cf8",
+  "m1_id": 603,
+  "added_at": "2026-02-19T05:19:26.715330Z",
+  "name": "Lincoln Brewster",
+  "name_key": "LINCOLN BREWSTER",
+  "alpha_key": "LINCOLN BREWSTER",
+  "canon_key": "LINCOLNBREWSTER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

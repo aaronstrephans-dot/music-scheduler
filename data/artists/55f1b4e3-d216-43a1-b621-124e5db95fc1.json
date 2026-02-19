@@ -1,0 +1,15 @@
+{
+  "id": "55f1b4e3-d216-43a1-b621-124e5db95fc1",
+  "m1_id": 1834,
+  "added_at": "2026-02-19T05:19:26.929442Z",
+  "name": "Canyon Hills Worship",
+  "name_key": "CANYON HILLS WORSHIP",
+  "alpha_key": "CANYON HILLS WORSHIP",
+  "canon_key": "CANIONHILSWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "9d962bf1-1624-4ad3-a5d8-3ab264f784a7",
+  "m1_id": 1775,
+  "added_at": "2026-02-19T05:19:26.908355Z",
+  "name": "Cross Point Music",
+  "name_key": "CROSS POINT MUSIC",
+  "alpha_key": "CROSS POINT MUSIC",
+  "canon_key": "CROSPOINTMUSIC",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

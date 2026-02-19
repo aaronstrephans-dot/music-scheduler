@@ -1,0 +1,15 @@
+{
+  "id": "93e041d4-f8ef-4b28-858f-f84ef364616c",
+  "m1_id": 1852,
+  "added_at": "2026-02-19T05:19:26.935629Z",
+  "name": "Symphonic Music",
+  "name_key": "SYMPHONIC MUSIC",
+  "alpha_key": "SYMPHONIC MUSIC",
+  "canon_key": "SIMPHONICMUSIC",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

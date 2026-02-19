@@ -1,0 +1,15 @@
+{
+  "id": "5e001ba8-9e21-47d8-9df2-1771d1052ea8",
+  "m1_id": 1326,
+  "added_at": "2026-02-19T05:19:26.751817Z",
+  "name": "Scott Riggan",
+  "name_key": "SCOTT RIGGAN",
+  "alpha_key": "SCOTT RIGGAN",
+  "canon_key": "SCOTRIGAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "ceb498d3-84f9-4624-952c-54a66a09d364",
+  "m1_id": 1443,
+  "added_at": "2026-02-19T05:19:26.801850Z",
+  "name": "Pocket Full of Rocks",
+  "name_key": "POCKET FULL OF ROCKS",
+  "alpha_key": "POCKET FULL OF ROCKS",
+  "canon_key": "POCKETFULOFROCKS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

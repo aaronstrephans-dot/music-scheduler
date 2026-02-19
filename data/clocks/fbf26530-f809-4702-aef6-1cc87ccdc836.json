@@ -1,0 +1,23 @@
+{
+  "id": "fbf26530-f809-4702-aef6-1cc87ccdc836",
+  "m1_id": 143,
+  "created_at": "2026-02-19T05:19:36.594346Z",
+  "updated_at": "2026-02-19T05:19:36.594357Z",
+  "name": "Overnight Dead Air",
+  "slots": [],
+  "artist_separation_songs": 9,
+  "nominal_time_s": 3600,
+  "hard_min_time_s": null,
+  "hard_max_time_s": 4400,
+  "check_prev_day_song": true,
+  "check_prev_day_artist": false,
+  "allow_double_shots": false,
+  "double_shot_separation_songs": 0,
+  "no_repeats": false,
+  "fixed_time_enabled": false,
+  "absolute_time": false,
+  "max_gender_run": -1,
+  "max_tempo_run": 2,
+  "max_texture_run": -1,
+  "max_mood_run": -1
+}

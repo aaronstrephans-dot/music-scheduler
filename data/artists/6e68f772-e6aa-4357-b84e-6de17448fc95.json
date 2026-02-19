@@ -1,0 +1,15 @@
+{
+  "id": "6e68f772-e6aa-4357-b84e-6de17448fc95",
+  "m1_id": 1471,
+  "added_at": "2026-02-19T05:19:26.810524Z",
+  "name": "Rush of Fools",
+  "name_key": "RUSH OF FOOLS",
+  "alpha_key": "RUSH OF FOOLS",
+  "canon_key": "RUSHOFFOLS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

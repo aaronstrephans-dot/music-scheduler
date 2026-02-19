@@ -1,0 +1,15 @@
+{
+  "id": "1d907715-86e2-4221-978f-76a4027bcd5b",
+  "m1_id": 1942,
+  "added_at": "2026-02-19T05:19:26.969543Z",
+  "name": "Bridge Worship",
+  "name_key": "BRIDGE WORSHIP",
+  "alpha_key": "BRIDGE WORSHIP",
+  "canon_key": "BRIDGEWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1200000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

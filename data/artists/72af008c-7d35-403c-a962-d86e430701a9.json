@@ -1,0 +1,15 @@
+{
+  "id": "72af008c-7d35-403c-a962-d86e430701a9",
+  "m1_id": 1401,
+  "added_at": "2026-02-19T05:19:26.781350Z",
+  "name": "Jan L'Ecuyer",
+  "name_key": "JAN L'ECUYER",
+  "alpha_key": "JAN L ECUYER",
+  "canon_key": "JANLECUIER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

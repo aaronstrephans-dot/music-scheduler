@@ -1,0 +1,15 @@
+{
+  "id": "800cb591-b0a3-4756-8f61-998354bcff3a",
+  "m1_id": 1674,
+  "added_at": "2026-02-19T05:19:26.875433Z",
+  "name": "Finding Favour",
+  "name_key": "FINDING FAVOUR",
+  "alpha_key": "FINDING FAVOUR",
+  "canon_key": "FINDINGFAVOUR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "19ab0ea7-59ce-4a73-9ec9-d8b6babec8d6",
+  "m1_id": 194,
+  "added_at": "2026-02-19T05:19:26.668986Z",
+  "name": "Mark Lowry",
+  "name_key": "MARK LOWRY",
+  "alpha_key": "MARK LOWRY",
+  "canon_key": "MARKLOWRI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

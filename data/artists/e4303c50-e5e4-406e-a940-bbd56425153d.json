@@ -1,0 +1,15 @@
+{
+  "id": "e4303c50-e5e4-406e-a940-bbd56425153d",
+  "m1_id": 1360,
+  "added_at": "2026-02-19T05:19:26.764605Z",
+  "name": "Vicky Beeching",
+  "name_key": "VICKY BEECHING",
+  "alpha_key": "VICKY BEECHING",
+  "canon_key": "VICKIBECHING",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

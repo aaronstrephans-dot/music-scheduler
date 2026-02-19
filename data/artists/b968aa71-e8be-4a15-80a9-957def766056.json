@@ -1,0 +1,15 @@
+{
+  "id": "b968aa71-e8be-4a15-80a9-957def766056",
+  "m1_id": 1236,
+  "added_at": "2026-02-19T05:19:26.729770Z",
+  "name": "Tim Hughes",
+  "name_key": "TIM HUGHES",
+  "alpha_key": "TIM HUGHES",
+  "canon_key": "TIMHUGHES",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

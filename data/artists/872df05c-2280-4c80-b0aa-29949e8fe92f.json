@@ -1,0 +1,15 @@
+{
+  "id": "872df05c-2280-4c80-b0aa-29949e8fe92f",
+  "m1_id": 1293,
+  "added_at": "2026-02-19T05:19:26.742719Z",
+  "name": "Lauren Johnson",
+  "name_key": "LAUREN JOHNSON",
+  "alpha_key": "LAUREN JOHNSON",
+  "canon_key": "LAURENJOHNSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

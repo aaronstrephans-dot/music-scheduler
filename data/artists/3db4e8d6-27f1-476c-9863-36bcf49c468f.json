@@ -1,0 +1,15 @@
+{
+  "id": "3db4e8d6-27f1-476c-9863-36bcf49c468f",
+  "m1_id": 1303,
+  "added_at": "2026-02-19T05:19:26.744574Z",
+  "name": "Jody McBrayer",
+  "name_key": "JODY MCBRAYER",
+  "alpha_key": "JODY MCBRAYER",
+  "canon_key": "JODIMCBRAIER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

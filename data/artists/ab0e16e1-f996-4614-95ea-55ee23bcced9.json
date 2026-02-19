@@ -1,0 +1,15 @@
+{
+  "id": "ab0e16e1-f996-4614-95ea-55ee23bcced9",
+  "m1_id": 1310,
+  "added_at": "2026-02-19T05:19:26.746208Z",
+  "name": "Sara Groves",
+  "name_key": "SARA GROVES",
+  "alpha_key": "SARA GROVES",
+  "canon_key": "SARAGROVES",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

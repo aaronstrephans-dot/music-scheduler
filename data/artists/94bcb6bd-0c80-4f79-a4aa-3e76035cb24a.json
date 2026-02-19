@@ -1,0 +1,15 @@
+{
+  "id": "94bcb6bd-0c80-4f79-a4aa-3e76035cb24a",
+  "m1_id": 1666,
+  "added_at": "2026-02-19T05:19:26.872746Z",
+  "name": "Jonathan Seller",
+  "name_key": "JONATHAN SELLER",
+  "alpha_key": "JONATHAN SELLER",
+  "canon_key": "JONATHANSELER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

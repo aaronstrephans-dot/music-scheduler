@@ -1,0 +1,15 @@
+{
+  "id": "8cc24a4e-af05-43f8-a953-f3afc72dfb68",
+  "m1_id": 1463,
+  "added_at": "2026-02-19T05:19:26.808338Z",
+  "name": "Mark Roach",
+  "name_key": "MARK ROACH",
+  "alpha_key": "MARK ROACH",
+  "canon_key": "MARKROACH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

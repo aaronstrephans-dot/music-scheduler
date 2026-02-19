@@ -1,0 +1,15 @@
+{
+  "id": "10dac98e-6a17-46ee-994e-774ad80c3e77",
+  "m1_id": 401,
+  "added_at": "2026-02-19T05:19:26.687180Z",
+  "name": "Anne Barbour",
+  "name_key": "ANNE BARBOUR",
+  "alpha_key": "ANNE BARBOUR",
+  "canon_key": "ANEBARBOUR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

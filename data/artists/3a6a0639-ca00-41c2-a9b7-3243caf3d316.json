@@ -1,0 +1,15 @@
+{
+  "id": "3a6a0639-ca00-41c2-a9b7-3243caf3d316",
+  "m1_id": 1663,
+  "added_at": "2026-02-19T05:19:26.871233Z",
+  "name": "Woodside Worship",
+  "name_key": "WOODSIDE WORSHIP",
+  "alpha_key": "WOODSIDE WORSHIP",
+  "canon_key": "WODSIDEWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

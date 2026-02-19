@@ -1,0 +1,15 @@
+{
+  "id": "a68eb3cd-dc98-4603-b0d2-25b239513e4a",
+  "m1_id": 649,
+  "added_at": "2026-02-19T05:19:26.717727Z",
+  "name": "Jami Smith",
+  "name_key": "JAMI SMITH",
+  "alpha_key": "JAMI SMITH",
+  "canon_key": "JAMISMITH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

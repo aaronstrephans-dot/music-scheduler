@@ -1,0 +1,15 @@
+{
+  "id": "eb285ee1-e192-40e1-b4f5-e86b8b493ee8",
+  "m1_id": 261,
+  "added_at": "2026-02-19T05:19:26.676625Z",
+  "name": "Roby Duke",
+  "name_key": "ROBY DUKE",
+  "alpha_key": "ROBY DUKE",
+  "canon_key": "ROBIDUKE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "e2da5b51-e1c6-4d9f-aa26-639d668ed5ee",
+  "m1_id": 1885,
+  "added_at": "2026-02-19T05:19:26.947202Z",
+  "name": "Hannah Hobbs",
+  "name_key": "HANNAH HOBBS",
+  "alpha_key": "HANNAH HOBBS",
+  "canon_key": "HANAHHOBS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

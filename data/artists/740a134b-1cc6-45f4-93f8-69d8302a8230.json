@@ -1,0 +1,15 @@
+{
+  "id": "740a134b-1cc6-45f4-93f8-69d8302a8230",
+  "m1_id": 1519,
+  "added_at": "2026-02-19T05:19:26.824715Z",
+  "name": "Connersvine",
+  "name_key": "CONNERSVINE",
+  "alpha_key": "CONNERSVINE",
+  "canon_key": "CONERSVINE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

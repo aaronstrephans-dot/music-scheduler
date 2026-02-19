@@ -1,0 +1,15 @@
+{
+  "id": "12d32265-92df-4fdd-9363-eff31e20217e",
+  "m1_id": 1524,
+  "added_at": "2026-02-19T05:19:26.826019Z",
+  "name": "Seven Stories Up",
+  "name_key": "SEVEN STORIES UP",
+  "alpha_key": "SEVEN STORIES UP",
+  "canon_key": "7STORIESUP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

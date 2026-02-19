@@ -1,0 +1,15 @@
+{
+  "id": "89cf48cc-353b-4935-a200-b3c406d43970",
+  "m1_id": 1711,
+  "added_at": "2026-02-19T05:19:26.888340Z",
+  "name": "Bonray",
+  "name_key": "BONRAY",
+  "alpha_key": "BONRAY",
+  "canon_key": "BONRAI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

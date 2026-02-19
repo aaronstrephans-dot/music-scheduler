@@ -1,0 +1,15 @@
+{
+  "id": "30bd7c18-50ab-465d-adf2-ca5227682397",
+  "m1_id": 1948,
+  "added_at": "2026-02-19T05:19:26.971947Z",
+  "name": "Dell Mac",
+  "name_key": "DELL MAC",
+  "alpha_key": "DELL MAC",
+  "canon_key": "DELMAC",
+  "rec_type": 0,
+  "separation_ms": 1200000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

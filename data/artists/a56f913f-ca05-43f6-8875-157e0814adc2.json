@@ -1,0 +1,15 @@
+{
+  "id": "a56f913f-ca05-43f6-8875-157e0814adc2",
+  "m1_id": 416,
+  "added_at": "2026-02-19T05:19:26.688724Z",
+  "name": "Renewing the Heart Worship Team",
+  "name_key": "RENEWING THE HEART WORSHIP TEAM",
+  "alpha_key": "RENEWING THE HEART WORSHIP",
+  "canon_key": "RENEWINGHEARTWORSHIPTEAM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

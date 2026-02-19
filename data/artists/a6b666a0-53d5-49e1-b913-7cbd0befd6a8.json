@@ -1,0 +1,15 @@
+{
+  "id": "a6b666a0-53d5-49e1-b913-7cbd0befd6a8",
+  "m1_id": 1908,
+  "added_at": "2026-02-19T05:19:26.955144Z",
+  "name": "Boluwaduro",
+  "name_key": "BOLUWADURO",
+  "alpha_key": "BOLUWADURO",
+  "canon_key": "BOLUWADURO",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

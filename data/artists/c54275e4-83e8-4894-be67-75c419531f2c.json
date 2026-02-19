@@ -1,0 +1,15 @@
+{
+  "id": "c54275e4-83e8-4894-be67-75c419531f2c",
+  "m1_id": 288,
+  "added_at": "2026-02-19T05:19:26.680463Z",
+  "name": "Take Six",
+  "name_key": "TAKE SIX",
+  "alpha_key": "TAKE SIX",
+  "canon_key": "TAKE6",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

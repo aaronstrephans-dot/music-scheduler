@@ -1,0 +1,15 @@
+{
+  "id": "755e07c8-baa1-42d2-bf1b-21f83808bcd1",
+  "m1_id": 1331,
+  "added_at": "2026-02-19T05:19:26.753626Z",
+  "name": "Everman",
+  "name_key": "EVERMAN",
+  "alpha_key": "EVERMAN",
+  "canon_key": "EVERMAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

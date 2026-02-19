@@ -1,0 +1,15 @@
+{
+  "id": "05d4be30-c529-4bef-b046-b7b426bb9c5e",
+  "m1_id": 1552,
+  "added_at": "2026-02-19T05:19:26.833931Z",
+  "name": "Ryan Stuart",
+  "name_key": "RYAN STUART",
+  "alpha_key": "RYAN STUART",
+  "canon_key": "RIANSTUART",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

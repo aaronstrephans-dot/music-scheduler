@@ -1,0 +1,15 @@
+{
+  "id": "93fdefcc-e875-4af7-87d9-eccbad348ce8",
+  "m1_id": 136,
+  "added_at": "2026-02-19T05:19:26.662675Z",
+  "name": "Jeoffrey Benward",
+  "name_key": "JEOFFREY BENWARD",
+  "alpha_key": "JEOFFREY BENWARD",
+  "canon_key": "JEOFREIBENWARD",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

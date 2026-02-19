@@ -1,0 +1,15 @@
+{
+  "id": "be3b3437-3488-4fb3-875c-02cd4bbd8ef1",
+  "m1_id": 45,
+  "added_at": "2026-02-19T05:19:26.652664Z",
+  "name": "Bob Fitts",
+  "name_key": "BOB FITTS",
+  "alpha_key": "BOB FITTS",
+  "canon_key": "BOBFITS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

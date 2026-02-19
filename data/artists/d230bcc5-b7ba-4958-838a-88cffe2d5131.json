@@ -1,0 +1,15 @@
+{
+  "id": "d230bcc5-b7ba-4958-838a-88cffe2d5131",
+  "m1_id": 1613,
+  "added_at": "2026-02-19T05:19:26.855176Z",
+  "name": "Allan Scott",
+  "name_key": "ALLAN SCOTT",
+  "alpha_key": "ALLAN SCOTT",
+  "canon_key": "ALANSCOT",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

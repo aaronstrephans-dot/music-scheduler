@@ -1,0 +1,15 @@
+{
+  "id": "9946314a-67ab-4199-b5ef-08c361f5d9bc",
+  "m1_id": 1223,
+  "added_at": "2026-02-19T05:19:26.725854Z",
+  "name": "Selah",
+  "name_key": "SELAH",
+  "alpha_key": "SELAH",
+  "canon_key": "SELAH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "620bc540-be27-4981-8a89-4d4ce2e55d21",
+  "m1_id": 1676,
+  "added_at": "2026-02-19T05:19:26.876162Z",
+  "name": "Danny Gokey",
+  "name_key": "DANNY GOKEY",
+  "alpha_key": "DANNY GOKEY",
+  "canon_key": "DANIGOKEI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

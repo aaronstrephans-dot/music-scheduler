@@ -1,0 +1,15 @@
+{
+  "id": "8e9ab80a-38c4-45e1-b79d-266e6e8e2a06",
+  "m1_id": 1694,
+  "added_at": "2026-02-19T05:19:26.882461Z",
+  "name": "Mike Weaver",
+  "name_key": "MIKE WEAVER",
+  "alpha_key": "MIKE WEAVER",
+  "canon_key": "MIKEWEAVER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

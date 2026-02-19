@@ -1,0 +1,15 @@
+{
+  "id": "6f6160c3-d11c-45ec-afa3-06587a48fbe7",
+  "m1_id": 1123,
+  "added_at": "2026-02-19T05:19:26.720553Z",
+  "name": "Lonestar",
+  "name_key": "LONESTAR",
+  "alpha_key": "LONESTAR",
+  "canon_key": "LONESTAR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

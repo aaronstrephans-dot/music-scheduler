@@ -1,0 +1,15 @@
+{
+  "id": "af30afd0-4dfe-42f2-86c7-8e28378e77d9",
+  "m1_id": 1664,
+  "added_at": "2026-02-19T05:19:26.871912Z",
+  "name": "Eric Fritts",
+  "name_key": "ERIC FRITTS",
+  "alpha_key": "ERIC FRITTS",
+  "canon_key": "ERICFRITS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

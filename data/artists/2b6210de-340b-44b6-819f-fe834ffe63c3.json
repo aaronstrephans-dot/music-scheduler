@@ -1,0 +1,15 @@
+{
+  "id": "2b6210de-340b-44b6-819f-fe834ffe63c3",
+  "m1_id": 46,
+  "added_at": "2026-02-19T05:19:26.652940Z",
+  "name": "Kelly Willard",
+  "name_key": "KELLY WILLARD",
+  "alpha_key": "KELLY WILLARD",
+  "canon_key": "KELIWILARD",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

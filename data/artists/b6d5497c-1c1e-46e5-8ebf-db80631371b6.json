@@ -1,0 +1,15 @@
+{
+  "id": "b6d5497c-1c1e-46e5-8ebf-db80631371b6",
+  "m1_id": 485,
+  "added_at": "2026-02-19T05:19:26.700584Z",
+  "name": "Geoff Moore",
+  "name_key": "GEOFF MOORE",
+  "alpha_key": "GEOFF MOORE",
+  "canon_key": "GEOFMORE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

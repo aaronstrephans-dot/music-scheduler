@@ -1,0 +1,15 @@
+{
+  "id": "ed28353a-76fd-44f1-9add-50ec063b144b",
+  "m1_id": 619,
+  "added_at": "2026-02-19T05:19:26.716114Z",
+  "name": "Phil Joel",
+  "name_key": "PHIL JOEL",
+  "alpha_key": "PHIL JOEL",
+  "canon_key": "PHILJOEL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1179b442-d697-4447-9ebb-5d7104a91e6c",
+  "m1_id": 1187,
+  "added_at": "2026-02-19T05:19:26.722963Z",
+  "name": "Slater Armstrong",
+  "name_key": "SLATER ARMSTRONG",
+  "alpha_key": "SLATER ARMSTRONG",
+  "canon_key": "SLATERARMSTRONG",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "8b799eb2-7ed9-4f2f-820b-638654fa882c",
+  "m1_id": 1276,
+  "added_at": "2026-02-19T05:19:26.739207Z",
+  "name": "Everybodyduck",
+  "name_key": "EVERYBODYDUCK",
+  "alpha_key": "EVERYBODYDUCK",
+  "canon_key": "EVERIBODIDUCK",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

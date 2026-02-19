@@ -1,0 +1,15 @@
+{
+  "id": "1bcfdf7f-b911-4016-b011-144857439b66",
+  "m1_id": 62,
+  "added_at": "2026-02-19T05:19:26.654401Z",
+  "name": "Chaz Bosarge",
+  "name_key": "CHAZ BOSARGE",
+  "alpha_key": "CHAZ BOSARGE",
+  "canon_key": "CHAZBOSARGE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

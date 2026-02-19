@@ -1,0 +1,15 @@
+{
+  "id": "23910000-3055-4884-93ce-76a017441f36",
+  "m1_id": 65,
+  "added_at": "2026-02-19T05:19:26.655050Z",
+  "name": "Chris Rice",
+  "name_key": "CHRIS RICE",
+  "alpha_key": "CHRIS RICE",
+  "canon_key": "CHRISRICE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

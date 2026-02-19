@@ -1,0 +1,15 @@
+{
+  "id": "57f88b3c-0d3e-4f7c-884f-b08dada8300d",
+  "m1_id": 1672,
+  "added_at": "2026-02-19T05:19:26.874866Z",
+  "name": "NCC Worship",
+  "name_key": "NCC WORSHIP",
+  "alpha_key": "NCC WORSHIP",
+  "canon_key": "NCWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

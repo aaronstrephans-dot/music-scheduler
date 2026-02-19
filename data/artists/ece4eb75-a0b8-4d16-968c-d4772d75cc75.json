@@ -1,0 +1,15 @@
+{
+  "id": "ece4eb75-a0b8-4d16-968c-d4772d75cc75",
+  "m1_id": 1364,
+  "added_at": "2026-02-19T05:19:26.766406Z",
+  "name": "Chris McCrea",
+  "name_key": "CHRIS MCCREA",
+  "alpha_key": "CHRIS MCCREA",
+  "canon_key": "CHRISMCREA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

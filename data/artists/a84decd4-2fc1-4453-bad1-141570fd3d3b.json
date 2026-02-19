@@ -1,0 +1,15 @@
+{
+  "id": "a84decd4-2fc1-4453-bad1-141570fd3d3b",
+  "m1_id": 1737,
+  "added_at": "2026-02-19T05:19:26.895760Z",
+  "name": "Micah Tyler",
+  "name_key": "MICAH TYLER",
+  "alpha_key": "MICAH TYLER",
+  "canon_key": "MICAHTILER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

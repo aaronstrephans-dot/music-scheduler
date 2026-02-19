@@ -1,0 +1,15 @@
+{
+  "id": "0a154158-170b-4a52-9247-09d33d5c609b",
+  "m1_id": 25,
+  "added_at": "2026-02-19T05:19:26.649210Z",
+  "name": "Avalon",
+  "name_key": "AVALON",
+  "alpha_key": "AVALON",
+  "canon_key": "AVALON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

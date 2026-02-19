@@ -1,0 +1,15 @@
+{
+  "id": "11a4308b-396d-4eb6-9368-034dab2e66ea",
+  "m1_id": 1593,
+  "added_at": "2026-02-19T05:19:26.848471Z",
+  "name": "Sarah Hart",
+  "name_key": "SARAH HART",
+  "alpha_key": "SARAH HART",
+  "canon_key": "SARAHHART",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

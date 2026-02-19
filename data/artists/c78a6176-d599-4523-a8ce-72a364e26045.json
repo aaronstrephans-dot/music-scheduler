@@ -1,0 +1,15 @@
+{
+  "id": "c78a6176-d599-4523-a8ce-72a364e26045",
+  "m1_id": 1939,
+  "added_at": "2026-02-19T05:19:26.968328Z",
+  "name": "Sons of Sunday",
+  "name_key": "SONS OF SUNDAY",
+  "alpha_key": "SONS OF SUNDAY",
+  "canon_key": "SONSOFSUNDAI",
+  "rec_type": 0,
+  "separation_ms": 1200000,
+  "gender": 1,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

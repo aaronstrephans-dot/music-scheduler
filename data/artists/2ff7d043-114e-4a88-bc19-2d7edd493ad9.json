@@ -1,0 +1,15 @@
+{
+  "id": "2ff7d043-114e-4a88-bc19-2d7edd493ad9",
+  "m1_id": 263,
+  "added_at": "2026-02-19T05:19:26.676879Z",
+  "name": "Ron Kenoly",
+  "name_key": "RON KENOLY",
+  "alpha_key": "RON KENOLY",
+  "canon_key": "RONKENOLI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

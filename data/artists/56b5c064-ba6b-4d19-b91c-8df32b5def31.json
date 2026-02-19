@@ -1,0 +1,15 @@
+{
+  "id": "56b5c064-ba6b-4d19-b91c-8df32b5def31",
+  "m1_id": 1781,
+  "added_at": "2026-02-19T05:19:26.910278Z",
+  "name": "Davy Flowers",
+  "name_key": "DAVY FLOWERS",
+  "alpha_key": "DAVY FLOWERS",
+  "canon_key": "DAVIFLOWERS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

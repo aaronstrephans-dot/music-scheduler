@@ -1,0 +1,15 @@
+{
+  "id": "f6db74e3-a26a-40be-9b84-442a327be784",
+  "m1_id": 1924,
+  "added_at": "2026-02-19T05:19:26.961557Z",
+  "name": "Aodhan King",
+  "name_key": "AODHAN KING",
+  "alpha_key": "AODHAN KING",
+  "canon_key": "AODHANKING",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

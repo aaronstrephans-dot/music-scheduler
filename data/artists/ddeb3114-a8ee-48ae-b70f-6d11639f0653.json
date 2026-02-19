@@ -1,0 +1,15 @@
+{
+  "id": "ddeb3114-a8ee-48ae-b70f-6d11639f0653",
+  "m1_id": 1500,
+  "added_at": "2026-02-19T05:19:26.819374Z",
+  "name": "Meredith Andrews",
+  "name_key": "MEREDITH ANDREWS",
+  "alpha_key": "MEREDITH ANDREWS",
+  "canon_key": "MEREDITHANDREWS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

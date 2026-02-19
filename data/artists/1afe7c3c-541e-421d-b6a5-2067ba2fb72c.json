@@ -1,0 +1,15 @@
+{
+  "id": "1afe7c3c-541e-421d-b6a5-2067ba2fb72c",
+  "m1_id": 1630,
+  "added_at": "2026-02-19T05:19:26.859951Z",
+  "name": "City Harbor",
+  "name_key": "CITY HARBOR",
+  "alpha_key": "CITY HARBOR",
+  "canon_key": "CITIHARBOR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

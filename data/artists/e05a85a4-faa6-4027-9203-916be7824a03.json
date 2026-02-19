@@ -1,0 +1,15 @@
+{
+  "id": "e05a85a4-faa6-4027-9203-916be7824a03",
+  "m1_id": 1606,
+  "added_at": "2026-02-19T05:19:26.852842Z",
+  "name": "Chris McClarney",
+  "name_key": "CHRIS MCCLARNEY",
+  "alpha_key": "CHRIS MCCLARNEY",
+  "canon_key": "CHRISMCLARNEI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

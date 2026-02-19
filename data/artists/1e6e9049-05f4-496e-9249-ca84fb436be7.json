@@ -1,0 +1,15 @@
+{
+  "id": "1e6e9049-05f4-496e-9249-ca84fb436be7",
+  "m1_id": 345,
+  "added_at": "2026-02-19T05:19:26.683350Z",
+  "name": "Truth",
+  "name_key": "TRUTH",
+  "alpha_key": "TRUTH",
+  "canon_key": "TRUTH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

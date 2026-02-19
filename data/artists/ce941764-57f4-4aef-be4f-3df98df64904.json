@@ -1,0 +1,15 @@
+{
+  "id": "ce941764-57f4-4aef-be4f-3df98df64904",
+  "m1_id": 1384,
+  "added_at": "2026-02-19T05:19:26.774856Z",
+  "name": "Nirva",
+  "name_key": "NIRVA",
+  "alpha_key": "NIRVA",
+  "canon_key": "NIRVA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

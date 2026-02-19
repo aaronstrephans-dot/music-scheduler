@@ -1,0 +1,15 @@
+{
+  "id": "4f75a720-f455-4115-b68f-32d5fa3dc3a8",
+  "m1_id": 1894,
+  "added_at": "2026-02-19T05:19:26.950599Z",
+  "name": "Bryan Fowler",
+  "name_key": "BRYAN FOWLER",
+  "alpha_key": "BRYAN FOWLER",
+  "canon_key": "BRIANFOWLER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

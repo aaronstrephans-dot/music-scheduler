@@ -1,0 +1,15 @@
+{
+  "id": "81ab02bf-8737-4e5e-bb68-cadaadba2951",
+  "m1_id": 1517,
+  "added_at": "2026-02-19T05:19:26.824359Z",
+  "name": "Sheri Carr",
+  "name_key": "SHERI CARR",
+  "alpha_key": "SHERI CARR",
+  "canon_key": "SHERICAR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

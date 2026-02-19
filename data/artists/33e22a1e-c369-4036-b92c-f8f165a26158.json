@@ -1,0 +1,15 @@
+{
+  "id": "33e22a1e-c369-4036-b92c-f8f165a26158",
+  "m1_id": 1218,
+  "added_at": "2026-02-19T05:19:26.724651Z",
+  "name": "Dan Haseltine (Jars of Clay)",
+  "name_key": "DAN HASELTINE (JARS OF CLAY)",
+  "alpha_key": "DAN HASELTINE JARS OF CLAY",
+  "canon_key": "DANHASELTINEJARSOFCLAI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

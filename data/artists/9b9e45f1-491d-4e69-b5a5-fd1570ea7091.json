@@ -1,0 +1,15 @@
+{
+  "id": "9b9e45f1-491d-4e69-b5a5-fd1570ea7091",
+  "m1_id": 341,
+  "added_at": "2026-02-19T05:19:26.683115Z",
+  "name": "Tony Elenberg",
+  "name_key": "TONY ELENBERG",
+  "alpha_key": "TONY ELENBERG",
+  "canon_key": "TONIELENBERG",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

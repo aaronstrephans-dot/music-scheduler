@@ -1,0 +1,15 @@
+{
+  "id": "2dd7ceb7-c398-41f5-b1d2-547d3be674b8",
+  "m1_id": 1916,
+  "added_at": "2026-02-19T05:19:26.958602Z",
+  "name": "Grace Worship Collective",
+  "name_key": "GRACE WORSHIP COLLECTIVE",
+  "alpha_key": "GRACE WORSHIP COLLECTIVE",
+  "canon_key": "GRACEWORSHIPCOLECTIVE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

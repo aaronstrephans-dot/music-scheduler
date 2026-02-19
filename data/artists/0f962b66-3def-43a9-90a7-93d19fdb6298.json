@@ -1,0 +1,15 @@
+{
+  "id": "0f962b66-3def-43a9-90a7-93d19fdb6298",
+  "m1_id": 1386,
+  "added_at": "2026-02-19T05:19:26.775607Z",
+  "name": "Debi Selby",
+  "name_key": "DEBI SELBY",
+  "alpha_key": "DEBI SELBY",
+  "canon_key": "DEBISELBI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

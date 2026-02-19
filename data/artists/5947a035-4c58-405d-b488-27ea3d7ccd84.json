@@ -1,0 +1,15 @@
+{
+  "id": "5947a035-4c58-405d-b488-27ea3d7ccd84",
+  "m1_id": 1644,
+  "added_at": "2026-02-19T05:19:26.864457Z",
+  "name": "The City Harmonic",
+  "name_key": "THE CITY HARMONIC",
+  "alpha_key": "CITY HARMONIC",
+  "canon_key": "CITIHARMONIC",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

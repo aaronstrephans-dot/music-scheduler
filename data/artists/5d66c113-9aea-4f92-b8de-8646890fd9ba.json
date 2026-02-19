@@ -1,0 +1,15 @@
+{
+  "id": "5d66c113-9aea-4f92-b8de-8646890fd9ba",
+  "m1_id": 1353,
+  "added_at": "2026-02-19T05:19:26.762233Z",
+  "name": "Tom Hemby",
+  "name_key": "TOM HEMBY",
+  "alpha_key": "TOM HEMBY",
+  "canon_key": "TOMHEMBI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "e7e7430e-f90d-4698-bcc4-f94f4570efe0",
+  "m1_id": 1893,
+  "added_at": "2026-02-19T05:19:26.950201Z",
+  "name": "KingsPorch",
+  "name_key": "KINGSPORCH",
+  "alpha_key": "KINGSPORCH",
+  "canon_key": "KINGSPORCH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

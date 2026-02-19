@@ -1,0 +1,15 @@
+{
+  "id": "2947e8f5-f32f-48a8-8fbd-8a98a12a0a36",
+  "m1_id": 1910,
+  "added_at": "2026-02-19T05:19:26.956065Z",
+  "name": "Seph Schlueter",
+  "name_key": "SEPH SCHLUETER",
+  "alpha_key": "SEPH SCHLUETER",
+  "canon_key": "SEPHSCHLUETER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

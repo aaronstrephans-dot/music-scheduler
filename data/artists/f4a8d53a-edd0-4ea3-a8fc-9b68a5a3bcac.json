@@ -1,0 +1,15 @@
+{
+  "id": "f4a8d53a-edd0-4ea3-a8fc-9b68a5a3bcac",
+  "m1_id": 265,
+  "added_at": "2026-02-19T05:19:26.677163Z",
+  "name": "Ross Parsley",
+  "name_key": "ROSS PARSLEY",
+  "alpha_key": "ROSS PARSLEY",
+  "canon_key": "ROSPARSLEI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

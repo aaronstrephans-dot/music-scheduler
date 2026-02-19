@@ -1,0 +1,15 @@
+{
+  "id": "30be041f-9311-4956-98dd-9073a86281a7",
+  "m1_id": 1902,
+  "added_at": "2026-02-19T05:19:26.952967Z",
+  "name": "P Tempo",
+  "name_key": "P TEMPO",
+  "alpha_key": "P TEMPO",
+  "canon_key": "PTEMPO",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

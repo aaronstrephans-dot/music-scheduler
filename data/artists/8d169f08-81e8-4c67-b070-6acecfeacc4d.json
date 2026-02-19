@@ -1,0 +1,15 @@
+{
+  "id": "8d169f08-81e8-4c67-b070-6acecfeacc4d",
+  "m1_id": 1841,
+  "added_at": "2026-02-19T05:19:26.931727Z",
+  "name": "SEU Worship",
+  "name_key": "SEU WORSHIP",
+  "alpha_key": "SEU WORSHIP",
+  "canon_key": "SEUWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "4789cf0e-10a9-4eff-b09e-44f143a5e32d",
+  "m1_id": 1609,
+  "added_at": "2026-02-19T05:19:26.853829Z",
+  "name": "Dara Maclean",
+  "name_key": "DARA MACLEAN",
+  "alpha_key": "DARA MACLEAN",
+  "canon_key": "DARAMACLEAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

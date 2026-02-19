@@ -1,0 +1,15 @@
+{
+  "id": "7f2a43b7-024e-4a5e-9047-07f7591406b9",
+  "m1_id": 1539,
+  "added_at": "2026-02-19T05:19:26.830041Z",
+  "name": "Sidewalk Prophets",
+  "name_key": "SIDEWALK PROPHETS",
+  "alpha_key": "SIDEWALK PROPHETS",
+  "canon_key": "SIDEWALKPROPHETS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

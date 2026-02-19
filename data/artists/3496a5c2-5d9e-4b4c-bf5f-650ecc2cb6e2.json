@@ -1,0 +1,15 @@
+{
+  "id": "3496a5c2-5d9e-4b4c-bf5f-650ecc2cb6e2",
+  "m1_id": 517,
+  "added_at": "2026-02-19T05:19:26.705261Z",
+  "name": "Hills Youth Praise & Worship",
+  "name_key": "HILLS YOUTH PRAISE & WORSHIP",
+  "alpha_key": "HILLS YOUTH PRAISE & WORSH",
+  "canon_key": "HILSIOUTHPRAISEWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "d8fcf79b-2db3-4f01-a436-959b9a8c924b",
+  "m1_id": 95,
+  "added_at": "2026-02-19T05:19:26.658550Z",
+  "name": "Don Moen",
+  "name_key": "DON MOEN",
+  "alpha_key": "DON MOEN",
+  "canon_key": "DONMOEN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

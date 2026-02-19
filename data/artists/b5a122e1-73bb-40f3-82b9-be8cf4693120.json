@@ -1,0 +1,15 @@
+{
+  "id": "b5a122e1-73bb-40f3-82b9-be8cf4693120",
+  "m1_id": 1906,
+  "added_at": "2026-02-19T05:19:26.954245Z",
+  "name": "The Spirituals Choir",
+  "name_key": "THE SPIRITUALS CHOIR",
+  "alpha_key": "SPIRITUALS CHOIR",
+  "canon_key": "SPIRITUALSCHOIR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

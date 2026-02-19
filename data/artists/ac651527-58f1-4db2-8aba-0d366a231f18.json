@@ -1,0 +1,15 @@
+{
+  "id": "ac651527-58f1-4db2-8aba-0d366a231f18",
+  "m1_id": 1623,
+  "added_at": "2026-02-19T05:19:26.857666Z",
+  "name": "Love & The Outcome",
+  "name_key": "LOVE & THE OUTCOME",
+  "alpha_key": "LOVE & THE OUTCOME",
+  "canon_key": "LOVEOUTCOME",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

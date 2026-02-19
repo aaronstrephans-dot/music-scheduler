@@ -1,0 +1,15 @@
+{
+  "id": "4855edc5-a8df-4a7f-b259-b598bc3f69cd",
+  "m1_id": 1850,
+  "added_at": "2026-02-19T05:19:26.935036Z",
+  "name": "Melodie Malone",
+  "name_key": "MELODIE MALONE",
+  "alpha_key": "MELODIE MALONE",
+  "canon_key": "MELODIEMALONE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

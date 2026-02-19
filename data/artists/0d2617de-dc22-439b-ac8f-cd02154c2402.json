@@ -1,0 +1,15 @@
+{
+  "id": "0d2617de-dc22-439b-ac8f-cd02154c2402",
+  "m1_id": 1377,
+  "added_at": "2026-02-19T05:19:26.772436Z",
+  "name": "Michael Passons",
+  "name_key": "MICHAEL PASSONS",
+  "alpha_key": "MICHAEL PASSONS",
+  "canon_key": "MICHAELPASONS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

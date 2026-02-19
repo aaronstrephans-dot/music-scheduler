@@ -1,0 +1,15 @@
+{
+  "id": "922e940c-fe87-43fd-90c1-5c31b599a719",
+  "m1_id": 442,
+  "added_at": "2026-02-19T05:19:26.694157Z",
+  "name": "Willow Creek Praise Band",
+  "name_key": "WILLOW CREEK PRAISE BAND",
+  "alpha_key": "WILLOW CREEK PRAISE BAND",
+  "canon_key": "WILOWCREKPRAISEBAND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

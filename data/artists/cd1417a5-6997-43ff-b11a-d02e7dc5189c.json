@@ -1,0 +1,15 @@
+{
+  "id": "cd1417a5-6997-43ff-b11a-d02e7dc5189c",
+  "m1_id": 1380,
+  "added_at": "2026-02-19T05:19:26.773524Z",
+  "name": "Monk & Neagle",
+  "name_key": "MONK & NEAGLE",
+  "alpha_key": "MONK & NEAGLE",
+  "canon_key": "MONKNEAGLE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

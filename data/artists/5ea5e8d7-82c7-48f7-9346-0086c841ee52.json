@@ -1,0 +1,15 @@
+{
+  "id": "5ea5e8d7-82c7-48f7-9346-0086c841ee52",
+  "m1_id": 1473,
+  "added_at": "2026-02-19T05:19:26.811222Z",
+  "name": "Jason Gray",
+  "name_key": "JASON GRAY",
+  "alpha_key": "JASON GRAY",
+  "canon_key": "JASONGRAI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "93f1d587-1a76-4d61-b3f6-e71398f89181",
+  "m1_id": 1625,
+  "added_at": "2026-02-19T05:19:26.858466Z",
+  "name": "OBB",
+  "name_key": "OBB",
+  "alpha_key": "OBB",
+  "canon_key": "OB",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

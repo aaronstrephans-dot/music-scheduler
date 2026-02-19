@@ -1,0 +1,15 @@
+{
+  "id": "bb3b37fa-6f55-4c27-888e-a8f6f2d6d552",
+  "m1_id": 1312,
+  "added_at": "2026-02-19T05:19:26.747039Z",
+  "name": "David Fitzgerald",
+  "name_key": "DAVID FITZGERALD",
+  "alpha_key": "DAVID FITZGERALD",
+  "canon_key": "DAVIDFITZGERALD",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

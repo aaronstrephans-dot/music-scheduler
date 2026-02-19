@@ -1,0 +1,15 @@
+{
+  "id": "9bea4978-0e6c-4d23-819e-4c5a0bf63923",
+  "m1_id": 225,
+  "added_at": "2026-02-19T05:19:26.672217Z",
+  "name": "Newsboys",
+  "name_key": "NEWSBOYS",
+  "alpha_key": "NEWSBOYS",
+  "canon_key": "NEWSBOIS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

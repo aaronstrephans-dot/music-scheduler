@@ -1,0 +1,15 @@
+{
+  "id": "05cb95ef-f00d-4d0c-9f10-c7e22f1ff693",
+  "m1_id": 1372,
+  "added_at": "2026-02-19T05:19:26.769395Z",
+  "name": "Kutless",
+  "name_key": "KUTLESS",
+  "alpha_key": "KUTLESS",
+  "canon_key": "KUTLES",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

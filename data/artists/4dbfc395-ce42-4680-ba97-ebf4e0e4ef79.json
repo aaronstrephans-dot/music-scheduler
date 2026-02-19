@@ -1,0 +1,15 @@
+{
+  "id": "4dbfc395-ce42-4680-ba97-ebf4e0e4ef79",
+  "m1_id": 1427,
+  "added_at": "2026-02-19T05:19:26.795669Z",
+  "name": "Jaime Jamgochian",
+  "name_key": "JAIME JAMGOCHIAN",
+  "alpha_key": "JAIME JAMGOCHIAN",
+  "canon_key": "JAIMEJAMGOCHIAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

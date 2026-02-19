@@ -1,0 +1,15 @@
+{
+  "id": "9aeb3389-a8f5-483f-9b41-b6601b2c477d",
+  "m1_id": 505,
+  "added_at": "2026-02-19T05:19:26.704443Z",
+  "name": "Angela Smythe",
+  "name_key": "ANGELA SMYTHE",
+  "alpha_key": "ANGELA SMYTHE",
+  "canon_key": "ANGELASMITHE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

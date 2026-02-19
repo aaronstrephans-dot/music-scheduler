@@ -1,0 +1,15 @@
+{
+  "id": "9ac5af73-1263-4adb-abdf-8ae251f4b076",
+  "m1_id": 1575,
+  "added_at": "2026-02-19T05:19:26.841921Z",
+  "name": "Brian Johnson",
+  "name_key": "BRIAN JOHNSON",
+  "alpha_key": "BRIAN JOHNSON",
+  "canon_key": "BRIANJOHNSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

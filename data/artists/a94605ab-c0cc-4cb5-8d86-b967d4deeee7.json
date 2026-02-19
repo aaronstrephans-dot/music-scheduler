@@ -1,0 +1,15 @@
+{
+  "id": "a94605ab-c0cc-4cb5-8d86-b967d4deeee7",
+  "m1_id": 125,
+  "added_at": "2026-02-19T05:19:26.661387Z",
+  "name": "Helen Baylor",
+  "name_key": "HELEN BAYLOR",
+  "alpha_key": "HELEN BAYLOR",
+  "canon_key": "HELENBAILOR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

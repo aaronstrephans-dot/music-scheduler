@@ -1,0 +1,15 @@
+{
+  "id": "2bf5e0a3-8270-46fe-a1b6-559aea3a5132",
+  "m1_id": 126,
+  "added_at": "2026-02-19T05:19:26.661807Z",
+  "name": "Hillsongs Worship Team",
+  "name_key": "HILLSONGS WORSHIP TEAM",
+  "alpha_key": "HILLSONGS WORSHIP TEAM",
+  "canon_key": "HILSONGSWORSHIPTEAM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

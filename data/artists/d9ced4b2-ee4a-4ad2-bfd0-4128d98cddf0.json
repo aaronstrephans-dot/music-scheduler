@@ -1,0 +1,15 @@
+{
+  "id": "d9ced4b2-ee4a-4ad2-bfd0-4128d98cddf0",
+  "m1_id": 1799,
+  "added_at": "2026-02-19T05:19:26.916736Z",
+  "name": "Mama Pure",
+  "name_key": "MAMA PURE",
+  "alpha_key": "MAMA PURE",
+  "canon_key": "MAMAPURE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

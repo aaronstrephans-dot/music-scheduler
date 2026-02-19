@@ -1,0 +1,15 @@
+{
+  "id": "a74aa1f4-4d01-4acf-8c4d-8b48b0adbca0",
+  "m1_id": 1302,
+  "added_at": "2026-02-19T05:19:26.744220Z",
+  "name": "Allen Asbury",
+  "name_key": "ALLEN ASBURY",
+  "alpha_key": "ALLEN ASBURY",
+  "canon_key": "ALENASBURI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

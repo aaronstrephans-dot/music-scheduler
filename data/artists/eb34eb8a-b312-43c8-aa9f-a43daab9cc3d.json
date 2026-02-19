@@ -1,0 +1,15 @@
+{
+  "id": "eb34eb8a-b312-43c8-aa9f-a43daab9cc3d",
+  "m1_id": 1645,
+  "added_at": "2026-02-19T05:19:26.864723Z",
+  "name": "Hillsong Young & Free",
+  "name_key": "HILLSONG YOUNG & FREE",
+  "alpha_key": "HILLSONG YOUNG & FREE",
+  "canon_key": "HILSONGIOUNGFRE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

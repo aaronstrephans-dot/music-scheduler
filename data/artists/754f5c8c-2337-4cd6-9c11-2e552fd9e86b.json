@@ -1,0 +1,15 @@
+{
+  "id": "754f5c8c-2337-4cd6-9c11-2e552fd9e86b",
+  "m1_id": 1782,
+  "added_at": "2026-02-19T05:19:26.910672Z",
+  "name": "Worship Initiative",
+  "name_key": "WORSHIP INITIATIVE",
+  "alpha_key": "WORSHIP INITIATIVE",
+  "canon_key": "WORSHIPINITIATIVE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

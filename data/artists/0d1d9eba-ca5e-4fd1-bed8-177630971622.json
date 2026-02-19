@@ -1,0 +1,15 @@
+{
+  "id": "0d1d9eba-ca5e-4fd1-bed8-177630971622",
+  "m1_id": 1740,
+  "added_at": "2026-02-19T05:19:26.896560Z",
+  "name": "Josh Baldwin",
+  "name_key": "JOSH BALDWIN",
+  "alpha_key": "JOSH BALDWIN",
+  "canon_key": "JOSHBALDWIN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

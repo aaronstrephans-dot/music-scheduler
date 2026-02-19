@@ -1,0 +1,15 @@
+{
+  "id": "e40ee6bd-6e53-4da0-850b-bf3fe6233d1a",
+  "m1_id": 1399,
+  "added_at": "2026-02-19T05:19:26.780732Z",
+  "name": "Ronnie Freeman",
+  "name_key": "RONNIE FREEMAN",
+  "alpha_key": "RONNIE FREEMAN",
+  "canon_key": "RONIEFREMAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

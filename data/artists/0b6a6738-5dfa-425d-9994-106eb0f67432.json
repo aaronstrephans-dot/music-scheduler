@@ -1,0 +1,15 @@
+{
+  "id": "0b6a6738-5dfa-425d-9994-106eb0f67432",
+  "m1_id": 1802,
+  "added_at": "2026-02-19T05:19:26.917631Z",
+  "name": "Neyi Zimu",
+  "name_key": "NEYI ZIMU",
+  "alpha_key": "NEYI ZIMU",
+  "canon_key": "NEIZIMU",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

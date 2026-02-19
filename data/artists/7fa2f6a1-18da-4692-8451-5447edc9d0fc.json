@@ -1,0 +1,15 @@
+{
+  "id": "7fa2f6a1-18da-4692-8451-5447edc9d0fc",
+  "m1_id": 1219,
+  "added_at": "2026-02-19T05:19:26.724950Z",
+  "name": "Stuart Townend",
+  "name_key": "STUART TOWNEND",
+  "alpha_key": "STUART TOWNEND",
+  "canon_key": "STUARTTOWNEND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "5f7b8421-9a8b-4a97-bbad-9d0e84fc0b4c",
+  "m1_id": 1321,
+  "added_at": "2026-02-19T05:19:26.749609Z",
+  "name": "Glassbyrd",
+  "name_key": "GLASSBYRD",
+  "alpha_key": "GLASSBYRD",
+  "canon_key": "GLASBIRD",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "b8f248dc-2cc1-4756-af3e-57fae5eb87dc",
+  "m1_id": 1725,
+  "added_at": "2026-02-19T05:19:26.892207Z",
+  "name": "Pat Barrett",
+  "name_key": "PAT BARRETT",
+  "alpha_key": "PAT BARRETT",
+  "canon_key": "PATBARET",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

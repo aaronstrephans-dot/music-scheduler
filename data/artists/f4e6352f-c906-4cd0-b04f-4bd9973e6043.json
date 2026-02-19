@@ -1,0 +1,15 @@
+{
+  "id": "f4e6352f-c906-4cd0-b04f-4bd9973e6043",
+  "m1_id": 320,
+  "added_at": "2026-02-19T05:19:26.682212Z",
+  "name": "Maranatha Praise Band",
+  "name_key": "MARANATHA PRAISE BAND",
+  "alpha_key": "MARANATHA PRAISE BAND",
+  "canon_key": "MARANATHAPRAISEBAND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

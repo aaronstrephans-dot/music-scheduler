@@ -1,0 +1,15 @@
+{
+  "id": "73904e10-2857-4ab4-b831-8f7eee3028ed",
+  "m1_id": 601,
+  "added_at": "2026-02-19T05:19:26.714886Z",
+  "name": "Audio Adrenaline",
+  "name_key": "AUDIO ADRENALINE",
+  "alpha_key": "AUDIO ADRENALINE",
+  "canon_key": "AUDIOADRENALINE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

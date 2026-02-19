@@ -1,0 +1,15 @@
+{
+  "id": "7460e358-cf7d-4d2a-9761-7335f1e92d69",
+  "m1_id": 1604,
+  "added_at": "2026-02-19T05:19:26.852276Z",
+  "name": "Esterlyn",
+  "name_key": "ESTERLYN",
+  "alpha_key": "ESTERLYN",
+  "canon_key": "ESTERLIN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

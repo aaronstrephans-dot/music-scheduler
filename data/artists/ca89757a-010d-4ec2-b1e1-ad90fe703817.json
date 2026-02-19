@@ -1,0 +1,15 @@
+{
+  "id": "ca89757a-010d-4ec2-b1e1-ad90fe703817",
+  "m1_id": 1483,
+  "added_at": "2026-02-19T05:19:26.813994Z",
+  "name": "Nate Huss",
+  "name_key": "NATE HUSS",
+  "alpha_key": "NATE HUSS",
+  "canon_key": "NATEHUS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

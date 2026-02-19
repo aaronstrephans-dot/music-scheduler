@@ -1,0 +1,15 @@
+{
+  "id": "a34e8d36-3dbe-43ab-bc21-1d402ba60142",
+  "m1_id": 1571,
+  "added_at": "2026-02-19T05:19:26.840471Z",
+  "name": "North Point",
+  "name_key": "NORTH POINT",
+  "alpha_key": "NORTH POINT",
+  "canon_key": "NORTHPOINT",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

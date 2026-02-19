@@ -1,0 +1,15 @@
+{
+  "id": "a575e561-e266-4f59-b7fb-387d586f502a",
+  "m1_id": 597,
+  "added_at": "2026-02-19T05:19:26.714315Z",
+  "name": "Waterdeep",
+  "name_key": "WATERDEEP",
+  "alpha_key": "WATERDEEP",
+  "canon_key": "WATERDEP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

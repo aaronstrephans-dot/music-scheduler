@@ -1,0 +1,15 @@
+{
+  "id": "86c84f82-5b39-4a1f-a93d-04c86f1ede06",
+  "m1_id": 1859,
+  "added_at": "2026-02-19T05:19:26.937776Z",
+  "name": "Blessing Offer",
+  "name_key": "BLESSING OFFER",
+  "alpha_key": "BLESSING OFFER",
+  "canon_key": "BLESINGOFER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "13d2b4d4-ff70-4094-93dd-94ae12463d3f",
+  "m1_id": 1895,
+  "added_at": "2026-02-19T05:19:26.950913Z",
+  "name": "The Band Jaren",
+  "name_key": "THE BAND JAREN",
+  "alpha_key": "BAND JAREN",
+  "canon_key": "BANDJAREN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

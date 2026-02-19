@@ -1,0 +1,15 @@
+{
+  "id": "421aaef8-6f6f-4fdc-b5a8-e85122890f79",
+  "m1_id": 1469,
+  "added_at": "2026-02-19T05:19:26.810071Z",
+  "name": "Future of Forestry",
+  "name_key": "FUTURE OF FORESTRY",
+  "alpha_key": "FUTURE OF FORESTRY",
+  "canon_key": "FUTUREOFFORESTRI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

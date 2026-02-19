@@ -1,0 +1,15 @@
+{
+  "id": "39d0807d-7db6-4b3b-93ae-a6df52000f4d",
+  "m1_id": 1940,
+  "added_at": "2026-02-19T05:19:26.968661Z",
+  "name": "James River Worship",
+  "name_key": "JAMES RIVER WORSHIP",
+  "alpha_key": "JAMES RIVER WORSHIP",
+  "canon_key": "JAMESRIVERWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1200000,
+  "gender": 1,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

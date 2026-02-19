@@ -1,0 +1,15 @@
+{
+  "id": "319edc7e-4fe7-4583-92e2-fa5867d784a5",
+  "m1_id": 1928,
+  "added_at": "2026-02-19T05:19:26.964367Z",
+  "name": "Jamie MacDonald",
+  "name_key": "JAMIE MACDONALD",
+  "alpha_key": "JAMIE MACDONALD",
+  "canon_key": "JAMIEMACDONALD",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

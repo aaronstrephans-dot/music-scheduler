@@ -1,0 +1,15 @@
+{
+  "id": "da5c61b6-fc2c-4fd1-9e57-8a2a667d0d56",
+  "m1_id": 1460,
+  "added_at": "2026-02-19T05:19:26.807086Z",
+  "name": "Jonathan Stockstill",
+  "name_key": "JONATHAN STOCKSTILL",
+  "alpha_key": "JONATHAN STOCKSTILL",
+  "canon_key": "JONATHANSTOCKSTIL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

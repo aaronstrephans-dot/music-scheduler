@@ -1,0 +1,15 @@
+{
+  "id": "5cc36ce4-ad06-4760-a0a7-a38a6c829b5b",
+  "m1_id": 1235,
+  "added_at": "2026-02-19T05:19:26.729475Z",
+  "name": "Todd Fields",
+  "name_key": "TODD FIELDS",
+  "alpha_key": "TODD FIELDS",
+  "canon_key": "TODFIELDS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

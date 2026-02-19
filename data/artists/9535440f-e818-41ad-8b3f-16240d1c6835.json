@@ -1,0 +1,15 @@
+{
+  "id": "9535440f-e818-41ad-8b3f-16240d1c6835",
+  "m1_id": 1855,
+  "added_at": "2026-02-19T05:19:26.936664Z",
+  "name": "Joyous Celebration",
+  "name_key": "JOYOUS CELEBRATION",
+  "alpha_key": "JOYOUS CELEBRATION",
+  "canon_key": "JOIOUSCELEBRATION",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

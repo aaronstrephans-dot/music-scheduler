@@ -1,0 +1,15 @@
+{
+  "id": "7810d6e7-2139-4631-aeca-fc86396700a8",
+  "m1_id": 1929,
+  "added_at": "2026-02-19T05:19:26.964809Z",
+  "name": "Joe L Barnes",
+  "name_key": "JOE L BARNES",
+  "alpha_key": "JOE L BARNES",
+  "canon_key": "JOELBARNES",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

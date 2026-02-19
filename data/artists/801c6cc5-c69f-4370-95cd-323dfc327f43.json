@@ -1,0 +1,15 @@
+{
+  "id": "801c6cc5-c69f-4370-95cd-323dfc327f43",
+  "m1_id": 1482,
+  "added_at": "2026-02-19T05:19:26.813687Z",
+  "name": "Robbie Seay Band",
+  "name_key": "ROBBIE SEAY BAND",
+  "alpha_key": "ROBBIE SEAY BAND",
+  "canon_key": "ROBIESEAIBAND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

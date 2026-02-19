@@ -1,0 +1,15 @@
+{
+  "id": "27a0be72-ab9e-4182-8014-2ca4e9acb367",
+  "m1_id": 1886,
+  "added_at": "2026-02-19T05:19:26.947487Z",
+  "name": "Mitch Wong",
+  "name_key": "MITCH WONG",
+  "alpha_key": "MITCH WONG",
+  "canon_key": "MITCHWONG",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

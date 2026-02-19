@@ -1,0 +1,15 @@
+{
+  "id": "8d203fef-fdaf-4fb2-855c-d4216a156a90",
+  "m1_id": 230,
+  "added_at": "2026-02-19T05:19:26.672884Z",
+  "name": "Pam Thum",
+  "name_key": "PAM THUM",
+  "alpha_key": "PAM THUM",
+  "canon_key": "PAMTHUM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

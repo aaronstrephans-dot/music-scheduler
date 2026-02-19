@@ -1,0 +1,15 @@
+{
+  "id": "4ded03ca-3068-4c9e-9c7c-7dac64dacaca",
+  "m1_id": 1731,
+  "added_at": "2026-02-19T05:19:26.894284Z",
+  "name": "Vertical Worship",
+  "name_key": "VERTICAL WORSHIP",
+  "alpha_key": "VERTICAL WORSHIP",
+  "canon_key": "VERTICALWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

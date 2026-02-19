@@ -1,0 +1,15 @@
+{
+  "id": "07f0e893-1df2-462b-ad58-c79f6d50e688",
+  "m1_id": 1507,
+  "added_at": "2026-02-19T05:19:26.821429Z",
+  "name": "Al Gordon",
+  "name_key": "AL GORDON",
+  "alpha_key": "AL GORDON",
+  "canon_key": "ALGORDON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

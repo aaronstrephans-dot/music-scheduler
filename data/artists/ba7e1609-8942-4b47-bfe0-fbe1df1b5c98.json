@@ -1,0 +1,15 @@
+{
+  "id": "ba7e1609-8942-4b47-bfe0-fbe1df1b5c98",
+  "m1_id": 504,
+  "added_at": "2026-02-19T05:19:26.704042Z",
+  "name": "Ron DePuy",
+  "name_key": "RON DEPUY",
+  "alpha_key": "RON DEPUY",
+  "canon_key": "RONDEPUI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1ed71b58-a043-4db0-ac50-59d8a255ee5f",
+  "m1_id": 1884,
+  "added_at": "2026-02-19T05:19:26.946756Z",
+  "name": "Emerson Day",
+  "name_key": "EMERSON DAY",
+  "alpha_key": "EMERSON DAY",
+  "canon_key": "EMERSONDAI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "e989339b-8a51-4038-b847-d3aaf6f34331",
+  "m1_id": 1328,
+  "added_at": "2026-02-19T05:19:26.752557Z",
+  "name": "Scott Faircloff",
+  "name_key": "SCOTT FAIRCLOFF",
+  "alpha_key": "SCOTT FAIRCLOFF",
+  "canon_key": "SCOTFAIRCLOF",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

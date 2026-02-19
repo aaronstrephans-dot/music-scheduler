@@ -1,0 +1,15 @@
+{
+  "id": "5b49c41c-7796-4b38-b5e9-aa2eba64f1c3",
+  "m1_id": 1857,
+  "added_at": "2026-02-19T05:19:26.937189Z",
+  "name": "Harvest Gospel Choir",
+  "name_key": "HARVEST GOSPEL CHOIR",
+  "alpha_key": "HARVEST GOSPEL CHOIR",
+  "canon_key": "HARVESTGOSPELCHOIR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

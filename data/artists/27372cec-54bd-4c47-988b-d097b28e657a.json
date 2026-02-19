@@ -1,0 +1,15 @@
+{
+  "id": "27372cec-54bd-4c47-988b-d097b28e657a",
+  "m1_id": 1280,
+  "added_at": "2026-02-19T05:19:26.739825Z",
+  "name": "Passage",
+  "name_key": "PASSAGE",
+  "alpha_key": "PASSAGE",
+  "canon_key": "PASAGE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

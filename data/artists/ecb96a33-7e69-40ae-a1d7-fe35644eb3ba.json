@@ -1,0 +1,15 @@
+{
+  "id": "ecb96a33-7e69-40ae-a1d7-fe35644eb3ba",
+  "m1_id": 31,
+  "added_at": "2026-02-19T05:19:26.650473Z",
+  "name": "Benny Hester",
+  "name_key": "BENNY HESTER",
+  "alpha_key": "BENNY HESTER",
+  "canon_key": "BENIHESTER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

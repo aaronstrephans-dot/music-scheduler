@@ -1,0 +1,15 @@
+{
+  "id": "d8abaeb8-f3b8-4aa6-b79d-a898cb8b46dc",
+  "m1_id": 1129,
+  "added_at": "2026-02-19T05:19:26.722238Z",
+  "name": "David Moyse",
+  "name_key": "DAVID MOYSE",
+  "alpha_key": "DAVID MOYSE",
+  "canon_key": "DAVIDMOISE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

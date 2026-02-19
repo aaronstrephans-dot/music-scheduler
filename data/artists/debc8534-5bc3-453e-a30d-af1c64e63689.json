@@ -1,0 +1,15 @@
+{
+  "id": "debc8534-5bc3-453e-a30d-af1c64e63689",
+  "m1_id": 1830,
+  "added_at": "2026-02-19T05:19:26.928002Z",
+  "name": "GD Harrison",
+  "name_key": "GD HARRISON",
+  "alpha_key": "GD HARRISON",
+  "canon_key": "GDHARISON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

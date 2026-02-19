@@ -1,0 +1,15 @@
+{
+  "id": "94e003c8-8192-4eb2-a90e-c58ca0008688",
+  "m1_id": 1268,
+  "added_at": "2026-02-19T05:19:26.736486Z",
+  "name": "Mary Beth Carlson",
+  "name_key": "MARY BETH CARLSON",
+  "alpha_key": "MARY BETH CARLSON",
+  "canon_key": "MARIBETHCARLSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

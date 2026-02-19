@@ -1,0 +1,15 @@
+{
+  "id": "3c5c7f6e-a5e5-4a35-b53d-e7ddfd2af557",
+  "m1_id": 1761,
+  "added_at": "2026-02-19T05:19:26.903396Z",
+  "name": "Carrollton",
+  "name_key": "CARROLLTON",
+  "alpha_key": "CARROLLTON",
+  "canon_key": "CAROLTON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

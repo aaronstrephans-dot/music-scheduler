@@ -1,0 +1,15 @@
+{
+  "id": "11af8733-1c38-4fc4-be39-af6b34808637",
+  "m1_id": 1590,
+  "added_at": "2026-02-19T05:19:26.847531Z",
+  "name": "Brad & Rebekah",
+  "name_key": "BRAD & REBEKAH",
+  "alpha_key": "BRAD & REBEKAH",
+  "canon_key": "BRADREBEKAH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "9b71279b-0e79-4723-9414-ca4d7d5c01f7",
+  "m1_id": 568,
+  "added_at": "2026-02-19T05:19:26.710296Z",
+  "name": "Sixpence None The Richer",
+  "name_key": "SIXPENCE NONE THE RICHER",
+  "alpha_key": "SIXPENCE NONE THE RICHER",
+  "canon_key": "SIXPENCENONERICHER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "a5c24208-ad09-4480-bd07-f80fc26b7720",
+  "m1_id": 475,
+  "added_at": "2026-02-19T05:19:26.699535Z",
+  "name": "Brother's Keeper",
+  "name_key": "BROTHER'S KEEPER",
+  "alpha_key": "BROTHER S KEEPER",
+  "canon_key": "BROSKEPER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

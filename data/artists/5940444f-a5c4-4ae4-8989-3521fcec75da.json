@@ -1,0 +1,15 @@
+{
+  "id": "5940444f-a5c4-4ae4-8989-3521fcec75da",
+  "m1_id": 1562,
+  "added_at": "2026-02-19T05:19:26.837329Z",
+  "name": "Beth Croft",
+  "name_key": "BETH CROFT",
+  "alpha_key": "BETH CROFT",
+  "canon_key": "BETHCROFT",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

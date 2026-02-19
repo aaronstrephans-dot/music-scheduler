@@ -1,0 +1,15 @@
+{
+  "id": "a2da21ec-a577-440c-bd94-093fb971675d",
+  "m1_id": 274,
+  "added_at": "2026-02-19T05:19:26.678351Z",
+  "name": "Steve & Annie Chapman",
+  "name_key": "STEVE & ANNIE CHAPMAN",
+  "alpha_key": "STEVE & ANNIE CHAPMAN",
+  "canon_key": "STEVEANIECHAPMAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

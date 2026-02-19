@@ -1,0 +1,15 @@
+{
+  "id": "cd75b5ab-45fa-467d-a325-80066bdd5f02",
+  "m1_id": 1327,
+  "added_at": "2026-02-19T05:19:26.752210Z",
+  "name": "Phil Wickham",
+  "name_key": "PHIL WICKHAM",
+  "alpha_key": "PHIL WICKHAM",
+  "canon_key": "PHILWICKHAM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

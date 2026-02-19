@@ -1,0 +1,15 @@
+{
+  "id": "4d929b89-0e90-4746-8a5e-c787ec991bb1",
+  "m1_id": 483,
+  "added_at": "2026-02-19T05:19:26.700200Z",
+  "name": "Brian Doerksen",
+  "name_key": "BRIAN DOERKSEN",
+  "alpha_key": "BRIAN DOERKSEN",
+  "canon_key": "BRIANDOERKSEN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

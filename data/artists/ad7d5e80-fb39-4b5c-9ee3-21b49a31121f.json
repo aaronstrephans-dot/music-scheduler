@@ -1,0 +1,15 @@
+{
+  "id": "ad7d5e80-fb39-4b5c-9ee3-21b49a31121f",
+  "m1_id": 1439,
+  "added_at": "2026-02-19T05:19:26.800385Z",
+  "name": "Gateway Worship",
+  "name_key": "GATEWAY WORSHIP",
+  "alpha_key": "GATEWAY WORSHIP",
+  "canon_key": "GATEWAIWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

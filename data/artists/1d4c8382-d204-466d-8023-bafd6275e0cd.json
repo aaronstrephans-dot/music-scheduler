@@ -1,0 +1,15 @@
+{
+  "id": "1d4c8382-d204-466d-8023-bafd6275e0cd",
+  "m1_id": 1269,
+  "added_at": "2026-02-19T05:19:26.736775Z",
+  "name": "Lisa Lopez",
+  "name_key": "LISA LOPEZ",
+  "alpha_key": "LISA LOPEZ",
+  "canon_key": "LISALOPEZ",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

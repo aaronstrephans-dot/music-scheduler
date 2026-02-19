@@ -1,0 +1,15 @@
+{
+  "id": "ce04010a-ca14-4a6a-a6d9-f61d64a96ca7",
+  "m1_id": 1944,
+  "added_at": "2026-02-19T05:19:26.970130Z",
+  "name": "Tommee Profitt",
+  "name_key": "TOMMEE PROFITT",
+  "alpha_key": "TOMMEE PROFITT",
+  "canon_key": "TOMEPROFIT",
+  "rec_type": 0,
+  "separation_ms": 1200000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "8682ab96-146d-4e68-ab2b-b40f2c26657c",
+  "m1_id": 1771,
+  "added_at": "2026-02-19T05:19:26.907056Z",
+  "name": "Jon Reddick",
+  "name_key": "JON REDDICK",
+  "alpha_key": "JON REDDICK",
+  "canon_key": "JONREDICK",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

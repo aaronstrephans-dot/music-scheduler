@@ -1,0 +1,15 @@
+{
+  "id": "396ca238-f6b7-4d66-8b0f-afa1a460dd01",
+  "m1_id": 467,
+  "added_at": "2026-02-19T05:19:26.698515Z",
+  "name": "Jamie Slocum",
+  "name_key": "JAMIE SLOCUM",
+  "alpha_key": "JAMIE SLOCUM",
+  "canon_key": "JAMIESLOCUM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

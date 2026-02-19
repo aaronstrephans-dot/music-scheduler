@@ -1,0 +1,15 @@
+{
+  "id": "87aab61e-874a-490e-b1ef-05121bdf37f4",
+  "m1_id": 187,
+  "added_at": "2026-02-19T05:19:26.668067Z",
+  "name": "Maranatha Promise Band",
+  "name_key": "MARANATHA PROMISE BAND",
+  "alpha_key": "MARANATHA PROMISE BAND",
+  "canon_key": "MARANATHAPROMISEBAND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

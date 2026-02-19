@@ -1,0 +1,15 @@
+{
+  "id": "0e890490-d446-418b-90a6-a9060066b4bf",
+  "m1_id": 1437,
+  "added_at": "2026-02-19T05:19:26.799538Z",
+  "name": "Leeland",
+  "name_key": "LEELAND",
+  "alpha_key": "LEELAND",
+  "canon_key": "LELAND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

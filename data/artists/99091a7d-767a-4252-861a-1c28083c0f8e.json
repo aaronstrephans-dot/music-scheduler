@@ -1,0 +1,15 @@
+{
+  "id": "99091a7d-767a-4252-861a-1c28083c0f8e",
+  "m1_id": 1330,
+  "added_at": "2026-02-19T05:19:26.753278Z",
+  "name": "Eoghan Heaslip",
+  "name_key": "EOGHAN HEASLIP",
+  "alpha_key": "EOGHAN HEASLIP",
+  "canon_key": "EOGHANHEASLIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "8d7844a4-8242-49a5-ba34-d04c28c8cb9d",
+  "m1_id": 154,
+  "added_at": "2026-02-19T05:19:26.663576Z",
+  "name": "Kathy Troccoli",
+  "name_key": "KATHY TROCCOLI",
+  "alpha_key": "KATHY TROCCOLI",
+  "canon_key": "KATHITROCOLI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "6a61acaa-7fda-460b-88f3-ffa53c252e7a",
+  "m1_id": 190,
+  "added_at": "2026-02-19T05:19:26.668712Z",
+  "name": "Margaret Becker",
+  "name_key": "MARGARET BECKER",
+  "alpha_key": "MARGARET BECKER",
+  "canon_key": "MARGARETBECKER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

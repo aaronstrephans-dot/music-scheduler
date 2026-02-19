@@ -1,0 +1,15 @@
+{
+  "id": "31a69174-fb01-48d0-b989-931a0a6dde23",
+  "m1_id": 1226,
+  "added_at": "2026-02-19T05:19:26.727014Z",
+  "name": "ZOEgirl",
+  "name_key": "ZOEGIRL",
+  "alpha_key": "ZOEGIRL",
+  "canon_key": "ZOEGIRL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

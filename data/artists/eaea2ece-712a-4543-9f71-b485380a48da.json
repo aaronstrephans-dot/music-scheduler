@@ -1,0 +1,15 @@
+{
+  "id": "eaea2ece-712a-4543-9f71-b485380a48da",
+  "m1_id": 1877,
+  "added_at": "2026-02-19T05:19:26.944488Z",
+  "name": "Sarah Kroger",
+  "name_key": "SARAH KROGER",
+  "alpha_key": "SARAH KROGER",
+  "canon_key": "SARAHKROGER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

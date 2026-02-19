@@ -1,0 +1,15 @@
+{
+  "id": "1d9af0eb-f660-4ef7-a0e2-45260f583b9a",
+  "m1_id": 1348,
+  "added_at": "2026-02-19T05:19:26.760384Z",
+  "name": "Stew West",
+  "name_key": "STEW WEST",
+  "alpha_key": "STEW WEST",
+  "canon_key": "STEWWEST",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

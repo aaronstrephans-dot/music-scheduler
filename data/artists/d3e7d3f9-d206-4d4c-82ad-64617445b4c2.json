@@ -1,0 +1,15 @@
+{
+  "id": "d3e7d3f9-d206-4d4c-82ad-64617445b4c2",
+  "m1_id": 1772,
+  "added_at": "2026-02-19T05:19:26.907417Z",
+  "name": "Bright City",
+  "name_key": "BRIGHT CITY",
+  "alpha_key": "BRIGHT CITY",
+  "canon_key": "BRIGHTCITI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

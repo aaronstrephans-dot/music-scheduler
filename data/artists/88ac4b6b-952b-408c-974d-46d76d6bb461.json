@@ -1,0 +1,15 @@
+{
+  "id": "88ac4b6b-952b-408c-974d-46d76d6bb461",
+  "m1_id": 211,
+  "added_at": "2026-02-19T05:19:26.671017Z",
+  "name": "Michelle Wagner",
+  "name_key": "MICHELLE WAGNER",
+  "alpha_key": "MICHELLE WAGNER",
+  "canon_key": "MICHELEWAGNER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

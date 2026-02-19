@@ -1,0 +1,15 @@
+{
+  "id": "032c1c18-bc22-49c8-a099-4ee97060f788",
+  "m1_id": 1251,
+  "added_at": "2026-02-19T05:19:26.733377Z",
+  "name": "Satellite Soul",
+  "name_key": "SATELLITE SOUL",
+  "alpha_key": "SATELLITE SOUL",
+  "canon_key": "SATELITESOUL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

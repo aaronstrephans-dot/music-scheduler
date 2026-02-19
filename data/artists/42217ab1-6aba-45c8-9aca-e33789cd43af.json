@@ -1,0 +1,15 @@
+{
+  "id": "42217ab1-6aba-45c8-9aca-e33789cd43af",
+  "m1_id": 1565,
+  "added_at": "2026-02-19T05:19:26.838205Z",
+  "name": "Chris Sligh",
+  "name_key": "CHRIS SLIGH",
+  "alpha_key": "CHRIS SLIGH",
+  "canon_key": "CHRISSLIGH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "dcea079b-0e6b-4788-ac4f-a9e15bc29476",
+  "m1_id": 1440,
+  "added_at": "2026-02-19T05:19:26.800708Z",
+  "name": "Kari Jobe",
+  "name_key": "KARI JOBE",
+  "alpha_key": "KARI JOBE",
+  "canon_key": "KARIJOBE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

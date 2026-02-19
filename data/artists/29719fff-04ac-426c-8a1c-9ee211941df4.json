@@ -1,0 +1,15 @@
+{
+  "id": "29719fff-04ac-426c-8a1c-9ee211941df4",
+  "m1_id": 1611,
+  "added_at": "2026-02-19T05:19:26.854541Z",
+  "name": "Hearts of Saints",
+  "name_key": "HEARTS OF SAINTS",
+  "alpha_key": "HEARTS OF SAINTS",
+  "canon_key": "HEARTSOFSAINTS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "0e11d5f3-f40e-45a3-8edc-f2a614d16678",
+  "m1_id": 1917,
+  "added_at": "2026-02-19T05:19:26.959056Z",
+  "name": "ICF Worship",
+  "name_key": "ICF WORSHIP",
+  "alpha_key": "ICF WORSHIP",
+  "canon_key": "ICFWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "4a3f31f6-979c-49ed-9a9a-143c1a116fef",
+  "m1_id": 63,
+  "added_at": "2026-02-19T05:19:26.654776Z",
+  "name": "Cheri Keaggy",
+  "name_key": "CHERI KEAGGY",
+  "alpha_key": "CHERI KEAGGY",
+  "canon_key": "CHERIKEAGI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

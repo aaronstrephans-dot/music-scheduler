@@ -1,0 +1,15 @@
+{
+  "id": "6d6772fa-c400-4106-aa56-39192f4ba1d7",
+  "m1_id": 1468,
+  "added_at": "2026-02-19T05:19:26.809793Z",
+  "name": "Britt Nicole",
+  "name_key": "BRITT NICOLE",
+  "alpha_key": "BRITT NICOLE",
+  "canon_key": "BRITNICOLE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

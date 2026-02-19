@@ -1,0 +1,15 @@
+{
+  "id": "48c8fa81-f3ae-4f61-ba65-7b8e3dc923a2",
+  "m1_id": 1382,
+  "added_at": "2026-02-19T05:19:26.773996Z",
+  "name": "Shane & Shane",
+  "name_key": "SHANE & SHANE",
+  "alpha_key": "SHANE & SHANE",
+  "canon_key": "SHANESHANE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

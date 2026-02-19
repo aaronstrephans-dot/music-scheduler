@@ -1,0 +1,15 @@
+{
+  "id": "9885600e-2870-4f92-b517-ab5f9b53a07a",
+  "m1_id": 1354,
+  "added_at": "2026-02-19T05:19:26.762516Z",
+  "name": "Casting Crowns",
+  "name_key": "CASTING CROWNS",
+  "alpha_key": "CASTING CROWNS",
+  "canon_key": "CASTINGCROWNS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

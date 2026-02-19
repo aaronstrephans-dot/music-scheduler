@@ -1,0 +1,15 @@
+{
+  "id": "227dc624-4fbf-4489-aa48-c396505ea3dd",
+  "m1_id": 1649,
+  "added_at": "2026-02-19T05:19:26.866176Z",
+  "name": "Watoto Children's Choir",
+  "name_key": "WATOTO CHILDREN'S CHOIR",
+  "alpha_key": "WATOTO CHILDREN S CHOIR",
+  "canon_key": "WATOTOCHILDRENSCHOIR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "fad0756b-60d6-4cc4-ab49-2035d092894c",
+  "m1_id": 1486,
+  "added_at": "2026-02-19T05:19:26.815174Z",
+  "name": "Rachel Robinson",
+  "name_key": "RACHEL ROBINSON",
+  "alpha_key": "RACHEL ROBINSON",
+  "canon_key": "RACHELROBINSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

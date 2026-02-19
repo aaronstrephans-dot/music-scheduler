@@ -1,0 +1,15 @@
+{
+  "id": "25b3cac0-a8f9-4db8-8c13-173342641155",
+  "m1_id": 109,
+  "added_at": "2026-02-19T05:19:26.660406Z",
+  "name": "Gary Chapman",
+  "name_key": "GARY CHAPMAN",
+  "alpha_key": "GARY CHAPMAN",
+  "canon_key": "GARICHAPMAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

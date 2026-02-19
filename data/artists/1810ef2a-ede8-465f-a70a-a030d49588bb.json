@@ -1,0 +1,15 @@
+{
+  "id": "1810ef2a-ede8-465f-a70a-a030d49588bb",
+  "m1_id": 453,
+  "added_at": "2026-02-19T05:19:26.696394Z",
+  "name": "National Philharmonic Orchestra",
+  "name_key": "NATIONAL PHILHARMONIC ORCHESTRA",
+  "alpha_key": "NATIONAL PHILHARMONIC ORCH",
+  "canon_key": "NATIONALPHILHARMONICORCHESTRA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

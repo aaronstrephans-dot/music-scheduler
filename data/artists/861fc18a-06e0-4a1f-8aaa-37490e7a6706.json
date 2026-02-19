@@ -1,0 +1,15 @@
+{
+  "id": "861fc18a-06e0-4a1f-8aaa-37490e7a6706",
+  "m1_id": 1818,
+  "added_at": "2026-02-19T05:19:26.923571Z",
+  "name": "Charity Gayle",
+  "name_key": "CHARITY GAYLE",
+  "alpha_key": "CHARITY GAYLE",
+  "canon_key": "CHARITIGAILE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

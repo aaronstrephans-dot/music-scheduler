@@ -1,0 +1,15 @@
+{
+  "id": "b09f9ec7-f5ca-4017-94a3-3b89f258159f",
+  "m1_id": 1719,
+  "added_at": "2026-02-19T05:19:26.890680Z",
+  "name": "Crowder",
+  "name_key": "CROWDER",
+  "alpha_key": "CROWDER",
+  "canon_key": "CROWDER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

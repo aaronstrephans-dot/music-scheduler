@@ -1,0 +1,15 @@
+{
+  "id": "65399cc5-92ef-4392-a4b7-e410a995a220",
+  "m1_id": 1692,
+  "added_at": "2026-02-19T05:19:26.881687Z",
+  "name": "Churchouse",
+  "name_key": "CHURCHOUSE",
+  "alpha_key": "CHURCHOUSE",
+  "canon_key": "CHURCHOUSE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

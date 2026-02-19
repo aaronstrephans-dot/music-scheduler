@@ -1,0 +1,15 @@
+{
+  "id": "2e2c4ffa-45f5-490b-83f0-0b3bf673b9d3",
+  "m1_id": 1549,
+  "added_at": "2026-02-19T05:19:26.832908Z",
+  "name": "Kristian Stanfill",
+  "name_key": "KRISTIAN STANFILL",
+  "alpha_key": "KRISTIAN STANFILL",
+  "canon_key": "KRISTIANSTANFIL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "78e2889f-478a-4fc5-9dd8-9ed499a3c93e",
+  "m1_id": 1765,
+  "added_at": "2026-02-19T05:19:26.904776Z",
+  "name": "Brandon Lake",
+  "name_key": "BRANDON LAKE",
+  "alpha_key": "BRANDON LAKE",
+  "canon_key": "BRANDONLAKE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

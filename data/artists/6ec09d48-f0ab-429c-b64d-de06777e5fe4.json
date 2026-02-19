@@ -1,0 +1,15 @@
+{
+  "id": "6ec09d48-f0ab-429c-b64d-de06777e5fe4",
+  "m1_id": 1876,
+  "added_at": "2026-02-19T05:19:26.944140Z",
+  "name": "Blanca",
+  "name_key": "BLANCA",
+  "alpha_key": "BLANCA",
+  "canon_key": "BLANCA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

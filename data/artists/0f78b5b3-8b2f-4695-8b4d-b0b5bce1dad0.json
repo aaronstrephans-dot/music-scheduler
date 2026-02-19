@@ -1,0 +1,15 @@
+{
+  "id": "0f78b5b3-8b2f-4695-8b4d-b0b5bce1dad0",
+  "m1_id": 1862,
+  "added_at": "2026-02-19T05:19:26.938767Z",
+  "name": "Samsong",
+  "name_key": "SAMSONG",
+  "alpha_key": "SAMSONG",
+  "canon_key": "SAMSONG",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

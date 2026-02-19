@@ -1,0 +1,15 @@
+{
+  "id": "4d16e287-7e1a-4e14-9ccb-0b5af44a261f",
+  "m1_id": 421,
+  "added_at": "2026-02-19T05:19:26.689113Z",
+  "name": "Delirious",
+  "name_key": "DELIRIOUS",
+  "alpha_key": "DELIRIOUS",
+  "canon_key": "DELIRIOUS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

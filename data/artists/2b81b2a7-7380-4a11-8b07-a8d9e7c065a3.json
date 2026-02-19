@@ -1,0 +1,15 @@
+{
+  "id": "2b81b2a7-7380-4a11-8b07-a8d9e7c065a3",
+  "m1_id": 1903,
+  "added_at": "2026-02-19T05:19:26.953352Z",
+  "name": "Lizz",
+  "name_key": "LIZZ",
+  "alpha_key": "LIZZ",
+  "canon_key": "LIZ",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

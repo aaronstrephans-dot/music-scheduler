@@ -1,0 +1,15 @@
+{
+  "id": "91b096e1-1885-4038-b0c0-f154aa90c316",
+  "m1_id": 1769,
+  "added_at": "2026-02-19T05:19:26.906304Z",
+  "name": "River Valley Worship",
+  "name_key": "RIVER VALLEY WORSHIP",
+  "alpha_key": "RIVER VALLEY WORSHIP",
+  "canon_key": "RIVERVALEIWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

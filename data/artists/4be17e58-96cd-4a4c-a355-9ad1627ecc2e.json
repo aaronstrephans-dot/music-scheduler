@@ -1,0 +1,15 @@
+{
+  "id": "4be17e58-96cd-4a4c-a355-9ad1627ecc2e",
+  "m1_id": 1214,
+  "added_at": "2026-02-19T05:19:26.723609Z",
+  "name": "Rachael Lampa",
+  "name_key": "RACHAEL LAMPA",
+  "alpha_key": "RACHAEL LAMPA",
+  "canon_key": "RACHAELLAMPA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

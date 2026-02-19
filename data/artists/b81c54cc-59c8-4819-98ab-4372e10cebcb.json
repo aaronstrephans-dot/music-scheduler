@@ -1,0 +1,15 @@
+{
+  "id": "b81c54cc-59c8-4819-98ab-4372e10cebcb",
+  "m1_id": 1909,
+  "added_at": "2026-02-19T05:19:26.955738Z",
+  "name": "Florocka",
+  "name_key": "FLOROCKA",
+  "alpha_key": "FLOROCKA",
+  "canon_key": "FLOROCKA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

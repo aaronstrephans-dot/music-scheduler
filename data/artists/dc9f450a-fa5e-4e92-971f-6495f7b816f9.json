@@ -1,0 +1,15 @@
+{
+  "id": "dc9f450a-fa5e-4e92-971f-6495f7b816f9",
+  "m1_id": 1273,
+  "added_at": "2026-02-19T05:19:26.738395Z",
+  "name": "Heat",
+  "name_key": "HEAT",
+  "alpha_key": "HEAT",
+  "canon_key": "HEAT",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

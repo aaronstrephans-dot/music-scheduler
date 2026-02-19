@@ -1,0 +1,15 @@
+{
+  "id": "1761290f-40d7-4774-bf9a-52390a85b53d",
+  "m1_id": 1936,
+  "added_at": "2026-02-19T05:19:26.967367Z",
+  "name": "Homecoming",
+  "name_key": "HOMECOMING",
+  "alpha_key": "HOMECOMING",
+  "canon_key": "HOMECOMING",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

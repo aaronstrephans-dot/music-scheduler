@@ -1,0 +1,15 @@
+{
+  "id": "8d2f61af-c00c-4020-b97e-aae2c03d1d3b",
+  "m1_id": 1419,
+  "added_at": "2026-02-19T05:19:26.792577Z",
+  "name": "Glenn Packiam",
+  "name_key": "GLENN PACKIAM",
+  "alpha_key": "GLENN PACKIAM",
+  "canon_key": "GLENPACKIAM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

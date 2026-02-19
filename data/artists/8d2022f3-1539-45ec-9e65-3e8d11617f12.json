@@ -1,0 +1,15 @@
+{
+  "id": "8d2022f3-1539-45ec-9e65-3e8d11617f12",
+  "m1_id": 1555,
+  "added_at": "2026-02-19T05:19:26.834928Z",
+  "name": "Adie",
+  "name_key": "ADIE",
+  "alpha_key": "ADIE",
+  "canon_key": "ADIE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

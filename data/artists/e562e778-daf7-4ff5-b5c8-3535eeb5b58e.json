@@ -1,0 +1,15 @@
+{
+  "id": "e562e778-daf7-4ff5-b5c8-3535eeb5b58e",
+  "m1_id": 1785,
+  "added_at": "2026-02-19T05:19:26.911682Z",
+  "name": "Sinach",
+  "name_key": "SINACH",
+  "alpha_key": "SINACH",
+  "canon_key": "SINACH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

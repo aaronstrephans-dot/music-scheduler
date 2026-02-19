@@ -1,0 +1,15 @@
+{
+  "id": "e8e00244-2966-4ba3-a7c7-3e36e378d9ed",
+  "m1_id": 1392,
+  "added_at": "2026-02-19T05:19:26.777848Z",
+  "name": "Susan Ashton, Christine Dente",
+  "name_key": "SUSAN ASHTON, CHRISTINE DENTE",
+  "alpha_key": "SUSAN ASHTON, CHRISTINE DE",
+  "canon_key": "SUSANASHTONCHRISTINEDENTE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

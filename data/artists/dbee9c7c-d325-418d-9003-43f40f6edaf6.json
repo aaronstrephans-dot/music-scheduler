@@ -1,0 +1,15 @@
+{
+  "id": "dbee9c7c-d325-418d-9003-43f40f6edaf6",
+  "m1_id": 1933,
+  "added_at": "2026-02-19T05:19:26.966272Z",
+  "name": "Athey Music",
+  "name_key": "ATHEY MUSIC",
+  "alpha_key": "ATHEY MUSIC",
+  "canon_key": "ATHEIMUSIC",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

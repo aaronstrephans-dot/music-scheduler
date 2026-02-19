@@ -1,0 +1,15 @@
+{
+  "id": "b436119d-8a10-4e71-b31d-8dbe18e34690",
+  "m1_id": 1806,
+  "added_at": "2026-02-19T05:19:26.918926Z",
+  "name": "Akuchay",
+  "name_key": "AKUCHAY",
+  "alpha_key": "AKUCHAY",
+  "canon_key": "AKUCHAI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

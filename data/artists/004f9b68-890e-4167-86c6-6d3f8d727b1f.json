@@ -1,0 +1,15 @@
+{
+  "id": "004f9b68-890e-4167-86c6-6d3f8d727b1f",
+  "m1_id": 310,
+  "added_at": "2026-02-19T05:19:26.681463Z",
+  "name": "The Hosanna Singers",
+  "name_key": "THE HOSANNA SINGERS",
+  "alpha_key": "HOSANNA SINGERS",
+  "canon_key": "HOSANASINGERS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

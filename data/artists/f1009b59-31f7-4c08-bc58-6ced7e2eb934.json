@@ -1,0 +1,15 @@
+{
+  "id": "f1009b59-31f7-4c08-bc58-6ced7e2eb934",
+  "m1_id": 1704,
+  "added_at": "2026-02-19T05:19:26.885846Z",
+  "name": "Bethany Barnard",
+  "name_key": "BETHANY BARNARD",
+  "alpha_key": "BETHANY BARNARD",
+  "canon_key": "BETHANIBARNARD",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

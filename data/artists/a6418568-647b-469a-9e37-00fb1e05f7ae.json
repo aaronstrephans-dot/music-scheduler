@@ -1,0 +1,15 @@
+{
+  "id": "a6418568-647b-469a-9e37-00fb1e05f7ae",
+  "m1_id": 1258,
+  "added_at": "2026-02-19T05:19:26.735083Z",
+  "name": "Steve Wiggins",
+  "name_key": "STEVE WIGGINS",
+  "alpha_key": "STEVE WIGGINS",
+  "canon_key": "STEVEWIGINS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

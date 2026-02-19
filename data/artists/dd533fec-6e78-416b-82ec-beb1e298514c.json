@@ -1,0 +1,15 @@
+{
+  "id": "dd533fec-6e78-416b-82ec-beb1e298514c",
+  "m1_id": 1883,
+  "added_at": "2026-02-19T05:19:26.946456Z",
+  "name": "Tim Kirsch",
+  "name_key": "TIM KIRSCH",
+  "alpha_key": "TIM KIRSCH",
+  "canon_key": "TIMKIRSCH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

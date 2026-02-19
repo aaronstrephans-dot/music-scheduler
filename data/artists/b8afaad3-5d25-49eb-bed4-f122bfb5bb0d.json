@@ -1,0 +1,15 @@
+{
+  "id": "b8afaad3-5d25-49eb-bed4-f122bfb5bb0d",
+  "m1_id": 251,
+  "added_at": "2026-02-19T05:19:26.675247Z",
+  "name": "Rebecca St. James",
+  "name_key": "REBECCA ST. JAMES",
+  "alpha_key": "REBECCA ST JAMES",
+  "canon_key": "REBECASTJAMES",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

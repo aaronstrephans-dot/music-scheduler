@@ -1,0 +1,15 @@
+{
+  "id": "baf05a37-2fbe-4ec9-93e9-0675649e9947",
+  "m1_id": 1637,
+  "added_at": "2026-02-19T05:19:26.862058Z",
+  "name": "Amanda Noelle",
+  "name_key": "AMANDA NOELLE",
+  "alpha_key": "AMANDA NOELLE",
+  "canon_key": "AMANDANOELE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

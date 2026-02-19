@@ -1,0 +1,15 @@
+{
+  "id": "fccd379f-2544-4c68-b964-7a2ae3dfd20d",
+  "m1_id": 1388,
+  "added_at": "2026-02-19T05:19:26.776258Z",
+  "name": "Carl Cartee",
+  "name_key": "CARL CARTEE",
+  "alpha_key": "CARL CARTEE",
+  "canon_key": "CARLCARTE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

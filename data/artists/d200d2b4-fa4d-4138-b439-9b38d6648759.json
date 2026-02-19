@@ -1,0 +1,15 @@
+{
+  "id": "d200d2b4-fa4d-4138-b439-9b38d6648759",
+  "m1_id": 185,
+  "added_at": "2026-02-19T05:19:26.667602Z",
+  "name": "Mannheim Steamroller",
+  "name_key": "MANNHEIM STEAMROLLER",
+  "alpha_key": "MANNHEIM STEAMROLLER",
+  "canon_key": "MANHEIMSTEAMROLER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

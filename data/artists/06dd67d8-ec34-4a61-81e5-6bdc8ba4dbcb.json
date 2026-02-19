@@ -1,0 +1,15 @@
+{
+  "id": "06dd67d8-ec34-4a61-81e5-6bdc8ba4dbcb",
+  "m1_id": 1376,
+  "added_at": "2026-02-19T05:19:26.772029Z",
+  "name": "Todd Smith",
+  "name_key": "TODD SMITH",
+  "alpha_key": "TODD SMITH",
+  "canon_key": "TODSMITH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

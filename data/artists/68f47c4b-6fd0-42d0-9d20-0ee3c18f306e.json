@@ -1,0 +1,15 @@
+{
+  "id": "68f47c4b-6fd0-42d0-9d20-0ee3c18f306e",
+  "m1_id": 174,
+  "added_at": "2026-02-19T05:19:26.666584Z",
+  "name": "Lindell Cooley",
+  "name_key": "LINDELL COOLEY",
+  "alpha_key": "LINDELL COOLEY",
+  "canon_key": "LINDELCOLEI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

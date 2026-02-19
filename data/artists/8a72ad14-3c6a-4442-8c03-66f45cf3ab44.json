@@ -1,0 +1,15 @@
+{
+  "id": "8a72ad14-3c6a-4442-8c03-66f45cf3ab44",
+  "m1_id": 1271,
+  "added_at": "2026-02-19T05:19:26.737572Z",
+  "name": "Daniel Dossmann",
+  "name_key": "DANIEL DOSSMANN",
+  "alpha_key": "DANIEL DOSSMANN",
+  "canon_key": "DANIELDOSMAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "f2d32b3f-a4f0-4ada-93c8-fbb9c8e1c5de",
+  "m1_id": 1853,
+  "added_at": "2026-02-19T05:19:26.936108Z",
+  "name": "Yemi-Alafifuni",
+  "name_key": "YEMI-ALAFIFUNI",
+  "alpha_key": "YEMI-ALAFIFUNI",
+  "canon_key": "IEMIALAFIFUNI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

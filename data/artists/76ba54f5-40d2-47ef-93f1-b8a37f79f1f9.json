@@ -1,0 +1,15 @@
+{
+  "id": "76ba54f5-40d2-47ef-93f1-b8a37f79f1f9",
+  "m1_id": 1490,
+  "added_at": "2026-02-19T05:19:26.816758Z",
+  "name": "Acoustic Christmas",
+  "name_key": "ACOUSTIC CHRISTMAS",
+  "alpha_key": "ACOUSTIC CHRISTMAS",
+  "canon_key": "ACOUSTICCHRISTMAS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

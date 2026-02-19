@@ -1,0 +1,15 @@
+{
+  "id": "ec14d43b-28d6-4be2-9651-1f81a138cc43",
+  "m1_id": 1741,
+  "added_at": "2026-02-19T05:19:26.896854Z",
+  "name": "Tom Smith",
+  "name_key": "TOM SMITH",
+  "alpha_key": "TOM SMITH",
+  "canon_key": "TOMSMITH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "6b84e720-5e25-484f-9907-468f39b16e1f",
+  "m1_id": 172,
+  "added_at": "2026-02-19T05:19:26.665922Z",
+  "name": "Lenny Leblanc",
+  "name_key": "LENNY LEBLANC",
+  "alpha_key": "LENNY LEBLANC",
+  "canon_key": "LENILEBLANC",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "a883c272-bece-4867-9c82-24ea9afe2fe9",
+  "m1_id": 1602,
+  "added_at": "2026-02-19T05:19:26.851563Z",
+  "name": "THe Royal Royal",
+  "name_key": "THE ROYAL ROYAL",
+  "alpha_key": "ROYAL ROYAL",
+  "canon_key": "ROIALROIAL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

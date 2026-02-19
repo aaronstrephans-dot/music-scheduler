@@ -1,0 +1,15 @@
+{
+  "id": "3d521fdd-0f7b-4ea9-8f32-f1d0099d9fd1",
+  "m1_id": 1918,
+  "added_at": "2026-02-19T05:19:26.959404Z",
+  "name": "Dominik Laim",
+  "name_key": "DOMINIK LAIM",
+  "alpha_key": "DOMINIK LAIM",
+  "canon_key": "DOMINIKLAIM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

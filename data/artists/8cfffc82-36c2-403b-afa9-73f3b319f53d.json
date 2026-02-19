@@ -1,0 +1,15 @@
+{
+  "id": "8cfffc82-36c2-403b-afa9-73f3b319f53d",
+  "m1_id": 1755,
+  "added_at": "2026-02-19T05:19:26.901380Z",
+  "name": "Red Rocks Worship",
+  "name_key": "RED ROCKS WORSHIP",
+  "alpha_key": "RED ROCKS WORSHIP",
+  "canon_key": "REDROCKSWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

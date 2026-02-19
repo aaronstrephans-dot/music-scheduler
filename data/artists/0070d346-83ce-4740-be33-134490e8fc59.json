@@ -1,0 +1,15 @@
+{
+  "id": "0070d346-83ce-4740-be33-134490e8fc59",
+  "m1_id": 1543,
+  "added_at": "2026-02-19T05:19:26.831112Z",
+  "name": "Francesca Battistelli",
+  "name_key": "FRANCESCA BATTISTELLI",
+  "alpha_key": "FRANCESCA BATTISTELLI",
+  "canon_key": "FRANCESCABATISTELI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

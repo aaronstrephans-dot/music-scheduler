@@ -1,0 +1,15 @@
+{
+  "id": "f38d772d-172d-4c3e-b9ce-3f81d0d362f2",
+  "m1_id": 1478,
+  "added_at": "2026-02-19T05:19:26.812328Z",
+  "name": "Bethany Dillon",
+  "name_key": "BETHANY DILLON",
+  "alpha_key": "BETHANY DILLON",
+  "canon_key": "BETHANIDILON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

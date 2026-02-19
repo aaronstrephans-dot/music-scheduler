@@ -1,0 +1,15 @@
+{
+  "id": "149bcf4f-b7ea-4d36-83c9-f2c5474f32cd",
+  "m1_id": 170,
+  "added_at": "2026-02-19T05:19:26.665610Z",
+  "name": "Laury Browning",
+  "name_key": "LAURY BROWNING",
+  "alpha_key": "LAURY BROWNING",
+  "canon_key": "LAURIBROWNING",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

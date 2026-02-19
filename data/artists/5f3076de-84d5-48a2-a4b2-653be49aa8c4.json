@@ -1,0 +1,15 @@
+{
+  "id": "5f3076de-84d5-48a2-a4b2-653be49aa8c4",
+  "m1_id": 382,
+  "added_at": "2026-02-19T05:19:26.685022Z",
+  "name": "Tammy Trent",
+  "name_key": "TAMMY TRENT",
+  "alpha_key": "TAMMY TRENT",
+  "canon_key": "TAMITRENT",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

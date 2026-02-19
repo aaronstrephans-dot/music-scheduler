@@ -1,0 +1,15 @@
+{
+  "id": "60dd356a-c6ac-4e2a-a4ec-dc0a4300bdb7",
+  "m1_id": 1264,
+  "added_at": "2026-02-19T05:19:26.735644Z",
+  "name": "Victory Christian Centre",
+  "name_key": "VICTORY CHRISTIAN CENTRE",
+  "alpha_key": "VICTORY CHRISTIAN CENTRE",
+  "canon_key": "VICTORICHRISTIANCENTRE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

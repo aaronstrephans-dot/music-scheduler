@@ -1,0 +1,15 @@
+{
+  "id": "5debb1a4-3c8b-4696-8fef-d57b170a61b3",
+  "m1_id": 66,
+  "added_at": "2026-02-19T05:19:26.655361Z",
+  "name": "Chris Rodriguez",
+  "name_key": "CHRIS RODRIGUEZ",
+  "alpha_key": "CHRIS RODRIGUEZ",
+  "canon_key": "CHRISRODRIGUEZ",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

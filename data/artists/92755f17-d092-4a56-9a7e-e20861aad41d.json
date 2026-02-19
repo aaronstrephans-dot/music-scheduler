@@ -1,0 +1,15 @@
+{
+  "id": "92755f17-d092-4a56-9a7e-e20861aad41d",
+  "m1_id": 1525,
+  "added_at": "2026-02-19T05:19:26.826296Z",
+  "name": "Unhindered",
+  "name_key": "UNHINDERED",
+  "alpha_key": "UNHINDERED",
+  "canon_key": "UNHINDERED",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

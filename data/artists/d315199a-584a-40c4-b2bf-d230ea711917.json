@@ -1,0 +1,15 @@
+{
+  "id": "d315199a-584a-40c4-b2bf-d230ea711917",
+  "m1_id": 1535,
+  "added_at": "2026-02-19T05:19:26.829055Z",
+  "name": "Among The Thirsty",
+  "name_key": "AMONG THE THIRSTY",
+  "alpha_key": "AMONG THE THIRSTY",
+  "canon_key": "AMONGTHIRSTI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

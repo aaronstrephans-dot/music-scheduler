@@ -1,0 +1,15 @@
+{
+  "id": "8f0f9663-93e5-4a23-92ae-d1a260e03d69",
+  "m1_id": 1255,
+  "added_at": "2026-02-19T05:19:26.734455Z",
+  "name": "Eduardo Coronado",
+  "name_key": "EDUARDO CORONADO",
+  "alpha_key": "EDUARDO CORONADO",
+  "canon_key": "EDUARDOCORONADO",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

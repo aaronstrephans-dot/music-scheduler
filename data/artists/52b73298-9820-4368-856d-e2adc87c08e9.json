@@ -1,0 +1,15 @@
+{
+  "id": "52b73298-9820-4368-856d-e2adc87c08e9",
+  "m1_id": 1265,
+  "added_at": "2026-02-19T05:19:26.735926Z",
+  "name": "Jason Upton",
+  "name_key": "JASON UPTON",
+  "alpha_key": "JASON UPTON",
+  "canon_key": "JASONUPTON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

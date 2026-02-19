@@ -1,0 +1,15 @@
+{
+  "id": "2acf8fc4-e633-422b-80ac-318caa0c36fc",
+  "m1_id": 1346,
+  "added_at": "2026-02-19T05:19:26.759575Z",
+  "name": "Travis Cottrell",
+  "name_key": "TRAVIS COTTRELL",
+  "alpha_key": "TRAVIS COTTRELL",
+  "canon_key": "TRAVISCOTREL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

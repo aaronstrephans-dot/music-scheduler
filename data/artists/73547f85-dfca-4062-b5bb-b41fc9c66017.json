@@ -1,0 +1,15 @@
+{
+  "id": "73547f85-dfca-4062-b5bb-b41fc9c66017",
+  "m1_id": 1774,
+  "added_at": "2026-02-19T05:19:26.908016Z",
+  "name": "KXC Worship",
+  "name_key": "KXC WORSHIP",
+  "alpha_key": "KXC WORSHIP",
+  "canon_key": "KXCWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

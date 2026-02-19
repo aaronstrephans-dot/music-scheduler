@@ -1,0 +1,15 @@
+{
+  "id": "744f6a85-829d-4b23-8f7f-c75d251287e6",
+  "m1_id": 1945,
+  "added_at": "2026-02-19T05:19:26.970403Z",
+  "name": "kingdmusic",
+  "name_key": "KINGDMUSIC",
+  "alpha_key": "KINGDMUSIC",
+  "canon_key": "KINGDMUSIC",
+  "rec_type": 0,
+  "separation_ms": 1200000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

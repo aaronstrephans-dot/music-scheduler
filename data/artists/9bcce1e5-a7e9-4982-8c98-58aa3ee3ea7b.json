@@ -1,0 +1,15 @@
+{
+  "id": "9bcce1e5-a7e9-4982-8c98-58aa3ee3ea7b",
+  "m1_id": 1582,
+  "added_at": "2026-02-19T05:19:26.844325Z",
+  "name": "Tricia Brock",
+  "name_key": "TRICIA BROCK",
+  "alpha_key": "TRICIA BROCK",
+  "canon_key": "TRICIABROCK",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

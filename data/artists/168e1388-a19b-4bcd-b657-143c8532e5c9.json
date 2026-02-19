@@ -1,0 +1,15 @@
+{
+  "id": "168e1388-a19b-4bcd-b657-143c8532e5c9",
+  "m1_id": 1243,
+  "added_at": "2026-02-19T05:19:26.731710Z",
+  "name": "Neil Wilson",
+  "name_key": "NEIL WILSON",
+  "alpha_key": "NEIL WILSON",
+  "canon_key": "NEILWILSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

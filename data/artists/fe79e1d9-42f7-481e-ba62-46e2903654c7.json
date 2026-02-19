@@ -1,0 +1,15 @@
+{
+  "id": "fe79e1d9-42f7-481e-ba62-46e2903654c7",
+  "m1_id": 248,
+  "added_at": "2026-02-19T05:19:26.674442Z",
+  "name": "Randy Stonehill",
+  "name_key": "RANDY STONEHILL",
+  "alpha_key": "RANDY STONEHILL",
+  "canon_key": "RANDISTONEHIL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

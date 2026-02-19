@@ -1,0 +1,15 @@
+{
+  "id": "68bc28c5-d966-4654-8cde-0ed1232d186d",
+  "m1_id": 1656,
+  "added_at": "2026-02-19T05:19:26.868816Z",
+  "name": "Sixteen Cities",
+  "name_key": "SIXTEEN CITIES",
+  "alpha_key": "SIXTEEN CITIES",
+  "canon_key": "SIXTENCITIES",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "5b5c4738-da3e-470e-98de-8c2ceabf32cd",
+  "m1_id": 375,
+  "added_at": "2026-02-19T05:19:26.684172Z",
+  "name": "Women Of Faith",
+  "name_key": "WOMEN OF FAITH",
+  "alpha_key": "WOMEN OF FAITH",
+  "canon_key": "WOMENOFFAITH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

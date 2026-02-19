@@ -1,0 +1,15 @@
+{
+  "id": "44d739f6-a3cb-4939-9f4e-2dc2805a8131",
+  "m1_id": 1124,
+  "added_at": "2026-02-19T05:19:26.720939Z",
+  "name": "Go Fish",
+  "name_key": "GO FISH",
+  "alpha_key": "GO FISH",
+  "canon_key": "GOFISH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

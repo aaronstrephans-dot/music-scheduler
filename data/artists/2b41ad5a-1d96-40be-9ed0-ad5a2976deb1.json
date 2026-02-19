@@ -1,0 +1,15 @@
+{
+  "id": "2b41ad5a-1d96-40be-9ed0-ad5a2976deb1",
+  "m1_id": 1847,
+  "added_at": "2026-02-19T05:19:26.933914Z",
+  "name": "Mike Donehey",
+  "name_key": "MIKE DONEHEY",
+  "alpha_key": "MIKE DONEHEY",
+  "canon_key": "MIKEDONEHEI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "268db215-e8be-4325-b687-11fae2cbcc3a",
+  "m1_id": 1295,
+  "added_at": "2026-02-19T05:19:26.743350Z",
+  "name": "Voices of Hope",
+  "name_key": "VOICES OF HOPE",
+  "alpha_key": "VOICES OF HOPE",
+  "canon_key": "VOICESOFHOPE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

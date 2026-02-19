@@ -1,0 +1,15 @@
+{
+  "id": "b30f5c23-2616-49d7-abc9-73376b9081b3",
+  "m1_id": 258,
+  "added_at": "2026-02-19T05:19:26.676373Z",
+  "name": "River",
+  "name_key": "RIVER",
+  "alpha_key": "RIVER",
+  "canon_key": "RIVER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

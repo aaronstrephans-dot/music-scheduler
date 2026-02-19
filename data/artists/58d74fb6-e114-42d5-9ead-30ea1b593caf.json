@@ -1,0 +1,15 @@
+{
+  "id": "58d74fb6-e114-42d5-9ead-30ea1b593caf",
+  "m1_id": 1907,
+  "added_at": "2026-02-19T05:19:26.954788Z",
+  "name": "Thokoz",
+  "name_key": "THOKOZ",
+  "alpha_key": "THOKOZ",
+  "canon_key": "THOKOZ",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

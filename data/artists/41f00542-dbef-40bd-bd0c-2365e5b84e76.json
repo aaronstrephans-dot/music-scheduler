@@ -1,0 +1,15 @@
+{
+  "id": "41f00542-dbef-40bd-bd0c-2365e5b84e76",
+  "m1_id": 1586,
+  "added_at": "2026-02-19T05:19:26.845793Z",
+  "name": "Aaron Keyes",
+  "name_key": "AARON KEYES",
+  "alpha_key": "AARON KEYES",
+  "canon_key": "ARONKEIES",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

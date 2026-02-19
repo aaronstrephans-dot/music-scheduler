@@ -1,0 +1,15 @@
+{
+  "id": "53cc8c87-71f9-4804-ae83-21e829605ab6",
+  "m1_id": 1231,
+  "added_at": "2026-02-19T05:19:26.728284Z",
+  "name": "Joy Williams",
+  "name_key": "JOY WILLIAMS",
+  "alpha_key": "JOY WILLIAMS",
+  "canon_key": "JOIWILIAMS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "acbe1ec4-0a3a-4fae-8041-01e1d09edd57",
+  "m1_id": 414,
+  "added_at": "2026-02-19T05:19:26.688426Z",
+  "name": "Stoneleigh Worship Team",
+  "name_key": "STONELEIGH WORSHIP TEAM",
+  "alpha_key": "STONELEIGH WORSHIP TEAM",
+  "canon_key": "STONELEIGHWORSHIPTEAM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

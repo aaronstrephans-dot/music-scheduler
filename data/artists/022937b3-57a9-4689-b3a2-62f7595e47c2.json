@@ -1,0 +1,15 @@
+{
+  "id": "022937b3-57a9-4689-b3a2-62f7595e47c2",
+  "m1_id": 70,
+  "added_at": "2026-02-19T05:19:26.655940Z",
+  "name": "Craig Smith",
+  "name_key": "CRAIG SMITH",
+  "alpha_key": "CRAIG SMITH",
+  "canon_key": "CRAIGSMITH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

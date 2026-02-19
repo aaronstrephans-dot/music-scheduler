@@ -1,0 +1,15 @@
+{
+  "id": "6a6eadfc-ab2e-4f04-9e6c-001ba15e5973",
+  "m1_id": 1920,
+  "added_at": "2026-02-19T05:19:26.960374Z",
+  "name": "Zo Ross-Waddell",
+  "name_key": "ZO ROSS-WADDELL",
+  "alpha_key": "ZO ROSS-WADDELL",
+  "canon_key": "ZOROSWADEL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

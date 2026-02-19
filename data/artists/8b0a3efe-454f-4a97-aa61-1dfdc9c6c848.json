@@ -1,0 +1,15 @@
+{
+  "id": "8b0a3efe-454f-4a97-aa61-1dfdc9c6c848",
+  "m1_id": 428,
+  "added_at": "2026-02-19T05:19:26.690842Z",
+  "name": "Cindy Morgan",
+  "name_key": "CINDY MORGAN",
+  "alpha_key": "CINDY MORGAN",
+  "canon_key": "CINDIMORGAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

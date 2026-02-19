@@ -1,0 +1,15 @@
+{
+  "id": "ccd7bcac-8843-4093-863a-5b3d97e322e5",
+  "m1_id": 314,
+  "added_at": "2026-02-19T05:19:26.681731Z",
+  "name": "The John Dockery Ensemble",
+  "name_key": "THE JOHN DOCKERY ENSEMBLE",
+  "alpha_key": "JOHN DOCKERY ENSEMBLE",
+  "canon_key": "JOHNDOCKERIENSEMBLE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

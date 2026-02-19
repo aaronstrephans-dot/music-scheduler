@@ -1,0 +1,15 @@
+{
+  "id": "679d7c0e-b7e2-4cc2-a607-b42232a178bb",
+  "m1_id": 1913,
+  "added_at": "2026-02-19T05:19:26.957300Z",
+  "name": "FC Music",
+  "name_key": "FC MUSIC",
+  "alpha_key": "FC MUSIC",
+  "canon_key": "FCMUSIC",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

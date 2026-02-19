@@ -1,0 +1,15 @@
+{
+  "id": "35f93d4d-b980-4ed8-a147-26f60ad469d9",
+  "m1_id": 1256,
+  "added_at": "2026-02-19T05:19:26.734746Z",
+  "name": "Matt Brouwer",
+  "name_key": "MATT BROUWER",
+  "alpha_key": "MATT BROUWER",
+  "canon_key": "MATBROUWER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

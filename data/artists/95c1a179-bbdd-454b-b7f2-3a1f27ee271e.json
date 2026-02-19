@@ -1,0 +1,15 @@
+{
+  "id": "95c1a179-bbdd-454b-b7f2-3a1f27ee271e",
+  "m1_id": 1240,
+  "added_at": "2026-02-19T05:19:26.731004Z",
+  "name": "Danny Oertli",
+  "name_key": "DANNY OERTLI",
+  "alpha_key": "DANNY OERTLI",
+  "canon_key": "DANIOERTLI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

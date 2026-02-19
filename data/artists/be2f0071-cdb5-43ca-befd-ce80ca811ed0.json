@@ -1,0 +1,15 @@
+{
+  "id": "be2f0071-cdb5-43ca-befd-ce80ca811ed0",
+  "m1_id": 1620,
+  "added_at": "2026-02-19T05:19:26.856831Z",
+  "name": "Rend Collective",
+  "name_key": "REND COLLECTIVE",
+  "alpha_key": "REND COLLECTIVE",
+  "canon_key": "RENDCOLECTIVE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

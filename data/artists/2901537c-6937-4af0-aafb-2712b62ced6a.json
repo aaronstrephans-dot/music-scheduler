@@ -1,0 +1,15 @@
+{
+  "id": "2901537c-6937-4af0-aafb-2712b62ced6a",
+  "m1_id": 1669,
+  "added_at": "2026-02-19T05:19:26.873646Z",
+  "name": "Hillsong",
+  "name_key": "HILLSONG",
+  "alpha_key": "HILLSONG",
+  "canon_key": "HILSONG",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

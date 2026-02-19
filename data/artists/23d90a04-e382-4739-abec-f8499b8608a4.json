@@ -1,0 +1,15 @@
+{
+  "id": "23d90a04-e382-4739-abec-f8499b8608a4",
+  "m1_id": 1682,
+  "added_at": "2026-02-19T05:19:26.877895Z",
+  "name": "Ryan Stevenson",
+  "name_key": "RYAN STEVENSON",
+  "alpha_key": "RYAN STEVENSON",
+  "canon_key": "RIANSTEVENSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

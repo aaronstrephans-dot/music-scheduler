@@ -1,0 +1,15 @@
+{
+  "id": "33474426-25ae-4a12-b381-d30a4f9f9071",
+  "m1_id": 1272,
+  "added_at": "2026-02-19T05:19:26.737948Z",
+  "name": "Sam Levine",
+  "name_key": "SAM LEVINE",
+  "alpha_key": "SAM LEVINE",
+  "canon_key": "SAMLEVINE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

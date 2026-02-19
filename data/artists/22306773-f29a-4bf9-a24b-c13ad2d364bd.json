@@ -1,0 +1,15 @@
+{
+  "id": "22306773-f29a-4bf9-a24b-c13ad2d364bd",
+  "m1_id": 1619,
+  "added_at": "2026-02-19T05:19:26.856583Z",
+  "name": "Plumb",
+  "name_key": "PLUMB",
+  "alpha_key": "PLUMB",
+  "canon_key": "PLUMB",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

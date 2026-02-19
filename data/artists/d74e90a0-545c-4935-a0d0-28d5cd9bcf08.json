@@ -1,0 +1,15 @@
+{
+  "id": "d74e90a0-545c-4935-a0d0-28d5cd9bcf08",
+  "m1_id": 1126,
+  "added_at": "2026-02-19T05:19:26.721566Z",
+  "name": "Donia Makedonez",
+  "name_key": "DONIA MAKEDONEZ",
+  "alpha_key": "DONIA MAKEDONEZ",
+  "canon_key": "DONIAMAKEDONEZ",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

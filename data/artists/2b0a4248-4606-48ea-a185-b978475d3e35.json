@@ -1,0 +1,15 @@
+{
+  "id": "2b0a4248-4606-48ea-a185-b978475d3e35",
+  "m1_id": 1277,
+  "added_at": "2026-02-19T05:19:26.739514Z",
+  "name": "Greg Rope",
+  "name_key": "GREG ROPE",
+  "alpha_key": "GREG ROPE",
+  "canon_key": "GREGROPE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

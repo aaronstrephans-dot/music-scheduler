@@ -1,0 +1,15 @@
+{
+  "id": "bfebf78a-c81d-4933-99d7-02768a1ea31a",
+  "m1_id": 1695,
+  "added_at": "2026-02-19T05:19:26.882906Z",
+  "name": "Stars Go Dim",
+  "name_key": "STARS GO DIM",
+  "alpha_key": "STARS GO DIM",
+  "canon_key": "STARSGODIM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

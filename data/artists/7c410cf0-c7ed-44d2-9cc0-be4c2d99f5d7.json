@@ -1,0 +1,15 @@
+{
+  "id": "7c410cf0-c7ed-44d2-9cc0-be4c2d99f5d7",
+  "m1_id": 108,
+  "added_at": "2026-02-19T05:19:26.659918Z",
+  "name": "Gaither Vocal Band",
+  "name_key": "GAITHER VOCAL BAND",
+  "alpha_key": "GAITHER VOCAL BAND",
+  "canon_key": "GAITHERVOCALBAND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

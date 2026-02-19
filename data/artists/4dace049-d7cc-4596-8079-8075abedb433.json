@@ -1,0 +1,15 @@
+{
+  "id": "4dace049-d7cc-4596-8079-8075abedb433",
+  "m1_id": 1636,
+  "added_at": "2026-02-19T05:19:26.861736Z",
+  "name": "Vertical Church Band",
+  "name_key": "VERTICAL CHURCH BAND",
+  "alpha_key": "VERTICAL CHURCH BAND",
+  "canon_key": "VERTICALCHURCHBAND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

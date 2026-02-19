@@ -1,0 +1,15 @@
+{
+  "id": "05054d21-d5ba-4163-82f1-95eb6334cb60",
+  "m1_id": 1456,
+  "added_at": "2026-02-19T05:19:26.805891Z",
+  "name": "Brandon Heath",
+  "name_key": "BRANDON HEATH",
+  "alpha_key": "BRANDON HEATH",
+  "canon_key": "BRANDONHEATH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

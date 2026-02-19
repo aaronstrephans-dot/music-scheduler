@@ -1,0 +1,15 @@
+{
+  "id": "033ebf74-495a-43ff-ada7-0bbcf78aa1c2",
+  "m1_id": 44,
+  "added_at": "2026-02-19T05:19:26.652404Z",
+  "name": "Bob Carlisle",
+  "name_key": "BOB CARLISLE",
+  "alpha_key": "BOB CARLISLE",
+  "canon_key": "BOBCARLISLE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "3a3d4e24-35ef-45da-80f5-d3167d8c5cd8",
+  "m1_id": 503,
+  "added_at": "2026-02-19T05:19:26.703636Z",
+  "name": "Brent Helming",
+  "name_key": "BRENT HELMING",
+  "alpha_key": "BRENT HELMING",
+  "canon_key": "BRENTHELMING",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

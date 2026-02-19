@@ -1,0 +1,15 @@
+{
+  "id": "59d2fcd0-c96c-4e03-87d4-b2585548c4ce",
+  "m1_id": 1252,
+  "added_at": "2026-02-19T05:19:26.733668Z",
+  "name": "Andrew Rogers",
+  "name_key": "ANDREW ROGERS",
+  "alpha_key": "ANDREW ROGERS",
+  "canon_key": "ANDREWROGERS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

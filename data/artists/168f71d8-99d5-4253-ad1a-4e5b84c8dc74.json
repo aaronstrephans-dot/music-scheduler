@@ -1,0 +1,15 @@
+{
+  "id": "168f71d8-99d5-4253-ad1a-4e5b84c8dc74",
+  "m1_id": 1510,
+  "added_at": "2026-02-19T05:19:26.822261Z",
+  "name": "Jason Burton",
+  "name_key": "JASON BURTON",
+  "alpha_key": "JASON BURTON",
+  "canon_key": "JASONBURTON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

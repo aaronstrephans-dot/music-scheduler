@@ -1,0 +1,15 @@
+{
+  "id": "c2f8b918-3e5a-442d-a3ae-70b7587005bf",
+  "m1_id": 1365,
+  "added_at": "2026-02-19T05:19:26.766850Z",
+  "name": "Todd Agnew",
+  "name_key": "TODD AGNEW",
+  "alpha_key": "TODD AGNEW",
+  "canon_key": "TODAGNEW",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

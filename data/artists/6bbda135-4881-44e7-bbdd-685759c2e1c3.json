@@ -1,0 +1,15 @@
+{
+  "id": "6bbda135-4881-44e7-bbdd-685759c2e1c3",
+  "m1_id": 1927,
+  "added_at": "2026-02-19T05:19:26.963782Z",
+  "name": "Gracie Binion",
+  "name_key": "GRACIE BINION",
+  "alpha_key": "GRACIE BINION",
+  "canon_key": "GRACIEBINION",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

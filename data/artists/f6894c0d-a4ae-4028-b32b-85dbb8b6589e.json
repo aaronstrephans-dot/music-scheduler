@@ -1,0 +1,15 @@
+{
+  "id": "f6894c0d-a4ae-4028-b32b-85dbb8b6589e",
+  "m1_id": 1598,
+  "added_at": "2026-02-19T05:19:26.850301Z",
+  "name": "Cape First Worship",
+  "name_key": "CAPE FIRST WORSHIP",
+  "alpha_key": "CAPE FIRST WORSHIP",
+  "canon_key": "CAPE1STWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

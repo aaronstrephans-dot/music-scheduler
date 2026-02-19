@@ -1,0 +1,15 @@
+{
+  "id": "e0c87e78-830e-4b83-bed2-abfd7bf8ecf4",
+  "m1_id": 1624,
+  "added_at": "2026-02-19T05:19:26.858174Z",
+  "name": "Brett Younker",
+  "name_key": "BRETT YOUNKER",
+  "alpha_key": "BRETT YOUNKER",
+  "canon_key": "BRETIOUNKER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

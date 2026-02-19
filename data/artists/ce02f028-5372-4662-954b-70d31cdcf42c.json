@@ -1,0 +1,15 @@
+{
+  "id": "ce02f028-5372-4662-954b-70d31cdcf42c",
+  "m1_id": 1878,
+  "added_at": "2026-02-19T05:19:26.944777Z",
+  "name": "Gabby Barrett",
+  "name_key": "GABBY BARRETT",
+  "alpha_key": "GABBY BARRETT",
+  "canon_key": "GABIBARET",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

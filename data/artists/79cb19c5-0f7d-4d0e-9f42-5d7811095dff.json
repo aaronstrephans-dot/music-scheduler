@@ -1,0 +1,15 @@
+{
+  "id": "79cb19c5-0f7d-4d0e-9f42-5d7811095dff",
+  "m1_id": 1820,
+  "added_at": "2026-02-19T05:19:26.924584Z",
+  "name": "Andrew Holt",
+  "name_key": "ANDREW HOLT",
+  "alpha_key": "ANDREW HOLT",
+  "canon_key": "ANDREWHOLT",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

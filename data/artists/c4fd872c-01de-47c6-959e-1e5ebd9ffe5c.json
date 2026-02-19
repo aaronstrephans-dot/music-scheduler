@@ -1,0 +1,15 @@
+{
+  "id": "c4fd872c-01de-47c6-959e-1e5ebd9ffe5c",
+  "m1_id": 1751,
+  "added_at": "2026-02-19T05:19:26.899735Z",
+  "name": "Rhett Walker",
+  "name_key": "RHETT WALKER",
+  "alpha_key": "RHETT WALKER",
+  "canon_key": "RHETWALKER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

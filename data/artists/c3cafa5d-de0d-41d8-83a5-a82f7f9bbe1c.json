@@ -1,0 +1,15 @@
+{
+  "id": "c3cafa5d-de0d-41d8-83a5-a82f7f9bbe1c",
+  "m1_id": 498,
+  "added_at": "2026-02-19T05:19:26.702648Z",
+  "name": "Gary Sadler",
+  "name_key": "GARY SADLER",
+  "alpha_key": "GARY SADLER",
+  "canon_key": "GARISADLER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

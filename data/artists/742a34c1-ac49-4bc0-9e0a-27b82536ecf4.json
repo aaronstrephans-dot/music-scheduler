@@ -1,0 +1,15 @@
+{
+  "id": "742a34c1-ac49-4bc0-9e0a-27b82536ecf4",
+  "m1_id": 1391,
+  "added_at": "2026-02-19T05:19:26.777310Z",
+  "name": "New Life Worship",
+  "name_key": "NEW LIFE WORSHIP",
+  "alpha_key": "NEW LIFE WORSHIP",
+  "canon_key": "NEWLIFEWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

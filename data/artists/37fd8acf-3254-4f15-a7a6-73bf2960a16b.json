@@ -1,0 +1,15 @@
+{
+  "id": "37fd8acf-3254-4f15-a7a6-73bf2960a16b",
+  "m1_id": 1875,
+  "added_at": "2026-02-19T05:19:26.943874Z",
+  "name": "The Church Will Sing",
+  "name_key": "THE CHURCH WILL SING",
+  "alpha_key": "CHURCH WILL SING",
+  "canon_key": "CHURCHWILSING",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

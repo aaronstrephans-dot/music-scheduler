@@ -1,0 +1,15 @@
+{
+  "id": "3a40d83e-7a7c-46df-8fa0-620b95985e64",
+  "m1_id": 639,
+  "added_at": "2026-02-19T05:19:26.717137Z",
+  "name": "Plus One",
+  "name_key": "PLUS ONE",
+  "alpha_key": "PLUS ONE",
+  "canon_key": "PLUS1",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

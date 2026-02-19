@@ -1,0 +1,15 @@
+{
+  "id": "82454e4e-f4d6-48d5-9d44-e190de08788c",
+  "m1_id": 1246,
+  "added_at": "2026-02-19T05:19:26.732002Z",
+  "name": "Worship Underground",
+  "name_key": "WORSHIP UNDERGROUND",
+  "alpha_key": "WORSHIP UNDERGROUND",
+  "canon_key": "WORSHIPUNDERGROUND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

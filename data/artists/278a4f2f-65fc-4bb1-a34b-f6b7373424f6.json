@@ -1,0 +1,15 @@
+{
+  "id": "278a4f2f-65fc-4bb1-a34b-f6b7373424f6",
+  "m1_id": 1654,
+  "added_at": "2026-02-19T05:19:26.868112Z",
+  "name": "Owl City",
+  "name_key": "OWL CITY",
+  "alpha_key": "OWL CITY",
+  "canon_key": "OWLCITI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

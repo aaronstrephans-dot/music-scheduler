@@ -1,0 +1,15 @@
+{
+  "id": "023f776a-f78e-4dbd-b1f6-4570e4008d4a",
+  "m1_id": 7,
+  "added_at": "2026-02-19T05:19:26.647898Z",
+  "name": "Al Denson",
+  "name_key": "AL DENSON",
+  "alpha_key": "AL DENSON",
+  "canon_key": "ALDENSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

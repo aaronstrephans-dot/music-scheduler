@@ -1,0 +1,15 @@
+{
+  "id": "da7f01a7-d3ce-452c-b41a-4c1ec926a6cc",
+  "m1_id": 1943,
+  "added_at": "2026-02-19T05:19:26.969833Z",
+  "name": "Circuit Rider Music",
+  "name_key": "CIRCUIT RIDER MUSIC",
+  "alpha_key": "CIRCUIT RIDER MUSIC",
+  "canon_key": "CIRCUITRIDERMUSIC",
+  "rec_type": 0,
+  "separation_ms": 1200000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

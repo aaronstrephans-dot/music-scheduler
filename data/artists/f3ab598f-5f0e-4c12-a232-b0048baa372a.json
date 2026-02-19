@@ -1,0 +1,15 @@
+{
+  "id": "f3ab598f-5f0e-4c12-a232-b0048baa372a",
+  "m1_id": 1462,
+  "added_at": "2026-02-19T05:19:26.808043Z",
+  "name": "Disciple",
+  "name_key": "DISCIPLE",
+  "alpha_key": "DISCIPLE",
+  "canon_key": "DISCIPLE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

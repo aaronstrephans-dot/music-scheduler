@@ -1,0 +1,15 @@
+{
+  "id": "d32b3820-181c-4d9d-938f-6f053bf7aa03",
+  "m1_id": 1551,
+  "added_at": "2026-02-19T05:19:26.833615Z",
+  "name": "Eddie Kirkland",
+  "name_key": "EDDIE KIRKLAND",
+  "alpha_key": "EDDIE KIRKLAND",
+  "canon_key": "EDIEKIRKLAND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

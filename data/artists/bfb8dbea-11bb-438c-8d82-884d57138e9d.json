@@ -1,0 +1,15 @@
+{
+  "id": "bfb8dbea-11bb-438c-8d82-884d57138e9d",
+  "m1_id": 203,
+  "added_at": "2026-02-19T05:19:26.669533Z",
+  "name": "Michael James",
+  "name_key": "MICHAEL JAMES",
+  "alpha_key": "MICHAEL JAMES",
+  "canon_key": "MICHAELJAMES",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

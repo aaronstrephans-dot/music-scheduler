@@ -1,0 +1,15 @@
+{
+  "id": "7760d016-2f7b-43e0-9a4b-7eb5a29c7539",
+  "m1_id": 1879,
+  "added_at": "2026-02-19T05:19:26.945078Z",
+  "name": "Ben Fuller",
+  "name_key": "BEN FULLER",
+  "alpha_key": "BEN FULLER",
+  "canon_key": "BENFULER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

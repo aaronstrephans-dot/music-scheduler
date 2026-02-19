@@ -1,0 +1,15 @@
+{
+  "id": "734dee83-4f18-4bde-97a5-5461587994a2",
+  "m1_id": 437,
+  "added_at": "2026-02-19T05:19:26.692294Z",
+  "name": "Dennis Jernigan",
+  "name_key": "DENNIS JERNIGAN",
+  "alpha_key": "DENNIS JERNIGAN",
+  "canon_key": "DENISJERNIGAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

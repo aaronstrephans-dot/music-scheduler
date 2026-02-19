@@ -1,0 +1,15 @@
+{
+  "id": "b8911d3c-cdd3-4e03-aa69-fabeb995d1ea",
+  "m1_id": 1444,
+  "added_at": "2026-02-19T05:19:26.802240Z",
+  "name": "Poor Rich Folk",
+  "name_key": "POOR RICH FOLK",
+  "alpha_key": "POOR RICH FOLK",
+  "canon_key": "PORRICHFOLK",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

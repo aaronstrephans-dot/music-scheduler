@@ -1,0 +1,15 @@
+{
+  "id": "832de145-3f38-4966-94e4-33d5ce3db283",
+  "m1_id": 1467,
+  "added_at": "2026-02-19T05:19:26.809537Z",
+  "name": "Brooke Fraser",
+  "name_key": "BROOKE FRASER",
+  "alpha_key": "BROOKE FRASER",
+  "canon_key": "BROKEFRASER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

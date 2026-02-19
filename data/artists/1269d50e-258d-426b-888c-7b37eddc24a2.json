@@ -1,0 +1,15 @@
+{
+  "id": "1269d50e-258d-426b-888c-7b37eddc24a2",
+  "m1_id": 1292,
+  "added_at": "2026-02-19T05:19:26.742301Z",
+  "name": "Rock n Roll Worship Circus",
+  "name_key": "ROCK N ROLL WORSHIP CIRCUS",
+  "alpha_key": "ROCK N ROLL WORSHIP CIRCUS",
+  "canon_key": "ROCKNROLWORSHIPCIRCUS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

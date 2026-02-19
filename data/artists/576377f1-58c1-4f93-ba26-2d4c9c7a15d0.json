@@ -1,0 +1,15 @@
+{
+  "id": "576377f1-58c1-4f93-ba26-2d4c9c7a15d0",
+  "m1_id": 1329,
+  "added_at": "2026-02-19T05:19:26.752889Z",
+  "name": "Janna Long",
+  "name_key": "JANNA LONG",
+  "alpha_key": "JANNA LONG",
+  "canon_key": "JANALONG",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

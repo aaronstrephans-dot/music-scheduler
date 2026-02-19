@@ -1,0 +1,15 @@
+{
+  "id": "72778bd5-7989-4911-82ca-224870324358",
+  "m1_id": 207,
+  "added_at": "2026-02-19T05:19:26.670410Z",
+  "name": "Michael W Smith",
+  "name_key": "MICHAEL W SMITH",
+  "alpha_key": "MICHAEL W SMITH",
+  "canon_key": "MICHAELWSMITH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

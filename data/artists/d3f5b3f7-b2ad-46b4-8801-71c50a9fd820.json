@@ -1,0 +1,15 @@
+{
+  "id": "d3f5b3f7-b2ad-46b4-8801-71c50a9fd820",
+  "m1_id": 1260,
+  "added_at": "2026-02-19T05:19:26.735380Z",
+  "name": "Cadet",
+  "name_key": "CADET",
+  "alpha_key": "CADET",
+  "canon_key": "CADET",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

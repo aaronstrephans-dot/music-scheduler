@@ -1,0 +1,15 @@
+{
+  "id": "3b49acc3-0753-4d40-ab70-b8e2ba67a7de",
+  "m1_id": 102,
+  "added_at": "2026-02-19T05:19:26.659201Z",
+  "name": "Fernando Ortega",
+  "name_key": "FERNANDO ORTEGA",
+  "alpha_key": "FERNANDO ORTEGA",
+  "canon_key": "FERNANDOORTEGA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "fad39a28-ccaa-471f-9d50-5bf5bbd2c5b7",
+  "m1_id": 276,
+  "added_at": "2026-02-19T05:19:26.678755Z",
+  "name": "Steve Camp",
+  "name_key": "STEVE CAMP",
+  "alpha_key": "STEVE CAMP",
+  "canon_key": "STEVECAMP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "60508561-814a-476e-a890-43ee8c0add2f",
+  "m1_id": 1946,
+  "added_at": "2026-02-19T05:19:26.970881Z",
+  "name": "Munn",
+  "name_key": "MUNN",
+  "alpha_key": "MUNN",
+  "canon_key": "MUN",
+  "rec_type": 0,
+  "separation_ms": 1200000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

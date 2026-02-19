@@ -1,0 +1,15 @@
+{
+  "id": "e3bac059-0367-44e2-af02-7a3594e2d274",
+  "m1_id": 213,
+  "added_at": "2026-02-19T05:19:26.671310Z",
+  "name": "Mikaila",
+  "name_key": "MIKAILA",
+  "alpha_key": "MIKAILA",
+  "canon_key": "MIKAILA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

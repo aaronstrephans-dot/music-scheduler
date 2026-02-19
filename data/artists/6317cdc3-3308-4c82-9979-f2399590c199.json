@@ -1,0 +1,15 @@
+{
+  "id": "6317cdc3-3308-4c82-9979-f2399590c199",
+  "m1_id": 1289,
+  "added_at": "2026-02-19T05:19:26.741531Z",
+  "name": "Jason Ingram",
+  "name_key": "JASON INGRAM",
+  "alpha_key": "JASON INGRAM",
+  "canon_key": "JASONINGRAM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

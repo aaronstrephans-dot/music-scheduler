@@ -1,0 +1,15 @@
+{
+  "id": "85759b0b-da95-47d8-a97c-010a198fc7e8",
+  "m1_id": 667,
+  "added_at": "2026-02-19T05:19:26.719329Z",
+  "name": "Forty Days",
+  "name_key": "FORTY DAYS",
+  "alpha_key": "FORTY DAYS",
+  "canon_key": "FORTIDAIS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

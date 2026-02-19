@@ -1,0 +1,15 @@
+{
+  "id": "e0696edb-4180-4d6b-a29c-ae14d110ce42",
+  "m1_id": 257,
+  "added_at": "2026-02-19T05:19:26.676070Z",
+  "name": "Rita Baloche",
+  "name_key": "RITA BALOCHE",
+  "alpha_key": "RITA BALOCHE",
+  "canon_key": "RITABALOCHE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

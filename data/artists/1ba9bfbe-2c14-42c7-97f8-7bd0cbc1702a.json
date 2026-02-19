@@ -1,0 +1,15 @@
+{
+  "id": "1ba9bfbe-2c14-42c7-97f8-7bd0cbc1702a",
+  "m1_id": 1926,
+  "added_at": "2026-02-19T05:19:26.962958Z",
+  "name": "Peter Burton",
+  "name_key": "PETER BURTON",
+  "alpha_key": "PETER BURTON",
+  "canon_key": "PETERBURTON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

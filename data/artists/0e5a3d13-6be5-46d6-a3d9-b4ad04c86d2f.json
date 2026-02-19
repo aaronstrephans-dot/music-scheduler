@@ -1,0 +1,15 @@
+{
+  "id": "0e5a3d13-6be5-46d6-a3d9-b4ad04c86d2f",
+  "m1_id": 268,
+  "added_at": "2026-02-19T05:19:26.677711Z",
+  "name": "Scott Krippayne",
+  "name_key": "SCOTT KRIPPAYNE",
+  "alpha_key": "SCOTT KRIPPAYNE",
+  "canon_key": "SCOTKRIPAINE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

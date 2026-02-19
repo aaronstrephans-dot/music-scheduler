@@ -1,0 +1,15 @@
+{
+  "id": "7c759407-ca85-4c0c-ba9a-b686a061f7d0",
+  "m1_id": 445,
+  "added_at": "2026-02-19T05:19:26.694441Z",
+  "name": "Danny Chambers",
+  "name_key": "DANNY CHAMBERS",
+  "alpha_key": "DANNY CHAMBERS",
+  "canon_key": "DANICHAMBERS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

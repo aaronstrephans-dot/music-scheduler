@@ -1,0 +1,15 @@
+{
+  "id": "5f7a910c-dcce-498c-9151-538c6bc17e07",
+  "m1_id": 1247,
+  "added_at": "2026-02-19T05:19:26.732306Z",
+  "name": "Sarah Greeno",
+  "name_key": "SARAH GREENO",
+  "alpha_key": "SARAH GREENO",
+  "canon_key": "SARAHGRENO",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

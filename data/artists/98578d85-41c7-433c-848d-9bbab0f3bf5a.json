@@ -1,0 +1,15 @@
+{
+  "id": "98578d85-41c7-433c-848d-9bbab0f3bf5a",
+  "m1_id": 92,
+  "added_at": "2026-02-19T05:19:26.657810Z",
+  "name": "Dick & Mel Tunney",
+  "name_key": "DICK & MEL TUNNEY",
+  "alpha_key": "DICK & MEL TUNNEY",
+  "canon_key": "DICKMELTUNEI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

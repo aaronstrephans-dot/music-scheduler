@@ -1,0 +1,15 @@
+{
+  "id": "1af5184a-f108-4c90-9f79-a90023dedf7e",
+  "m1_id": 1803,
+  "added_at": "2026-02-19T05:19:26.917976Z",
+  "name": "Naatey Engmann",
+  "name_key": "NAATEY ENGMANN",
+  "alpha_key": "NAATEY ENGMANN",
+  "canon_key": "NATEIENGMAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "d0689c66-5e9a-4f08-8f6b-a5bf6b54a16e",
+  "m1_id": 385,
+  "added_at": "2026-02-19T05:19:26.685632Z",
+  "name": "Sandi Patty",
+  "name_key": "SANDI PATTY",
+  "alpha_key": "SANDI PATTY",
+  "canon_key": "SANDIPATI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

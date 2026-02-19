@@ -1,0 +1,15 @@
+{
+  "id": "56820a29-65c3-4dcc-b925-aa811c6eb682",
+  "m1_id": 279,
+  "added_at": "2026-02-19T05:19:26.679046Z",
+  "name": "Steve Green",
+  "name_key": "STEVE GREEN",
+  "alpha_key": "STEVE GREEN",
+  "canon_key": "STEVEGREN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

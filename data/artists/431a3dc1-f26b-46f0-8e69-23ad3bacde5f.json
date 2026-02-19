@@ -1,0 +1,15 @@
+{
+  "id": "431a3dc1-f26b-46f0-8e69-23ad3bacde5f",
+  "m1_id": 1647,
+  "added_at": "2026-02-19T05:19:26.865508Z",
+  "name": "The Digital Age",
+  "name_key": "THE DIGITAL AGE",
+  "alpha_key": "DIGITAL AGE",
+  "canon_key": "DIGITALAGE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

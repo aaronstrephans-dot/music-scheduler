@@ -1,0 +1,15 @@
+{
+  "id": "bb173b03-092b-41fe-af51-bd5d416b862f",
+  "m1_id": 1544,
+  "added_at": "2026-02-19T05:19:26.831362Z",
+  "name": "No Other Name",
+  "name_key": "NO OTHER NAME",
+  "alpha_key": "NO OTHER NAME",
+  "canon_key": "NOOTHERNAME",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

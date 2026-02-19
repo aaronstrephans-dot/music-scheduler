@@ -1,0 +1,15 @@
+{
+  "id": "b616f023-a7ec-4a08-bb3a-e6bdd843c5e6",
+  "m1_id": 1410,
+  "added_at": "2026-02-19T05:19:26.784656Z",
+  "name": "John David Webster",
+  "name_key": "JOHN DAVID WEBSTER",
+  "alpha_key": "JOHN DAVID WEBSTER",
+  "canon_key": "JOHNDAVIDWEBSTER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

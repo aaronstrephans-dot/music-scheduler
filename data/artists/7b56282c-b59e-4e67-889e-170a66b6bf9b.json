@@ -1,0 +1,15 @@
+{
+  "id": "7b56282c-b59e-4e67-889e-170a66b6bf9b",
+  "m1_id": 1548,
+  "added_at": "2026-02-19T05:19:26.832421Z",
+  "name": "Laura Story",
+  "name_key": "LAURA STORY",
+  "alpha_key": "LAURA STORY",
+  "canon_key": "LAURASTORI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

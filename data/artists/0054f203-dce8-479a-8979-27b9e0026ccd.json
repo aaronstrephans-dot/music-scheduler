@@ -1,0 +1,15 @@
+{
+  "id": "0054f203-dce8-479a-8979-27b9e0026ccd",
+  "m1_id": 496,
+  "added_at": "2026-02-19T05:19:26.701842Z",
+  "name": "Natalie Grant",
+  "name_key": "NATALIE GRANT",
+  "alpha_key": "NATALIE GRANT",
+  "canon_key": "NATALIEGRANT",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

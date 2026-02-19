@@ -1,0 +1,15 @@
+{
+  "id": "9e8e17fe-e6dc-4aab-bc42-bc6766ed0f54",
+  "m1_id": 625,
+  "added_at": "2026-02-19T05:19:26.716453Z",
+  "name": "LaRue",
+  "name_key": "LARUE",
+  "alpha_key": "LARUE",
+  "canon_key": "LARUE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

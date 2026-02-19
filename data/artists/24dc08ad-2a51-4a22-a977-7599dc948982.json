@@ -1,0 +1,15 @@
+{
+  "id": "24dc08ad-2a51-4a22-a977-7599dc948982",
+  "m1_id": 1531,
+  "added_at": "2026-02-19T05:19:26.827696Z",
+  "name": "Caleb Rowden",
+  "name_key": "CALEB ROWDEN",
+  "alpha_key": "CALEB ROWDEN",
+  "canon_key": "CALEBROWDEN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

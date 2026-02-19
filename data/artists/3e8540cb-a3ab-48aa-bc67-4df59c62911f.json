@@ -1,0 +1,15 @@
+{
+  "id": "3e8540cb-a3ab-48aa-bc67-4df59c62911f",
+  "m1_id": 1915,
+  "added_at": "2026-02-19T05:19:26.958205Z",
+  "name": "Forrest Frank",
+  "name_key": "FORREST FRANK",
+  "alpha_key": "FORREST FRANK",
+  "canon_key": "FORESTFRANK",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

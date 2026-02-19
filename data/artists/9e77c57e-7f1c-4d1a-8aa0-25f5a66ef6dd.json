@@ -1,0 +1,15 @@
+{
+  "id": "9e77c57e-7f1c-4d1a-8aa0-25f5a66ef6dd",
+  "m1_id": 1221,
+  "added_at": "2026-02-19T05:19:26.725239Z",
+  "name": "Sarah Sadler",
+  "name_key": "SARAH SADLER",
+  "alpha_key": "SARAH SADLER",
+  "canon_key": "SARAHSADLER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

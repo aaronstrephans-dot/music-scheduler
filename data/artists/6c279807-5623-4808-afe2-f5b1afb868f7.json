@@ -1,0 +1,15 @@
+{
+  "id": "6c279807-5623-4808-afe2-f5b1afb868f7",
+  "m1_id": 457,
+  "added_at": "2026-02-19T05:19:26.697387Z",
+  "name": "John Chism",
+  "name_key": "JOHN CHISM",
+  "alpha_key": "JOHN CHISM",
+  "canon_key": "JOHNCHISM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

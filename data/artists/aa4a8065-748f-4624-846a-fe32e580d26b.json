@@ -1,0 +1,15 @@
+{
+  "id": "aa4a8065-748f-4624-846a-fe32e580d26b",
+  "m1_id": 1854,
+  "added_at": "2026-02-19T05:19:26.936392Z",
+  "name": "Ore Oluwa",
+  "name_key": "ORE OLUWA",
+  "alpha_key": "ORE OLUWA",
+  "canon_key": "OREOLUWA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

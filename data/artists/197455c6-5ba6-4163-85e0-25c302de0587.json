@@ -1,0 +1,15 @@
+{
+  "id": "197455c6-5ba6-4163-85e0-25c302de0587",
+  "m1_id": 1768,
+  "added_at": "2026-02-19T05:19:26.905881Z",
+  "name": "Passion Worship",
+  "name_key": "PASSION WORSHIP",
+  "alpha_key": "PASSION WORSHIP",
+  "canon_key": "PASIONWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

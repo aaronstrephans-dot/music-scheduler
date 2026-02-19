@@ -1,0 +1,15 @@
+{
+  "id": "14c1ecb8-31ca-4b9f-b518-271a42f75a7c",
+  "m1_id": 55,
+  "added_at": "2026-02-19T05:19:26.654082Z",
+  "name": "Bryan Duncan",
+  "name_key": "BRYAN DUNCAN",
+  "alpha_key": "BRYAN DUNCAN",
+  "canon_key": "BRIANDUNCAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

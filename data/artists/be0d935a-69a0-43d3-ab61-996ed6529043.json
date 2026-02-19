@@ -1,0 +1,15 @@
+{
+  "id": "be0d935a-69a0-43d3-ab61-996ed6529043",
+  "m1_id": 161,
+  "added_at": "2026-02-19T05:19:26.664142Z",
+  "name": "Kim Hill",
+  "name_key": "KIM HILL",
+  "alpha_key": "KIM HILL",
+  "canon_key": "KIMHIL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

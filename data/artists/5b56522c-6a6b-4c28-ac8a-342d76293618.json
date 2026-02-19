@@ -1,0 +1,15 @@
+{
+  "id": "5b56522c-6a6b-4c28-ac8a-342d76293618",
+  "m1_id": 1941,
+  "added_at": "2026-02-19T05:19:26.969056Z",
+  "name": "Andrew Ripp",
+  "name_key": "ANDREW RIPP",
+  "alpha_key": "ANDREW RIPP",
+  "canon_key": "ANDREWRIP",
+  "rec_type": 0,
+  "separation_ms": 1200000,
+  "gender": 1,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

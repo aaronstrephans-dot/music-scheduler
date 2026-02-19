@@ -1,0 +1,15 @@
+{
+  "id": "1f729aff-2890-4af9-924c-22a6f01602d1",
+  "m1_id": 1597,
+  "added_at": "2026-02-19T05:19:26.850010Z",
+  "name": "The Village Church",
+  "name_key": "THE VILLAGE CHURCH",
+  "alpha_key": "VILLAGE CHURCH",
+  "canon_key": "VILAGECHURCH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

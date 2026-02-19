@@ -1,0 +1,15 @@
+{
+  "id": "1e064057-1d7c-4332-9c8e-850e8433c88d",
+  "m1_id": 280,
+  "added_at": "2026-02-19T05:19:26.679400Z",
+  "name": "Twila Paris",
+  "name_key": "TWILA PARIS",
+  "alpha_key": "TWILA PARIS",
+  "canon_key": "TWILAPARIS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

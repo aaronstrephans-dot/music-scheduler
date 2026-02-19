@@ -1,0 +1,15 @@
+{
+  "id": "e9dbc0c4-2b3b-40c4-a0c6-696643cee9d5",
+  "m1_id": 1433,
+  "added_at": "2026-02-19T05:19:26.797747Z",
+  "name": "Holly Watson",
+  "name_key": "HOLLY WATSON",
+  "alpha_key": "HOLLY WATSON",
+  "canon_key": "HOLIWATSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

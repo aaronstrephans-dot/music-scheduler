@@ -1,0 +1,15 @@
+{
+  "id": "fd23fb13-a821-4287-91b6-ad57ecf34fd4",
+  "m1_id": 424,
+  "added_at": "2026-02-19T05:19:26.689905Z",
+  "name": "Jars of clay",
+  "name_key": "JARS OF CLAY",
+  "alpha_key": "JARS OF CLAY",
+  "canon_key": "JARSOFCLAI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

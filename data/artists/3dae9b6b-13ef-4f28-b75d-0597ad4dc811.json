@@ -1,0 +1,15 @@
+{
+  "id": "3dae9b6b-13ef-4f28-b75d-0597ad4dc811",
+  "m1_id": 451,
+  "added_at": "2026-02-19T05:19:26.695682Z",
+  "name": "Collin Raye",
+  "name_key": "COLLIN RAYE",
+  "alpha_key": "COLLIN RAYE",
+  "canon_key": "COLINRAIE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

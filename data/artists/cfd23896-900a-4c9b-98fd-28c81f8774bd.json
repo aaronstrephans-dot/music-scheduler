@@ -1,0 +1,15 @@
+{
+  "id": "cfd23896-900a-4c9b-98fd-28c81f8774bd",
+  "m1_id": 1872,
+  "added_at": "2026-02-19T05:19:26.942961Z",
+  "name": "Chris Davenport",
+  "name_key": "CHRIS DAVENPORT",
+  "alpha_key": "CHRIS DAVENPORT",
+  "canon_key": "CHRISDAVENPORT",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

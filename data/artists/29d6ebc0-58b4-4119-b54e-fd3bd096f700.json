@@ -1,0 +1,15 @@
+{
+  "id": "29d6ebc0-58b4-4119-b54e-fd3bd096f700",
+  "m1_id": 1432,
+  "added_at": "2026-02-19T05:19:26.797385Z",
+  "name": "Katrina Tadman",
+  "name_key": "KATRINA TADMAN",
+  "alpha_key": "KATRINA TADMAN",
+  "canon_key": "KATRINATADMAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

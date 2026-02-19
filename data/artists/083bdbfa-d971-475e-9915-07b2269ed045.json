@@ -1,0 +1,15 @@
+{
+  "id": "083bdbfa-d971-475e-9915-07b2269ed045",
+  "m1_id": 1442,
+  "added_at": "2026-02-19T05:19:26.801543Z",
+  "name": "Starfield",
+  "name_key": "STARFIELD",
+  "alpha_key": "STARFIELD",
+  "canon_key": "STARFIELD",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

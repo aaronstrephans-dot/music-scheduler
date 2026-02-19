@@ -1,0 +1,15 @@
+{
+  "id": "8a77a307-22c9-4688-ad9d-59bbc840afe8",
+  "m1_id": 1911,
+  "added_at": "2026-02-19T05:19:26.956393Z",
+  "name": "Engedi Music",
+  "name_key": "ENGEDI MUSIC",
+  "alpha_key": "ENGEDI MUSIC",
+  "canon_key": "ENGEDIMUSIC",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

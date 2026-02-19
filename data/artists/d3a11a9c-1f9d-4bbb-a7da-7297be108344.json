@@ -1,0 +1,15 @@
+{
+  "id": "d3a11a9c-1f9d-4bbb-a7da-7297be108344",
+  "m1_id": 1485,
+  "added_at": "2026-02-19T05:19:26.814511Z",
+  "name": "Trevor Morgan",
+  "name_key": "TREVOR MORGAN",
+  "alpha_key": "TREVOR MORGAN",
+  "canon_key": "TREVORMORGAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

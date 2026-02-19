@@ -1,0 +1,15 @@
+{
+  "id": "45ece746-37b8-4e42-a38f-22b00f761dc9",
+  "m1_id": 1496,
+  "added_at": "2026-02-19T05:19:26.818293Z",
+  "name": "Morris3",
+  "name_key": "MORRIS3",
+  "alpha_key": "MORRIS3",
+  "canon_key": "MORIS3",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

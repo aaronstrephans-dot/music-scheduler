@@ -1,0 +1,15 @@
+{
+  "id": "9ec6db59-12e0-4b00-a60c-cbac448b3df6",
+  "m1_id": 1643,
+  "added_at": "2026-02-19T05:19:26.864049Z",
+  "name": "Evan Wickham",
+  "name_key": "EVAN WICKHAM",
+  "alpha_key": "EVAN WICKHAM",
+  "canon_key": "EVANWICKHAM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

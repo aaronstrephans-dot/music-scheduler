@@ -1,0 +1,15 @@
+{
+  "id": "86e0db66-0bef-45e8-b4a0-44f4bbebcdd2",
+  "m1_id": 1849,
+  "added_at": "2026-02-19T05:19:26.934686Z",
+  "name": "Consumed By Fire",
+  "name_key": "CONSUMED BY FIRE",
+  "alpha_key": "CONSUMED BY FIRE",
+  "canon_key": "CONSUMEDBIFIRE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

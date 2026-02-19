@@ -1,0 +1,15 @@
+{
+  "id": "69ad51d0-fdaf-45ce-9389-0dd89eb34164",
+  "m1_id": 1487,
+  "added_at": "2026-02-19T05:19:26.815613Z",
+  "name": "Planetshakers",
+  "name_key": "PLANETSHAKERS",
+  "alpha_key": "PLANETSHAKERS",
+  "canon_key": "PLANETSHAKERS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

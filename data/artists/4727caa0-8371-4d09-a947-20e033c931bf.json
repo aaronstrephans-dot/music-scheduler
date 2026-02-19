@@ -1,0 +1,15 @@
+{
+  "id": "4727caa0-8371-4d09-a947-20e033c931bf",
+  "m1_id": 1642,
+  "added_at": "2026-02-19T05:19:26.863703Z",
+  "name": "Paul Taylor Smith",
+  "name_key": "PAUL TAYLOR SMITH",
+  "alpha_key": "PAUL TAYLOR SMITH",
+  "canon_key": "PAULTAILORSMITH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

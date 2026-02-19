@@ -1,0 +1,15 @@
+{
+  "id": "fe3dab52-5758-4080-b574-38d841ac213a",
+  "m1_id": 1573,
+  "added_at": "2026-02-19T05:19:26.841275Z",
+  "name": "Shana Strange",
+  "name_key": "SHANA STRANGE",
+  "alpha_key": "SHANA STRANGE",
+  "canon_key": "SHANASTRANGE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "5465b9d8-193b-47a2-9569-65a6971b80ab",
+  "m1_id": 1627,
+  "added_at": "2026-02-19T05:19:26.859020Z",
+  "name": "Citizen Way",
+  "name_key": "CITIZEN WAY",
+  "alpha_key": "CITIZEN WAY",
+  "canon_key": "CITIZENWAI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

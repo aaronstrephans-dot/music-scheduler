@@ -1,0 +1,15 @@
+{
+  "id": "efd742e9-a6f1-4b25-ad15-b7a90a4f287c",
+  "m1_id": 1574,
+  "added_at": "2026-02-19T05:19:26.841618Z",
+  "name": "16 Cities",
+  "name_key": "16 CITIES",
+  "alpha_key": "16 CITIES",
+  "canon_key": "16CITIES",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

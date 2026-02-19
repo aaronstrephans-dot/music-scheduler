@@ -1,0 +1,15 @@
+{
+  "id": "bbc7e9d8-344f-4573-9a42-c8c1abdf568d",
+  "m1_id": 1342,
+  "added_at": "2026-02-19T05:19:26.758210Z",
+  "name": "Martin Layzell",
+  "name_key": "MARTIN LAYZELL",
+  "alpha_key": "MARTIN LAYZELL",
+  "canon_key": "MARTINLAIZEL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

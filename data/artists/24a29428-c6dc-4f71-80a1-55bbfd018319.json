@@ -1,0 +1,15 @@
+{
+  "id": "24a29428-c6dc-4f71-80a1-55bbfd018319",
+  "m1_id": 1446,
+  "added_at": "2026-02-19T05:19:26.802928Z",
+  "name": "Tim Haynes",
+  "name_key": "TIM HAYNES",
+  "alpha_key": "TIM HAYNES",
+  "canon_key": "TIMHAINES",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

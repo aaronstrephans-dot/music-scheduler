@@ -1,0 +1,15 @@
+{
+  "id": "45262679-0b88-449c-86ea-7f57fe9f6ea3",
+  "m1_id": 1713,
+  "added_at": "2026-02-19T05:19:26.889025Z",
+  "name": "Gateway",
+  "name_key": "GATEWAY",
+  "alpha_key": "GATEWAY",
+  "canon_key": "GATEWAI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

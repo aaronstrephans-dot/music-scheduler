@@ -1,0 +1,15 @@
+{
+  "id": "049ee7b4-c734-46ae-9065-302e77945072",
+  "m1_id": 1545,
+  "added_at": "2026-02-19T05:19:26.831579Z",
+  "name": "Jonny Diaz",
+  "name_key": "JONNY DIAZ",
+  "alpha_key": "JONNY DIAZ",
+  "canon_key": "JONIDIAZ",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

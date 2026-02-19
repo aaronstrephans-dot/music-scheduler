@@ -1,0 +1,15 @@
+{
+  "id": "bbfdc596-4cae-40ce-a8ff-0b93c8f53ade",
+  "m1_id": 1374,
+  "added_at": "2026-02-19T05:19:26.770194Z",
+  "name": "Jonathan Noel",
+  "name_key": "JONATHAN NOEL",
+  "alpha_key": "JONATHAN NOEL",
+  "canon_key": "JONATHANNOEL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "6c2ecf2f-5f3a-490b-a42d-6f2b5f19d130",
+  "m1_id": 1400,
+  "added_at": "2026-02-19T05:19:26.781012Z",
+  "name": "Reuben Morgan",
+  "name_key": "REUBEN MORGAN",
+  "alpha_key": "REUBEN MORGAN",
+  "canon_key": "REUBENMORGAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

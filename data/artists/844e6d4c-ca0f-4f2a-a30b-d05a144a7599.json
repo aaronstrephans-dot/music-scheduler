@@ -1,0 +1,15 @@
+{
+  "id": "844e6d4c-ca0f-4f2a-a30b-d05a144a7599",
+  "m1_id": 153,
+  "added_at": "2026-02-19T05:19:26.663263Z",
+  "name": "Kathy Mattea",
+  "name_key": "KATHY MATTEA",
+  "alpha_key": "KATHY MATTEA",
+  "canon_key": "KATHIMATEA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

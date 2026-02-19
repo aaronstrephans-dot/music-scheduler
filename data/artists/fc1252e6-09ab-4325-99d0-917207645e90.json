@@ -1,0 +1,15 @@
+{
+  "id": "fc1252e6-09ab-4325-99d0-917207645e90",
+  "m1_id": 1465,
+  "added_at": "2026-02-19T05:19:26.809000Z",
+  "name": "Tim Neufeld",
+  "name_key": "TIM NEUFELD",
+  "alpha_key": "TIM NEUFELD",
+  "canon_key": "TIMNEUFELD",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

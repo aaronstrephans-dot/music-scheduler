@@ -1,0 +1,15 @@
+{
+  "id": "a4b3d194-1311-4298-9eb2-810f2d5cbbfd",
+  "m1_id": 1229,
+  "added_at": "2026-02-19T05:19:26.727586Z",
+  "name": "Damita",
+  "name_key": "DAMITA",
+  "alpha_key": "DAMITA",
+  "canon_key": "DAMITA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

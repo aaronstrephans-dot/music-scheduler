@@ -1,0 +1,15 @@
+{
+  "id": "8247fef5-f437-490d-98fd-5de7d2628464",
+  "m1_id": 1746,
+  "added_at": "2026-02-19T05:19:26.898482Z",
+  "name": "Luke Hellebronth",
+  "name_key": "LUKE HELLEBRONTH",
+  "alpha_key": "LUKE HELLEBRONTH",
+  "canon_key": "LUKEHELEBRONTH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

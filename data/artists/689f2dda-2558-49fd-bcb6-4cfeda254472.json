@@ -1,0 +1,15 @@
+{
+  "id": "689f2dda-2558-49fd-bcb6-4cfeda254472",
+  "m1_id": 455,
+  "added_at": "2026-02-19T05:19:26.696661Z",
+  "name": "American Boychoir",
+  "name_key": "AMERICAN BOYCHOIR",
+  "alpha_key": "AMERICAN BOYCHOIR",
+  "canon_key": "AMERICANBOICHOIR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

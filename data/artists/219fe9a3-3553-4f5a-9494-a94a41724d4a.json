@@ -1,0 +1,15 @@
+{
+  "id": "219fe9a3-3553-4f5a-9494-a94a41724d4a",
+  "m1_id": 1230,
+  "added_at": "2026-02-19T05:19:26.727914Z",
+  "name": "Ten Shekel Shirt",
+  "name_key": "TEN SHEKEL SHIRT",
+  "alpha_key": "TEN SHEKEL SHIRT",
+  "canon_key": "10SHEKELSHIRT",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

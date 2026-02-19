@@ -1,0 +1,15 @@
+{
+  "id": "2d010c1b-d7eb-45de-b8e6-b16617ee4de8",
+  "m1_id": 1612,
+  "added_at": "2026-02-19T05:19:26.854785Z",
+  "name": "An Epic, No Less",
+  "name_key": "AN EPIC, NO LESS",
+  "alpha_key": "AN EPIC, NO LESS",
+  "canon_key": "ANEPICNOLES",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

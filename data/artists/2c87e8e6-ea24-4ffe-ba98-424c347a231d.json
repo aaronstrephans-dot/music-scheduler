@@ -1,0 +1,15 @@
+{
+  "id": "2c87e8e6-ea24-4ffe-ba98-424c347a231d",
+  "m1_id": 1470,
+  "added_at": "2026-02-19T05:19:26.810299Z",
+  "name": "This Beautiful Republic",
+  "name_key": "THIS BEAUTIFUL REPUBLIC",
+  "alpha_key": "THIS BEAUTIFUL REPUBLIC",
+  "canon_key": "THISBEAUTIFULREPUBLIC",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

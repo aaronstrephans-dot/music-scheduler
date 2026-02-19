@@ -1,0 +1,15 @@
+{
+  "id": "71f02207-841e-487f-b50c-eda9e09917f5",
+  "m1_id": 1532,
+  "added_at": "2026-02-19T05:19:26.827939Z",
+  "name": "Dan Macauley",
+  "name_key": "DAN MACAULEY",
+  "alpha_key": "DAN MACAULEY",
+  "canon_key": "DANMACAULEI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

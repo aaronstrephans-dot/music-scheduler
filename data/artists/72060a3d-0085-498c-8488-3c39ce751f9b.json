@@ -1,0 +1,15 @@
+{
+  "id": "72060a3d-0085-498c-8488-3c39ce751f9b",
+  "m1_id": 266,
+  "added_at": "2026-02-19T05:19:26.677425Z",
+  "name": "Russ Taff",
+  "name_key": "RUSS TAFF",
+  "alpha_key": "RUSS TAFF",
+  "canon_key": "RUSTAF",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

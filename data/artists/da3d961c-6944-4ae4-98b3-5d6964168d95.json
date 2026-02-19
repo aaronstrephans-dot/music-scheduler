@@ -1,0 +1,15 @@
+{
+  "id": "da3d961c-6944-4ae4-98b3-5d6964168d95",
+  "m1_id": 1408,
+  "added_at": "2026-02-19T05:19:26.783874Z",
+  "name": "Stellar Kart",
+  "name_key": "STELLAR KART",
+  "alpha_key": "STELLAR KART",
+  "canon_key": "STELARKART",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "89d4d308-c067-46f8-9b83-78744f4bf7bf",
+  "m1_id": 1763,
+  "added_at": "2026-02-19T05:19:26.903920Z",
+  "name": "We The Kingdom",
+  "name_key": "WE THE KINGDOM",
+  "alpha_key": "WE THE KINGDOM",
+  "canon_key": "WEKINGDOM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

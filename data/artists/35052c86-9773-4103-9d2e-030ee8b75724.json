@@ -1,0 +1,15 @@
+{
+  "id": "35052c86-9773-4103-9d2e-030ee8b75724",
+  "m1_id": 1863,
+  "added_at": "2026-02-19T05:19:26.938964Z",
+  "name": "Samsong Church Boi",
+  "name_key": "SAMSONG CHURCH BOI",
+  "alpha_key": "SAMSONG CHURCH BOI",
+  "canon_key": "SAMSONGCHURCHBOI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

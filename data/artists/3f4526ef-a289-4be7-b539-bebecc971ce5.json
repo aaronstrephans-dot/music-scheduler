@@ -1,0 +1,15 @@
+{
+  "id": "3f4526ef-a289-4be7-b539-bebecc971ce5",
+  "m1_id": 1397,
+  "added_at": "2026-02-19T05:19:26.780169Z",
+  "name": "Ian Eskelin",
+  "name_key": "IAN ESKELIN",
+  "alpha_key": "IAN ESKELIN",
+  "canon_key": "IANESKELIN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

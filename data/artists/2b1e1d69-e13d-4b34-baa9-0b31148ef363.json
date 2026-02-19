@@ -1,0 +1,15 @@
+{
+  "id": "2b1e1d69-e13d-4b34-baa9-0b31148ef363",
+  "m1_id": 1748,
+  "added_at": "2026-02-19T05:19:26.898999Z",
+  "name": "David Leonard",
+  "name_key": "DAVID LEONARD",
+  "alpha_key": "DAVID LEONARD",
+  "canon_key": "DAVIDLEONARD",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

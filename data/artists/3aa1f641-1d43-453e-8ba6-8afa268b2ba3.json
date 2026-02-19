@@ -1,0 +1,15 @@
+{
+  "id": "3aa1f641-1d43-453e-8ba6-8afa268b2ba3",
+  "m1_id": 1515,
+  "added_at": "2026-02-19T05:19:26.823881Z",
+  "name": "Curt Collins",
+  "name_key": "CURT COLLINS",
+  "alpha_key": "CURT COLLINS",
+  "canon_key": "CURTCOLINS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

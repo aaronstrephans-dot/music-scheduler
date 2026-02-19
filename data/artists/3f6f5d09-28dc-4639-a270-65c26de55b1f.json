@@ -1,0 +1,15 @@
+{
+  "id": "3f6f5d09-28dc-4639-a270-65c26de55b1f",
+  "m1_id": 1880,
+  "added_at": "2026-02-19T05:19:26.945333Z",
+  "name": "Sean BE",
+  "name_key": "SEAN BE",
+  "alpha_key": "SEAN BE",
+  "canon_key": "SEANBE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

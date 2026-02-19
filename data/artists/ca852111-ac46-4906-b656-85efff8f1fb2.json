@@ -1,0 +1,15 @@
+{
+  "id": "ca852111-ac46-4906-b656-85efff8f1fb2",
+  "m1_id": 575,
+  "added_at": "2026-02-19T05:19:26.712378Z",
+  "name": "Charlie Hall",
+  "name_key": "CHARLIE HALL",
+  "alpha_key": "CHARLIE HALL",
+  "canon_key": "CHARLIEHAL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

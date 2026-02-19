@@ -1,0 +1,15 @@
+{
+  "id": "94110543-152c-42a2-bae2-0d9125db84c6",
+  "m1_id": 1784,
+  "added_at": "2026-02-19T05:19:26.911408Z",
+  "name": "Dinah Wright",
+  "name_key": "DINAH WRIGHT",
+  "alpha_key": "DINAH WRIGHT",
+  "canon_key": "DINAHWRIGHT",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

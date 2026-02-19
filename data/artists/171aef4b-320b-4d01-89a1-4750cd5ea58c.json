@@ -1,0 +1,15 @@
+{
+  "id": "171aef4b-320b-4d01-89a1-4750cd5ea58c",
+  "m1_id": 1811,
+  "added_at": "2026-02-19T05:19:26.920879Z",
+  "name": "Nadine Valentine",
+  "name_key": "NADINE VALENTINE",
+  "alpha_key": "NADINE VALENTINE",
+  "canon_key": "NADINEVALENTINE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

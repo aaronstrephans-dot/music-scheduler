@@ -1,0 +1,15 @@
+{
+  "id": "2c6f4405-7a39-44d7-a215-c685af89e735",
+  "m1_id": 1868,
+  "added_at": "2026-02-19T05:19:26.941226Z",
+  "name": "Victory Usifoh",
+  "name_key": "VICTORY USIFOH",
+  "alpha_key": "VICTORY USIFOH",
+  "canon_key": "VICTORIUSIFOH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

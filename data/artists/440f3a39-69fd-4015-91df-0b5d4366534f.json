@@ -1,0 +1,15 @@
+{
+  "id": "440f3a39-69fd-4015-91df-0b5d4366534f",
+  "m1_id": 1651,
+  "added_at": "2026-02-19T05:19:26.866939Z",
+  "name": "Hillsong Worship",
+  "name_key": "HILLSONG WORSHIP",
+  "alpha_key": "HILLSONG WORSHIP",
+  "canon_key": "HILSONGWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

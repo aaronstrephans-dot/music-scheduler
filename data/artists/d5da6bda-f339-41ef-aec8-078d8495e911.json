@@ -1,0 +1,15 @@
+{
+  "id": "d5da6bda-f339-41ef-aec8-078d8495e911",
+  "m1_id": 1753,
+  "added_at": "2026-02-19T05:19:26.900648Z",
+  "name": "Terrian",
+  "name_key": "TERRIAN",
+  "alpha_key": "TERRIAN",
+  "canon_key": "TERIAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

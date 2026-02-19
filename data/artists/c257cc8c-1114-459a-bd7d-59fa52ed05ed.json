@@ -1,0 +1,15 @@
+{
+  "id": "c257cc8c-1114-459a-bd7d-59fa52ed05ed",
+  "m1_id": 1904,
+  "added_at": "2026-02-19T05:19:26.953650Z",
+  "name": "KODA",
+  "name_key": "KODA",
+  "alpha_key": "KODA",
+  "canon_key": "KODA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

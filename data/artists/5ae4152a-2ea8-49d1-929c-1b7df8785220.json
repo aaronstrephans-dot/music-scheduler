@@ -1,0 +1,15 @@
+{
+  "id": "5ae4152a-2ea8-49d1-929c-1b7df8785220",
+  "m1_id": 1621,
+  "added_at": "2026-02-19T05:19:26.857087Z",
+  "name": "All Sons & Daughters",
+  "name_key": "ALL SONS & DAUGHTERS",
+  "alpha_key": "ALL SONS & DAUGHTERS",
+  "canon_key": "ALSONSDAUGHTERS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

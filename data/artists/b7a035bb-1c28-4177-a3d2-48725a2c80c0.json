@@ -1,0 +1,15 @@
+{
+  "id": "b7a035bb-1c28-4177-a3d2-48725a2c80c0",
+  "m1_id": 1869,
+  "added_at": "2026-02-19T05:19:26.941771Z",
+  "name": "Landon Wolfe",
+  "name_key": "LANDON WOLFE",
+  "alpha_key": "LANDON WOLFE",
+  "canon_key": "LANDONWOLFE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

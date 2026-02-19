@@ -1,0 +1,15 @@
+{
+  "id": "d27112d4-db11-4c1d-a019-6c92fc4f2089",
+  "m1_id": 282,
+  "added_at": "2026-02-19T05:19:26.679707Z",
+  "name": "Steven Curtis Chapman",
+  "name_key": "STEVEN CURTIS CHAPMAN",
+  "alpha_key": "STEVEN CURTIS CHAPMAN",
+  "canon_key": "STEVENCURTISCHAPMAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "93988a8e-7564-429c-8bea-4493d81089f6",
+  "m1_id": 1816,
+  "added_at": "2026-02-19T05:19:26.923023Z",
+  "name": "Austin French",
+  "name_key": "AUSTIN FRENCH",
+  "alpha_key": "AUSTIN FRENCH",
+  "canon_key": "AUSTINFRENCH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

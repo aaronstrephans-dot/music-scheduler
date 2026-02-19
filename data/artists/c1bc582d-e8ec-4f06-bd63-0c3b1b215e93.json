@@ -1,0 +1,15 @@
+{
+  "id": "c1bc582d-e8ec-4f06-bd63-0c3b1b215e93",
+  "m1_id": 1407,
+  "added_at": "2026-02-19T05:19:26.783604Z",
+  "name": "Springhill Worship",
+  "name_key": "SPRINGHILL WORSHIP",
+  "alpha_key": "SPRINGHILL WORSHIP",
+  "canon_key": "SPRINGHILWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

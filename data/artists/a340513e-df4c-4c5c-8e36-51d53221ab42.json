@@ -1,0 +1,15 @@
+{
+  "id": "a340513e-df4c-4c5c-8e36-51d53221ab42",
+  "m1_id": 1864,
+  "added_at": "2026-02-19T05:19:26.939482Z",
+  "name": "Bredjo",
+  "name_key": "BREDJO",
+  "alpha_key": "BREDJO",
+  "canon_key": "BREDJO",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

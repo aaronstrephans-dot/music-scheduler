@@ -1,0 +1,15 @@
+{
+  "id": "5e6133ac-cfe4-4abb-8479-3a9ae6d89b61",
+  "m1_id": 1935,
+  "added_at": "2026-02-19T05:19:26.967033Z",
+  "name": "David Dennis",
+  "name_key": "DAVID DENNIS",
+  "alpha_key": "DAVID DENNIS",
+  "canon_key": "DAVIDDENIS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

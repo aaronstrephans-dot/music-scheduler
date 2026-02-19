@@ -1,0 +1,15 @@
+{
+  "id": "e5d5a43b-6b3f-4e8e-bd32-cb9b2301c937",
+  "m1_id": 1827,
+  "added_at": "2026-02-19T05:19:26.926889Z",
+  "name": "Phil Thompson",
+  "name_key": "PHIL THOMPSON",
+  "alpha_key": "PHIL THOMPSON",
+  "canon_key": "PHILTHOMPSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

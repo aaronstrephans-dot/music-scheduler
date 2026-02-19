@@ -1,0 +1,15 @@
+{
+  "id": "1959dfa0-13df-4493-b83f-4c6b69b0339d",
+  "m1_id": 1334,
+  "added_at": "2026-02-19T05:19:26.754891Z",
+  "name": "Jay Johnson",
+  "name_key": "JAY JOHNSON",
+  "alpha_key": "JAY JOHNSON",
+  "canon_key": "JAIJOHNSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

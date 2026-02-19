@@ -1,0 +1,15 @@
+{
+  "id": "02a9d5df-dc04-488c-bd64-101b365c9f93",
+  "m1_id": 523,
+  "added_at": "2026-02-19T05:19:26.706768Z",
+  "name": "Bebo Norman",
+  "name_key": "BEBO NORMAN",
+  "alpha_key": "BEBO NORMAN",
+  "canon_key": "BEBONORMAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "a213ab5f-18ed-47a1-a7fa-de91ad2edf23",
+  "m1_id": 1736,
+  "added_at": "2026-02-19T05:19:26.895459Z",
+  "name": "Michael Farren",
+  "name_key": "MICHAEL FARREN",
+  "alpha_key": "MICHAEL FARREN",
+  "canon_key": "MICHAELFAREN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

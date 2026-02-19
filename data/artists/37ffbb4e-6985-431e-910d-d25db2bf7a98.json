@@ -1,0 +1,15 @@
+{
+  "id": "37ffbb4e-6985-431e-910d-d25db2bf7a98",
+  "m1_id": 1493,
+  "added_at": "2026-02-19T05:19:26.817773Z",
+  "name": "Sanctus Real",
+  "name_key": "SANCTUS REAL",
+  "alpha_key": "SANCTUS REAL",
+  "canon_key": "SANCTUSREAL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

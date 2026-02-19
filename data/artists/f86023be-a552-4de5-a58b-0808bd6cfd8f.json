@@ -1,0 +1,15 @@
+{
+  "id": "f86023be-a552-4de5-a58b-0808bd6cfd8f",
+  "m1_id": 1383,
+  "added_at": "2026-02-19T05:19:26.774404Z",
+  "name": "Peculiar People Band",
+  "name_key": "PECULIAR PEOPLE BAND",
+  "alpha_key": "PECULIAR PEOPLE BAND",
+  "canon_key": "PECULIARPEOPLEBAND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

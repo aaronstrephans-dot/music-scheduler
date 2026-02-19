@@ -1,0 +1,15 @@
+{
+  "id": "c3651b8d-c5f2-4a9c-bd78-602421de7c88",
+  "m1_id": 397,
+  "added_at": "2026-02-19T05:19:26.686889Z",
+  "name": "Christine Dente",
+  "name_key": "CHRISTINE DENTE",
+  "alpha_key": "CHRISTINE DENTE",
+  "canon_key": "CHRISTINEDENTE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

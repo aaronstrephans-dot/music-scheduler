@@ -1,0 +1,15 @@
+{
+  "id": "9eec7cdf-9ce8-4bb7-b33a-f64bf3d8b01b",
+  "m1_id": 1233,
+  "added_at": "2026-02-19T05:19:26.728620Z",
+  "name": "By the tree",
+  "name_key": "BY THE TREE",
+  "alpha_key": "BY THE TREE",
+  "canon_key": "BITRE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

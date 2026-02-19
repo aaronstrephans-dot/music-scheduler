@@ -1,0 +1,15 @@
+{
+  "id": "59d93347-d79f-4f4e-85fe-f2172d804864",
+  "m1_id": 1492,
+  "added_at": "2026-02-19T05:19:26.817450Z",
+  "name": "Maranatha! Music",
+  "name_key": "MARANATHA! MUSIC",
+  "alpha_key": "MARANATHA! MUSIC",
+  "canon_key": "MARANATHAMUSIC",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

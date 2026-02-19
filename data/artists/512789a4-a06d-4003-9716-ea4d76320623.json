@@ -1,0 +1,15 @@
+{
+  "id": "512789a4-a06d-4003-9716-ea4d76320623",
+  "m1_id": 1361,
+  "added_at": "2026-02-19T05:19:26.765158Z",
+  "name": "Palisade",
+  "name_key": "PALISADE",
+  "alpha_key": "PALISADE",
+  "canon_key": "PALISADE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

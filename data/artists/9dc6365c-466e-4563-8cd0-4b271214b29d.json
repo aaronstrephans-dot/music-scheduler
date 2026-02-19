@@ -1,0 +1,15 @@
+{
+  "id": "9dc6365c-466e-4563-8cd0-4b271214b29d",
+  "m1_id": 574,
+  "added_at": "2026-02-19T05:19:26.711975Z",
+  "name": "Third Day",
+  "name_key": "THIRD DAY",
+  "alpha_key": "THIRD DAY",
+  "canon_key": "3RDDAI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

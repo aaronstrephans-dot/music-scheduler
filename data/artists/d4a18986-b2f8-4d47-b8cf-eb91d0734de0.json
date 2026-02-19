@@ -1,0 +1,15 @@
+{
+  "id": "d4a18986-b2f8-4d47-b8cf-eb91d0734de0",
+  "m1_id": 473,
+  "added_at": "2026-02-19T05:19:26.699138Z",
+  "name": "Martin Smith",
+  "name_key": "MARTIN SMITH",
+  "alpha_key": "MARTIN SMITH",
+  "canon_key": "MARTINSMITH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "ee440da4-7da0-4149-8841-2333328277ee",
+  "m1_id": 1333,
+  "added_at": "2026-02-19T05:19:26.754475Z",
+  "name": "Brenton Brown",
+  "name_key": "BRENTON BROWN",
+  "alpha_key": "BRENTON BROWN",
+  "canon_key": "BRENTONBROWN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

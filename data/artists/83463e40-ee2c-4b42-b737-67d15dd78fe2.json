@@ -1,0 +1,15 @@
+{
+  "id": "83463e40-ee2c-4b42-b737-67d15dd78fe2",
+  "m1_id": 1234,
+  "added_at": "2026-02-19T05:19:26.729146Z",
+  "name": "Solomon's Wish",
+  "name_key": "SOLOMON'S WISH",
+  "alpha_key": "SOLOMON S WISH",
+  "canon_key": "SOLOMONSWISH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "9b38669a-e5de-4c58-8085-ca7b74c37358",
+  "m1_id": 1888,
+  "added_at": "2026-02-19T05:19:26.948246Z",
+  "name": "Skye Peterson",
+  "name_key": "SKYE PETERSON",
+  "alpha_key": "SKYE PETERSON",
+  "canon_key": "SKIEPETERSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

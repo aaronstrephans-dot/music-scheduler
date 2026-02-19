@@ -1,0 +1,15 @@
+{
+  "id": "b44ff73a-85ec-4f1e-81b5-b8835687edf7",
+  "m1_id": 1370,
+  "added_at": "2026-02-19T05:19:26.768609Z",
+  "name": "Ryan Smith",
+  "name_key": "RYAN SMITH",
+  "alpha_key": "RYAN SMITH",
+  "canon_key": "RIANSMITH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

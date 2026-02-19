@@ -1,0 +1,15 @@
+{
+  "id": "b5c75d3f-f230-48a6-bfe4-b2a550b48c63",
+  "m1_id": 216,
+  "added_at": "2026-02-19T05:19:26.671661Z",
+  "name": "Morgan Cryar",
+  "name_key": "MORGAN CRYAR",
+  "alpha_key": "MORGAN CRYAR",
+  "canon_key": "MORGANCRIAR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "a053d5f9-8c2f-47d3-bd61-29c31ef4fcd5",
+  "m1_id": 1253,
+  "added_at": "2026-02-19T05:19:26.734025Z",
+  "name": "Meg Everhart",
+  "name_key": "MEG EVERHART",
+  "alpha_key": "MEG EVERHART",
+  "canon_key": "MEGEVERHART",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

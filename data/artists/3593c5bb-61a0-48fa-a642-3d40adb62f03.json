@@ -1,0 +1,15 @@
+{
+  "id": "3593c5bb-61a0-48fa-a642-3d40adb62f03",
+  "m1_id": 1815,
+  "added_at": "2026-02-19T05:19:26.922643Z",
+  "name": "People & Songs",
+  "name_key": "PEOPLE & SONGS",
+  "alpha_key": "PEOPLE & SONGS",
+  "canon_key": "PEOPLESONGS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "64289c38-bf10-4b64-ab55-33566a42dbf3",
+  "m1_id": 1418,
+  "added_at": "2026-02-19T05:19:26.792060Z",
+  "name": "Lamont Hiebert",
+  "name_key": "LAMONT HIEBERT",
+  "alpha_key": "LAMONT HIEBERT",
+  "canon_key": "LAMONTHIEBERT",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

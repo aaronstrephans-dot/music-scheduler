@@ -1,0 +1,15 @@
+{
+  "id": "33d1ee4b-fedd-4d99-83c4-d1129fa337f8",
+  "m1_id": 1560,
+  "added_at": "2026-02-19T05:19:26.836704Z",
+  "name": "Hillsong Live",
+  "name_key": "HILLSONG LIVE",
+  "alpha_key": "HILLSONG LIVE",
+  "canon_key": "HILSONGLIVE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

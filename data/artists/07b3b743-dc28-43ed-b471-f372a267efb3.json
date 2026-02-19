@@ -1,0 +1,15 @@
+{
+  "id": "07b3b743-dc28-43ed-b471-f372a267efb3",
+  "m1_id": 1726,
+  "added_at": "2026-02-19T05:19:26.892502Z",
+  "name": "One Sonic Society",
+  "name_key": "ONE SONIC SOCIETY",
+  "alpha_key": "ONE SONIC SOCIETY",
+  "canon_key": "1SONICSOCIETI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

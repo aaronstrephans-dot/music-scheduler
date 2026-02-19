@@ -1,0 +1,15 @@
+{
+  "id": "de1f96a0-5341-4213-9fa5-85cdbba81fe3",
+  "m1_id": 412,
+  "added_at": "2026-02-19T05:19:26.688140Z",
+  "name": "Matt Redman",
+  "name_key": "MATT REDMAN",
+  "alpha_key": "MATT REDMAN",
+  "canon_key": "MATREDMAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

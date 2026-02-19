@@ -1,0 +1,15 @@
+{
+  "id": "83478a90-21f9-4568-a095-c72326c8f53e",
+  "m1_id": 430,
+  "added_at": "2026-02-19T05:19:26.691428Z",
+  "name": "Parachute Band",
+  "name_key": "PARACHUTE BAND",
+  "alpha_key": "PARACHUTE BAND",
+  "canon_key": "PARACHUTEBAND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

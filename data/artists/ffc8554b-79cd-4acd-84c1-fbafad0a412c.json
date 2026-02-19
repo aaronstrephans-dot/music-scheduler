@@ -1,0 +1,15 @@
+{
+  "id": "ffc8554b-79cd-4acd-84c1-fbafad0a412c",
+  "m1_id": 1658,
+  "added_at": "2026-02-19T05:19:26.869654Z",
+  "name": "Bethel Music",
+  "name_key": "BETHEL MUSIC",
+  "alpha_key": "BETHEL MUSIC",
+  "canon_key": "BETHELMUSIC",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "7883634f-33dc-482f-b7ff-dfa6aee78b6e",
+  "m1_id": 253,
+  "added_at": "2026-02-19T05:19:26.675502Z",
+  "name": "Rich Mullins",
+  "name_key": "RICH MULLINS",
+  "alpha_key": "RICH MULLINS",
+  "canon_key": "RICHMULINS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

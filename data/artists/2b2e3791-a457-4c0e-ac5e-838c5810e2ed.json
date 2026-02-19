@@ -1,0 +1,15 @@
+{
+  "id": "2b2e3791-a457-4c0e-ac5e-838c5810e2ed",
+  "m1_id": 1707,
+  "added_at": "2026-02-19T05:19:26.886754Z",
+  "name": "Anthem Lights",
+  "name_key": "ANTHEM LIGHTS",
+  "alpha_key": "ANTHEM LIGHTS",
+  "canon_key": "ANTHEMLIGHTS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

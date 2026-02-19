@@ -1,0 +1,15 @@
+{
+  "id": "0dc54aa0-195d-40f4-a9d7-af3704242eb4",
+  "m1_id": 1600,
+  "added_at": "2026-02-19T05:19:26.850995Z",
+  "name": "Fike",
+  "name_key": "FIKE",
+  "alpha_key": "FIKE",
+  "canon_key": "FIKE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

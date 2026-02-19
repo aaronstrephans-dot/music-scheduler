@@ -1,0 +1,15 @@
+{
+  "id": "4e226367-d911-485d-8cb6-94a48a10c348",
+  "m1_id": 1745,
+  "added_at": "2026-02-19T05:19:26.898132Z",
+  "name": "Madison Street Worship",
+  "name_key": "MADISON STREET WORSHIP",
+  "alpha_key": "MADISON STREET WORSHIP",
+  "canon_key": "MADISONSTRETWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

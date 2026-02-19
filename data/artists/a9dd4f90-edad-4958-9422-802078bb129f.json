@@ -1,0 +1,15 @@
+{
+  "id": "a9dd4f90-edad-4958-9422-802078bb129f",
+  "m1_id": 1416,
+  "added_at": "2026-02-19T05:19:26.790729Z",
+  "name": "Greg Troyer",
+  "name_key": "GREG TROYER",
+  "alpha_key": "GREG TROYER",
+  "canon_key": "GREGTROIER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "5e09bfd2-acd8-46d3-9a5d-89088ad1d355",
+  "m1_id": 1441,
+  "added_at": "2026-02-19T05:19:26.801112Z",
+  "name": "Thomas Miller",
+  "name_key": "THOMAS MILLER",
+  "alpha_key": "THOMAS MILLER",
+  "canon_key": "THOMASMILER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

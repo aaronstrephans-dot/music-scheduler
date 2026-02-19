@@ -1,0 +1,15 @@
+{
+  "id": "01c51cde-8017-4984-9367-96933f924c63",
+  "m1_id": 1340,
+  "added_at": "2026-02-19T05:19:26.757425Z",
+  "name": "Eddie Coronado",
+  "name_key": "EDDIE CORONADO",
+  "alpha_key": "EDDIE CORONADO",
+  "canon_key": "EDIECORONADO",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

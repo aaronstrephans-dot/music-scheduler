@@ -1,0 +1,15 @@
+{
+  "id": "979102df-d7a0-40a8-96ce-59b290f9920c",
+  "m1_id": 1554,
+  "added_at": "2026-02-19T05:19:26.834562Z",
+  "name": "The Museum",
+  "name_key": "THE MUSEUM",
+  "alpha_key": "MUSEUM",
+  "canon_key": "MUSEUM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

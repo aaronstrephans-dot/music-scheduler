@@ -1,0 +1,15 @@
+{
+  "id": "add9c7ef-3439-4c0d-8e9c-bf4511faa1b5",
+  "m1_id": 497,
+  "added_at": "2026-02-19T05:19:26.702296Z",
+  "name": "Kepanogreen",
+  "name_key": "KEPANOGREEN",
+  "alpha_key": "KEPANOGREEN",
+  "canon_key": "KEPANOGREN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "720f82a2-9a50-4ed8-8ee2-0dfe73c9cbac",
+  "m1_id": 36,
+  "added_at": "2026-02-19T05:19:26.651174Z",
+  "name": "Big Tent Revival",
+  "name_key": "BIG TENT REVIVAL",
+  "alpha_key": "BIG TENT REVIVAL",
+  "canon_key": "BIGTENTREVIVAL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

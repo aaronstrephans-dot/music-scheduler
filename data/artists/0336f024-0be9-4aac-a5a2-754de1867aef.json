@@ -1,0 +1,15 @@
+{
+  "id": "0336f024-0be9-4aac-a5a2-754de1867aef",
+  "m1_id": 1533,
+  "added_at": "2026-02-19T05:19:26.828184Z",
+  "name": "Fred Hammond",
+  "name_key": "FRED HAMMOND",
+  "alpha_key": "FRED HAMMOND",
+  "canon_key": "FREDHAMOND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

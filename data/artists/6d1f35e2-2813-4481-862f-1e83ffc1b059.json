@@ -1,0 +1,15 @@
+{
+  "id": "6d1f35e2-2813-4481-862f-1e83ffc1b059",
+  "m1_id": 1668,
+  "added_at": "2026-02-19T05:19:26.873351Z",
+  "name": "Citizens & Saints",
+  "name_key": "CITIZENS & SAINTS",
+  "alpha_key": "CITIZENS & SAINTS",
+  "canon_key": "CITIZENSSAINTS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

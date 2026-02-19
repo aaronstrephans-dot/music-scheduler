@@ -1,0 +1,15 @@
+{
+  "id": "9d8e9621-602f-4d2d-a463-caf987be72b4",
+  "m1_id": 1215,
+  "added_at": "2026-02-19T05:19:26.723938Z",
+  "name": "Lane Oliver",
+  "name_key": "LANE OLIVER",
+  "alpha_key": "LANE OLIVER",
+  "canon_key": "LANEOLIVER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

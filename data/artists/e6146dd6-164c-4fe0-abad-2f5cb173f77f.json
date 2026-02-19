@@ -1,0 +1,15 @@
+{
+  "id": "e6146dd6-164c-4fe0-abad-2f5cb173f77f",
+  "m1_id": 1323,
+  "added_at": "2026-02-19T05:19:26.750705Z",
+  "name": "Kim McMechan",
+  "name_key": "KIM MCMECHAN",
+  "alpha_key": "KIM MCMECHAN",
+  "canon_key": "KIMMCMECHAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

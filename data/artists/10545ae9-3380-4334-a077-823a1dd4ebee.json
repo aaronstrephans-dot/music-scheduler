@@ -1,0 +1,15 @@
+{
+  "id": "10545ae9-3380-4334-a077-823a1dd4ebee",
+  "m1_id": 1508,
+  "added_at": "2026-02-19T05:19:26.821716Z",
+  "name": "Addison Road",
+  "name_key": "ADDISON ROAD",
+  "alpha_key": "ADDISON ROAD",
+  "canon_key": "ADISONROAD",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

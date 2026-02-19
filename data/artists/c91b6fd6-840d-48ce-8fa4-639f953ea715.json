@@ -1,0 +1,15 @@
+{
+  "id": "c91b6fd6-840d-48ce-8fa4-639f953ea715",
+  "m1_id": 1455,
+  "added_at": "2026-02-19T05:19:26.805622Z",
+  "name": "Jim Murphy",
+  "name_key": "JIM MURPHY",
+  "alpha_key": "JIM MURPHY",
+  "canon_key": "JIMMURPHI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

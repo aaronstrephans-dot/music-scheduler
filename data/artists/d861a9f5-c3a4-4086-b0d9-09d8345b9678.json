@@ -1,0 +1,15 @@
+{
+  "id": "d861a9f5-c3a4-4086-b0d9-09d8345b9678",
+  "m1_id": 1225,
+  "added_at": "2026-02-19T05:19:26.726703Z",
+  "name": "Erin O'Donnell",
+  "name_key": "ERIN O'DONNELL",
+  "alpha_key": "ERIN O DONNELL",
+  "canon_key": "ERINODONEL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

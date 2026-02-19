@@ -1,0 +1,15 @@
+{
+  "id": "9bc50bd7-22a3-4559-ab93-6ee17623ceac",
+  "m1_id": 1344,
+  "added_at": "2026-02-19T05:19:26.758900Z",
+  "name": "Matt McGee",
+  "name_key": "MATT MCGEE",
+  "alpha_key": "MATT MCGEE",
+  "canon_key": "MATMCGE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

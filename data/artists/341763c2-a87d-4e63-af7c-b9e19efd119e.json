@@ -1,0 +1,15 @@
+{
+  "id": "341763c2-a87d-4e63-af7c-b9e19efd119e",
+  "m1_id": 1390,
+  "added_at": "2026-02-19T05:19:26.776950Z",
+  "name": "Adam Watts",
+  "name_key": "ADAM WATTS",
+  "alpha_key": "ADAM WATTS",
+  "canon_key": "ADAMWATS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "f262c812-2fa0-4223-97a7-c721c4f76294",
+  "m1_id": 1530,
+  "added_at": "2026-02-19T05:19:26.827506Z",
+  "name": "Mikeschair",
+  "name_key": "MIKESCHAIR",
+  "alpha_key": "MIKESCHAIR",
+  "canon_key": "MIKESCHAIR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

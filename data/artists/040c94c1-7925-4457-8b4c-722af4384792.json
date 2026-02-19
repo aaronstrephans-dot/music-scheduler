@@ -1,0 +1,15 @@
+{
+  "id": "040c94c1-7925-4457-8b4c-722af4384792",
+  "m1_id": 1389,
+  "added_at": "2026-02-19T05:19:26.776625Z",
+  "name": "Dennis Dearing",
+  "name_key": "DENNIS DEARING",
+  "alpha_key": "DENNIS DEARING",
+  "canon_key": "DENISDEARING",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

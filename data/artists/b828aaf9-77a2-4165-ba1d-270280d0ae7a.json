@@ -1,0 +1,15 @@
+{
+  "id": "b828aaf9-77a2-4165-ba1d-270280d0ae7a",
+  "m1_id": 1561,
+  "added_at": "2026-02-19T05:19:26.837001Z",
+  "name": "Ben Cantelon",
+  "name_key": "BEN CANTELON",
+  "alpha_key": "BEN CANTELON",
+  "canon_key": "BENCANTELON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

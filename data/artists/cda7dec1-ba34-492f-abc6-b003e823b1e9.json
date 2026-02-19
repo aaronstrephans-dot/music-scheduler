@@ -1,0 +1,15 @@
+{
+  "id": "cda7dec1-ba34-492f-abc6-b003e823b1e9",
+  "m1_id": 1901,
+  "added_at": "2026-02-19T05:19:26.952667Z",
+  "name": "Confidence Okelowo",
+  "name_key": "CONFIDENCE OKELOWO",
+  "alpha_key": "CONFIDENCE OKELOWO",
+  "canon_key": "CONFIDENCEOKELOWO",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

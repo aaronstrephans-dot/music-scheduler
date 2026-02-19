@@ -1,0 +1,15 @@
+{
+  "id": "5292f8e1-4a49-475c-a701-4489399bb31f",
+  "m1_id": 269,
+  "added_at": "2026-02-19T05:19:26.678042Z",
+  "name": "Scott Wesley Brown",
+  "name_key": "SCOTT WESLEY BROWN",
+  "alpha_key": "SCOTT WESLEY BROWN",
+  "canon_key": "SCOTWESLEIBROWN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

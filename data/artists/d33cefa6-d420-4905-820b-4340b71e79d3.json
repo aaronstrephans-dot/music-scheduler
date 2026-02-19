@@ -1,0 +1,15 @@
+{
+  "id": "d33cefa6-d420-4905-820b-4340b71e79d3",
+  "m1_id": 1572,
+  "added_at": "2026-02-19T05:19:26.840923Z",
+  "name": "James David Carter",
+  "name_key": "JAMES DAVID CARTER",
+  "alpha_key": "JAMES DAVID CARTER",
+  "canon_key": "JAMESDAVIDCARTER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

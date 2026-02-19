@@ -1,0 +1,15 @@
+{
+  "id": "89530b87-33d0-4570-ba58-ba7a031a97db",
+  "m1_id": 1729,
+  "added_at": "2026-02-19T05:19:26.893531Z",
+  "name": "Jordan St. Cyr",
+  "name_key": "JORDAN ST. CYR",
+  "alpha_key": "JORDAN ST CYR",
+  "canon_key": "JORDANSTCIR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

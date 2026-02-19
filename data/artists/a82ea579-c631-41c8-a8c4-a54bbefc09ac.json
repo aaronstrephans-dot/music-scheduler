@@ -1,0 +1,15 @@
+{
+  "id": "a82ea579-c631-41c8-a8c4-a54bbefc09ac",
+  "m1_id": 1311,
+  "added_at": "2026-02-19T05:19:26.746664Z",
+  "name": "Big Daddy Weave",
+  "name_key": "BIG DADDY WEAVE",
+  "alpha_key": "BIG DADDY WEAVE",
+  "canon_key": "BIGDADIWEAVE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

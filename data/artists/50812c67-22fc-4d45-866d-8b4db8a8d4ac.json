@@ -1,0 +1,15 @@
+{
+  "id": "50812c67-22fc-4d45-866d-8b4db8a8d4ac",
+  "m1_id": 1248,
+  "added_at": "2026-02-19T05:19:26.732593Z",
+  "name": "the justinfoxband",
+  "name_key": "THE JUSTINFOXBAND",
+  "alpha_key": "JUSTINFOXBAND",
+  "canon_key": "JUSTINFOXBAND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

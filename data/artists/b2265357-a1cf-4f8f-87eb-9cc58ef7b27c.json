@@ -1,0 +1,15 @@
+{
+  "id": "b2265357-a1cf-4f8f-87eb-9cc58ef7b27c",
+  "m1_id": 1503,
+  "added_at": "2026-02-19T05:19:26.820141Z",
+  "name": "Symphony in Red",
+  "name_key": "SYMPHONY IN RED",
+  "alpha_key": "SYMPHONY IN RED",
+  "canon_key": "SIMPHONIINRED",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

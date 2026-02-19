@@ -1,0 +1,15 @@
+{
+  "id": "38705c6f-8413-49b8-9392-e5a56c2ec289",
+  "m1_id": 1417,
+  "added_at": "2026-02-19T05:19:26.791345Z",
+  "name": "Aaron Shust",
+  "name_key": "AARON SHUST",
+  "alpha_key": "AARON SHUST",
+  "canon_key": "ARONSHUST",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

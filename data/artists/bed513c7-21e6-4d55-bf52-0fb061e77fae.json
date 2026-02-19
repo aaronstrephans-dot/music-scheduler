@@ -1,0 +1,15 @@
+{
+  "id": "bed513c7-21e6-4d55-bf52-0fb061e77fae",
+  "m1_id": 1395,
+  "added_at": "2026-02-19T05:19:26.779305Z",
+  "name": "Lex Brodie",
+  "name_key": "LEX BRODIE",
+  "alpha_key": "LEX BRODIE",
+  "canon_key": "LEXBRODIE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

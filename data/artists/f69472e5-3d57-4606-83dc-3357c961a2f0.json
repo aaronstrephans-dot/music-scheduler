@@ -1,0 +1,15 @@
+{
+  "id": "f69472e5-3d57-4606-83dc-3357c961a2f0",
+  "m1_id": 1626,
+  "added_at": "2026-02-19T05:19:26.858712Z",
+  "name": "Tim Timmons",
+  "name_key": "TIM TIMMONS",
+  "alpha_key": "TIM TIMMONS",
+  "canon_key": "TIMTIMONS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

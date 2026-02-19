@@ -1,0 +1,15 @@
+{
+  "id": "912c8b02-6b17-4826-a8ea-e4bea64b41ac",
+  "m1_id": 1213,
+  "added_at": "2026-02-19T05:19:26.723334Z",
+  "name": "Tommy Walker/C.A. Worship Band",
+  "name_key": "TOMMY WALKER/C.A. WORSHIP BAND",
+  "alpha_key": "TOMMY WALKER/C A WORSHIP B",
+  "canon_key": "TOMIWALKERCAWORSHIPBAND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

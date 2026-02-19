@@ -1,0 +1,15 @@
+{
+  "id": "ff98849a-ce64-4bfe-a13e-154e1ec8360d",
+  "m1_id": 1349,
+  "added_at": "2026-02-19T05:19:26.760666Z",
+  "name": "Vineyard",
+  "name_key": "VINEYARD",
+  "alpha_key": "VINEYARD",
+  "canon_key": "VINEIARD",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

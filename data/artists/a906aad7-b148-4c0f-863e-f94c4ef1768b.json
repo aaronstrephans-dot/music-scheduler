@@ -1,0 +1,15 @@
+{
+  "id": "a906aad7-b148-4c0f-863e-f94c4ef1768b",
+  "m1_id": 5,
+  "added_at": "2026-02-19T05:19:26.647321Z",
+  "name": "Aaron-Jeoffrey",
+  "name_key": "AARON-JEOFFREY",
+  "alpha_key": "AARON-JEOFFREY",
+  "canon_key": "ARONJEOFREI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

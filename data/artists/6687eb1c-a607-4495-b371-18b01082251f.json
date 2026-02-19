@@ -1,0 +1,15 @@
+{
+  "id": "6687eb1c-a607-4495-b371-18b01082251f",
+  "m1_id": 530,
+  "added_at": "2026-02-19T05:19:26.708726Z",
+  "name": "Channing Eleton",
+  "name_key": "CHANNING ELETON",
+  "alpha_key": "CHANNING ELETON",
+  "canon_key": "CHANINGELETON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

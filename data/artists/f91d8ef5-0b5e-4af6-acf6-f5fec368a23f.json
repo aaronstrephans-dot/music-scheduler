@@ -1,0 +1,15 @@
+{
+  "id": "f91d8ef5-0b5e-4af6-acf6-f5fec368a23f",
+  "m1_id": 1673,
+  "added_at": "2026-02-19T05:19:26.875171Z",
+  "name": "CityAlight",
+  "name_key": "CITYALIGHT",
+  "alpha_key": "CITYALIGHT",
+  "canon_key": "CITIALIGHT",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

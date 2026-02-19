@@ -1,0 +1,15 @@
+{
+  "id": "51e2a2b6-4910-412f-a6b4-fc53b330b312",
+  "m1_id": 1881,
+  "added_at": "2026-02-19T05:19:26.945732Z",
+  "name": "Elevation Rhythm",
+  "name_key": "ELEVATION RHYTHM",
+  "alpha_key": "ELEVATION RHYTHM",
+  "canon_key": "ELEVATIONRHITHM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

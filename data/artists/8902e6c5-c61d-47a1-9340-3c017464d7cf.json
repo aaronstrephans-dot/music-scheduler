@@ -1,0 +1,15 @@
+{
+  "id": "8902e6c5-c61d-47a1-9340-3c017464d7cf",
+  "m1_id": 1817,
+  "added_at": "2026-02-19T05:19:26.923267Z",
+  "name": "Ada Ehi",
+  "name_key": "ADA EHI",
+  "alpha_key": "ADA EHI",
+  "canon_key": "ADAEHI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

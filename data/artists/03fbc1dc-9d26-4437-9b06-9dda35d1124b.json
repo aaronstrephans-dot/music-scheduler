@@ -1,0 +1,15 @@
+{
+  "id": "03fbc1dc-9d26-4437-9b06-9dda35d1124b",
+  "m1_id": 1882,
+  "added_at": "2026-02-19T05:19:26.946035Z",
+  "name": "Temitope",
+  "name_key": "TEMITOPE",
+  "alpha_key": "TEMITOPE",
+  "canon_key": "TEMITOPE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

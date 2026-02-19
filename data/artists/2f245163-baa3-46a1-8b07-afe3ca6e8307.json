@@ -1,0 +1,15 @@
+{
+  "id": "2f245163-baa3-46a1-8b07-afe3ca6e8307",
+  "m1_id": 531,
+  "added_at": "2026-02-19T05:19:26.709076Z",
+  "name": "Andrew Peterson",
+  "name_key": "ANDREW PETERSON",
+  "alpha_key": "ANDREW PETERSON",
+  "canon_key": "ANDREWPETERSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

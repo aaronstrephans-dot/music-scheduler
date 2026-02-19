@@ -1,0 +1,15 @@
+{
+  "id": "8987ece5-30d4-4a06-b0b6-b10f9285b275",
+  "m1_id": 1747,
+  "added_at": "2026-02-19T05:19:26.898753Z",
+  "name": "Anna Hellebronth",
+  "name_key": "ANNA HELLEBRONTH",
+  "alpha_key": "ANNA HELLEBRONTH",
+  "canon_key": "ANAHELEBRONTH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

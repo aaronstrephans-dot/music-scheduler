@@ -1,0 +1,15 @@
+{
+  "id": "6016b6b3-5758-4731-aa4a-9d09ca8098fa",
+  "m1_id": 1291,
+  "added_at": "2026-02-19T05:19:26.741855Z",
+  "name": "David Crowder",
+  "name_key": "DAVID CROWDER",
+  "alpha_key": "DAVID CROWDER",
+  "canon_key": "DAVIDCROWDER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "1c67b1f1-0a8b-4f58-847d-818821ae2302",
+  "m1_id": 1495,
+  "added_at": "2026-02-19T05:19:26.818022Z",
+  "name": "Barlowgirl",
+  "name_key": "BARLOWGIRL",
+  "alpha_key": "BARLOWGIRL",
+  "canon_key": "BARLOWGIRL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

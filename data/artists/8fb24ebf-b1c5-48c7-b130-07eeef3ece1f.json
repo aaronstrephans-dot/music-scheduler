@@ -1,0 +1,15 @@
+{
+  "id": "8fb24ebf-b1c5-48c7-b130-07eeef3ece1f",
+  "m1_id": 1622,
+  "added_at": "2026-02-19T05:19:26.857323Z",
+  "name": "Hillsong United",
+  "name_key": "HILLSONG UNITED",
+  "alpha_key": "HILLSONG UNITED",
+  "canon_key": "HILSONGUNITED",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

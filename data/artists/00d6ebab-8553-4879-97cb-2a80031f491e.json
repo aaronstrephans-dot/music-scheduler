@@ -1,0 +1,15 @@
+{
+  "id": "00d6ebab-8553-4879-97cb-2a80031f491e",
+  "m1_id": 1509,
+  "added_at": "2026-02-19T05:19:26.821980Z",
+  "name": "Cadia",
+  "name_key": "CADIA",
+  "alpha_key": "CADIA",
+  "canon_key": "CADIA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

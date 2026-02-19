@@ -1,0 +1,15 @@
+{
+  "id": "f25469ed-ea21-41a2-9eb7-a5e8c811dabd",
+  "m1_id": 12,
+  "added_at": "2026-02-19T05:19:26.648875Z",
+  "name": "Alleluia Worship Band",
+  "name_key": "ALLELUIA WORSHIP BAND",
+  "alpha_key": "ALLELUIA WORSHIP BAND",
+  "canon_key": "ALELUIAWORSHIPBAND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

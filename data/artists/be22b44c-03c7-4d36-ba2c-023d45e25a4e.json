@@ -1,0 +1,15 @@
+{
+  "id": "be22b44c-03c7-4d36-ba2c-023d45e25a4e",
+  "m1_id": 1356,
+  "added_at": "2026-02-19T05:19:26.763085Z",
+  "name": "Not By Sight",
+  "name_key": "NOT BY SIGHT",
+  "alpha_key": "NOT BY SIGHT",
+  "canon_key": "NOTBISIGHT",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

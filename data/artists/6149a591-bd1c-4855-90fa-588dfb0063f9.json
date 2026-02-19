@@ -1,0 +1,15 @@
+{
+  "id": "6149a591-bd1c-4855-90fa-588dfb0063f9",
+  "m1_id": 1833,
+  "added_at": "2026-02-19T05:19:26.929016Z",
+  "name": "Anne Wilson",
+  "name_key": "ANNE WILSON",
+  "alpha_key": "ANNE WILSON",
+  "canon_key": "ANEWILSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "ae807ef9-79a5-497c-9722-4b3f90c072a0",
+  "m1_id": 1866,
+  "added_at": "2026-02-19T05:19:26.940438Z",
+  "name": "Phil King",
+  "name_key": "PHIL KING",
+  "alpha_key": "PHIL KING",
+  "canon_key": "PHILKING",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

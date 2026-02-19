@@ -1,0 +1,15 @@
+{
+  "id": "23cbd892-fba5-4a15-b7b5-d36e32739709",
+  "m1_id": 1724,
+  "added_at": "2026-02-19T05:19:26.891921Z",
+  "name": "Mack Brock",
+  "name_key": "MACK BROCK",
+  "alpha_key": "MACK BROCK",
+  "canon_key": "MACKBROCK",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

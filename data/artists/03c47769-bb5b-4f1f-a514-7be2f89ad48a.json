@@ -1,0 +1,15 @@
+{
+  "id": "03c47769-bb5b-4f1f-a514-7be2f89ad48a",
+  "m1_id": 1744,
+  "added_at": "2026-02-19T05:19:26.897697Z",
+  "name": "LIFE Worship",
+  "name_key": "LIFE WORSHIP",
+  "alpha_key": "LIFE WORSHIP",
+  "canon_key": "LIFEWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

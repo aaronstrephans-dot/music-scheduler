@@ -1,0 +1,15 @@
+{
+  "id": "8de4ce6c-23e4-4fe2-bb8b-34f3265dff3d",
+  "m1_id": 71,
+  "added_at": "2026-02-19T05:19:26.656281Z",
+  "name": "Crystal Lewis",
+  "name_key": "CRYSTAL LEWIS",
+  "alpha_key": "CRYSTAL LEWIS",
+  "canon_key": "CRISTALLEWIS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

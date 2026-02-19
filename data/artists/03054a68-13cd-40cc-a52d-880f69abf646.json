@@ -1,0 +1,15 @@
+{
+  "id": "03054a68-13cd-40cc-a52d-880f69abf646",
+  "m1_id": 458,
+  "added_at": "2026-02-19T05:19:26.697660Z",
+  "name": "Joel Hanson",
+  "name_key": "JOEL HANSON",
+  "alpha_key": "JOEL HANSON",
+  "canon_key": "JOELHANSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "482c642a-86b2-4a1c-a48a-98646599bfb1",
+  "m1_id": 1795,
+  "added_at": "2026-02-19T05:19:26.915290Z",
+  "name": "Dr. Tumi",
+  "name_key": "DR. TUMI",
+  "alpha_key": "DR TUMI",
+  "canon_key": "DRTUMI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

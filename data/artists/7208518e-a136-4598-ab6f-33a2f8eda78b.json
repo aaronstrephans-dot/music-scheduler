@@ -1,0 +1,15 @@
+{
+  "id": "7208518e-a136-4598-ab6f-33a2f8eda78b",
+  "m1_id": 1922,
+  "added_at": "2026-02-19T05:19:26.960966Z",
+  "name": "Clay Finnesand",
+  "name_key": "CLAY FINNESAND",
+  "alpha_key": "CLAY FINNESAND",
+  "canon_key": "CLAIFINESAND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

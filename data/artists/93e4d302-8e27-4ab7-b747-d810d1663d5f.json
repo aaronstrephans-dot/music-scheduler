@@ -1,0 +1,15 @@
+{
+  "id": "93e4d302-8e27-4ab7-b747-d810d1663d5f",
+  "m1_id": 439,
+  "added_at": "2026-02-19T05:19:26.693001Z",
+  "name": "Ian Blythe",
+  "name_key": "IAN BLYTHE",
+  "alpha_key": "IAN BLYTHE",
+  "canon_key": "IANBLITHE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

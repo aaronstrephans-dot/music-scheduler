@@ -1,0 +1,15 @@
+{
+  "id": "637daa42-1f91-455e-9e69-1b4a44ad7320",
+  "m1_id": 371,
+  "added_at": "2026-02-19T05:19:26.683589Z",
+  "name": "Wayne Watson",
+  "name_key": "WAYNE WATSON",
+  "alpha_key": "WAYNE WATSON",
+  "canon_key": "WAINEWATSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "f8acb7b6-4979-4a0c-997b-a447c1824aa3",
+  "m1_id": 1568,
+  "added_at": "2026-02-19T05:19:26.839385Z",
+  "name": "Michael Boggs",
+  "name_key": "MICHAEL BOGGS",
+  "alpha_key": "MICHAEL BOGGS",
+  "canon_key": "MICHAELBOGS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "dbccec2b-790d-48c1-ac32-5dd8136fbe1d",
+  "m1_id": 1629,
+  "added_at": "2026-02-19T05:19:26.859652Z",
+  "name": "Matt Gilman",
+  "name_key": "MATT GILMAN",
+  "alpha_key": "MATT GILMAN",
+  "canon_key": "MATGILMAN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

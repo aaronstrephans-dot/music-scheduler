@@ -1,0 +1,15 @@
+{
+  "id": "2294f330-2bc9-404c-a185-a2eda53cb6bc",
+  "m1_id": 1322,
+  "added_at": "2026-02-19T05:19:26.750256Z",
+  "name": "Freddie Colloca",
+  "name_key": "FREDDIE COLLOCA",
+  "alpha_key": "FREDDIE COLLOCA",
+  "canon_key": "FREDIECOLOCA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

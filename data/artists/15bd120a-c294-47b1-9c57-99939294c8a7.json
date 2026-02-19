@@ -1,0 +1,15 @@
+{
+  "id": "15bd120a-c294-47b1-9c57-99939294c8a7",
+  "m1_id": 449,
+  "added_at": "2026-02-19T05:19:26.695123Z",
+  "name": "Guy Penrod",
+  "name_key": "GUY PENROD",
+  "alpha_key": "GUY PENROD",
+  "canon_key": "GUIPENROD",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

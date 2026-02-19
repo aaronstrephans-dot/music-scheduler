@@ -1,0 +1,15 @@
+{
+  "id": "63a59720-a764-4c21-ad28-59be27054c1c",
+  "m1_id": 1578,
+  "added_at": "2026-02-19T05:19:26.843168Z",
+  "name": "Tom Howard",
+  "name_key": "TOM HOWARD",
+  "alpha_key": "TOM HOWARD",
+  "canon_key": "TOMHOWARD",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

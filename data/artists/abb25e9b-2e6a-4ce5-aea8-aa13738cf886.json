@@ -1,0 +1,15 @@
+{
+  "id": "abb25e9b-2e6a-4ce5-aea8-aa13738cf886",
+  "m1_id": 1826,
+  "added_at": "2026-02-19T05:19:26.926500Z",
+  "name": "Thrive Worship",
+  "name_key": "THRIVE WORSHIP",
+  "alpha_key": "THRIVE WORSHIP",
+  "canon_key": "THRIVEWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

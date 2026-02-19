@@ -1,0 +1,15 @@
+{
+  "id": "ca254bad-be96-426f-b0db-62ecdcf72514",
+  "m1_id": 1814,
+  "added_at": "2026-02-19T05:19:26.922262Z",
+  "name": "Jordan Smith",
+  "name_key": "JORDAN SMITH",
+  "alpha_key": "JORDAN SMITH",
+  "canon_key": "JORDANSMITH",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

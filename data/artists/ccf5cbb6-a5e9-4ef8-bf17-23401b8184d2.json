@@ -1,0 +1,15 @@
+{
+  "id": "ccf5cbb6-a5e9-4ef8-bf17-23401b8184d2",
+  "m1_id": 1375,
+  "added_at": "2026-02-19T05:19:26.771592Z",
+  "name": "Anthony Evans",
+  "name_key": "ANTHONY EVANS",
+  "alpha_key": "ANTHONY EVANS",
+  "canon_key": "ANTHONIEVANS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

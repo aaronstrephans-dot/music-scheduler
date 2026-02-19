@@ -1,0 +1,15 @@
+{
+  "id": "957e6452-86ff-4d95-9965-c606ceafb49b",
+  "m1_id": 1309,
+  "added_at": "2026-02-19T05:19:26.745662Z",
+  "name": "City on A Hill",
+  "name_key": "CITY ON A HILL",
+  "alpha_key": "CITY ON A HILL",
+  "canon_key": "CITIONAHIL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

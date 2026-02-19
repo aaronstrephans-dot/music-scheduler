@@ -1,0 +1,15 @@
+{
+  "id": "9eabae8e-8593-4656-a2ab-1e446a1cf927",
+  "m1_id": 94,
+  "added_at": "2026-02-19T05:19:26.658209Z",
+  "name": "Don Francisco",
+  "name_key": "DON FRANCISCO",
+  "alpha_key": "DON FRANCISCO",
+  "canon_key": "DONFRANCISCO",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

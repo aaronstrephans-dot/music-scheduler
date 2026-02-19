@@ -1,0 +1,15 @@
+{
+  "id": "91715690-bc40-47df-94f3-2246ddfe38d6",
+  "m1_id": 3,
+  "added_at": "2026-02-19T05:19:26.646646Z",
+  "name": "4 Him",
+  "name_key": "4 HIM",
+  "alpha_key": "4 HIM",
+  "canon_key": "4HIM",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

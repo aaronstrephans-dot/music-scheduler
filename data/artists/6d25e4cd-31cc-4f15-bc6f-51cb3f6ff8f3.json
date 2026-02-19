@@ -1,0 +1,15 @@
+{
+  "id": "6d25e4cd-31cc-4f15-bc6f-51cb3f6ff8f3",
+  "m1_id": 1429,
+  "added_at": "2026-02-19T05:19:26.796315Z",
+  "name": "Jeremy Riddle",
+  "name_key": "JEREMY RIDDLE",
+  "alpha_key": "JEREMY RIDDLE",
+  "canon_key": "JEREMIRIDLE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

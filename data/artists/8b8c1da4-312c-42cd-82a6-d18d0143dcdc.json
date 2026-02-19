@@ -1,0 +1,15 @@
+{
+  "id": "8b8c1da4-312c-42cd-82a6-d18d0143dcdc",
+  "m1_id": 1459,
+  "added_at": "2026-02-19T05:19:26.806684Z",
+  "name": "John Waller",
+  "name_key": "JOHN WALLER",
+  "alpha_key": "JOHN WALLER",
+  "canon_key": "JOHNWALER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

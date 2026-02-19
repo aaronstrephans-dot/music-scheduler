@@ -1,0 +1,15 @@
+{
+  "id": "4d4821e9-4eb2-4b98-9d7d-57daefb4431c",
+  "m1_id": 1472,
+  "added_at": "2026-02-19T05:19:26.810908Z",
+  "name": "Candi Pearson-Shelton",
+  "name_key": "CANDI PEARSON-SHELTON",
+  "alpha_key": "CANDI PEARSON-SHELTON",
+  "canon_key": "CANDIPEARSONSHELTON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

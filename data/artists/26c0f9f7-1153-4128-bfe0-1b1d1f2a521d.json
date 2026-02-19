@@ -1,0 +1,15 @@
+{
+  "id": "26c0f9f7-1153-4128-bfe0-1b1d1f2a521d",
+  "m1_id": 404,
+  "added_at": "2026-02-19T05:19:26.687503Z",
+  "name": "Paul Baloche",
+  "name_key": "PAUL BALOCHE",
+  "alpha_key": "PAUL BALOCHE",
+  "canon_key": "PAULBALOCHE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

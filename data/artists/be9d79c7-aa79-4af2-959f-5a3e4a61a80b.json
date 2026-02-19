@@ -1,0 +1,15 @@
+{
+  "id": "be9d79c7-aa79-4af2-959f-5a3e4a61a80b",
+  "m1_id": 1655,
+  "added_at": "2026-02-19T05:19:26.868500Z",
+  "name": "Keith Martinson",
+  "name_key": "KEITH MARTINSON",
+  "alpha_key": "KEITH MARTINSON",
+  "canon_key": "KEITHMARTINSON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

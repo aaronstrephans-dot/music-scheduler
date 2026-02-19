@@ -1,0 +1,15 @@
+{
+  "id": "b3de3171-3fa6-49e9-9c3b-c4906137dd39",
+  "m1_id": 1414,
+  "added_at": "2026-02-19T05:19:26.787418Z",
+  "name": "Shawn McDonald",
+  "name_key": "SHAWN MCDONALD",
+  "alpha_key": "SHAWN MCDONALD",
+  "canon_key": "SHAWNMCDONALD",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "273c7309-521a-400c-aef0-a81e2c7935ed",
+  "m1_id": 1788,
+  "added_at": "2026-02-19T05:19:26.913034Z",
+  "name": "Joe Mettle",
+  "name_key": "JOE METTLE",
+  "alpha_key": "JOE METTLE",
+  "canon_key": "JOEMETLE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

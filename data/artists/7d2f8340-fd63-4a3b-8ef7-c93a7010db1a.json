@@ -1,0 +1,15 @@
+{
+  "id": "7d2f8340-fd63-4a3b-8ef7-c93a7010db1a",
+  "m1_id": 566,
+  "added_at": "2026-02-19T05:19:26.710026Z",
+  "name": "Vineyard Music",
+  "name_key": "VINEYARD MUSIC",
+  "alpha_key": "VINEYARD MUSIC",
+  "canon_key": "VINEIARDMUSIC",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

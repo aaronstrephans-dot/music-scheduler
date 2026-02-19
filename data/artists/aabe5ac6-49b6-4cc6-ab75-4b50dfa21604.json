@@ -1,0 +1,15 @@
+{
+  "id": "aabe5ac6-49b6-4cc6-ab75-4b50dfa21604",
+  "m1_id": 241,
+  "added_at": "2026-02-19T05:19:26.673460Z",
+  "name": "Phillip Sandifer",
+  "name_key": "PHILLIP SANDIFER",
+  "alpha_key": "PHILLIP SANDIFER",
+  "canon_key": "PHILIPSANDIFER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

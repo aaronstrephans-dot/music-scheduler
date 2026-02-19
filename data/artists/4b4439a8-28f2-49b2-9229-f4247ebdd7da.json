@@ -1,0 +1,15 @@
+{
+  "id": "4b4439a8-28f2-49b2-9229-f4247ebdd7da",
+  "m1_id": 39,
+  "added_at": "2026-02-19T05:19:26.651763Z",
+  "name": "Billy Crockett",
+  "name_key": "BILLY CROCKETT",
+  "alpha_key": "BILLY CROCKETT",
+  "canon_key": "BILICROCKET",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

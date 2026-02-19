@@ -1,0 +1,15 @@
+{
+  "id": "bfee7311-6d1d-4afd-acd2-440ff7478e9d",
+  "m1_id": 1425,
+  "added_at": "2026-02-19T05:19:26.795137Z",
+  "name": "Day One",
+  "name_key": "DAY ONE",
+  "alpha_key": "DAY ONE",
+  "canon_key": "DAI1",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

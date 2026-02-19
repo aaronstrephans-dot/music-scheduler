@@ -1,0 +1,15 @@
+{
+  "id": "813a17c7-1071-4f85-8257-180788ed9f56",
+  "m1_id": 283,
+  "added_at": "2026-02-19T05:19:26.680126Z",
+  "name": "Susan Ashton",
+  "name_key": "SUSAN ASHTON",
+  "alpha_key": "SUSAN ASHTON",
+  "canon_key": "SUSANASHTON",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

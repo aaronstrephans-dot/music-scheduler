@@ -1,0 +1,15 @@
+{
+  "id": "68cfc00c-fe79-4c86-bb44-5090758c4f47",
+  "m1_id": 1497,
+  "added_at": "2026-02-19T05:19:26.818570Z",
+  "name": "Daniel Doss Band",
+  "name_key": "DANIEL DOSS BAND",
+  "alpha_key": "DANIEL DOSS BAND",
+  "canon_key": "DANIELDOSBAND",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

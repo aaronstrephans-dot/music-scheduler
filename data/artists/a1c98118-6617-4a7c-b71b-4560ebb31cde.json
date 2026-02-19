@@ -1,0 +1,15 @@
+{
+  "id": "a1c98118-6617-4a7c-b71b-4560ebb31cde",
+  "m1_id": 391,
+  "added_at": "2026-02-19T05:19:26.686286Z",
+  "name": "Rosemary Clooney",
+  "name_key": "ROSEMARY CLOONEY",
+  "alpha_key": "ROSEMARY CLOONEY",
+  "canon_key": "ROSEMARICLONEI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

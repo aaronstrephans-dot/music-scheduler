@@ -1,0 +1,15 @@
+{
+  "id": "3eff973f-88b0-4fad-aeaf-d4c5a10e6da4",
+  "m1_id": 1594,
+  "added_at": "2026-02-19T05:19:26.848796Z",
+  "name": "Folk Angel",
+  "name_key": "FOLK ANGEL",
+  "alpha_key": "FOLK ANGEL",
+  "canon_key": "FOLKANGEL",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

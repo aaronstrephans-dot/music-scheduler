@@ -1,0 +1,15 @@
+{
+  "id": "4744a46b-1f33-4b46-8d92-233998793cae",
+  "m1_id": 1898,
+  "added_at": "2026-02-19T05:19:26.951724Z",
+  "name": "Josiah Queen",
+  "name_key": "JOSIAH QUEEN",
+  "alpha_key": "JOSIAH QUEEN",
+  "canon_key": "JOSIAHQUEN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

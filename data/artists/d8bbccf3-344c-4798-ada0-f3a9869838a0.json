@@ -1,0 +1,15 @@
+{
+  "id": "d8bbccf3-344c-4798-ada0-f3a9869838a0",
+  "m1_id": 494,
+  "added_at": "2026-02-19T05:19:26.701114Z",
+  "name": "Sonicflood",
+  "name_key": "SONICFLOOD",
+  "alpha_key": "SONICFLOOD",
+  "canon_key": "SONICFLOD",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

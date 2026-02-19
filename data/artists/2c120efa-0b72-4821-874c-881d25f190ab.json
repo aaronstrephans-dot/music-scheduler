@@ -1,0 +1,15 @@
+{
+  "id": "2c120efa-0b72-4821-874c-881d25f190ab",
+  "m1_id": 1335,
+  "added_at": "2026-02-19T05:19:26.755271Z",
+  "name": "Desperation",
+  "name_key": "DESPERATION",
+  "alpha_key": "DESPERATION",
+  "canon_key": "DESPERATION",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

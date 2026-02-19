@@ -1,0 +1,15 @@
+{
+  "id": "79cf7a33-54d2-428c-9fbf-ac0f50c8bdfe",
+  "m1_id": 1930,
+  "added_at": "2026-02-19T05:19:26.965196Z",
+  "name": "Caleb & John",
+  "name_key": "CALEB & JOHN",
+  "alpha_key": "CALEB & JOHN",
+  "canon_key": "CALEBJOHN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

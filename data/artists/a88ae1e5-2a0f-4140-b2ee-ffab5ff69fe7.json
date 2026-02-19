@@ -1,0 +1,15 @@
+{
+  "id": "a88ae1e5-2a0f-4140-b2ee-ffab5ff69fe7",
+  "m1_id": 1871,
+  "added_at": "2026-02-19T05:19:26.942646Z",
+  "name": "Stephen McWhirter",
+  "name_key": "STEPHEN MCWHIRTER",
+  "alpha_key": "STEPHEN MCWHIRTER",
+  "canon_key": "STEPHENMCWHIRTER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

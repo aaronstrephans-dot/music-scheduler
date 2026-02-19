@@ -1,0 +1,15 @@
+{
+  "id": "7774ed28-d1b5-4949-8c6a-6664a6a3abea",
+  "m1_id": 1550,
+  "added_at": "2026-02-19T05:19:26.833242Z",
+  "name": "JJ Heller",
+  "name_key": "JJ HELLER",
+  "alpha_key": "JJ HELLER",
+  "canon_key": "JHELER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

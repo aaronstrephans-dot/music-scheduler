@@ -1,0 +1,15 @@
+{
+  "id": "3206a88b-f1ba-435b-88e8-e739b7c18db9",
+  "m1_id": 427,
+  "added_at": "2026-02-19T05:19:26.690398Z",
+  "name": "Annointed",
+  "name_key": "ANNOINTED",
+  "alpha_key": "ANNOINTED",
+  "canon_key": "ANOINTED",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

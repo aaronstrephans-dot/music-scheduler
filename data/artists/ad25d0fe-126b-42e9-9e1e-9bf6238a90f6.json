@@ -1,0 +1,15 @@
+{
+  "id": "ad25d0fe-126b-42e9-9e1e-9bf6238a90f6",
+  "m1_id": 1301,
+  "added_at": "2026-02-19T05:19:26.743825Z",
+  "name": "Charmaine",
+  "name_key": "CHARMAINE",
+  "alpha_key": "CHARMAINE",
+  "canon_key": "CHARMAINE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

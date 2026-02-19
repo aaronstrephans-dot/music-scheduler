@@ -1,0 +1,15 @@
+{
+  "id": "783539e0-56ed-4a33-952f-3230f0913893",
+  "m1_id": 1450,
+  "added_at": "2026-02-19T05:19:26.804172Z",
+  "name": "David Ruis",
+  "name_key": "DAVID RUIS",
+  "alpha_key": "DAVID RUIS",
+  "canon_key": "DAVIDRUIS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

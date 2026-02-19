@@ -1,0 +1,15 @@
+{
+  "id": "fd48f716-3417-4eba-a039-7ea646067598",
+  "m1_id": 381,
+  "added_at": "2026-02-19T05:19:26.684742Z",
+  "name": "The Martins",
+  "name_key": "THE MARTINS",
+  "alpha_key": "MARTINS",
+  "canon_key": "MARTINS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

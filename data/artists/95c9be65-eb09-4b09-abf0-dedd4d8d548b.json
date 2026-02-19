@@ -1,0 +1,15 @@
+{
+  "id": "95c9be65-eb09-4b09-abf0-dedd4d8d548b",
+  "m1_id": 1287,
+  "added_at": "2026-02-19T05:19:26.740663Z",
+  "name": "Johnny Parks",
+  "name_key": "JOHNNY PARKS",
+  "alpha_key": "JOHNNY PARKS",
+  "canon_key": "JOHNIPARKS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

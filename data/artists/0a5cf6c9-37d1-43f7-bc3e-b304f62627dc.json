@@ -1,0 +1,15 @@
+{
+  "id": "0a5cf6c9-37d1-43f7-bc3e-b304f62627dc",
+  "m1_id": 1699,
+  "added_at": "2026-02-19T05:19:26.884158Z",
+  "name": "Greg Sykes",
+  "name_key": "GREG SYKES",
+  "alpha_key": "GREG SYKES",
+  "canon_key": "GREGSIKES",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

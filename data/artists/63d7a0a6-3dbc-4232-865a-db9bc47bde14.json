@@ -1,0 +1,15 @@
+{
+  "id": "63d7a0a6-3dbc-4232-865a-db9bc47bde14",
+  "m1_id": 1282,
+  "added_at": "2026-02-19T05:19:26.740242Z",
+  "name": "Downhere",
+  "name_key": "DOWNHERE",
+  "alpha_key": "DOWNHERE",
+  "canon_key": "DOWNHERE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "98547e84-a54d-4251-b0be-7df3aa7299f1",
+  "m1_id": 1727,
+  "added_at": "2026-02-19T05:19:26.892889Z",
+  "name": "The Belonging Co",
+  "name_key": "THE BELONGING CO",
+  "alpha_key": "BELONGING CO",
+  "canon_key": "BELONGINGCO",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

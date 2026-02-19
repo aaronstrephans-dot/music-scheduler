@@ -1,0 +1,15 @@
+{
+  "id": "23084202-1e14-47c2-ba64-3319a96320be",
+  "m1_id": 1396,
+  "added_at": "2026-02-19T05:19:26.779739Z",
+  "name": "The Swift",
+  "name_key": "THE SWIFT",
+  "alpha_key": "SWIFT",
+  "canon_key": "SWIFT",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

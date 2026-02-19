@@ -1,0 +1,15 @@
+{
+  "id": "a516597e-93e7-497c-af45-6f75940a86a6",
+  "m1_id": 1320,
+  "added_at": "2026-02-19T05:19:26.749229Z",
+  "name": "Kara",
+  "name_key": "KARA",
+  "alpha_key": "KARA",
+  "canon_key": "KARA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

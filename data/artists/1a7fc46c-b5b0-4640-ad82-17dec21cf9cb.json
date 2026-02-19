@@ -1,0 +1,15 @@
+{
+  "id": "1a7fc46c-b5b0-4640-ad82-17dec21cf9cb",
+  "m1_id": 1897,
+  "added_at": "2026-02-19T05:19:26.951459Z",
+  "name": "Jon Guerra",
+  "name_key": "JON GUERRA",
+  "alpha_key": "JON GUERRA",
+  "canon_key": "JONGUERA",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

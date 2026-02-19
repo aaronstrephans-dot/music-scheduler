@@ -1,0 +1,15 @@
+{
+  "id": "b4294d23-7e4c-49e8-9ac3-ae7cbdc44118",
+  "m1_id": 1608,
+  "added_at": "2026-02-19T05:19:26.853559Z",
+  "name": "for King & Country",
+  "name_key": "FOR KING & COUNTRY",
+  "alpha_key": "FOR KING & COUNTRY",
+  "canon_key": "4KINGCOUNTRI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

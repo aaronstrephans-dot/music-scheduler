@@ -1,0 +1,15 @@
+{
+  "id": "0b60127f-896c-4786-b4c9-2102debd29d4",
+  "m1_id": 1889,
+  "added_at": "2026-02-19T05:19:26.948773Z",
+  "name": "Sandra McCracken",
+  "name_key": "SANDRA MCCRACKEN",
+  "alpha_key": "SANDRA MCCRACKEN",
+  "canon_key": "SANDRAMCRACKEN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

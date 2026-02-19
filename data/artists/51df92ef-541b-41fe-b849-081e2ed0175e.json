@@ -1,0 +1,15 @@
+{
+  "id": "51df92ef-541b-41fe-b849-081e2ed0175e",
+  "m1_id": 1546,
+  "added_at": "2026-02-19T05:19:26.831831Z",
+  "name": "Elizabeth Clark",
+  "name_key": "ELIZABETH CLARK",
+  "alpha_key": "ELIZABETH CLARK",
+  "canon_key": "ELIZABETHCLARK",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

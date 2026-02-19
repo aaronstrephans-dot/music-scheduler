@@ -1,0 +1,15 @@
+{
+  "id": "532b6976-f34f-459b-bd63-8705d2049484",
+  "m1_id": 569,
+  "added_at": "2026-02-19T05:19:26.710605Z",
+  "name": "Soul Survivor",
+  "name_key": "SOUL SURVIVOR",
+  "alpha_key": "SOUL SURVIVOR",
+  "canon_key": "SOULSURVIVOR",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "7383b362-2908-48de-81a0-0c9ade22156a",
+  "m1_id": 1892,
+  "added_at": "2026-02-19T05:19:26.949837Z",
+  "name": "Anna Golden",
+  "name_key": "ANNA GOLDEN",
+  "alpha_key": "ANNA GOLDEN",
+  "canon_key": "ANAGOLDEN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": false,
+  "group_id": null
+}

@@ -1,0 +1,15 @@
+{
+  "id": "7deb9c98-c2ee-4348-9bca-c11a46d1638b",
+  "m1_id": 43,
+  "added_at": "2026-02-19T05:19:26.652112Z",
+  "name": "Bob Bennett",
+  "name_key": "BOB BENNETT",
+  "alpha_key": "BOB BENNETT",
+  "canon_key": "BOBBENET",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

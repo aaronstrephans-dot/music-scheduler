@@ -1,0 +1,15 @@
+{
+  "id": "d217b38e-266c-478e-9643-e75617c03d5b",
+  "m1_id": 1764,
+  "added_at": "2026-02-19T05:19:26.904299Z",
+  "name": "Cochren & Co.",
+  "name_key": "COCHREN & CO.",
+  "alpha_key": "COCHREN & CO",
+  "canon_key": "COCHRENCO",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

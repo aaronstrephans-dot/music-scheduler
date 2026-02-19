@@ -1,0 +1,15 @@
+{
+  "id": "2ef4e3ac-d578-4e91-840d-9935aaeec2a7",
+  "m1_id": 423,
+  "added_at": "2026-02-19T05:19:26.689486Z",
+  "name": "Katinas",
+  "name_key": "KATINAS",
+  "alpha_key": "KATINAS",
+  "canon_key": "KATINAS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

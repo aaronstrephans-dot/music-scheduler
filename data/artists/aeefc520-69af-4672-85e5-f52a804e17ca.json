@@ -1,0 +1,15 @@
+{
+  "id": "aeefc520-69af-4672-85e5-f52a804e17ca",
+  "m1_id": 1426,
+  "added_at": "2026-02-19T05:19:26.795402Z",
+  "name": "Julian Drive",
+  "name_key": "JULIAN DRIVE",
+  "alpha_key": "JULIAN DRIVE",
+  "canon_key": "JULIANDRIVE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

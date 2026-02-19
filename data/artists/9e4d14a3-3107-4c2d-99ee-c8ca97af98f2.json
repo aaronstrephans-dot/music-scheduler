@@ -1,0 +1,15 @@
+{
+  "id": "9e4d14a3-3107-4c2d-99ee-c8ca97af98f2",
+  "m1_id": 1708,
+  "added_at": "2026-02-19T05:19:26.887327Z",
+  "name": "Rivers & Robots",
+  "name_key": "RIVERS & ROBOTS",
+  "alpha_key": "RIVERS & ROBOTS",
+  "canon_key": "RIVERSROBOTS",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

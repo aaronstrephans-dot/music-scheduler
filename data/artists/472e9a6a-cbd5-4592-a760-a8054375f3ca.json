@@ -1,0 +1,15 @@
+{
+  "id": "472e9a6a-cbd5-4592-a760-a8054375f3ca",
+  "m1_id": 1646,
+  "added_at": "2026-02-19T05:19:26.865040Z",
+  "name": "Young & Free",
+  "name_key": "YOUNG & FREE",
+  "alpha_key": "YOUNG & FREE",
+  "canon_key": "IOUNGFRE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

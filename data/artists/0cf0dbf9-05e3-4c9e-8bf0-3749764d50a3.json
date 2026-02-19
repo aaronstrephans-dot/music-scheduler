@@ -1,0 +1,15 @@
+{
+  "id": "0cf0dbf9-05e3-4c9e-8bf0-3749764d50a3",
+  "m1_id": 499,
+  "added_at": "2026-02-19T05:19:26.702968Z",
+  "name": "John Hartley",
+  "name_key": "JOHN HARTLEY",
+  "alpha_key": "JOHN HARTLEY",
+  "canon_key": "JOHNHARTLEI",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

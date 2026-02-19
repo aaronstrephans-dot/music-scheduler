@@ -1,0 +1,15 @@
+{
+  "id": "c780cedb-a582-456e-b8fd-ebc691c08875",
+  "m1_id": 1641,
+  "added_at": "2026-02-19T05:19:26.863320Z",
+  "name": "Worship Together",
+  "name_key": "WORSHIP TOGETHER",
+  "alpha_key": "WORSHIP TOGETHER",
+  "canon_key": "WORSHIPTOGETHER",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

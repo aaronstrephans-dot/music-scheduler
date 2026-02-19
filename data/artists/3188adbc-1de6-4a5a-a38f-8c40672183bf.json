@@ -1,0 +1,15 @@
+{
+  "id": "3188adbc-1de6-4a5a-a38f-8c40672183bf",
+  "m1_id": 1690,
+  "added_at": "2026-02-19T05:19:26.880867Z",
+  "name": "All About Worship",
+  "name_key": "ALL ABOUT WORSHIP",
+  "alpha_key": "ALL ABOUT WORSHIP",
+  "canon_key": "ALABOUTWORSHIP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}

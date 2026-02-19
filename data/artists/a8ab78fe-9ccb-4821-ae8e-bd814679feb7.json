@@ -1,0 +1,15 @@
+{
+  "id": "a8ab78fe-9ccb-4821-ae8e-bd814679feb7",
+  "m1_id": 205,
+  "added_at": "2026-02-19T05:19:26.670111Z",
+  "name": "Michael O'brien",
+  "name_key": "MICHAEL O'BRIEN",
+  "alpha_key": "MICHAEL OBRIEN",
+  "canon_key": "MICHAELOBRIEN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

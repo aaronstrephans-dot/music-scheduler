@@ -1,0 +1,15 @@
+{
+  "id": "a577c9eb-8dd9-4766-a841-cc0a7da26347",
+  "m1_id": 1308,
+  "added_at": "2026-02-19T05:19:26.745295Z",
+  "name": "Jeremy Camp",
+  "name_key": "JEREMY CAMP",
+  "alpha_key": "JEREMY CAMP",
+  "canon_key": "JEREMICAMP",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": true,
+  "group_id": null
+}

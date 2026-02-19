@@ -1,0 +1,15 @@
+{
+  "id": "51fddd45-fcb8-4043-ac8f-c87a43d3c394",
+  "m1_id": 113,
+  "added_at": "2026-02-19T05:19:26.660673Z",
+  "name": "Geoff Moore And The Distance",
+  "name_key": "GEOFF MOORE AND THE DISTANCE",
+  "alpha_key": "GEOFF MOORE & THE DISTANCE",
+  "canon_key": "GEOFMOREDISTANCE",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": true,
+  "auto_sep": true,
+  "group_id": null
+}

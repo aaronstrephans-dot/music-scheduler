@@ -1,0 +1,15 @@
+{
+  "id": "2ee8cae5-7c5e-49d5-a063-d47a905c2a6c",
+  "m1_id": 1778,
+  "added_at": "2026-02-19T05:19:26.909508Z",
+  "name": "Cain",
+  "name_key": "CAIN",
+  "alpha_key": "CAIN",
+  "canon_key": "CAIN",
+  "rec_type": 0,
+  "separation_ms": 1800000,
+  "gender": 0,
+  "allow_double": false,
+  "auto_sep": false,
+  "group_id": null
+}
