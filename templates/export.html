@@ -1,273 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Export - Music Scheduler</title>
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        :root {
-            --bg: #0f1117; --surface: #1a1d27; --surface2: #252836;
-            --border: #2e3147; --accent: #6c63ff; --accent2: #ff6584;
-            --text: #e2e8f0; --muted: #7c85a2; --success: #48bb78;
-            --danger: #fc8181; --warn: #f6ad55;
-        }
-        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; min-height: 100vh; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Export Logs — Music Scheduler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070a12;--bg2:#0c0f1a;
+  --surface:rgba(255,255,255,0.035);--border:rgba(255,255,255,0.07);--border-bright:rgba(255,255,255,0.14);
+  --accent:#7c6cf0;--accent-dim:rgba(124,108,240,0.18);--accent-glow:rgba(124,108,240,0.35);--accent2:#f472b6;
+  --text:#f1f5f9;--text2:#94a3b8;--text3:#475569;
+  --success:#34d399;--danger:#f87171;--warn:#fbbf24;--info:#60a5fa;--sidebar-w:220px;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px;-webkit-font-smoothing:antialiased}
+.app{display:flex;min-height:100vh}
 
-        .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.25rem; font-weight: 700; color: var(--accent); letter-spacing: .5px; }
-        .user-info { color: var(--muted); font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; }
-        .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 0.875rem; }
+/* Sidebar (same pattern) */
+.sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;z-index:50}
+.sidebar-logo{display:flex;align-items:center;gap:10px;padding:22px 20px 20px;border-bottom:1px solid var(--border)}
+.logo-icon{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#7c6cf0,#f472b6);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;box-shadow:0 4px 12px rgba(124,108,240,0.4)}
+.logo-text{font-weight:700;font-size:15px;letter-spacing:-.3px}
+.logo-sub{font-size:10px;color:var(--text3);font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+.sidebar-section{padding:16px 12px 8px;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--text3)}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;margin:2px 8px;border-radius:8px;text-decoration:none;color:var(--text2);font-weight:500;font-size:13.5px;transition:all .15s;position:relative}
+.nav-item:hover{background:rgba(255,255,255,0.05);color:var(--text)}
+.nav-item.active{background:var(--accent-dim);color:var(--accent)}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:18px;background:var(--accent);border-radius:0 2px 2px 0}
+.nav-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.sidebar-bottom{margin-top:auto;padding:16px;border-top:1px solid var(--border)}
+.station-pill{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.station-avatar{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#7c6cf0,#f472b6);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.station-name{font-weight:600;font-size:12.5px}
+.station-role{font-size:11px;color:var(--text3)}
 
-        .nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; }
-        .nav-links { list-style: none; display: flex; gap: 2rem; }
-        .nav-links a { display: block; padding: 1rem 0; text-decoration: none; color: var(--muted); border-bottom: 3px solid transparent; transition: all 0.2s; font-weight: 500; }
-        .nav-links a:hover { color: var(--text); }
-        .nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
+/* Main */
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{padding:20px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(7,10,18,0.7);backdrop-filter:blur(20px);position:sticky;top:0;z-index:40}
+.topbar-title{font-size:20px;font-weight:700;letter-spacing:-.4px}
+.topbar-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.topbar-right{display:flex;gap:10px}
+.content{padding:28px 32px;flex:1}
 
-        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
-        .page-header { margin-bottom: 2rem; }
-        .page-title { font-size: 2rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; }
-        .page-subtitle { color: var(--muted); }
+.btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit;text-decoration:none}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-accent:hover{box-shadow:0 0 18px var(--accent-glow);transform:translateY(-1px)}
+.btn-ghost{background:rgba(255,255,255,0.04);color:var(--text2);border:1px solid var(--border)}
+.btn-ghost:hover{background:rgba(255,255,255,0.08);color:var(--text)}
+.btn-success{background:rgba(52,211,153,0.15);color:var(--success);border:1px solid rgba(52,211,153,0.2)}
+.btn-success:hover{background:rgba(52,211,153,0.25)}
 
-        /* Export Format Cards */
-        .export-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .export-card {
-            background: var(--surface); border: 2px solid var(--border);
-            border-radius: 12px; padding: 1.5rem;
-            transition: all 0.2s; cursor: pointer;
-        }
-        .export-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); border-color: var(--muted); }
-        .export-card.selected { border-color: var(--accent); background: rgba(108,99,255,0.08); }
-        .export-card-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
-        .export-card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text); }
-        .export-card-description { color: var(--muted); font-size: 0.8rem; margin-bottom: 0.75rem; }
-        .export-card-formats { display: flex; gap: 0.4rem; flex-wrap: wrap; }
-        .format-tag { padding: 0.2rem 0.6rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; font-size: 0.7rem; font-weight: 600; color: var(--muted); }
+/* Alert */
+.alert{padding:12px 16px;border-radius:10px;margin-bottom:20px;font-size:13px;font-weight:500;display:none}
+.alert.show{display:flex;align-items:center;gap:10px}
+.alert-ok{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);color:var(--success)}
+.alert-err{background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.25);color:var(--danger)}
 
-        /* Options Panel */
-        .options-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
-        .panel-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text); }
-        .form-group { margin-bottom: 1.25rem; }
-        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--muted); font-size: 0.875rem; }
-        .form-input, .form-select {
-            width: 100%; padding: 0.75rem; background: var(--surface2);
-            border: 1px solid var(--border); border-radius: 8px;
-            color: var(--text); font-size: 0.9rem; transition: border 0.2s;
-        }
-        .form-input:focus, .form-select:focus { outline: none; border-color: var(--accent); }
+/* Format grid */
+.format-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px}
+.format-card{
+  background:rgba(255,255,255,0.02);border:1.5px solid var(--border);
+  border-radius:14px;padding:20px;cursor:pointer;
+  transition:all .2s;position:relative;overflow:hidden;
+}
+.format-card:hover{border-color:var(--border-bright);transform:translateY(-2px)}
+.format-card.on{border-color:var(--accent);background:var(--accent-dim)}
+.format-card.on::after{content:'✓';position:absolute;top:12px;right:14px;font-size:13px;font-weight:700;color:var(--accent)}
+.format-icon{font-size:28px;margin-bottom:10px;display:block}
+.format-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px}
+.format-desc{font-size:12px;color:var(--text3);margin-bottom:10px;line-height:1.4}
+.format-tags{display:flex;gap:6px;flex-wrap:wrap}
+.format-tag{padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.3px;background:rgba(255,255,255,0.06);color:var(--text3);border:1px solid var(--border)}
+.format-card.on .format-tag{background:rgba(124,108,240,0.15);color:var(--accent);border-color:rgba(124,108,240,0.3)}
 
-        .checkbox-group { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-        .checkbox-item { display: flex; align-items: center; gap: 0.5rem; color: var(--text); }
-        .checkbox-item input { width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); }
+/* Options card */
+.card{background:rgba(255,255,255,0.035);border:1px solid var(--border);border-radius:14px;overflow:hidden;backdrop-filter:blur(12px);margin-bottom:16px}
+.card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:14px;font-weight:700}
+.card-body{padding:20px}
 
-        .export-actions { display: flex; gap: 1rem; }
-        .btn {
-            padding: 0.75rem 1.5rem; border: none; border-radius: 8px;
-            font-size: 0.9rem; font-weight: 600; cursor: pointer;
-            transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem;
-        }
-        .btn-primary { background: var(--accent); color: #fff; flex: 1; justify-content: center; }
-        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
-        .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-        .btn-secondary:hover { background: var(--border); }
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:7px;letter-spacing:.2px}
+.form-select{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;transition:all .15s}
+.form-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim)}
+.form-select option{background:#1a1d2e}
 
-        /* Recent Exports */
-        .recent-exports { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; }
-        .export-list { list-style: none; }
-        .export-item {
-            padding: 1rem; background: var(--surface2); border: 1px solid var(--border);
-            border-radius: 8px; margin-bottom: 0.625rem;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .export-item:last-child { margin-bottom: 0; }
-        .export-info { flex: 1; }
-        .export-name { font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
-        .export-meta { font-size: 0.8rem; color: var(--muted); }
-        .export-actions-item { display: flex; gap: 0.5rem; }
-        .action-btn {
-            padding: 0.4rem 0.875rem; border: 1px solid var(--border);
-            background: var(--surface); border-radius: 6px; cursor: pointer;
-            font-weight: 600; transition: all 0.2s; color: var(--text); font-size: 0.8rem;
-        }
-        .action-btn:hover { background: var(--surface2); border-color: var(--accent); }
+.radio-row{display:flex;gap:10px;flex-wrap:wrap}
+.radio-card{display:flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .15s;background:rgba(255,255,255,0.02)}
+.radio-card:hover{border-color:var(--border-bright)}
+.radio-card.on{border-color:var(--accent);background:var(--accent-dim)}
+.radio-card input{display:none}
+.radio-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--border-bright);transition:all .15s;flex-shrink:0}
+.radio-card.on .radio-dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 6px var(--accent-glow)}
+.radio-label{font-size:12.5px;font-weight:500;color:var(--text2)}
+.radio-card.on .radio-label{color:var(--accent)}
 
-        .alert { padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-weight: 500; }
-        .alert-success { background: rgba(72,187,120,0.15); border: 1px solid var(--success); color: var(--success); }
-        .alert-error   { background: rgba(252,129,129,0.15); border: 1px solid var(--danger); color: var(--danger); }
-    </style>
+.check-row{display:flex;gap:10px;flex-wrap:wrap}
+.check-pill{display:flex;align-items:center;gap:7px;padding:7px 13px;border:1px solid var(--border);border-radius:20px;cursor:pointer;transition:all .15s;background:rgba(255,255,255,0.02);font-size:12px;font-weight:500;color:var(--text2)}
+.check-pill:hover{border-color:var(--border-bright);color:var(--text)}
+.check-pill.on{border-color:var(--accent);background:var(--accent-dim);color:var(--accent)}
+.check-pill input{display:none}
+
+.export-btn-row{display:flex;gap:10px;margin-top:4px}
+.export-btn-row .btn{flex:1;justify-content:center;padding:12px}
+
+/* Recent exports */
+.export-list{list-style:none}
+.export-row{
+  display:flex;align-items:center;gap:14px;
+  padding:13px 16px;border-radius:10px;
+  border:1px solid var(--border);margin-bottom:8px;
+  background:rgba(255,255,255,0.02);transition:all .15s;
+}
+.export-row:last-child{margin-bottom:0}
+.export-row:hover{background:rgba(255,255,255,0.04);border-color:var(--border-bright)}
+.export-file-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:rgba(255,255,255,0.06)}
+.export-info{flex:1;min-width:0}
+.export-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.export-meta{font-size:11.5px;color:var(--text3);margin-top:2px}
+.export-row-actions{display:flex;gap:6px;flex-shrink:0}
+.icon-btn{padding:5px 9px;border:1px solid var(--border);background:rgba(255,255,255,0.03);border-radius:7px;cursor:pointer;transition:all .15s;font-size:12px;color:var(--text2)}
+.icon-btn:hover{background:rgba(255,255,255,0.08);border-color:var(--border-bright);color:var(--text)}
+</style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">🎵 Music Scheduler</div>
-        <div class="user-info"><div class="user-avatar">A</div><span>Praise FM</span></div>
+<div class="app">
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">🎵</div>
+    <div><div class="logo-text">MusicSched</div><div class="logo-sub">Pro</div></div>
+  </div>
+  <div class="sidebar-section">Main</div>
+  <a href="/" class="nav-item"><span class="nav-icon">⊞</span>Dashboard</a>
+  <a href="/generate" class="nav-item"><span class="nav-icon">✦</span>Generate Schedule</a>
+  <a href="/view" class="nav-item"><span class="nav-icon">◫</span>View Schedule</a>
+  <a href="/export" class="nav-item active"><span class="nav-icon">↑</span>Export Logs</a>
+  <div class="sidebar-section">Library</div>
+  <a href="#" class="nav-item"><span class="nav-icon">♪</span>Song Library</a>
+  <a href="#" class="nav-item"><span class="nav-icon">⏱</span>Clock Templates</a>
+  <a href="#" class="nav-item"><span class="nav-icon">◈</span>Rules Engine</a>
+  <div class="sidebar-bottom">
+    <div class="station-pill">
+      <div class="station-avatar">P</div>
+      <div><div class="station-name">Praise FM</div><div class="station-role">Administrator</div></div>
     </div>
-    <nav class="nav">
-        <ul class="nav-links">
-            <li><a href="/">Dashboard</a></li>
-            <li><a href="/generate">Generate Schedule</a></li>
-            <li><a href="/view">View Schedules</a></li>
-            <li><a href="/export" class="active">Export</a></li>
+  </div>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <div>
+      <div class="topbar-title">Export Logs</div>
+      <div class="topbar-sub">Download schedules for your automation system</div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-ghost" onclick="history.back()">← Back</button>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <div class="alert" id="alertBox"></div>
+
+    <!-- Format selection -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Select Export Format</div>
+        <span style="font-size:12px;color:var(--text3)">Click to toggle</span>
+      </div>
+      <div class="card-body">
+        <div class="format-grid">
+          <div class="format-card on" onclick="toggleFormat(this)">
+            <span class="format-icon">📻</span>
+            <div class="format-name">Zetta</div>
+            <div class="format-desc">RCS Zetta broadcast automation</div>
+            <div class="format-tags"><span class="format-tag">LOG</span><span class="format-tag">XML</span></div>
+          </div>
+          <div class="format-card" onclick="toggleFormat(this)">
+            <span class="format-icon">🎛️</span>
+            <div class="format-name">WideOrbit</div>
+            <div class="format-desc">WideOrbit Traffic &amp; Billing</div>
+            <div class="format-tags"><span class="format-tag">WO</span></div>
+          </div>
+          <div class="format-card" onclick="toggleFormat(this)">
+            <span class="format-icon">🎚️</span>
+            <div class="format-name">ENCO</div>
+            <div class="format-desc">ENCO DAD automation system</div>
+            <div class="format-tags"><span class="format-tag">TXT</span></div>
+          </div>
+          <div class="format-card" onclick="toggleFormat(this)">
+            <span class="format-icon">📊</span>
+            <div class="format-name">CSV</div>
+            <div class="format-desc">Universal spreadsheet format</div>
+            <div class="format-tags"><span class="format-tag">CSV</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Options -->
+    <div class="card">
+      <div class="card-header"><div class="card-title">Export Options</div></div>
+      <div class="card-body">
+
+        <div class="form-group">
+          <label class="form-label">Date Range</label>
+          <select class="form-select" id="dateRange">
+            <option value="current">Current Week — Feb 16–22, 2026</option>
+            <option value="next">Next Week — Feb 23–Mar 1, 2026</option>
+            <option value="month">This Month — February 2026</option>
+            <option value="custom">Custom Range...</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Export Scope</label>
+          <div class="radio-row" id="scopeRow">
+            <label class="radio-card on">
+              <input type="radio" name="scope" value="day" checked>
+              <div class="radio-dot"></div>
+              <span class="radio-label">One file per day</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="scope" value="week">
+              <div class="radio-dot"></div>
+              <span class="radio-label">Single week file</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Additional Options</label>
+          <div class="check-row" id="addlOpts">
+            <label class="check-pill on"><input type="checkbox" checked><span>Overnight fill</span></label>
+            <label class="check-pill"><input type="checkbox"><span>Cart IDs</span></label>
+            <label class="check-pill"><input type="checkbox"><span>Full metadata</span></label>
+            <label class="check-pill"><input type="checkbox"><span>Timestamps</span></label>
+          </div>
+        </div>
+
+        <div class="export-btn-row">
+          <button class="btn btn-accent" onclick="doExport()">↑ &nbsp;Export Files</button>
+          <button class="btn btn-ghost">👁 Preview</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Recent exports -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Recent Exports</div>
+        <button class="btn btn-ghost" style="padding:5px 10px;font-size:12px" onclick="location.reload()">↻ Refresh</button>
+      </div>
+      <div class="card-body">
+        <ul class="export-list">
+          <li class="export-row">
+            <div class="export-file-icon">📻</div>
+            <div class="export-info">
+              <div class="export-name">Zetta LOG — Week of Feb 16–22</div>
+              <div class="export-meta">7 files · 845 KB · 2 hours ago</div>
+            </div>
+            <div class="export-row-actions">
+              <button class="icon-btn">📥 Download</button>
+              <button class="icon-btn">🔄 Re-export</button>
+            </div>
+          </li>
+          <li class="export-row">
+            <div class="export-file-icon">📊</div>
+            <div class="export-info">
+              <div class="export-name">CSV — February 2026</div>
+              <div class="export-meta">1 file · 1.2 MB · Yesterday</div>
+            </div>
+            <div class="export-row-actions">
+              <button class="icon-btn">📥 Download</button>
+              <button class="icon-btn">🔄 Re-export</button>
+            </div>
+          </li>
+          <li class="export-row">
+            <div class="export-file-icon">🎛️</div>
+            <div class="export-info">
+              <div class="export-name">WideOrbit — Week of Feb 9–15</div>
+              <div class="export-meta">7 files · 723 KB · 3 days ago</div>
+            </div>
+            <div class="export-row-actions">
+              <button class="icon-btn">📥 Download</button>
+              <button class="icon-btn">🔄 Re-export</button>
+            </div>
+          </li>
         </ul>
-    </nav>
-
-    <div class="container">
-        <div class="page-header">
-            <h1 class="page-title">Export Logs</h1>
-            <p class="page-subtitle">Download schedules for your automation system</p>
-        </div>
-
-        <div id="alertArea"></div>
-
-        <!-- Format Selection -->
-        <div class="export-grid">
-            <div class="export-card selected" onclick="toggleCard(this)">
-                <div class="export-card-icon">📻</div>
-                <div class="export-card-title">Zetta</div>
-                <div class="export-card-description">RCS Zetta automation system format</div>
-                <div class="export-card-formats">
-                    <span class="format-tag">.LOG</span>
-                    <span class="format-tag">.XML</span>
-                </div>
-            </div>
-            <div class="export-card" onclick="toggleCard(this)">
-                <div class="export-card-icon">🎛️</div>
-                <div class="export-card-title">WideOrbit</div>
-                <div class="export-card-description">WideOrbit automation system format</div>
-                <div class="export-card-formats"><span class="format-tag">.WO</span></div>
-            </div>
-            <div class="export-card" onclick="toggleCard(this)">
-                <div class="export-card-icon">🎚️</div>
-                <div class="export-card-title">ENCO</div>
-                <div class="export-card-description">ENCO DAD automation system</div>
-                <div class="export-card-formats"><span class="format-tag">.TXT</span></div>
-            </div>
-            <div class="export-card" onclick="toggleCard(this)">
-                <div class="export-card-icon">📊</div>
-                <div class="export-card-title">CSV</div>
-                <div class="export-card-description">Universal spreadsheet format</div>
-                <div class="export-card-formats"><span class="format-tag">.CSV</span></div>
-            </div>
-        </div>
-
-        <!-- Options -->
-        <div class="options-panel">
-            <h2 class="panel-title">Export Options</h2>
-            <div class="form-group">
-                <label class="form-label">Date Range</label>
-                <select class="form-select" id="dateRange">
-                    <option value="current">Current Week (Feb 16–22, 2026)</option>
-                    <option value="next">Next Week (Feb 23–Mar 1, 2026)</option>
-                    <option value="month">This Month (February 2026)</option>
-                    <option value="custom">Custom Range...</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Export Scope</label>
-                <div class="checkbox-group">
-                    <label class="checkbox-item">
-                        <input type="radio" name="scope" value="day" checked>
-                        <span>One file per day</span>
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="radio" name="scope" value="week">
-                        <span>Single week file</span>
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Additional Options</label>
-                <div class="checkbox-group">
-                    <label class="checkbox-item"><input type="checkbox" checked><span>Include overnight fill</span></label>
-                    <label class="checkbox-item"><input type="checkbox"><span>Include cart IDs</span></label>
-                    <label class="checkbox-item"><input type="checkbox"><span>Include metadata</span></label>
-                </div>
-            </div>
-            <div class="export-actions">
-                <button class="btn btn-primary" onclick="exportSchedule()">📤 Export Files</button>
-                <button class="btn btn-secondary">👁️ Preview</button>
-            </div>
-        </div>
-
-        <!-- Recent Exports -->
-        <div class="recent-exports">
-            <h2 class="panel-title">Recent Exports</h2>
-            <ul class="export-list" id="recentExports">
-                <li class="export-item">
-                    <div class="export-info">
-                        <div class="export-name">Zetta LOG – Week of Feb 16–22</div>
-                        <div class="export-meta">Exported 2 hours ago · 7 files · 845 KB</div>
-                    </div>
-                    <div class="export-actions-item">
-                        <button class="action-btn">📥 Download</button>
-                        <button class="action-btn">🔄 Re-export</button>
-                    </div>
-                </li>
-                <li class="export-item">
-                    <div class="export-info">
-                        <div class="export-name">CSV – February 2026</div>
-                        <div class="export-meta">Exported yesterday · 1 file · 1.2 MB</div>
-                    </div>
-                    <div class="export-actions-item">
-                        <button class="action-btn">📥 Download</button>
-                        <button class="action-btn">🔄 Re-export</button>
-                    </div>
-                </li>
-                <li class="export-item">
-                    <div class="export-info">
-                        <div class="export-name">WideOrbit – Week of Feb 9–15</div>
-                        <div class="export-meta">Exported 3 days ago · 7 files · 723 KB</div>
-                    </div>
-                    <div class="export-actions-item">
-                        <button class="action-btn">📥 Download</button>
-                        <button class="action-btn">🔄 Re-export</button>
-                    </div>
-                </li>
-            </ul>
-        </div>
+      </div>
     </div>
 
-    <script>
-        function toggleCard(card) { card.classList.toggle('selected'); }
+  </div>
+</div>
+</div>
 
-        function showAlert(msg, type) {
-            const area = document.getElementById('alertArea');
-            area.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
-            setTimeout(() => { area.innerHTML = ''; }, 5000);
-        }
+<script>
+function toggleFormat(el) { el.classList.toggle('on'); }
 
-        async function exportSchedule() {
-            const selectedCards = document.querySelectorAll('.export-card.selected');
-            const formats = Array.from(selectedCards).map(card => {
-                const title = card.querySelector('.export-card-title').textContent.toLowerCase();
-                if (title.includes('zetta'))     return 'zetta-log';
-                if (title.includes('wideorbit')) return 'wideorbit';
-                if (title.includes('enco'))      return 'enco';
-                if (title.includes('csv'))       return 'csv';
-                return null;
-            }).filter(Boolean);
+// Radio cards
+document.querySelectorAll('#scopeRow .radio-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('#scopeRow .radio-card').forEach(c => {
+      c.classList.remove('on');
+      c.querySelector('input').checked = false;
+    });
+    card.classList.add('on');
+    card.querySelector('input').checked = true;
+  });
+});
 
-            if (formats.length === 0) { showAlert('❌ Please select at least one export format', 'error'); return; }
+// Check pills
+document.querySelectorAll('#addlOpts .check-pill').forEach(pill => {
+  const cb = pill.querySelector('input');
+  pill.addEventListener('click', () => {
+    cb.checked = !cb.checked;
+    pill.classList.toggle('on', cb.checked);
+  });
+});
 
-            const dateRange = document.getElementById('dateRange').value;
-            const scope     = document.querySelector('input[name="scope"]:checked').value;
+function showAlert(msg, ok) {
+  const el = document.getElementById('alertBox');
+  el.className = 'alert show ' + (ok ? 'alert-ok' : 'alert-err');
+  el.innerHTML = (ok ? '✓ ' : '✗ ') + msg;
+  setTimeout(() => { el.className = 'alert'; }, 6000);
+}
 
-            try {
-                const response = await fetch('/api/export', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ formats, date_range: dateRange, scope })
-                });
-                const result = await response.json();
-                if (result.success) {
-                    showAlert(`✅ ${result.message} — ${result.files_created} file(s) created`, 'success');
-                } else {
-                    showAlert('❌ Error: ' + (result.error || 'Export failed'), 'error');
-                }
-            } catch (error) {
-                showAlert('❌ Error: ' + error.message, 'error');
-            }
-        }
-    </script>
+async function doExport() {
+  const cards = document.querySelectorAll('.format-card.on');
+  if (!cards.length) { showAlert('Select at least one format first.', false); return; }
+
+  const formats = Array.from(cards).map(c => {
+    const n = c.querySelector('.format-name').textContent.toLowerCase();
+    if (n.includes('zetta'))     return 'zetta-log';
+    if (n.includes('wideorbit')) return 'wideorbit';
+    if (n.includes('enco'))      return 'enco';
+    if (n.includes('csv'))       return 'csv';
+  }).filter(Boolean);
+
+  const scope = document.querySelector('input[name=scope]:checked')?.value || 'day';
+
+  try {
+    const res  = await fetch('/api/export', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ formats, scope, date_range: document.getElementById('dateRange').value })
+    });
+    const data = await res.json();
+    if (data.success) showAlert(data.message + ` — ${data.files_created} file(s) created`, true);
+    else showAlert(data.error || 'Export failed', false);
+  } catch(e) { showAlert('Network error: ' + e.message, false); }
+}
+</script>
 </body>
 </html>

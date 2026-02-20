@@ -1,310 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate Schedule - Music Scheduler</title>
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        :root {
-            --bg: #0f1117; --surface: #1a1d27; --surface2: #252836;
-            --border: #2e3147; --accent: #6c63ff; --accent2: #ff6584;
-            --text: #e2e8f0; --muted: #7c85a2; --success: #48bb78;
-            --danger: #fc8181; --warn: #f6ad55;
-        }
-        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; min-height: 100vh; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generate Schedule — Music Scheduler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070a12;--bg2:#0c0f1a;
+  --surface:rgba(255,255,255,0.035);--border:rgba(255,255,255,0.07);--border-bright:rgba(255,255,255,0.14);
+  --accent:#7c6cf0;--accent-dim:rgba(124,108,240,0.18);--accent-glow:rgba(124,108,240,0.35);--accent2:#f472b6;
+  --text:#f1f5f9;--text2:#94a3b8;--text3:#475569;
+  --success:#34d399;--danger:#f87171;--warn:#fbbf24;--info:#60a5fa;--sidebar-w:220px;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px;-webkit-font-smoothing:antialiased}
+.app{display:flex;min-height:100vh}
 
-        /* Header */
-        .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.25rem; font-weight: 700; color: var(--accent); letter-spacing: .5px; }
-        .user-info { color: var(--muted); font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; }
-        .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 0.875rem; }
+/* Sidebar */
+.sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;z-index:50}
+.sidebar-logo{display:flex;align-items:center;gap:10px;padding:22px 20px 20px;border-bottom:1px solid var(--border)}
+.logo-icon{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#7c6cf0,#f472b6);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;box-shadow:0 4px 12px rgba(124,108,240,0.4)}
+.logo-text{font-weight:700;font-size:15px;letter-spacing:-.3px}
+.logo-sub{font-size:10px;color:var(--text3);font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+.sidebar-section{padding:16px 12px 8px;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--text3)}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;margin:2px 8px;border-radius:8px;text-decoration:none;color:var(--text2);font-weight:500;font-size:13.5px;transition:all .15s;position:relative}
+.nav-item:hover{background:rgba(255,255,255,0.05);color:var(--text)}
+.nav-item.active{background:var(--accent-dim);color:var(--accent)}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:18px;background:var(--accent);border-radius:0 2px 2px 0}
+.nav-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.sidebar-bottom{margin-top:auto;padding:16px;border-top:1px solid var(--border)}
+.station-pill{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.station-avatar{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#7c6cf0,#f472b6);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.station-name{font-weight:600;font-size:12.5px}
+.station-role{font-size:11px;color:var(--text3)}
 
-        /* Navigation */
-        .nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; }
-        .nav-links { list-style: none; display: flex; gap: 2rem; }
-        .nav-links a { display: block; padding: 1rem 0; text-decoration: none; color: var(--muted); border-bottom: 3px solid transparent; transition: all 0.2s; font-weight: 500; }
-        .nav-links a:hover { color: var(--text); }
-        .nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
+/* Main */
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{padding:20px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(7,10,18,0.7);backdrop-filter:blur(20px);position:sticky;top:0;z-index:40}
+.topbar-title{font-size:20px;font-weight:700;letter-spacing:-.4px}
+.topbar-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.topbar-right{display:flex;gap:10px}
+.content{padding:28px 32px;flex:1;max-width:820px}
 
-        /* Container */
-        .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
-        .page-header { margin-bottom: 2rem; }
-        .page-title { font-size: 2rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; }
-        .page-subtitle { color: var(--muted); }
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-accent:hover{box-shadow:0 0 18px var(--accent-glow);transform:translateY(-1px)}
+.btn-ghost{background:rgba(255,255,255,0.04);color:var(--text2);border:1px solid var(--border)}
+.btn-ghost:hover{background:rgba(255,255,255,0.08);color:var(--text)}
+.btn-full{width:100%;justify-content:center;padding:13px 20px;font-size:14px}
+.btn-full:disabled{opacity:.45;cursor:not-allowed;transform:none!important;box-shadow:none!important}
 
-        /* Form Card */
-        .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
-        .form-section { margin-bottom: 2rem; }
-        .form-section:last-child { margin-bottom: 0; }
-        .section-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text); display: flex; align-items: center; gap: 0.5rem; }
-        .form-group { margin-bottom: 1.25rem; }
-        .form-label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--muted); font-size: 0.875rem; }
-        .form-input, .form-select {
-            width: 100%; padding: 0.75rem; background: var(--surface2);
-            border: 1px solid var(--border); border-radius: 8px;
-            color: var(--text); font-size: 0.9rem; transition: border 0.2s;
-            font-family: inherit;
-        }
-        .form-input:focus, .form-select:focus { outline: none; border-color: var(--accent); }
-        .form-input::placeholder { color: var(--muted); }
-        .form-help { font-size: 0.8rem; color: var(--muted); margin-top: 0.4rem; }
+/* Form card */
+.form-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;backdrop-filter:blur(12px);margin-bottom:20px}
+.form-section{padding:22px 24px;border-bottom:1px solid var(--border)}
+.form-section:last-child{border-bottom:none}
+.section-head{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.section-num{width:24px;height:24px;border-radius:6px;background:var(--accent-dim);color:var(--accent);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-title{font-size:13.5px;font-weight:700;color:var(--text)}
+.section-subtitle{font-size:12px;color:var(--text3);margin-top:1px}
 
-        /* Checkbox Group */
-        .checkbox-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; }
-        .checkbox-item {
-            display: flex; align-items: center; gap: 0.5rem;
-            padding: 0.625rem 0.875rem; border: 1px solid var(--border);
-            border-radius: 8px; cursor: pointer; transition: all 0.2s;
-            color: var(--text); background: var(--surface2);
-        }
-        .checkbox-item:hover { border-color: var(--accent); }
-        .checkbox-item input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); }
-        .checkbox-item.checked { border-color: var(--accent); background: rgba(108,99,255,0.1); }
+/* Form elements */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.form-row.single{grid-template-columns:1fr}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-label{font-size:12px;font-weight:600;color:var(--text2);letter-spacing:.2px}
+.form-input,.form-select{
+  background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  border-radius:8px;padding:9px 12px;color:var(--text);
+  font-size:13px;font-family:inherit;transition:all .15s;outline:none;
+}
+.form-input:focus,.form-select:focus{border-color:var(--accent);background:rgba(124,108,240,0.06);box-shadow:0 0 0 3px var(--accent-dim)}
+.form-input::placeholder{color:var(--text3)}
+.form-select option{background:#1a1d2e}
+.form-hint{font-size:11px;color:var(--text3);margin-top:2px}
 
-        /* Buttons */
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-            padding: 0.75rem 1.5rem; border: none; border-radius: 8px;
-            font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
-        }
-        .btn-primary { background: var(--accent); color: #fff; width: 100%; padding: 1rem; font-size: 1rem; }
-        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
-        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+/* Check cards */
+.check-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.check-card{
+  display:flex;align-items:center;gap:9px;
+  padding:10px 12px;border:1px solid var(--border);
+  border-radius:9px;cursor:pointer;transition:all .15s;
+  background:rgba(255,255,255,0.02);
+}
+.check-card:hover{border-color:var(--border-bright);background:rgba(255,255,255,0.04)}
+.check-card.on{border-color:rgba(124,108,240,0.4);background:var(--accent-dim)}
+.check-card input{display:none}
+.check-box{
+  width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border-bright);
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  transition:all .15s;font-size:10px;color:transparent;
+}
+.check-card.on .check-box{background:var(--accent);border-color:var(--accent);color:#fff}
+.check-label{font-size:12.5px;font-weight:500;color:var(--text2)}
+.check-card.on .check-label{color:var(--accent)}
 
-        /* Progress Section */
-        .progress-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; display: none; }
-        .progress-section.active { display: block; }
-        .progress-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center; color: var(--text); }
-        .progress-bar-container { background: var(--surface2); border-radius: 12px; height: 10px; overflow: hidden; margin-bottom: 0.75rem; }
-        .progress-bar { height: 100%; background: var(--accent); border-radius: 12px; transition: width 0.3s; width: 0%; }
-        .progress-text { text-align: center; color: var(--muted); font-size: 0.875rem; margin-bottom: 1.5rem; }
-        .progress-steps { list-style: none; }
-        .progress-step { display: flex; align-items: center; gap: 0.75rem; padding: 0.625rem; margin-bottom: 0.375rem; border-radius: 8px; color: var(--muted); }
-        .progress-step.completed { background: rgba(72,187,120,0.1); color: var(--success); }
-        .progress-step.active { background: rgba(108,99,255,0.1); color: var(--text); }
-        .progress-step-icon { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; }
-        .progress-step-text { flex: 1; font-weight: 500; font-size: 0.875rem; }
-    </style>
+/* Progress panel */
+.progress-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;backdrop-filter:blur(12px);display:none;text-align:center}
+.progress-card.show{display:block}
+.prog-title{font-size:17px;font-weight:700;margin-bottom:6px}
+.prog-sub{font-size:13px;color:var(--text2);margin-bottom:24px}
+.prog-bar-track{background:rgba(255,255,255,0.06);border-radius:99px;height:8px;margin-bottom:8px;overflow:hidden}
+.prog-bar{height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s ease;box-shadow:0 0 12px var(--accent-glow)}
+.prog-pct{font-size:12px;color:var(--text3);margin-bottom:24px;text-align:right}
+.prog-steps{list-style:none;text-align:left}
+.prog-step{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;margin-bottom:6px;transition:all .3s;color:var(--text3)}
+.prog-step.done{background:rgba(52,211,153,0.08);color:var(--success)}
+.prog-step.active{background:rgba(124,108,240,0.1);color:var(--text)}
+.prog-step-icon{width:20px;height:20px;border-radius:50%;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.prog-step.done .prog-step-icon{background:var(--success);border-color:var(--success);color:#fff}
+.prog-step.active .prog-step-icon{background:var(--accent-dim);border-color:var(--accent)}
+.prog-step-text{font-size:13px;font-weight:500}
+</style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">🎵 Music Scheduler</div>
-        <div class="user-info"><div class="user-avatar">A</div><span>Praise FM</span></div>
+<div class="app">
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">🎵</div>
+    <div><div class="logo-text">MusicSched</div><div class="logo-sub">Pro</div></div>
+  </div>
+  <div class="sidebar-section">Main</div>
+  <a href="/" class="nav-item"><span class="nav-icon">⊞</span>Dashboard</a>
+  <a href="/generate" class="nav-item active"><span class="nav-icon">✦</span>Generate Schedule</a>
+  <a href="/view" class="nav-item"><span class="nav-icon">◫</span>View Schedule</a>
+  <a href="/export" class="nav-item"><span class="nav-icon">↑</span>Export Logs</a>
+  <div class="sidebar-section">Library</div>
+  <a href="#" class="nav-item"><span class="nav-icon">♪</span>Song Library</a>
+  <a href="#" class="nav-item"><span class="nav-icon">⏱</span>Clock Templates</a>
+  <a href="#" class="nav-item"><span class="nav-icon">◈</span>Rules Engine</a>
+  <div class="sidebar-bottom">
+    <div class="station-pill">
+      <div class="station-avatar">P</div>
+      <div><div class="station-name">Praise FM</div><div class="station-role">Administrator</div></div>
     </div>
-    <nav class="nav">
-        <ul class="nav-links">
-            <li><a href="/">Dashboard</a></li>
-            <li><a href="/generate" class="active">Generate Schedule</a></li>
-            <li><a href="/view">View Schedules</a></li>
-            <li><a href="/export">Export</a></li>
-        </ul>
-    </nav>
+  </div>
+</aside>
 
-    <div class="container">
-        <div class="page-header">
-            <h1 class="page-title">Generate Schedule</h1>
-            <p class="page-subtitle">Create a new week-long music schedule</p>
+<div class="main">
+  <header class="topbar">
+    <div>
+      <div class="topbar-title">Generate Schedule</div>
+      <div class="topbar-sub">Create a new week-long rotation</div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-ghost" onclick="history.back()">← Back</button>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- Form -->
+    <div id="formView">
+      <div class="form-card">
+
+        <!-- 1. Week -->
+        <div class="form-section">
+          <div class="section-head">
+            <div class="section-num">1</div>
+            <div>
+              <div class="section-title">Week Selection</div>
+              <div class="section-subtitle">Choose the scheduling period</div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Start Date</label>
+              <input type="date" class="form-input" id="startDate" value="2026-02-16">
+              <div class="form-hint">Schedule runs Sun → Sat (7 days)</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Week Template</label>
+              <select class="form-select" id="weekTemplate">
+                <option value="standard">Standard Week</option>
+                <option value="holiday">Holiday Week</option>
+                <option value="special">Special Event Week</option>
+                <option value="custom">Custom Template</option>
+              </select>
+              <div class="form-hint">Pre-configured hour-by-hour clock mapping</div>
+            </div>
+          </div>
         </div>
 
-        <div class="form-card" id="generateForm">
-            <!-- Week Selection -->
-            <div class="form-section">
-                <h2 class="section-title">📅 Week Selection</h2>
-                <div class="form-group">
-                    <label class="form-label">Start Date</label>
-                    <input type="date" class="form-input" id="startDate" value="2026-02-16">
-                    <div class="form-help">Schedule will run from this Sunday through the following Saturday</div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Week Template</label>
-                    <select class="form-select" id="weekTemplate">
-                        <option value="standard">Standard Week</option>
-                        <option value="holiday">Holiday Week</option>
-                        <option value="special">Special Event Week</option>
-                        <option value="custom">Custom Template</option>
-                    </select>
-                    <div class="form-help">Choose a pre-configured week template</div>
-                </div>
+        <!-- 2. Strategy -->
+        <div class="form-section">
+          <div class="section-head">
+            <div class="section-num">2</div>
+            <div>
+              <div class="section-title">Scheduling Strategy</div>
+              <div class="section-subtitle">Rules that govern song placement</div>
             </div>
-
-            <!-- Strategy -->
-            <div class="form-section">
-                <h2 class="section-title">🎯 Strategy</h2>
-                <div class="form-group">
-                    <label class="form-label">Scheduling Strategy</label>
-                    <select class="form-select" id="strategy">
-                        <option value="standard">Standard Rotation Strategy</option>
-                        <option value="heavy_current">Heavy Current Rotation</option>
-                        <option value="gold_focus">Gold-Focused Strategy</option>
-                        <option value="custom">Custom Strategy</option>
-                    </select>
-                    <div class="form-help">Artist separation: 90 min · Song rest: 1440 min</div>
-                </div>
+          </div>
+          <div class="form-row single">
+            <div class="form-group">
+              <label class="form-label">Rotation Strategy</label>
+              <select class="form-select" id="strategy">
+                <option value="standard">Standard Rotation — Balanced artist/title separation</option>
+                <option value="heavy_current">Heavy Current — Prioritize new releases</option>
+                <option value="gold_focus">Gold-Focused — Lean on PowerGold catalog</option>
+                <option value="custom">Custom Strategy</option>
+              </select>
             </div>
-
-            <!-- Export Options -->
-            <div class="form-section">
-                <h2 class="section-title">📤 Export Options</h2>
-                <div class="form-group">
-                    <label class="form-label">Export Formats (select all that apply)</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-item checked">
-                            <input type="checkbox" value="zetta-log" checked>
-                            <span>Zetta LOG</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" value="zetta-xml">
-                            <span>Zetta XML</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" value="wideorbit">
-                            <span>WideOrbit</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" value="enco">
-                            <span>ENCO</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <input type="checkbox" value="csv">
-                            <span>CSV</span>
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Export Scope</label>
-                    <select class="form-select" id="exportScope">
-                        <option value="day">One file per day (7 files)</option>
-                        <option value="week">Single week file</option>
-                    </select>
-                </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:4px">
+            <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px 14px">
+              <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Artist Sep.</div>
+              <div style="font-size:15px;font-weight:700;color:var(--accent)">90 min</div>
             </div>
-
-            <!-- Advanced Options -->
-            <div class="form-section">
-                <h2 class="section-title">⚙️ Advanced Options</h2>
-                <div class="checkbox-group">
-                    <label class="checkbox-item">
-                        <input type="checkbox" value="clear-history">
-                        <span>Clear scheduling history</span>
-                    </label>
-                    <label class="checkbox-item checked">
-                        <input type="checkbox" value="overnight-fill" checked>
-                        <span>Apply overnight fill</span>
-                    </label>
-                </div>
+            <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px 14px">
+              <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Song Rest</div>
+              <div style="font-size:15px;font-weight:700;color:var(--info)">24 hrs</div>
             </div>
-
-            <button class="btn btn-primary" onclick="startGeneration()">✨ Generate Schedule</button>
+            <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px 14px">
+              <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Title Sep.</div>
+              <div style="font-size:15px;font-weight:700;color:var(--success)">3 hrs</div>
+            </div>
+          </div>
         </div>
 
-        <!-- Progress Section -->
-        <div class="progress-section" id="progressSection">
-            <h2 class="progress-title">Generating Schedule...</h2>
-            <div class="progress-bar-container">
-                <div class="progress-bar" id="progressBar"></div>
+        <!-- 3. Export -->
+        <div class="form-section">
+          <div class="section-head">
+            <div class="section-num">3</div>
+            <div>
+              <div class="section-title">Export Formats</div>
+              <div class="section-subtitle">Select formats to generate after scheduling</div>
             </div>
-            <div class="progress-text" id="progressText">Initializing...</div>
-            <ul class="progress-steps">
-                <li class="progress-step" id="step1">
-                    <span class="progress-step-icon">⏳</span>
-                    <span class="progress-step-text">Loading songs and configuration</span>
-                </li>
-                <li class="progress-step" id="step2">
-                    <span class="progress-step-icon">⏳</span>
-                    <span class="progress-step-text">Building song pools</span>
-                </li>
-                <li class="progress-step" id="step3">
-                    <span class="progress-step-icon">⏳</span>
-                    <span class="progress-step-text">Scheduling 224 time slots</span>
-                </li>
-                <li class="progress-step" id="step4">
-                    <span class="progress-step-icon">⏳</span>
-                    <span class="progress-step-text">Applying overnight fill</span>
-                </li>
-                <li class="progress-step" id="step5">
-                    <span class="progress-step-icon">⏳</span>
-                    <span class="progress-step-text">Exporting logs</span>
-                </li>
-            </ul>
+          </div>
+          <div class="check-grid" id="formatGrid">
+            <label class="check-card on"><input type="checkbox" value="zetta-log" checked><div class="check-box">✓</div><span class="check-label">Zetta LOG</span></label>
+            <label class="check-card"><input type="checkbox" value="zetta-xml"><div class="check-box">✓</div><span class="check-label">Zetta XML</span></label>
+            <label class="check-card"><input type="checkbox" value="wideorbit"><div class="check-box">✓</div><span class="check-label">WideOrbit</span></label>
+            <label class="check-card"><input type="checkbox" value="enco"><div class="check-box">✓</div><span class="check-label">ENCO</span></label>
+            <label class="check-card"><input type="checkbox" value="csv"><div class="check-box">✓</div><span class="check-label">CSV</span></label>
+          </div>
+          <div class="form-row" style="margin-top:14px;margin-bottom:0">
+            <div class="form-group">
+              <label class="form-label">Export Scope</label>
+              <select class="form-select" id="exportScope">
+                <option value="day">One file per day (7 files)</option>
+                <option value="week">Single week file</option>
+              </select>
+            </div>
+          </div>
         </div>
+
+        <!-- 4. Options -->
+        <div class="form-section">
+          <div class="section-head">
+            <div class="section-num">4</div>
+            <div>
+              <div class="section-title">Advanced Options</div>
+            </div>
+          </div>
+          <div class="check-grid">
+            <label class="check-card"><input type="checkbox" value="clear-history"><div class="check-box">✓</div><span class="check-label">Clear history</span></label>
+            <label class="check-card on"><input type="checkbox" value="overnight-fill" checked><div class="check-box">✓</div><span class="check-label">Overnight fill</span></label>
+          </div>
+        </div>
+
+        <!-- Generate button -->
+        <div class="form-section">
+          <button class="btn btn-accent btn-full" id="generateBtn" onclick="startGeneration()">
+            ✦ &nbsp;Generate Schedule
+          </button>
+        </div>
+
+      </div>
     </div>
 
-    <script>
-        // Toggle checked class on checkboxes
-        document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(cb => {
-            cb.addEventListener('change', function() {
-                this.parentElement.classList.toggle('checked', this.checked);
-            });
-        });
+    <!-- Progress view -->
+    <div class="progress-card" id="progressView">
+      <div class="prog-title">Generating Schedule</div>
+      <div class="prog-sub" id="progSub">Preparing your week-long rotation...</div>
+      <div class="prog-bar-track"><div class="prog-bar" id="progBar"></div></div>
+      <div class="prog-pct" id="progPct">0%</div>
+      <ul class="prog-steps">
+        <li class="prog-step" id="s1"><div class="prog-step-icon">1</div><span class="prog-step-text">Loading songs &amp; configuration</span></li>
+        <li class="prog-step" id="s2"><div class="prog-step-icon">2</div><span class="prog-step-text">Building rotation pools</span></li>
+        <li class="prog-step" id="s3"><div class="prog-step-icon">3</div><span class="prog-step-text">Scheduling 7 days × 24 hours</span></li>
+        <li class="prog-step" id="s4"><div class="prog-step-icon">4</div><span class="prog-step-text">Applying overnight fill</span></li>
+        <li class="prog-step" id="s5"><div class="prog-step-icon">5</div><span class="prog-step-text">Exporting log files</span></li>
+      </ul>
+    </div>
 
-        function markStep(id, done) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            el.classList.remove('active', 'completed');
-            el.classList.add(done ? 'completed' : 'active');
-            el.querySelector('.progress-step-icon').textContent = done ? '✅' : '⏳';
-        }
+  </div>
+</div>
+</div>
 
-        function startGeneration() {
-            const startDate = document.getElementById('startDate').value;
-            const strategy  = document.getElementById('strategy').value.toLowerCase();
+<script>
+// Toggle check cards
+document.querySelectorAll('.check-card').forEach(card => {
+  const cb = card.querySelector('input[type=checkbox]');
+  card.addEventListener('click', () => {
+    cb.checked = !cb.checked;
+    card.classList.toggle('on', cb.checked);
+  });
+});
 
-            document.getElementById('generateForm').style.display = 'none';
-            document.getElementById('progressSection').classList.add('active');
+const steps = ['s1','s2','s3','s4','s5'];
+function setStep(i, state) {
+  const el = document.getElementById(steps[i]);
+  if (!el) return;
+  el.className = 'prog-step ' + (state || '');
+}
 
-            let progress = 0;
-            const progressBar  = document.getElementById('progressBar');
-            const progressText = document.getElementById('progressText');
+function startGeneration() {
+  const btn = document.getElementById('generateBtn');
+  btn.disabled = true;
 
-            const steps = ['step1','step2','step3','step4','step5'];
-            let stepIdx = 0;
-            markStep(steps[0], false);
+  document.getElementById('formView').style.display = 'none';
+  document.getElementById('progressView').classList.add('show');
 
-            const progressInterval = setInterval(() => {
-                progress += 4;
-                progressBar.style.width = Math.min(progress, 90) + '%';
-                progressText.textContent = `Processing... ${Math.min(progress,90)}%`;
-                const newIdx = Math.min(Math.floor(progress / 20), steps.length - 1);
-                if (newIdx > stepIdx) {
-                    markStep(steps[stepIdx], true);
-                    stepIdx = newIdx;
-                    markStep(steps[stepIdx], false);
-                }
-                if (progress >= 90) clearInterval(progressInterval);
-            }, 200);
+  const bar  = document.getElementById('progBar');
+  const pct  = document.getElementById('progPct');
+  const sub  = document.getElementById('progSub');
+  const msgs = ['Loading songs & configuration...','Building rotation pools...','Scheduling time slots...','Applying overnight fill...','Exporting log files...'];
 
-            fetch('/api/generate', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ start_date: startDate, strategy: strategy })
-            })
-            .then(r => r.json())
-            .then(result => {
-                clearInterval(progressInterval);
-                steps.forEach(s => markStep(s, true));
-                progressBar.style.width = '100%';
-                progressText.textContent = 'Complete!';
+  let p = 0, stepIdx = 0;
+  setStep(0, 'active');
 
-                if (result.success) {
-                    setTimeout(() => {
-                        const fillRate = result.fill_rate ? result.fill_rate.toFixed(1) : '0.0';
-                        alert(`✅ ${result.message || 'Schedule generated!'}\nFilled: ${result.slots_filled || 0}/${result.total_slots || 0} (${fillRate}%)`);
-                        window.location.href = '/view';
-                    }, 500);
-                } else {
-                    alert('❌ Error: ' + (result.error || 'Unknown error'));
-                    document.getElementById('generateForm').style.display = 'block';
-                    document.getElementById('progressSection').classList.remove('active');
-                }
-            })
-            .catch(error => {
-                clearInterval(progressInterval);
-                alert('❌ Error: ' + error.message);
-                document.getElementById('generateForm').style.display = 'block';
-                document.getElementById('progressSection').classList.remove('active');
-            });
-        }
-    </script>
+  const iv = setInterval(() => {
+    p = Math.min(p + 2, 90);
+    bar.style.width = p + '%';
+    pct.textContent = p + '%';
+    const ni = Math.min(Math.floor(p / 20), steps.length - 1);
+    if (ni > stepIdx) {
+      setStep(stepIdx, 'done');
+      stepIdx = ni;
+      setStep(stepIdx, 'active');
+      sub.textContent = msgs[stepIdx] || '';
+    }
+    if (p >= 90) clearInterval(iv);
+  }, 150);
+
+  const startDate = document.getElementById('startDate').value;
+  const strategy  = document.getElementById('strategy').value;
+
+  fetch('/api/generate', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({start_date: startDate, strategy})
+  })
+  .then(r => r.json())
+  .then(res => {
+    clearInterval(iv);
+    steps.forEach((_,i) => setStep(i, 'done'));
+    bar.style.width = '100%'; pct.textContent = '100%';
+    sub.textContent = 'Complete!';
+    if (res.success) {
+      setTimeout(() => {
+        alert(`✦ ${res.message || 'Done!'}\n${res.slots_filled||0} slots filled — ${(res.fill_rate||0).toFixed(1)}% fill rate`);
+        window.location.href = '/view';
+      }, 600);
+    } else {
+      alert('Error: ' + (res.error || 'Unknown'));
+      document.getElementById('formView').style.display = 'block';
+      document.getElementById('progressView').classList.remove('show');
+      btn.disabled = false;
+    }
+  })
+  .catch(err => {
+    clearInterval(iv);
+    alert('Error: ' + err.message);
+    document.getElementById('formView').style.display = 'block';
+    document.getElementById('progressView').classList.remove('show');
+    btn.disabled = false;
+  });
+}
+</script>
 </body>
 </html>
