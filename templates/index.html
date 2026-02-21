@@ -691,6 +691,7 @@ const $ = id => document.getElementById(id);
 // Keyed by m1_id (string), uuid, and name — all pointing to the category record.
 let _catMap  = {};   // key → category record
 let _catList = [];   // sorted list of schedulable categories (for dropdowns)
+let _allCats = [];   // complete category list (for library filter dropdown)
 
 async function loadCategories() {
   const data = await api('GET', '/api/categories');
@@ -701,6 +702,8 @@ async function loadCategories() {
     if (cat.id)             _catMap[cat.id]             = cat;
     if (cat.name)           _catMap[cat.name]           = cat;
   }
+  // All categories sorted by name for the library filter
+  _allCats = all.slice().sort((a, b) => (a.name || '').localeCompare(b.name || ''));
   // Schedulable categories for dropdowns (exclude housekeeping ones)
   _catList = all.filter(c =>
     c.schedulable !== false &&
@@ -870,19 +873,14 @@ async function loadMoreTracks() {
   $('tracks-load-more').style.display = _tracksLoaded < _tracksTotal ? '' : 'none';
 }
 function populateCatFilter(tracks) {
-  const catIds = [...new Set(tracks.map(t => t.category).filter(Boolean))];
   const sel = $('track-cat');
   const cur = sel.value;
-  // Sort by resolved name, show name as label but keep raw ID as value
-  catIds.sort((a, b) => {
-    const na = catResolve(a)?.name || a;
-    const nb = catResolve(b)?.name || b;
-    return na.localeCompare(nb);
-  });
+  // Use the full category list from the API so all categories are visible
+  // regardless of which page of tracks is currently loaded.
   sel.innerHTML = '<option value="">All categories</option>' +
-    catIds.map(c => {
-      const name = catResolve(c)?.name || c;
-      return `<option value="${esc(c)}" ${c===cur?'selected':''}>${esc(name)}</option>`;
+    _allCats.map(c => {
+      const v = catValue(c);
+      return `<option value="${esc(v)}" ${v===cur?'selected':''}>${esc(c.name)}</option>`;
     }).join('');
 }
 function renderTrackRow(t, i) {
