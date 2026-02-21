@@ -324,6 +324,10 @@
       </table>
     </div>
     <div id="tracks-empty" class="empty" style="display:none">No tracks yet — add one above.</div>
+    <div id="tracks-footer" style="font-size:12px;color:var(--muted);margin-top:10px;display:none;gap:12px;align-items:center">
+      <span id="tracks-count"></span>
+      <button id="tracks-load-more" class="btn btn-muted btn-sm" style="display:none" onclick="loadMoreTracks()">Load more…</button>
+    </div>
   </div>
 </div>
 
@@ -804,19 +808,66 @@ async function loadDashboard() {
 }
 
 // ── Tracks ────────────────────────────────────────────────────────────────────
+const TRACKS_PER_PAGE = 200;
+let _tracksTotal = 0;
+let _tracksLoaded = 0;
+
 async function loadTracks() {
   const search = $('track-search').value.trim();
   const cat    = $('track-cat').value;
   const sort   = $('track-sort').value;
   const order  = $('track-order').value;
-  let url = `/api/tracks?sort=${sort}&order=${order}`;
+
+  // Show loading state immediately so user knows button worked
+  $('tracks-body').innerHTML = `<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--muted)">Loading library…</td></tr>`;
+  $('tracks-empty').style.display = 'none';
+  $('tracks-footer').style.display = 'none';
+
+  let url = `/api/tracks?sort=${sort}&order=${order}&limit=${TRACKS_PER_PAGE}`;
   if (search) url += `&search=${encodeURIComponent(search)}`;
   if (cat)    url += `&category=${encodeURIComponent(cat)}`;
   const data = await api('GET', url);
   const tracks = data.tracks || [];
+  _tracksTotal = data.total || tracks.length;
+  _tracksLoaded = tracks.length;
+
   renderTracks(tracks);
-  updateTrackStats(tracks, data.total);
+  updateTrackStats(tracks, _tracksTotal);
   populateCatFilter(tracks);
+
+  // Show footer with count + load-more if needed
+  $('tracks-footer').style.display = 'flex';
+  $('tracks-count').textContent = _tracksLoaded >= _tracksTotal
+    ? `Showing all ${_tracksTotal.toLocaleString()} tracks`
+    : `Showing ${_tracksLoaded.toLocaleString()} of ${_tracksTotal.toLocaleString()} tracks`;
+  $('tracks-load-more').style.display = _tracksLoaded < _tracksTotal ? '' : 'none';
+}
+
+async function loadMoreTracks() {
+  const search = $('track-search').value.trim();
+  const cat    = $('track-cat').value;
+  const sort   = $('track-sort').value;
+  const order  = $('track-order').value;
+
+  $('tracks-load-more').textContent = 'Loading…';
+  $('tracks-load-more').disabled = true;
+
+  let url = `/api/tracks?sort=${sort}&order=${order}&limit=${TRACKS_PER_PAGE}&offset=${_tracksLoaded}`;
+  if (search) url += `&search=${encodeURIComponent(search)}`;
+  if (cat)    url += `&category=${encodeURIComponent(cat)}`;
+  const data = await api('GET', url);
+  const newTracks = data.tracks || [];
+  _tracksLoaded += newTracks.length;
+
+  // Append rows instead of replacing
+  $('tracks-body').innerHTML += newTracks.map((t, i) => renderTrackRow(t, _tracksLoaded - newTracks.length + i)).join('');
+
+  $('tracks-count').textContent = _tracksLoaded >= _tracksTotal
+    ? `Showing all ${_tracksTotal.toLocaleString()} tracks`
+    : `Showing ${_tracksLoaded.toLocaleString()} of ${_tracksTotal.toLocaleString()} tracks`;
+  $('tracks-load-more').textContent = 'Load more…';
+  $('tracks-load-more').disabled = false;
+  $('tracks-load-more').style.display = _tracksLoaded < _tracksTotal ? '' : 'none';
 }
 function populateCatFilter(tracks) {
   const catIds = [...new Set(tracks.map(t => t.category).filter(Boolean))];
@@ -834,20 +885,22 @@ function populateCatFilter(tracks) {
       return `<option value="${esc(c)}" ${c===cur?'selected':''}>${esc(name)}</option>`;
     }).join('');
 }
+function renderTrackRow(t, i) {
+  return `<tr>
+    <td class="track-pos">${i+1}</td>
+    <td><strong>${esc(t.title)}</strong></td>
+    <td>${esc(t.artist)}</td>
+    <td>${catPill(t.category)}</td>
+    <td class="dur">${fmtDur(t.duration_seconds)}</td>
+    <td>${t.bpm||'—'}</td>
+    <td>${t.energy||'—'}</td>
+    <td>${t.play_count||0}</td>
+    <td><button class="btn btn-danger btn-sm" onclick="deleteTrack('${t.id}')">✕</button></td>
+  </tr>`;
+}
 function renderTracks(tracks) {
   $('tracks-empty').style.display = tracks.length ? 'none' : '';
-  $('tracks-body').innerHTML = tracks.map((t, i) => `
-    <tr>
-      <td class="track-pos">${i+1}</td>
-      <td><strong>${esc(t.title)}</strong></td>
-      <td>${esc(t.artist)}</td>
-      <td>${catPill(t.category)}</td>
-      <td class="dur">${fmtDur(t.duration_seconds)}</td>
-      <td>${t.bpm||'—'}</td>
-      <td>${t.energy||'—'}</td>
-      <td>${t.play_count||0}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="deleteTrack('${t.id}')">✕</button></td>
-    </tr>`).join('');
+  $('tracks-body').innerHTML = tracks.map((t, i) => renderTrackRow(t, i)).join('');
 }
 function updateTrackStats(tracks, total) {
   const totalDur = tracks.reduce((s,t) => s+(t.duration_seconds||0), 0);
@@ -1164,33 +1217,54 @@ async function doExport() {
 }
 
 // ── Rules ─────────────────────────────────────────────────────────────────────
+// Keys that should never appear as editable inputs (complex/internal/derived)
+const RULES_SKIP = new Set(['categories','artist_separation_ms','title_separation_ms',
+  'default_title_separation_ms','default_prev_day_separation_ms']);
+
 const RULE_META = {
-  artist_separation_minutes:   { label: 'Artist Separation (min)', type: 'number' },
-  title_separation_minutes:    { label: 'Title Separation (min)', type: 'number' },
-  category_separation_minutes: { label: 'Category Separation (min)', type: 'number' },
-  max_tempo_jump:              { label: 'Max Tempo Jump (BPM)', type: 'number' },
-  max_energy_jump:             { label: 'Max Energy Jump', type: 'number' },
+  artist_separation_songs:    { label: 'Artist Separation (songs)',        type: 'number' },
+  title_separation_hours:     { label: 'Title Separation (hours)',          type: 'number' },
+  double_shot_separation_songs:{ label: 'Double Shot Separation (songs)',   type: 'number' },
+  stack_key_separation_songs: { label: 'Stack Key Separation (songs)',      type: 'number' },
+  max_tempo_run:              { label: 'Max Tempo Run (-1 = off)',          type: 'number' },
+  max_mood_run:               { label: 'Max Mood Run (-1 = off)',           type: 'number' },
+  max_gender_run:             { label: 'Max Gender Run (-1 = off)',         type: 'number' },
+  max_texture_run:            { label: 'Max Texture Run (-1 = off)',        type: 'number' },
+  allow_double_shots:         { label: 'Allow Double Shots',               type: 'checkbox' },
+  enforce_date_range:         { label: 'Enforce Date Range',               type: 'checkbox' },
+  enforce_hour_open_close:    { label: 'Enforce Hour Open/Close',          type: 'checkbox' },
+  check_prev_day_artist:      { label: 'Check Prev-Day Artist',            type: 'checkbox' },
+  check_prev_day_song:        { label: 'Check Prev-Day Song',              type: 'checkbox' },
 };
 async function loadRules() {
   const rulesData = await api('GET', '/api/rules');
-  $('rules-form').innerHTML = Object.entries(RULE_META).map(([k,m]) => `
-    <div class="form-group">
+  $('rules-form').innerHTML = Object.entries(RULE_META).map(([k,m]) => {
+    if (m.type === 'checkbox') {
+      const checked = rulesData[k] ? 'checked' : '';
+      return `<div class="form-group">
+        <label>${m.label}</label>
+        <input type="checkbox" id="rule-${k}" ${checked} style="width:auto;margin-top:6px">
+      </div>`;
+    }
+    return `<div class="form-group">
       <label>${m.label}</label>
-      <input type="${m.type}" id="rule-${k}" value="${rulesData[k]??''}">
-    </div>`).join('') +
-    Object.entries(rulesData)
-      .filter(([k]) => !RULE_META[k])
-      .map(([k,v]) => `
-        <div class="form-group">
-          <label>${k}</label>
-          <input type="text" id="rule-${k}" value="${esc(String(v))}">
-        </div>`).join('');
+      <input type="number" id="rule-${k}" value="${rulesData[k]??''}">
+    </div>`;
+  }).join('') +
+  Object.entries(rulesData)
+    .filter(([k]) => !RULE_META[k] && !RULES_SKIP.has(k) && typeof rulesData[k] !== 'object')
+    .map(([k,v]) => `
+      <div class="form-group">
+        <label>${k}</label>
+        <input type="text" id="rule-${k}" value="${esc(String(v))}">
+      </div>`).join('');
 }
 async function saveRules() {
   const body = {};
-  Object.keys(RULE_META).forEach(k => {
+  Object.entries(RULE_META).forEach(([k, m]) => {
     const el = $(`rule-${k}`);
-    if (el) body[k] = +el.value || 0;
+    if (!el) return;
+    body[k] = m.type === 'checkbox' ? el.checked : (+el.value);
   });
   const res = await api('PUT', '/api/rules', body);
   if (res.error) return toast(res.error, false);
