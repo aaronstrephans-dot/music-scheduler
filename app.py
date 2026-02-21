@@ -180,6 +180,21 @@ def export_page():
     return render_template("export.html")
 
 
+@app.route("/library")
+def library_page():
+    return render_template("index.html")
+
+
+@app.route("/clocks-editor")
+def clocks_editor_page():
+    return render_template("index.html")
+
+
+@app.route("/rules-editor")
+def rules_editor_page():
+    return render_template("index.html")
+
+
 @app.route("/api/status")
 def status():
     return jsonify({
@@ -1002,7 +1017,7 @@ def get_stats():
     today = date.today()
     start = today - timedelta(days=today.weekday())
     end   = start + timedelta(days=6)
-    week_str = f"{start.strftime('%b %-d')}–{end.strftime('%-d')}"
+    week_str = f"{start.strftime('%b')} {start.day}–{end.day}"
 
     return jsonify({
         "total_songs":   total,
