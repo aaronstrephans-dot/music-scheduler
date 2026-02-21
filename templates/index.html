@@ -356,7 +356,7 @@
         <tbody id="tracks-body"></tbody>
       </table>
     </div>
-    <div id="tracks-empty" class="empty" style="display:none">No tracks yet — add one above.</div>
+    <div id="tracks-empty" class="empty">Select a category or type in the search box to browse your library.</div>
     <div id="tracks-footer" style="font-size:12px;color:var(--muted);margin-top:10px;display:none;gap:12px;align-items:center">
       <span id="tracks-count"></span>
       <button id="tracks-load-more" class="btn btn-muted btn-sm" style="display:none" onclick="loadMoreTracks()">Load more…</button>
@@ -952,7 +952,7 @@ function showTab(name, btn) {
   $('tab-'+name).classList.add('active');
   if (btn) btn.classList.add('active');
   if (name==='dashboard') loadDashboard();
-  if (name==='tracks')    loadTracks();
+  if (name==='tracks')    initTracksTab();
   if (name==='clocks')    loadClocks();
   if (name==='schedules') { loadSchedules(); loadClocksForGen(); }
   if (name==='program')   loadProgramTab();
@@ -999,11 +999,37 @@ const TRACKS_PER_PAGE = 200;
 let _tracksTotal = 0;
 let _tracksLoaded = 0;
 
+function initTracksTab() {
+  populateCatFilter();   // fill dropdown from full category list immediately
+  // Only reload if a filter is already active (e.g. user switched away and back)
+  const search = $('track-search').value.trim();
+  const cat    = $('track-cat').value;
+  if (search || cat) {
+    loadTracks();
+  } else {
+    $('tracks-body').innerHTML = '';
+    $('tracks-empty').textContent = 'Select a category or type in the search box to browse your library.';
+    $('tracks-empty').style.display = '';
+    $('tracks-footer').style.display = 'none';
+    $('track-stats').innerHTML = '';
+  }
+}
+
 async function loadTracks() {
   const search = $('track-search').value.trim();
   const cat    = $('track-cat').value;
   const sort   = $('track-sort').value;
   const order  = $('track-order').value;
+
+  // No filter set — return to prompt state without hitting the API
+  if (!search && !cat) {
+    $('tracks-body').innerHTML = '';
+    $('tracks-empty').textContent = 'Select a category or type in the search box to browse your library.';
+    $('tracks-empty').style.display = '';
+    $('tracks-footer').style.display = 'none';
+    $('track-stats').innerHTML = '';
+    return;
+  }
 
   // Show loading state immediately so user knows button worked
   $('tracks-body').innerHTML = `<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--muted)">Loading library…</td></tr>`;
@@ -1020,7 +1046,7 @@ async function loadTracks() {
 
   renderTracks(tracks);
   updateTrackStats(tracks, _tracksTotal);
-  populateCatFilter(tracks);
+  populateCatFilter();
 
   // Show footer with count + load-more if needed
   $('tracks-footer').style.display = 'flex';
@@ -1056,7 +1082,7 @@ async function loadMoreTracks() {
   $('tracks-load-more').disabled = false;
   $('tracks-load-more').style.display = _tracksLoaded < _tracksTotal ? '' : 'none';
 }
-function populateCatFilter(tracks) {
+function populateCatFilter() {
   const sel = $('track-cat');
   const cur = sel.value;
   // Use the full category list from the API so all categories are visible
@@ -1081,7 +1107,13 @@ function renderTrackRow(t, i) {
   </tr>`;
 }
 function renderTracks(tracks) {
-  $('tracks-empty').style.display = tracks.length ? 'none' : '';
+  const empty = $('tracks-empty');
+  if (tracks.length) {
+    empty.style.display = 'none';
+  } else {
+    empty.textContent = 'No tracks found for this search.';
+    empty.style.display = '';
+  }
   $('tracks-body').innerHTML = tracks.map((t, i) => renderTrackRow(t, i)).join('');
 }
 function updateTrackStats(tracks, total) {
