@@ -233,6 +233,226 @@ def _passes_stack_key_sep(track: dict, scheduled: list, rules: dict,
 
 
 # ---------------------------------------------------------------------------
+# Album separation check
+# ---------------------------------------------------------------------------
+
+def _album_key(track: dict) -> str:
+    return (track.get("album") or "").strip().lower()
+
+
+def _passes_album_sep(track: dict, scheduled: list, rules: dict) -> bool:
+    """True if album separation is satisfied (0 = disabled)."""
+    album = _album_key(track)
+    if not album:
+        return True
+    sep = rules.get("album_separation_songs", 0)
+    if sep <= 0:
+        return True
+    recent = [_album_key(s) for s in scheduled[-sep:]]
+    return album not in recent
+
+
+# ---------------------------------------------------------------------------
+# Energy / BPM step limit checks
+# ---------------------------------------------------------------------------
+
+def _passes_step_limits(track: dict, scheduled: list, rules: dict) -> bool:
+    """True if energy and BPM don't jump further than allowed from the previous song."""
+    if not scheduled:
+        return True
+    prev = scheduled[-1]
+
+    energy_step = rules.get("energy_step_limit", 0)
+    if energy_step and energy_step > 0:
+        prev_e = prev.get("energy") or 0
+        this_e = track.get("energy") or 0
+        if prev_e and this_e and abs(this_e - prev_e) > energy_step:
+            return False
+
+    bpm_step = rules.get("bpm_step_limit", 0)
+    if bpm_step and bpm_step > 0:
+        prev_b = prev.get("bpm") or 0
+        this_b = track.get("bpm") or 0
+        if prev_b and this_b and abs(this_b - prev_b) > bpm_step:
+            return False
+
+    return True
+
+
+# ---------------------------------------------------------------------------
+# Conditional (If/Then) rule evaluation
+# ---------------------------------------------------------------------------
+
+_DAYPART_MAP = {
+    0: "overnight",    1: "overnight",    2: "overnight",
+    3: "overnight",    4: "overnight",
+    5: "early_morning",
+    6: "morning_drive", 7: "morning_drive", 8: "morning_drive", 9: "morning_drive",
+    10: "midmorning",  11: "midmorning",
+    12: "midday",      13: "midday",      14: "midday",
+    15: "afternoon",   16: "afternoon",   17: "afternoon",
+    18: "evening",     19: "evening",     20: "evening",
+    21: "late_night",  22: "late_night",
+    23: "overnight",
+}
+
+
+def _cr_compare(actual, op: str, value) -> bool:
+    """Evaluate: actual <op> value.  Returns False if types are incompatible."""
+    if actual is None:
+        return False
+    try:
+        if op == "eq":      return str(actual) == str(value)
+        if op == "neq":     return str(actual) != str(value)
+        if op == "lt":      return float(actual) < float(value)
+        if op == "lte":     return float(actual) <= float(value)
+        if op == "gt":      return float(actual) > float(value)
+        if op == "gte":     return float(actual) >= float(value)
+        if op == "between":
+            lo, hi = float(value[0]), float(value[1])
+            return lo <= float(actual) <= hi
+        if op == "in":      return str(actual) in [str(v) for v in (value or [])]
+        if op == "not_in":  return str(actual) not in [str(v) for v in (value or [])]
+    except (TypeError, ValueError, IndexError):
+        pass
+    return False
+
+
+def _cr_resolve_field(field: str, track: dict, scheduled: list, hour: int):
+    """Resolve a condition field name to its current value."""
+    if field == "hour":
+        return hour
+    if field == "daypart":
+        return _DAYPART_MAP.get(hour, "overnight")
+    if field.startswith("prev_"):
+        attr = field[5:]
+        return scheduled[-1].get(attr) if scheduled else None
+    if field.startswith("run_"):
+        attr = field[4:]
+        return _current_run(scheduled, attr)
+    return track.get(field)
+
+
+def _eval_cr_conditions(conditions: list, logic: str,
+                         track: dict, scheduled: list, hour: int) -> bool:
+    """Return True if all (AND) or any (OR) conditions match."""
+    if not conditions:
+        return False
+    results = [
+        _cr_compare(
+            _cr_resolve_field(c.get("field", ""), track, scheduled, hour),
+            c.get("op", "eq"),
+            c.get("value"),
+        )
+        for c in conditions
+    ]
+    return all(results) if logic != "OR" else any(results)
+
+
+# Action types that map directly to an existing rule key (override its value)
+_ACTION_RULE_MAP = {
+    "artist_separation_songs":    "artist_separation_songs",
+    "stack_key_separation_songs": "stack_key_separation_songs",
+    "max_run_gender":             "max_gender_run",
+    "max_run_tempo":              "max_tempo_run",
+    "max_run_energy":             "max_energy_run",
+    "max_run_mood":               "max_mood_run",
+    "max_run_texture":            "max_texture_run",
+}
+
+# Attribute requirement actions: candidate track's attribute must satisfy the comparison
+_REQUIRE_GTE = {"require_energy_gte": "energy", "require_tempo_gte": "tempo",  "require_bpm_gte": "bpm"}
+_REQUIRE_LTE = {"require_energy_lte": "energy", "require_tempo_lte": "tempo",  "require_bpm_lte": "bpm"}
+_REQUIRE_EQ  = {"require_gender":     "gender"}
+_REQUIRE_NEQ = {"require_gender_neq": "gender"}
+
+
+def _passes_conditional_rules(track: dict, scheduled: list,
+                               rules: dict, hour: int) -> tuple:
+    """Evaluate all if/then rules against the candidate track and scheduling context.
+
+    Returns (passes: bool, overrides: dict).
+      passes=False  → exclude this track entirely
+      overrides     → rule-value overrides to apply for this candidate's eligibility checks
+    """
+    cond_rules = rules.get("conditional_rules") or []
+    overrides: dict = {}
+
+    for cr in cond_rules:
+        if not cr.get("enabled", True):
+            continue
+        conditions      = cr.get("conditions") or []
+        condition_logic = cr.get("condition_logic", "AND")
+        if not _eval_cr_conditions(conditions, condition_logic, track, scheduled, hour):
+            continue
+
+        action = cr.get("action") or {}
+        atype  = action.get("type", "")
+        aval   = action.get("value")
+
+        if atype == "exclude":
+            return False, {}
+
+        # title_separation_hours needs conversion to ms
+        if atype == "title_separation_hours":
+            try:
+                overrides["title_separation_ms"] = int(float(aval) * 3600000)
+            except (TypeError, ValueError):
+                pass
+            continue
+
+        # Direct rule key override
+        if atype in _ACTION_RULE_MAP:
+            try:
+                overrides[_ACTION_RULE_MAP[atype]] = float(aval)
+            except (TypeError, ValueError):
+                pass
+            continue
+
+        # Attribute ≥ requirement
+        if atype in _REQUIRE_GTE:
+            attr = _REQUIRE_GTE[atype]
+            try:
+                if (track.get(attr) or 0) < float(aval):
+                    return False, {}
+            except (TypeError, ValueError):
+                pass
+            continue
+
+        # Attribute ≤ requirement
+        if atype in _REQUIRE_LTE:
+            attr = _REQUIRE_LTE[atype]
+            try:
+                if (track.get(attr) or 0) > float(aval):
+                    return False, {}
+            except (TypeError, ValueError):
+                pass
+            continue
+
+        # Attribute = requirement
+        if atype in _REQUIRE_EQ:
+            attr = _REQUIRE_EQ[atype]
+            try:
+                if str(track.get(attr) or "") != str(aval):
+                    return False, {}
+            except (TypeError, ValueError):
+                pass
+            continue
+
+        # Attribute ≠ requirement
+        if atype in _REQUIRE_NEQ:
+            attr = _REQUIRE_NEQ[atype]
+            try:
+                if str(track.get(attr) or "") == str(aval):
+                    return False, {}
+            except (TypeError, ValueError):
+                pass
+            continue
+
+    return True, overrides
+
+
+# ---------------------------------------------------------------------------
 # Sound code matching
 # ---------------------------------------------------------------------------
 
@@ -281,6 +501,7 @@ def _passes_run_limits(track: dict, scheduled: list, rules: dict,
         "tempo":   rules.get("max_tempo_run",   clock.get("max_tempo_run",   -1) if clock else -1),
         "texture": rules.get("max_texture_run", clock.get("max_texture_run", -1) if clock else -1),
         "mood":    rules.get("max_mood_run",    clock.get("max_mood_run",    -1) if clock else -1),
+        "energy":  rules.get("max_energy_run",  clock.get("max_energy_run",  -1) if clock else -1),
     }
     for attr, max_run in checks.items():
         if max_run < 0:
@@ -314,15 +535,26 @@ def _is_eligible(track: dict, scheduled: list, slot: dict, rules: dict,
         return False
     if not _passes_position_restriction(track, position_in_hour, total_in_hour, rules):
         return False
-    if not _passes_artist_sep(track, scheduled, rules, artist_lookup):
-        return False
-    if not _passes_title_sep(track, scheduled, rules, cat_lookup):
-        return False
-    if not _passes_stack_key_sep(track, scheduled, rules, cat_lookup, effective_cat):
-        return False
     if not _passes_slot_filters(track, slot):
         return False
-    if not _passes_run_limits(track, scheduled, rules, clock):
+
+    # Evaluate conditional (If/Then) rules; get exclude decision + any rule overrides
+    passes, overrides = _passes_conditional_rules(track, scheduled, rules, hour)
+    if not passes:
+        return False
+    effective_rules = {**rules, **overrides} if overrides else rules
+
+    if not _passes_artist_sep(track, scheduled, effective_rules, artist_lookup):
+        return False
+    if not _passes_title_sep(track, scheduled, effective_rules, cat_lookup):
+        return False
+    if not _passes_stack_key_sep(track, scheduled, effective_rules, cat_lookup, effective_cat):
+        return False
+    if not _passes_album_sep(track, scheduled, effective_rules):
+        return False
+    if not _passes_step_limits(track, scheduled, effective_rules):
+        return False
+    if not _passes_run_limits(track, scheduled, effective_rules, clock):
         return False
     return True
 

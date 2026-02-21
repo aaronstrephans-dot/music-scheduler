@@ -9,13 +9,21 @@ DEFAULT_RULES = {
 
     # --- Title separation ---
     "title_separation_hours": 3,        # min hours between same title
-    "title_separation_ms":    10800000, # same, in milliseconds
+    "title_separation_ms":    10800000, # same, in milliseconds (kept in sync by merge_rules)
+
+    # --- Album separation ---
+    "album_separation_songs": 0,        # 0 = disabled; min songs between tracks from same album
 
     # --- Attribute run limits (max consecutive songs with same value; -1 = unlimited) ---
     "max_gender_run":  -1,
     "max_tempo_run":   3,
     "max_texture_run": -1,
     "max_mood_run":    -1,
+    "max_energy_run":  -1,
+
+    # --- Flow step limits (0 = disabled) ---
+    "energy_step_limit": 0,  # max energy jump between consecutive songs (0 = off)
+    "bpm_step_limit":    0,  # max BPM jump between consecutive songs (0 = off)
 
     # --- Cross-day separation ---
     "check_prev_day_song":   False,   # avoid same song in same hour next day
@@ -44,13 +52,27 @@ DEFAULT_RULES = {
 
     # --- Song stacking ---
     # Minimum songs between any two tracks that share the same stack_key.
-    # Individual categories can override this with their own stack_key_separation_songs.
     "stack_key_separation_songs": 3,
+
+    # --- Conditional (If/Then) rules ---
+    # Each entry: {id, enabled, label, conditions:[{field,op,value}],
+    #              condition_logic:"AND"|"OR", action:{type, value}}
+    "conditional_rules": [],
 }
 
 
 def merge_rules(overrides: dict) -> dict:
-    """Return DEFAULT_RULES with caller-supplied overrides applied (shallow merge)."""
+    """Return DEFAULT_RULES with caller-supplied overrides applied (shallow merge).
+
+    Derived fields are kept in sync:
+      title_separation_hours → title_separation_ms
+    """
     rules = {**DEFAULT_RULES}
     rules.update(overrides)
+    # Keep ms field in sync with hours field whenever hours is explicitly set
+    if "title_separation_hours" in overrides:
+        try:
+            rules["title_separation_ms"] = int(float(overrides["title_separation_hours"]) * 3600000)
+        except (TypeError, ValueError):
+            pass
     return rules

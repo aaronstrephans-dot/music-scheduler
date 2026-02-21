@@ -239,6 +239,39 @@
   .tl-music-1 { background: rgba(72,187,120,.5); color: #9ae6b4; }
   .tl-music-2 { background: rgba(246,173,85,.5); color: #fbd38d; }
   .tl-music-3 { background: rgba(255,101,132,.5); color: #fbb6ce; }
+
+  /* ── Rules Engine ── */
+  .rules-section-head { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .rule-hint { font-size: 10px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+  /* Conditional rule cards */
+  .cr-rule { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; }
+  .cr-rule.cr-disabled { opacity: .55; }
+  .cr-header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  .cr-toggle { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+  .cr-toggle input[type=checkbox] { width: auto; }
+  .cr-label-inp { flex: 1; background: transparent; border: none; border-bottom: 1px dashed var(--border); color: var(--text); font-size: 13px; font-weight: 600; padding: 2px 4px; outline: none; min-width: 0; }
+  .cr-label-inp:focus { border-bottom-color: var(--accent); }
+  .cr-body { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+  .cr-section { display: flex; gap: 10px; align-items: flex-start; }
+  .cr-kw { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .6px; padding: 5px 8px; border-radius: 4px; flex-shrink: 0; margin-top: 5px; min-width: 44px; text-align: center; }
+  .cr-kw.kw-if   { background: rgba(108,99,255,.2); color: var(--accent); }
+  .cr-kw.kw-then { background: rgba(72,187,120,.2); color: var(--success); }
+  .cr-inner { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .cr-cond-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .cr-cond-field { flex: 2; min-width: 160px; }
+  .cr-cond-op    { flex: 1; min-width: 80px; }
+  .cr-cond-val   { flex: 1.5; min-width: 90px; }
+  .cr-cond-val input, .cr-cond-val select { width: 100%; }
+  .cr-between { display: flex; gap: 4px; align-items: center; }
+  .cr-between input { flex: 1; min-width: 50px; }
+  .cr-foot { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 2px; }
+  .cr-logic { display: flex; gap: 10px; align-items: center; font-size: 12px; color: var(--muted); }
+  .cr-logic label { display: flex; align-items: center; gap: 4px; cursor: pointer; font-size: 12px; text-transform: none; letter-spacing: 0; color: var(--text); }
+  .cr-logic input[type=radio] { width: auto; }
+  .cr-action-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .cr-action-type { flex: 2; min-width: 240px; }
+  .cr-action-val { flex: 1; min-width: 90px; }
+  .cr-action-val input, .cr-action-val select { width: 100%; }
 </style>
 </head>
 <body>
@@ -582,13 +615,164 @@
 
 <!-- ======================== RULES TAB ======================== -->
 <div id="tab-rules" class="tab">
+
+  <div class="toolbar" style="align-items:center;justify-content:space-between;margin-bottom:8px">
+    <h2 style="margin:0">Rotation Rules Engine</h2>
+    <button class="btn btn-primary" onclick="saveRules()">Save All Rules</button>
+  </div>
+  <p style="color:var(--muted);font-size:12px;margin-bottom:20px">Configure global scheduling rules applied during schedule generation. Conditional rules override global values for specific tracks or contexts.</p>
+
+  <!-- ── Separation Rules ── -->
   <div class="card">
-    <h2>Global Rotation Rules</h2>
-    <div class="form-grid" id="rules-form"></div>
-    <div style="margin-top:16px">
-      <button class="btn btn-primary" onclick="saveRules()">Save Rules</button>
+    <div class="rules-section-head">Separation Rules</div>
+    <div class="form-grid" style="grid-template-columns:repeat(auto-fill,minmax(230px,1fr))">
+      <div class="form-group">
+        <label>Artist Separation</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="number" id="rule-artist_separation_songs" min="0" style="flex:1">
+          <span style="font-size:11px;color:var(--muted)">songs</span>
+        </div>
+        <span class="rule-hint">Min songs between plays of the same artist</span>
+      </div>
+      <div class="form-group">
+        <label>Title Separation</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="number" id="rule-title_separation_hours" min="0" step="0.5" style="flex:1">
+          <span style="font-size:11px;color:var(--muted)">hours</span>
+        </div>
+        <span class="rule-hint">Min hours before the same title can repeat</span>
+      </div>
+      <div class="form-group">
+        <label>Stack Key Separation</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="number" id="rule-stack_key_separation_songs" min="0" style="flex:1">
+          <span style="font-size:11px;color:var(--muted)">songs</span>
+        </div>
+        <span class="rule-hint">Min songs between tracks sharing a stack group (versions / box sets)</span>
+      </div>
+      <div class="form-group">
+        <label>Album Separation</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="number" id="rule-album_separation_songs" min="0" style="flex:1">
+          <span style="font-size:11px;color:var(--muted)">songs</span>
+        </div>
+        <span class="rule-hint">Min songs between tracks from the same album (0 = disabled)</span>
+      </div>
+    </div>
+    <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px">
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:8px;text-transform:none;font-size:13px;letter-spacing:0;font-weight:500">
+          <input type="checkbox" id="rule-allow_double_shots" style="width:auto">
+          Allow Double Shots
+        </label>
+        <span class="rule-hint">Let the same artist appear back-to-back on occasion</span>
+      </div>
+      <div class="form-group">
+        <label>Double Shot Separation</label>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input type="number" id="rule-double_shot_separation_songs" min="0" style="flex:1">
+          <span style="font-size:11px;color:var(--muted)">songs</span>
+        </div>
+        <span class="rule-hint">Songs between double-shot appearances</span>
+      </div>
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:8px;text-transform:none;font-size:13px;letter-spacing:0;font-weight:500">
+          <input type="checkbox" id="rule-check_prev_day_artist" style="width:auto">
+          Check Prev-Day Artist
+        </label>
+        <span class="rule-hint">Avoid the same artist in the same hour on consecutive days</span>
+      </div>
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:8px;text-transform:none;font-size:13px;letter-spacing:0;font-weight:500">
+          <input type="checkbox" id="rule-check_prev_day_song" style="width:auto">
+          Check Prev-Day Song
+        </label>
+        <span class="rule-hint">Avoid the same title in the same hour on consecutive days</span>
+      </div>
     </div>
   </div>
+
+  <!-- ── Flow & Sequencing ── -->
+  <div class="card">
+    <div class="rules-section-head">Flow &amp; Sequencing</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Limit consecutive runs of the same attribute. Set <strong style="color:var(--text)">−1</strong> to disable a limit.</p>
+    <div class="form-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
+      <div class="form-group">
+        <label>Max Gender Run</label>
+        <input type="number" id="rule-max_gender_run" min="-1">
+        <span class="rule-hint">e.g. 3 = no more than 3 consecutive male songs</span>
+      </div>
+      <div class="form-group">
+        <label>Max Tempo Run</label>
+        <input type="number" id="rule-max_tempo_run" min="-1">
+        <span class="rule-hint">Prevents monotonous tempo sequences</span>
+      </div>
+      <div class="form-group">
+        <label>Max Mood Run</label>
+        <input type="number" id="rule-max_mood_run" min="-1">
+        <span class="rule-hint">Prevents monotonous mood sequences</span>
+      </div>
+      <div class="form-group">
+        <label>Max Texture Run</label>
+        <input type="number" id="rule-max_texture_run" min="-1">
+        <span class="rule-hint">Prevents monotonous texture sequences</span>
+      </div>
+      <div class="form-group">
+        <label>Max Energy Run</label>
+        <input type="number" id="rule-max_energy_run" min="-1">
+        <span class="rule-hint">Prevents monotonous energy-level sequences</span>
+      </div>
+    </div>
+    <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <div class="form-group">
+        <label>Energy Step Limit</label>
+        <input type="number" id="rule-energy_step_limit" min="0">
+        <span class="rule-hint">Max energy jump between consecutive songs (0 = off)</span>
+      </div>
+      <div class="form-group">
+        <label>BPM Step Limit</label>
+        <input type="number" id="rule-bpm_step_limit" min="0">
+        <span class="rule-hint">Max BPM jump between consecutive songs (0 = off)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Scheduling Restrictions ── -->
+  <div class="card">
+    <div class="rules-section-head">Scheduling Restrictions</div>
+    <div class="form-grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr))">
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:8px;text-transform:none;font-size:13px;letter-spacing:0;font-weight:500">
+          <input type="checkbox" id="rule-enforce_date_range" style="width:auto">
+          Enforce Date Range
+        </label>
+        <span class="rule-hint">Skip tracks outside their configured start/end date window</span>
+      </div>
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:8px;text-transform:none;font-size:13px;letter-spacing:0;font-weight:500">
+          <input type="checkbox" id="rule-enforce_hour_open_close" style="width:auto">
+          Enforce Hour Open / Close Flags
+        </label>
+        <span class="rule-hint">Respect can_open_hour / can_close_hour track flags</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Conditional Rules ── -->
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <div class="rules-section-head" style="margin:0;border:none;padding:0">Conditional Rules — If / Then</div>
+      <button class="btn btn-primary btn-sm" onclick="addConditionalRule()">+ Add Rule</button>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:16px">
+      Override scheduling behavior for specific tracks or contexts. Rules are evaluated in order; multiple matching rules stack their overrides.
+      <br>Use <strong style="color:var(--text)">IF</strong> conditions to describe the context, and <strong style="color:var(--success)">THEN</strong> to define what changes or is required.
+    </p>
+    <div id="cond-rules-list">
+      <div class="empty" id="cond-rules-empty" style="padding:20px">No conditional rules defined. Click <strong>+ Add Rule</strong> to create one.</div>
+    </div>
+  </div>
+
 </div>
 
 </main>
@@ -1214,59 +1398,327 @@ async function doExport() {
   toast('Export downloaded!');
 }
 
-// ── Rules ─────────────────────────────────────────────────────────────────────
-// Keys that should never appear as editable inputs (complex/internal/derived)
-const RULES_SKIP = new Set(['categories','artist_separation_ms','title_separation_ms',
-  'default_title_separation_ms','default_prev_day_separation_ms']);
+// ── Rules Engine ──────────────────────────────────────────────────────────────
+const _RULE_NUMERIC = [
+  'artist_separation_songs','title_separation_hours','stack_key_separation_songs',
+  'album_separation_songs','double_shot_separation_songs',
+  'max_gender_run','max_tempo_run','max_mood_run','max_texture_run','max_energy_run',
+  'energy_step_limit','bpm_step_limit',
+];
+const _RULE_BOOL = [
+  'allow_double_shots','check_prev_day_artist','check_prev_day_song',
+  'enforce_date_range','enforce_hour_open_close',
+];
 
-const RULE_META = {
-  artist_separation_songs:    { label: 'Artist Separation (songs)',        type: 'number' },
-  title_separation_hours:     { label: 'Title Separation (hours)',          type: 'number' },
-  double_shot_separation_songs:{ label: 'Double Shot Separation (songs)',   type: 'number' },
-  stack_key_separation_songs: { label: 'Stack Key Separation (songs)',      type: 'number' },
-  max_tempo_run:              { label: 'Max Tempo Run (-1 = off)',          type: 'number' },
-  max_mood_run:               { label: 'Max Mood Run (-1 = off)',           type: 'number' },
-  max_gender_run:             { label: 'Max Gender Run (-1 = off)',         type: 'number' },
-  max_texture_run:            { label: 'Max Texture Run (-1 = off)',        type: 'number' },
-  allow_double_shots:         { label: 'Allow Double Shots',               type: 'checkbox' },
-  enforce_date_range:         { label: 'Enforce Date Range',               type: 'checkbox' },
-  enforce_hour_open_close:    { label: 'Enforce Hour Open/Close',          type: 'checkbox' },
-  check_prev_day_artist:      { label: 'Check Prev-Day Artist',            type: 'checkbox' },
-  check_prev_day_song:        { label: 'Check Prev-Day Song',              type: 'checkbox' },
-};
 async function loadRules() {
-  const rulesData = await api('GET', '/api/rules');
-  $('rules-form').innerHTML = Object.entries(RULE_META).map(([k,m]) => {
-    if (m.type === 'checkbox') {
-      const checked = rulesData[k] ? 'checked' : '';
-      return `<div class="form-group">
-        <label>${m.label}</label>
-        <input type="checkbox" id="rule-${k}" ${checked} style="width:auto;margin-top:6px">
-      </div>`;
-    }
-    return `<div class="form-group">
-      <label>${m.label}</label>
-      <input type="number" id="rule-${k}" value="${rulesData[k]??''}">
-    </div>`;
-  }).join('') +
-  Object.entries(rulesData)
-    .filter(([k]) => !RULE_META[k] && !RULES_SKIP.has(k) && typeof rulesData[k] !== 'object')
-    .map(([k,v]) => `
-      <div class="form-group">
-        <label>${k}</label>
-        <input type="text" id="rule-${k}" value="${esc(String(v))}">
-      </div>`).join('');
+  const r = await api('GET', '/api/rules');
+  _RULE_NUMERIC.forEach(k => { const el = $(`rule-${k}`); if (el) el.value = r[k] ?? ''; });
+  _RULE_BOOL.forEach(k   => { const el = $(`rule-${k}`); if (el) el.checked = !!r[k]; });
+  _conditionalRules = (r.conditional_rules || []).map(cr => ({ ...cr }));
+  renderConditionalRules();
 }
+
 async function saveRules() {
   const body = {};
-  Object.entries(RULE_META).forEach(([k, m]) => {
-    const el = $(`rule-${k}`);
-    if (!el) return;
-    body[k] = m.type === 'checkbox' ? el.checked : (+el.value);
-  });
+  _RULE_NUMERIC.forEach(k => { const el = $(`rule-${k}`); if (el) body[k] = +el.value; });
+  _RULE_BOOL.forEach(k   => { const el = $(`rule-${k}`); if (el) body[k] = el.checked; });
+  body.conditional_rules = collectConditionalRules();
   const res = await api('PUT', '/api/rules', body);
-  if (res.error) return toast(res.error, false);
+  if (res && res.error) return toast(res.error, false);
   toast('Rules saved!');
+}
+
+// ── Conditional (If/Then) Rules ───────────────────────────────────────────────
+let _conditionalRules = [];
+let _crNextId = 1;
+
+const CR_FIELDS = [
+  { v:'category',      l:'Category',                 ops:['eq','neq','in','not_in'],                      vt:'category' },
+  { v:'hour',          l:'Hour (0–23)',               ops:['eq','lt','gt','lte','gte','between'],           vt:'number'   },
+  { v:'daypart',       l:'Daypart',                   ops:['eq','neq'],                                     vt:'daypart'  },
+  { v:'gender',        l:'Track Gender',              ops:['eq','neq'],                                     vt:'gender'   },
+  { v:'tempo',         l:'Track Tempo',               ops:['eq','neq','lt','gt','lte','gte','between'],     vt:'number'   },
+  { v:'energy',        l:'Track Energy',              ops:['eq','neq','lt','gt','lte','gte','between'],     vt:'number'   },
+  { v:'mood',          l:'Track Mood',                ops:['eq','neq','lt','gt','lte','gte','between'],     vt:'number'   },
+  { v:'bpm',           l:'Track BPM',                 ops:['lt','gt','lte','gte','between'],                vt:'number'   },
+  { v:'prev_gender',   l:'Prev Song Gender',          ops:['eq','neq'],                                     vt:'gender'   },
+  { v:'prev_tempo',    l:'Prev Song Tempo',           ops:['eq','neq','lt','gt','lte','gte'],               vt:'number'   },
+  { v:'prev_energy',   l:'Prev Song Energy',          ops:['eq','neq','lt','gt','lte','gte'],               vt:'number'   },
+  { v:'prev_category', l:'Prev Song Category',        ops:['eq','neq'],                                     vt:'category' },
+  { v:'run_gender',    l:'Consecutive Same-Gender Run', ops:['gte','gt','eq'],                              vt:'number'   },
+  { v:'run_tempo',     l:'Consecutive Same-Tempo Run',  ops:['gte','gt','eq'],                              vt:'number'   },
+  { v:'run_energy',    l:'Consecutive Same-Energy Run', ops:['gte','gt','eq'],                              vt:'number'   },
+];
+
+const CR_OP_LABELS = {
+  eq:'=', neq:'≠', lt:'<', lte:'≤', gt:'>', gte:'≥',
+  between:'between', in:'in list', not_in:'not in list',
+};
+
+const CR_ACTIONS = [
+  { v:'artist_separation_songs',    l:'Override Artist Separation (songs)',      vt:'number' },
+  { v:'title_separation_hours',     l:'Override Title Separation (hours)',        vt:'number' },
+  { v:'stack_key_separation_songs', l:'Override Stack Key Separation (songs)',    vt:'number' },
+  { v:'max_run_gender',             l:'Override Max Gender Run',                  vt:'number' },
+  { v:'max_run_tempo',              l:'Override Max Tempo Run',                   vt:'number' },
+  { v:'max_run_energy',             l:'Override Max Energy Run',                  vt:'number' },
+  { v:'max_run_mood',               l:'Override Max Mood Run',                    vt:'number' },
+  { v:'require_gender',             l:'Require Track Gender =',                   vt:'gender' },
+  { v:'require_gender_neq',         l:'Require Track Gender ≠',                  vt:'gender' },
+  { v:'require_energy_gte',         l:'Require Track Energy ≥',                  vt:'number' },
+  { v:'require_energy_lte',         l:'Require Track Energy ≤',                  vt:'number' },
+  { v:'require_tempo_gte',          l:'Require Track Tempo ≥',                   vt:'number' },
+  { v:'require_tempo_lte',          l:'Require Track Tempo ≤',                   vt:'number' },
+  { v:'require_bpm_gte',            l:'Require Track BPM ≥',                     vt:'number' },
+  { v:'require_bpm_lte',            l:'Require Track BPM ≤',                     vt:'number' },
+  { v:'exclude',                    l:'Exclude track from schedule entirely',     vt:'none'   },
+];
+
+const CR_GENDER_OPTS = [
+  {v:'0',l:'Unknown (0)'},{v:'1',l:'Male (1)'},{v:'2',l:'Female (2)'},{v:'3',l:'Group (3)'},
+];
+const CR_DAYPART_OPTS = [
+  {v:'overnight',     l:'Overnight (12am – 4am)'},
+  {v:'early_morning', l:'Early Morning (5am)'},
+  {v:'morning_drive', l:'Morning Drive (6am – 9am)'},
+  {v:'midmorning',    l:'Mid-Morning (10am – 11am)'},
+  {v:'midday',        l:'Midday (12pm – 2pm)'},
+  {v:'afternoon',     l:'Afternoon (3pm – 5pm)'},
+  {v:'evening',       l:'Evening (6pm – 8pm)'},
+  {v:'late_night',    l:'Late Night (9pm – 11pm)'},
+];
+
+function _crGenId() { return 'cr' + (_crNextId++); }
+function _crFindField(v) { return CR_FIELDS.find(f => f.v === v) || CR_FIELDS[0]; }
+function _crFindAction(v) { return CR_ACTIONS.find(a => a.v === v) || CR_ACTIONS[0]; }
+
+function _crCatOpts(sel) {
+  return _allCats.map(c => {
+    const v = catValue(c);
+    return `<option value="${esc(v)}" ${v === sel ? 'selected' : ''}>${esc(c.name)}</option>`;
+  }).join('');
+}
+function _crFieldOpts(sel) {
+  return CR_FIELDS.map(f =>
+    `<option value="${f.v}" ${f.v === sel ? 'selected' : ''}>${f.l}</option>`
+  ).join('');
+}
+function _crOpOpts(fieldDef, selOp) {
+  return (fieldDef?.ops || ['eq','neq']).map(op =>
+    `<option value="${op}" ${op === selOp ? 'selected' : ''}>${CR_OP_LABELS[op] || op}</option>`
+  ).join('');
+}
+function _crGenderSel(val) {
+  return `<select class="cr-v-sel">${CR_GENDER_OPTS.map(o =>
+    `<option value="${o.v}" ${o.v === String(val ?? '') ? 'selected' : ''}>${o.l}</option>`
+  ).join('')}</select>`;
+}
+function _crDaypartSel(val) {
+  return `<select class="cr-v-sel">${CR_DAYPART_OPTS.map(o =>
+    `<option value="${o.v}" ${o.v === (val ?? '') ? 'selected' : ''}>${o.l}</option>`
+  ).join('')}</select>`;
+}
+
+function _crValInput(fieldDef, op, value) {
+  if (op === 'between') {
+    const [lo='', hi=''] = Array.isArray(value) ? value : [value ?? '', ''];
+    return `<div class="cr-between">
+      <input type="number" class="cr-v-lo" value="${esc(String(lo))}" placeholder="min">
+      <span style="color:var(--muted);font-size:11px">–</span>
+      <input type="number" class="cr-v-hi" value="${esc(String(hi))}" placeholder="max">
+    </div>`;
+  }
+  if (op === 'in' || op === 'not_in') {
+    const joined = Array.isArray(value) ? value.join(', ') : (value ?? '');
+    return `<input type="text" class="cr-v-list" value="${esc(joined)}" placeholder="val1, val2 …">`;
+  }
+  const vt = fieldDef?.vt || 'number';
+  if (vt === 'category') return `<select class="cr-v-sel">${_crCatOpts(value ?? '')}</select>`;
+  if (vt === 'gender')   return _crGenderSel(value);
+  if (vt === 'daypart')  return _crDaypartSel(value);
+  return `<input type="number" class="cr-v-num" value="${value ?? ''}">`;
+}
+
+function _crActionValInput(actionDef, value) {
+  if (!actionDef || actionDef.vt === 'none') return '';
+  if (actionDef.vt === 'gender') return _crGenderSel(value);
+  return `<input type="number" class="cr-av-num" value="${value ?? ''}">`;
+}
+
+function _crActionOpts(sel) {
+  return CR_ACTIONS.map(a =>
+    `<option value="${a.v}" ${a.v === sel ? 'selected' : ''}>${a.l}</option>`
+  ).join('');
+}
+
+function _renderCondRow(rid, idx, cond) {
+  const field    = cond.field || CR_FIELDS[0].v;
+  const fieldDef = _crFindField(field);
+  const op       = cond.op || fieldDef.ops[0];
+  return `<div class="cr-cond-row" data-cond="${idx}">
+    <select class="cr-cond-field" onchange="_crFieldChange(this,'${rid}',${idx})">${_crFieldOpts(field)}</select>
+    <select class="cr-cond-op"    onchange="_crOpChange(this,'${rid}',${idx})">${_crOpOpts(fieldDef, op)}</select>
+    <span   class="cr-cond-val">${_crValInput(fieldDef, op, cond.value)}</span>
+    <button class="btn btn-danger btn-sm" onclick="_crRemoveCond('${rid}',${idx})">×</button>
+  </div>`;
+}
+
+function _renderCRCard(cr) {
+  const rid      = cr._uiId || (cr._uiId = _crGenId());
+  const enabled  = cr.enabled !== false;
+  const conds    = (cr.conditions && cr.conditions.length) ? cr.conditions
+                    : [{ field: CR_FIELDS[0].v, op: CR_FIELDS[0].ops[0], value: null }];
+  const logic    = cr.condition_logic || 'AND';
+  const action   = cr.action || {};
+  const atype    = action.type || CR_ACTIONS[0].v;
+  const aDef     = _crFindAction(atype);
+
+  return `<div class="cr-rule${enabled ? '' : ' cr-disabled'}" data-rid="${rid}">
+    <div class="cr-header">
+      <label class="cr-toggle">
+        <input type="checkbox" class="cr-enabled" ${enabled ? 'checked' : ''}
+               onchange="this.closest('.cr-rule').classList.toggle('cr-disabled',!this.checked)">
+        Enable
+      </label>
+      <input class="cr-label-inp" type="text" placeholder="Rule name…" value="${esc(cr.label || '')}">
+      <button class="btn btn-danger btn-sm" onclick="removeCR('${rid}')">Delete</button>
+    </div>
+    <div class="cr-body">
+      <div class="cr-section">
+        <div class="cr-kw kw-if">IF</div>
+        <div class="cr-inner">
+          <div class="cr-conditions-list">
+            ${conds.map((c, i) => _renderCondRow(rid, i, c)).join('')}
+          </div>
+          <div class="cr-foot">
+            <button class="btn btn-muted btn-sm" onclick="_crAddCondition('${rid}')">+ Condition</button>
+            <div class="cr-logic">
+              <span>Logic:</span>
+              <label><input type="radio" name="cr-${rid}-logic" value="AND" ${logic === 'AND' ? 'checked' : ''}> AND</label>
+              <label><input type="radio" name="cr-${rid}-logic" value="OR"  ${logic === 'OR'  ? 'checked' : ''}> OR</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cr-section">
+        <div class="cr-kw kw-then">THEN</div>
+        <div class="cr-inner">
+          <div class="cr-action-row">
+            <select class="cr-action-type" onchange="_crActionChange(this,'${rid}')">${_crActionOpts(atype)}</select>
+            <span class="cr-action-val">${_crActionValInput(aDef, action.value)}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderConditionalRules() {
+  const list  = $('cond-rules-list');
+  const empty = $('cond-rules-empty');
+  list.querySelectorAll('.cr-rule').forEach(el => el.remove());
+  if (!_conditionalRules.length) { empty.style.display = ''; return; }
+  empty.style.display = 'none';
+  _conditionalRules.forEach(cr => {
+    const div = document.createElement('div');
+    div.innerHTML = _renderCRCard(cr);
+    list.appendChild(div.firstElementChild);
+  });
+}
+
+function addConditionalRule() {
+  $('cond-rules-empty').style.display = 'none';
+  const cr = {
+    enabled: true, label: '',
+    conditions: [{ field: CR_FIELDS[0].v, op: CR_FIELDS[0].ops[0], value: null }],
+    condition_logic: 'AND',
+    action: { type: CR_ACTIONS[0].v, value: null },
+  };
+  cr._uiId = _crGenId();
+  const div = document.createElement('div');
+  div.innerHTML = _renderCRCard(cr);
+  $('cond-rules-list').appendChild(div.firstElementChild);
+}
+
+function removeCR(rid) {
+  document.querySelector(`.cr-rule[data-rid="${rid}"]`).remove();
+  if (!document.querySelector('.cr-rule')) $('cond-rules-empty').style.display = '';
+}
+
+function _crFieldChange(sel, rid, idx) {
+  const row      = sel.closest('.cr-cond-row');
+  const fieldDef = _crFindField(sel.value);
+  row.querySelector('.cr-cond-op').innerHTML = _crOpOpts(fieldDef, fieldDef.ops[0]);
+  row.querySelector('.cr-cond-val').innerHTML = _crValInput(fieldDef, fieldDef.ops[0], null);
+}
+
+function _crOpChange(sel, rid, idx) {
+  const row      = sel.closest('.cr-cond-row');
+  const fieldDef = _crFindField(row.querySelector('.cr-cond-field').value);
+  row.querySelector('.cr-cond-val').innerHTML = _crValInput(fieldDef, sel.value, null);
+}
+
+function _crActionChange(sel, rid) {
+  const card    = document.querySelector(`.cr-rule[data-rid="${rid}"]`);
+  const aDef    = _crFindAction(sel.value);
+  card.querySelector('.cr-action-val').innerHTML = _crActionValInput(aDef, null);
+}
+
+function _crAddCondition(rid) {
+  const card     = document.querySelector(`.cr-rule[data-rid="${rid}"]`);
+  const condList = card.querySelector('.cr-conditions-list');
+  const idx      = condList.querySelectorAll('.cr-cond-row').length;
+  const div      = document.createElement('div');
+  div.innerHTML  = _renderCondRow(rid, idx, { field: CR_FIELDS[0].v, op: CR_FIELDS[0].ops[0], value: null });
+  condList.appendChild(div.firstElementChild);
+}
+
+function _crRemoveCond(rid, idx) {
+  const card = document.querySelector(`.cr-rule[data-rid="${rid}"]`);
+  const rows = card.querySelectorAll('.cr-cond-row');
+  if (rows.length <= 1) return toast('At least one condition required.', false);
+  rows[idx].remove();
+  card.querySelectorAll('.cr-cond-row').forEach((r, i) => r.dataset.cond = i);
+}
+
+function _crReadCondValue(row) {
+  const lo = row.querySelector('.cr-v-lo');
+  if (lo) return [lo.value, (row.querySelector('.cr-v-hi') || {}).value ?? ''];
+  const list = row.querySelector('.cr-v-list');
+  if (list) return list.value.split(',').map(s => s.trim()).filter(Boolean);
+  const sel = row.querySelector('.cr-v-sel');
+  if (sel) return sel.value;
+  const num = row.querySelector('.cr-v-num');
+  return num ? +num.value : null;
+}
+
+function _crReadActionValue(card) {
+  const sel = card.querySelector('.cr-av-sel');
+  if (sel) return sel.value;
+  const num = card.querySelector('.cr-av-num');
+  return num ? +num.value : null;
+}
+
+function collectConditionalRules() {
+  const rules = [];
+  document.querySelectorAll('.cr-rule').forEach(card => {
+    const rid       = card.dataset.rid;
+    const enabled   = card.querySelector('.cr-enabled').checked;
+    const label     = card.querySelector('.cr-label-inp').value.trim();
+    const logic     = (card.querySelector(`input[name="cr-${rid}-logic"]:checked`) || {}).value || 'AND';
+    const atype     = card.querySelector('.cr-action-type').value;
+    const aval      = atype === 'exclude' ? null : _crReadActionValue(card);
+    const conditions = [];
+    card.querySelectorAll('.cr-cond-row').forEach(row => {
+      conditions.push({
+        field: row.querySelector('.cr-cond-field').value,
+        op:    row.querySelector('.cr-cond-op').value,
+        value: _crReadCondValue(row),
+      });
+    });
+    rules.push({ id: rid, enabled, label, conditions, condition_logic: logic, action: { type: atype, value: aval } });
+  });
+  return rules;
 }
 
 // ── Program Grid ──────────────────────────────────────────────────────────────
