@@ -460,14 +460,18 @@ def list_tracks():
                   "bpm", "energy", "tempo", "mood", "gender"}
     _NUMERIC   = {"play_count", "bpm", "energy", "tempo", "mood", "gender"}
     if sort_by in _SORTABLE:
+        # Always use title as a stable secondary sort key to break ties
+        # (especially important when many tracks share the same added_at timestamp)
         if sort_by in _NUMERIC:
             tracks.sort(
-                key=lambda t: (t.get(sort_by) is None, t.get(sort_by) or 0),
+                key=lambda t: (t.get(sort_by) is None, t.get(sort_by) or 0,
+                               (t.get("title") or "").lower()),
                 reverse=order_desc,
             )
         else:
             tracks.sort(
-                key=lambda t: (t.get(sort_by) is None, t.get(sort_by) or ""),
+                key=lambda t: (t.get(sort_by) is None, t.get(sort_by) or "",
+                               (t.get("title") or "").lower()),
                 reverse=order_desc,
             )
 
