@@ -1,4 +1,4 @@
-from engine.rotator import build_schedule, _build_query_pool
+from engine.rotator import build_schedule, _build_query_pool, _score
 from engine.rules import DEFAULT_RULES, merge_rules
 
 
@@ -106,18 +106,11 @@ def test_fallback_alternates_artists_on_tiny_library():
 # ---------------------------------------------------------------------------
 
 def test_prefers_unplayed_over_frequently_played():
-    """A never-played track should win the single slot more often than a stale one."""
-    tracks = [
-        _track("fresh", "Fresh Track", "New Artist", play_count=0),
-        _track("stale", "Old Track",   "Old Artist", play_count=50,
-               last_played="2020-01-01T00:00:00Z"),
-    ]
-    clock = _clock(["Current"])
-    wins  = {"fresh": 0, "stale": 0}
-    for _ in range(30):
-        result = build_schedule(clock, tracks, DEFAULT_RULES)
-        wins[result[0]["track_id"]] += 1
-    assert wins["fresh"] > wins["stale"]
+    """A never-played track should score higher than a frequently-played stale one."""
+    fresh = _track("fresh", "Fresh Track", "New Artist", play_count=0)
+    stale = _track("stale", "Old Track",   "Old Artist", play_count=50,
+                   last_played="2020-01-01T00:00:00Z")
+    assert _score(fresh, [], DEFAULT_RULES) > _score(stale, [], DEFAULT_RULES)
 
 
 # ---------------------------------------------------------------------------

@@ -23,7 +23,7 @@ def client():
 
 
 def test_index(client):
-    resp = client.get("/")
+    resp = client.get("/api/status")
     assert resp.status_code == 200
     data = resp.get_json()
     assert data["service"] == "music-scheduler"

@@ -49,13 +49,13 @@ def mock_provider():
 
 def test_health_no_ai(client):
     with patch("ai.get_provider", return_value=None):
-        data = client.get("/").get_json()
+        data = client.get("/api/status").get_json()
     assert data["ai_available"] is False
 
 
 def test_health_with_ai(client, mock_provider):
     with patch("ai.get_provider", return_value=mock_provider):
-        data = client.get("/").get_json()
+        data = client.get("/api/status").get_json()
     assert data["ai_available"] is True
 
 
