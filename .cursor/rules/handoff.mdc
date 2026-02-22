@@ -1,0 +1,26 @@
+---
+description: Auto-pick up handoff tasks from Claude Code at session start
+alwaysApply: true
+---
+
+# Claude → Cursor Handoff Rule
+
+At the start of every Cursor session, check for a pending handoff from Claude Code:
+
+1. Look for the file `CURSOR_TASK.md` in the repo root.
+2. If it exists and is non-empty:
+   - Read `CURSOR_TASK.md` in full.
+   - Read `CLAUDE.md` for project context (stack, conventions, entity map).
+   - Announce to the user: "Found a Claude handoff task. Here's what needs to be done:" and summarize the task.
+   - Begin working on the task immediately — do not wait for the user to re-describe it.
+   - When the task is fully complete, clear `CURSOR_TASK.md` by replacing its content with: `# No pending task\n` and save it.
+3. If `CURSOR_TASK.md` does not exist or contains only `# No pending task`, do nothing special — proceed as a normal session.
+
+## Project Quick-Reference
+
+- Backend: Python 3 / Flask — `app.py` has all routes; `engine/` has scheduling logic.
+- Frontend: Vanilla JS, no build step — edit `templates/` directly.
+- Data: Flat JSON files in `data/` — no database, no ORM.
+- Run: `python run.py` (or `flask run`).
+- Tests: `pytest tests/` (no CI, run manually).
+- Full details: read `CLAUDE.md`.
