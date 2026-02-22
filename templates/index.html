@@ -205,6 +205,14 @@
   .pie-leg-row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
   .pie-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
 
+  /* ── Clock grid (visual clock view) ── */
+  .clock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; padding: 4px 0; }
+  .clock-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 10px 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: border-color .15s; }
+  .clock-card:hover { border-color: var(--accent); }
+  .clock-card-name { font-weight: 700; font-size: 13px; color: var(--text); text-align: center; }
+  .clock-card-sub { font-size: 11px; color: var(--muted); }
+  .clock-card-actions { display: flex; gap: 6px; margin-top: 6px; }
+
   /* ── Schedule view modes ── */
   .view-toggle { display: flex; gap: 4px; margin-bottom: 12px; }
   .view-toggle button { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); padding: 5px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all .15s; }
@@ -367,14 +375,25 @@
 <!-- ======================== CLOCKS TAB ======================== -->
 <div id="tab-clocks" class="tab">
   <div class="card">
-    <div class="toolbar">
+    <div class="toolbar" style="justify-content:space-between;flex-wrap:wrap;gap:8px">
       <button class="btn btn-primary" onclick="openClockModal()">+ New Clock Template</button>
+      <div class="pg-view-toggle">
+        <button id="clocks-view-btn-list" class="active" onclick="setClocksView('list')">&#9776; List</button>
+        <button id="clocks-view-btn-clock" onclick="setClocksView('clock')">&#9685; Clock View</button>
+      </div>
     </div>
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr><th>Name</th><th>Slots</th><th>Created</th><th></th></tr></thead>
-        <tbody id="clocks-body"></tbody>
-      </table>
+    <!-- List view -->
+    <div id="clocks-list-view">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Slots</th><th>Created</th><th></th></tr></thead>
+          <tbody id="clocks-body"></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Clock (visual pie) view -->
+    <div id="clocks-clock-view" style="display:none">
+      <div class="clock-grid" id="clocks-grid"></div>
     </div>
     <div id="clocks-empty" class="empty" style="display:none">No clock templates yet.</div>
   </div>
@@ -1196,9 +1215,71 @@ async function saveClock() {
   toast('Clock created!');
   loadClocks();
 }
+let _clocksView = 'list';
+let _allClocks  = [];
+
+function setClocksView(v) {
+  _clocksView = v;
+  $('clocks-view-btn-list').classList.toggle('active', v === 'list');
+  $('clocks-view-btn-clock').classList.toggle('active', v === 'clock');
+  $('clocks-list-view').style.display  = v === 'list'  ? '' : 'none';
+  $('clocks-clock-view').style.display = v === 'clock' ? '' : 'none';
+}
+
+function renderClockPieSVG(clock) {
+  const slots = clock.slots || [];
+  if (!slots.length) {
+    return `<svg width="300" height="230" viewBox="0 0 300 230"><text x="150" y="115" text-anchor="middle" dominant-baseline="middle" fill="#7c85a2" font-size="12">No slots defined</text></svg>`;
+  }
+  // Aggregate by category, weighted by nominal_length_s
+  const cats = {};
+  slots.forEach(s => {
+    const cat = s.category || 'Unknown';
+    cats[cat] = (cats[cat] || 0) + (s.nominal_length_s || 210);
+  });
+  const entries = Object.entries(cats);
+  const total   = entries.reduce((s, [, v]) => s + v, 0);
+
+  const W = 300, H = 230, cx = W / 2, cy = H / 2, r = 72;
+  let startAngle = -Math.PI / 2;
+  let paths = '';
+
+  entries.forEach(([cat, val], i) => {
+    const angle    = (val / total) * 2 * Math.PI;
+    const endAngle = startAngle + angle;
+    const midA     = startAngle + angle / 2;
+    const x1 = cx + r * Math.cos(startAngle);
+    const y1 = cy + r * Math.sin(startAngle);
+    const x2 = cx + r * Math.cos(endAngle);
+    const y2 = cy + r * Math.sin(endAngle);
+    const large = angle > Math.PI ? 1 : 0;
+    const col   = PIE_COLORS[i % PIE_COLORS.length];
+
+    paths += `<path d="M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${large} 1 ${x2.toFixed(1)},${y2.toFixed(1)} Z" fill="${col}" stroke="#0c0f1a" stroke-width="2"/>`;
+
+    if (angle >= 0.14) {
+      const rL1  = r + 3, rL2 = r + 20, rTx = r + 25;
+      const lx1  = cx + rL1  * Math.cos(midA), ly1 = cy + rL1  * Math.sin(midA);
+      const lx2  = cx + rL2  * Math.cos(midA), ly2 = cy + rL2  * Math.sin(midA);
+      const tx   = cx + rTx  * Math.cos(midA), ty  = cy + rTx  * Math.sin(midA);
+      const cosM = Math.cos(midA);
+      const anchor = cosM > 0.12 ? 'start' : cosM < -0.12 ? 'end' : 'middle';
+      const label  = cat.length > 15 ? cat.slice(0, 14) + '…' : cat;
+      paths += `<line x1="${lx1.toFixed(1)}" y1="${ly1.toFixed(1)}" x2="${lx2.toFixed(1)}" y2="${ly2.toFixed(1)}" stroke="${col}" stroke-width="1.2" opacity="0.8"/>`;
+      paths += `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="${anchor}" dominant-baseline="middle" fill="${col}" font-size="8.5" font-weight="600">${esc(label)}</text>`;
+    }
+    startAngle = endAngle;
+  });
+
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${paths}</svg>`;
+}
+
 async function loadClocks() {
   const clocks = await api('GET', '/api/clocks');
+  _allClocks = clocks;
   $('clocks-empty').style.display = clocks.length ? 'none' : '';
+
+  // List view
   $('clocks-body').innerHTML = clocks.map(c => `
     <tr>
       <td><strong>${esc(c.name)}</strong></td>
@@ -1209,6 +1290,22 @@ async function loadClocks() {
         <button class="btn btn-danger btn-sm" onclick="deleteClock('${c.id}')">✕</button>
       </td>
     </tr>`).join('');
+
+  // Clock grid view
+  $('clocks-grid').innerHTML = clocks.map(c => {
+    const slotCount = (c.slots||[]).length;
+    const totalSec  = (c.slots||[]).reduce((s,sl) => s+(sl.nominal_length_s||0), 0);
+    const hm = totalSec ? `${Math.floor(totalSec/3600)}h ${Math.round((totalSec%3600)/60)}m` : `${slotCount} slot${slotCount!==1?'s':''}`;
+    return `<div class="clock-card">
+      <div class="clock-card-name">${esc(c.name)}</div>
+      <div class="clock-card-sub">${hm}</div>
+      ${renderClockPieSVG(c)}
+      <div class="clock-card-actions">
+        <button class="btn btn-muted btn-sm" onclick='openClockPie(${JSON.stringify(c)})'>&#9685; Detail</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteClock('${c.id}')">✕</button>
+      </div>
+    </div>`;
+  }).join('');
 }
 async function deleteClock(id) {
   if (!confirm('Delete this clock?')) return;

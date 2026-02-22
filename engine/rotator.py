@@ -622,11 +622,9 @@ def _build_pool(slot: dict, by_cat: dict, cat_lookup: dict) -> list:
                 if alt_pool:
                     return alt_pool, alt_id
 
-    # Final fallback: entire library
-    all_tracks = []
-    for tracks in by_cat.values():
-        all_tracks.extend(tracks)
-    return all_tracks, category
+    # No match and no alternates configured — return empty pool so the slot
+    # is skipped cleanly rather than pulling from an unrelated category.
+    return [], category
 
 
 # ---------------------------------------------------------------------------

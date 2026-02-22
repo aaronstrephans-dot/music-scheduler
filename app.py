@@ -1180,6 +1180,7 @@ def api_export():
         os.makedirs(export_dir, exist_ok=True)
 
         files_created = 0
+        file_names = []
         for sched in recent:
             track_list = sched.get("tracks", [])
             date_str   = sched.get("date") or sched.get("created_at", "unknown")[:10]
@@ -1195,18 +1196,53 @@ def api_export():
                         for i, t in enumerate(track_list):
                             t["position"] = i + 1
                             w.writerow({f: t.get(f, "") for f in fields})
-                        fname = os.path.join(export_dir, f"{date_str}.csv")
-                        with open(fname, "w") as f:
+                        base = f"{date_str}.csv"
+                        fname = os.path.join(export_dir, base)
+                        with open(fname, "w", newline="") as f:
                             f.write(buf.getvalue())
                         files_created += 1
-                    elif fmt in ("zetta-log", "zetta-xml", "wideorbit", "enco"):
-                        # Write a simple text log for now
-                        fname = os.path.join(export_dir, f"{date_str}_{fmt.replace('-','_')}.txt")
-                        with open(fname, "w") as f:
-                            f.write(f"# {fmt.upper()} Export — {date_str}\n")
-                            for t in track_list:
-                                f.write(f"{t.get('air_time','')}\t{t.get('title','')}\t{t.get('artist','')}\n")
+                        file_names.append(base)
+                    elif fmt == "zetta-log":
+                        # Zetta RCS tab-delimited traffic log
+                        base = f"{date_str}_zetta.log"
+                        fname = os.path.join(export_dir, base)
+                        with open(fname, "w", newline="") as f:
+                            f.write("CutID\tMediaType\tLength\tCategory\tTitle\tArtist\tAlbum\tAirTime\n")
+                            for i, t in enumerate(track_list, 1):
+                                dur_s = int(t.get("duration_seconds") or 0)
+                                mm, ss = divmod(dur_s, 60)
+                                length = f"{mm:02d}:{ss:02d}"
+                                f.write("\t".join([
+                                    str(t.get("cart_number") or t.get("id","")[:8]),
+                                    "MUS",
+                                    length,
+                                    str(t.get("category","")),
+                                    str(t.get("title","")),
+                                    str(t.get("artist","")),
+                                    str(t.get("album","")),
+                                    str(t.get("air_time","")),
+                                ]) + "\n")
                         files_created += 1
+                        file_names.append(base)
+                    elif fmt in ("wideorbit", "enco"):
+                        base = f"{date_str}_{fmt}.log"
+                        fname = os.path.join(export_dir, base)
+                        with open(fname, "w", newline="") as f:
+                            f.write(f"# {fmt.upper()} Traffic Log — {date_str}\n")
+                            f.write("Position\tAirTime\tLength\tTitle\tArtist\tCategory\n")
+                            for i, t in enumerate(track_list, 1):
+                                dur_s = int(t.get("duration_seconds") or 0)
+                                mm, ss = divmod(dur_s, 60)
+                                f.write("\t".join([
+                                    str(i),
+                                    str(t.get("air_time","")),
+                                    f"{mm:02d}:{ss:02d}",
+                                    str(t.get("title","")),
+                                    str(t.get("artist","")),
+                                    str(t.get("category","")),
+                                ]) + "\n")
+                        files_created += 1
+                        file_names.append(base)
                 except Exception:
                     pass
 
@@ -1214,10 +1250,26 @@ def api_export():
             "success":       True,
             "message":       f"Exported {len(recent)} schedule(s)",
             "files_created": files_created,
+            "file_names":    file_names,
         })
 
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/api/export/download/<path:filename>")
+def api_export_download(filename):
+    """Serve an exported file as a download."""
+    import os
+    from flask import send_file
+    export_dir = os.path.join(os.path.dirname(__file__), "data", "exports")
+    # Security: keep filename inside export_dir
+    safe_path = os.path.normpath(os.path.join(export_dir, filename))
+    if not safe_path.startswith(os.path.normpath(export_dir)):
+        return jsonify({"error": "Invalid path"}), 400
+    if not os.path.exists(safe_path):
+        return jsonify({"error": "File not found"}), 404
+    return send_file(safe_path, as_attachment=True, download_name=os.path.basename(safe_path))
 
 
 # ---------------------------------------------------------------------------

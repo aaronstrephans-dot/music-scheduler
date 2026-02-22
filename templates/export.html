@@ -350,8 +350,22 @@ async function doExport() {
       body: JSON.stringify({ formats, scope, date_range: document.getElementById('dateRange').value })
     });
     const data = await res.json();
-    if (data.success) showAlert(data.message + ` — ${data.files_created} file(s) created`, true);
-    else showAlert(data.error || 'Export failed', false);
+    if (data.success) {
+      showAlert(data.message + ` — ${data.files_created} file(s) created`, true);
+      // Trigger browser download for each generated file
+      (data.file_names || []).forEach((fname, i) => {
+        setTimeout(() => {
+          const a = document.createElement('a');
+          a.href = `/api/export/download/${encodeURIComponent(fname)}`;
+          a.download = fname;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }, i * 300); // stagger slightly so browser doesn't block multiple downloads
+      });
+    } else {
+      showAlert(data.error || 'Export failed', false);
+    }
   } catch(e) { showAlert('Network error: ' + e.message, false); }
 }
 </script>
