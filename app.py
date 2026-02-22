@@ -1996,41 +1996,78 @@ def api_export():
                         file_names.append(base)
 
                     elif fmt == "zetta-log":
-                        base = f"{date_str}_zetta.log"
+                        # Proper Zetta .LOG fixed-width format:
+                        # CartID (16 chars, left-justified) + HH:MM:SS + Title (no separator)
+                        base = f"{date_str}_zetta.LOG"
+                        running_secs = 0
                         with open(os.path.join(export_dir, base), "w", newline="") as f:
-                            f.write("CutID\tMediaType\tLength\tCategory\tTitle\tArtist\tAlbum\tAirTime\n")
-                            for i, t in enumerate(track_list, 1):
-                                dur_s = int(t.get("duration_seconds") or 0)
-                                mm, ss = divmod(dur_s, 60)
-                                f.write("\t".join([
-                                    str(t.get("cart") or t.get("id", "")[:8]),
-                                    "MUS",
-                                    f"{mm:02d}:{ss:02d}",
-                                    str(t.get("category", "")),
-                                    str(t.get("title", "")),
-                                    str(t.get("artist", "")),
-                                    str(t.get("album", "")),
-                                    str(t.get("air_time", "")),
-                                ]) + "\n")
+                            for t in track_list:
+                                air = t.get("air_time") or ""
+                                # Normalize to HH:MM:SS
+                                parts = air.split(":")
+                                if len(parts) == 2:
+                                    air = air + ":00"
+                                elif len(parts) != 3 or not air:
+                                    h, rem = divmod(running_secs, 3600)
+                                    m, s   = divmod(rem, 60)
+                                    air    = f"{h:02d}:{m:02d}:{s:02d}"
+                                cart = str(t.get("cart") or t.get("cart_number") or t.get("id", "")[:8])
+                                f.write(f"{cart.ljust(16)}{air}{t.get('title','')}\n")
+                                running_secs += int(t.get("duration_seconds") or 0)
                         files_created += 1
                         file_names.append(base)
 
-                    elif fmt in ("wideorbit", "enco"):
-                        base = f"{date_str}_{fmt}.log"
+                    elif fmt == "wideorbit":
+                        # WideOrbit/Selector SS32: HHMMSS\tType\tCart\tTitle\tArtist\tLengthSecs
+                        base = f"{date_str}_wideorbit.txt"
+                        running_secs = 0
                         with open(os.path.join(export_dir, base), "w", newline="") as f:
-                            f.write(f"# {fmt.upper()} Traffic Log — {date_str}\n")
-                            f.write("Position\tAirTime\tLength\tTitle\tArtist\tCategory\n")
-                            for i, t in enumerate(track_list, 1):
+                            for t in track_list:
+                                air = t.get("air_time") or ""
+                                parts = air.split(":")
+                                if len(parts) == 3:
+                                    time_compact = air.replace(":", "")[:6]
+                                elif len(parts) == 2:
+                                    time_compact = air.replace(":", "") + "00"
+                                else:
+                                    h, rem = divmod(running_secs, 3600)
+                                    m, s   = divmod(rem, 60)
+                                    time_compact = f"{h:02d}{m:02d}{s:02d}"
                                 dur_s = int(t.get("duration_seconds") or 0)
-                                mm, ss = divmod(dur_s, 60)
-                                f.write("\t".join([
-                                    str(i),
-                                    str(t.get("air_time", "")),
-                                    f"{mm:02d}:{ss:02d}",
-                                    str(t.get("title", "")),
-                                    str(t.get("artist", "")),
-                                    str(t.get("category", "")),
-                                ]) + "\n")
+                                cart  = str(t.get("cart") or t.get("cart_number") or "")
+                                title  = str(t.get("title", "")).replace("\t", " ")
+                                artist = str(t.get("artist", "")).replace("\t", " ")
+                                f.write(f"{time_compact}\tM\t{cart}\t{title}\t{artist}\t{dur_s}\n")
+                                running_secs += dur_s
+                        files_created += 1
+                        file_names.append(base)
+
+                    elif fmt == "enco":
+                        # ENCO DAD: MM/DD/YYYY,HH:MM:SS,SONG,Cart,Title,Artist,LengthSecs
+                        base = f"{date_str}_enco.csv"
+                        running_secs = 0
+                        with open(os.path.join(export_dir, base), "w", newline="") as f:
+                            for t in track_list:
+                                air = t.get("air_time") or ""
+                                parts = air.split(":")
+                                if len(parts) == 2:
+                                    air = air + ":00"
+                                elif len(parts) != 3 or not air:
+                                    h, rem = divmod(running_secs, 3600)
+                                    m, s   = divmod(rem, 60)
+                                    air    = f"{h:02d}:{m:02d}:{s:02d}"
+                                try:
+                                    from datetime import datetime as _dt
+                                    d_obj = _dt.strptime(date_str, "%Y-%m-%d")
+                                    date_fmt = d_obj.strftime("%m/%d/%Y")
+                                except Exception:
+                                    date_fmt = date_str
+                                dur_s  = int(t.get("duration_seconds") or 0)
+                                cart   = str(t.get("cart") or t.get("cart_number") or "").replace(",", " ")
+                                title  = str(t.get("title", "")).replace(",", " ")
+                                artist = str(t.get("artist", "")).replace(",", " ")
+                                f.write(f"{date_fmt},{air},SONG,{cart},{title},{artist},{dur_s}\n")
+                                running_secs += dur_s
                         files_created += 1
                         file_names.append(base)
 

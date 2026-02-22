@@ -130,14 +130,14 @@
 
   /* ── Daypart bands ── */
   :root {
-    --dp-overnight: rgba(0,188,212,.13);
-    --dp-early:     rgba(255,138,101,.14);
-    --dp-morning:   rgba(255,214,0,.16);
-    --dp-midmorn:   rgba(102,187,106,.13);
-    --dp-midday:    rgba(255,152,0,.13);
-    --dp-afternoon: rgba(229,57,53,.13);
-    --dp-evening:   rgba(236,64,122,.13);
-    --dp-latenight: rgba(126,87,194,.13);
+    --dp-overnight: rgba(0,229,255,.18);
+    --dp-early:     rgba(255,112,67,.20);
+    --dp-morning:   rgba(255,234,0,.22);
+    --dp-midmorn:   rgba(0,230,118,.18);
+    --dp-midday:    rgba(255,167,38,.20);
+    --dp-afternoon: rgba(244,67,54,.20);
+    --dp-evening:   rgba(233,30,99,.20);
+    --dp-latenight: rgba(156,39,176,.18);
   }
   tr.dp-overnight td { background: var(--dp-overnight); }
   tr.dp-early td     { background: var(--dp-early); }
@@ -148,14 +148,14 @@
   tr.dp-evening td   { background: var(--dp-evening); }
   tr.dp-latenight td { background: var(--dp-latenight); }
   /* hour-label overrides to keep its own bg */
-  tr.dp-overnight td.hour-label { background: var(--surface2); border-left: 3px solid #00bcd4; }
-  tr.dp-early td.hour-label     { background: var(--surface2); border-left: 3px solid #ff8a65; }
-  tr.dp-morning td.hour-label   { background: var(--surface2); border-left: 3px solid #ffd600; }
-  tr.dp-midmorn td.hour-label   { background: var(--surface2); border-left: 3px solid #66bb6a; }
-  tr.dp-midday td.hour-label    { background: var(--surface2); border-left: 3px solid #ff9800; }
-  tr.dp-afternoon td.hour-label { background: var(--surface2); border-left: 3px solid #e53935; }
-  tr.dp-evening td.hour-label   { background: var(--surface2); border-left: 3px solid #ec407a; }
-  tr.dp-latenight td.hour-label { background: var(--surface2); border-left: 3px solid #7e57c2; }
+  tr.dp-overnight td.hour-label { background: var(--surface2); border-left: 3px solid #00e5ff; }
+  tr.dp-early td.hour-label     { background: var(--surface2); border-left: 3px solid #ff7043; }
+  tr.dp-morning td.hour-label   { background: var(--surface2); border-left: 3px solid #ffea00; }
+  tr.dp-midmorn td.hour-label   { background: var(--surface2); border-left: 3px solid #00e676; }
+  tr.dp-midday td.hour-label    { background: var(--surface2); border-left: 3px solid #ffa726; }
+  tr.dp-afternoon td.hour-label { background: var(--surface2); border-left: 3px solid #f44336; }
+  tr.dp-evening td.hour-label   { background: var(--surface2); border-left: 3px solid #e91e63; }
+  tr.dp-latenight td.hour-label { background: var(--surface2); border-left: 3px solid #9c27b0; }
 
   /* ── Program Grid (week view) ── */
   .pg-view-toggle { display: flex; gap: 4px; margin-bottom: 16px; }
@@ -176,8 +176,11 @@
   /* Grid cell picker dropdown */
   .gc-select { width: 100%; background: transparent; border: none; color: var(--text); font-size: 11px; padding: 4px; border-radius: 4px; cursor: pointer; }
   .gc-select:focus { outline: 1px solid var(--accent); background: var(--surface); }
-  /* Daypart map mode — solid colored cells */
+  /* Daypart map mode — interactive selects */
   .dp-map-cell { height: 28px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; letter-spacing: .4px; color: rgba(0,0,0,.45); cursor: default; }
+  .dp-sel { width: 100%; border: 1px solid rgba(255,255,255,.12); border-radius: 4px; font-size: 10px; font-weight: 600; padding: 3px 4px; height: 28px; cursor: pointer; color: var(--text); font-family: inherit; }
+  .dp-sel:focus { outline: 1px solid var(--accent); }
+  .dp-sel option { background: #1a1d2e; }
 
   /* ── Day Detail view ── */
   .day-detail-wrap { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; max-height: 70vh; }
@@ -635,7 +638,7 @@
         </table>
       </div>
       <p style="font-size:11px;color:var(--muted);margin-top:8px">
-        Bands show standard daypart groupings. Switch to Week Grid to change clock assignments.
+        Bands show standard daypart groupings. Use the dropdowns to assign clocks — changes save immediately.
       </p>
     </div>
   </div>
@@ -1313,18 +1316,18 @@
 
 <!-- Clock Builder -->
 <div class="modal-bg" id="modal-clock">
-  <div class="modal">
-    <h3>New Clock Template</h3>
+  <div class="modal" style="width:min(560px,96vw)">
+    <h3 id="clock-modal-title">New Clock Template</h3>
     <div class="form-group" style="margin-bottom:12px">
       <label>Clock Name</label>
       <input type="text" id="clock-name" style="width:100%" placeholder="e.g. Morning Drive">
     </div>
     <label style="font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);display:block;margin-bottom:8px">Slots</label>
-    <div id="slots-list"></div>
-    <button class="btn btn-muted btn-sm" onclick="addSlot()" style="margin-top:4px">+ Add Slot</button>
+    <div id="slots-list" style="max-height:52vh;overflow-y:auto;padding-right:4px"></div>
+    <button class="btn btn-muted btn-sm" onclick="addSlot()" style="margin-top:6px">+ Add Slot</button>
     <div class="modal-actions">
       <button class="btn btn-muted" onclick="closeModal('modal-clock')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveClock()">Create Clock</button>
+      <button class="btn btn-primary" id="clock-save-btn" onclick="saveClock()">Create Clock</button>
     </div>
   </div>
 </div>
@@ -2141,10 +2144,30 @@ function _buildCatOptions(selectedVal) {
   return opts;
 }
 
+let _editingClockId = null;
+
 function openClockModal() {
+  _editingClockId = null;
+  $('clock-modal-title').textContent = 'New Clock Template';
+  $('clock-save-btn').textContent    = 'Create Clock';
   $('clock-name').value = '';
   $('slots-list').innerHTML = '';
   addSlot(); addSlot(); addSlot();
+  openModal('modal-clock');
+}
+function editClock(clock) {
+  _editingClockId = clock.id;
+  $('clock-modal-title').textContent = 'Edit Clock Template';
+  $('clock-save-btn').textContent    = 'Save Changes';
+  $('clock-name').value = clock.name || '';
+  $('slots-list').innerHTML = '';
+  (clock.slots || []).forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'slot-row';
+    div.innerHTML = `<select>${_buildCatOptions(s.category || '')}</select><input type="number" placeholder="Min secs" min="0" value="${s.min_duration_seconds || s.nominal_length_s || 0}"><button class="btn btn-danger btn-sm" onclick="this.parentNode.remove()">✕</button>`;
+    $('slots-list').appendChild(div);
+  });
+  if (!(clock.slots || []).length) addSlot();
   openModal('modal-clock');
 }
 function addSlot() {
@@ -2162,10 +2185,16 @@ async function saveClock() {
     return { category: sel.value, min_duration_seconds: +inp.value || 0 };
   });
   if (!slots.length) return toast('Add at least one slot.', false);
-  const res = await api('POST', '/api/clocks', { name, slots });
-  if (res.error) return toast(res.error, false);
+  let res;
+  if (_editingClockId) {
+    res = await api('PUT', `/api/clocks/${_editingClockId}`, { name, slots });
+  } else {
+    res = await api('POST', '/api/clocks', { name, slots });
+  }
+  if (res && res.error) return toast(res.error, false);
   closeModal('modal-clock');
-  toast('Clock created!');
+  toast(_editingClockId ? 'Clock updated!' : 'Clock created!');
+  _editingClockId = null;
   loadClocks();
 }
 let _clocksView = 'list';
@@ -2239,6 +2268,7 @@ async function loadClocks() {
       <td>${(c.slots||[]).map(s=>catPill(s.category)).join(' ')}</td>
       <td>${fmtDate(c.created_at)}</td>
       <td style="display:flex;gap:6px">
+        <button class="btn btn-primary btn-sm" onclick='editClock(${JSON.stringify(c)})'>&#9998; Edit</button>
         <button class="btn btn-muted btn-sm" onclick='openClockPie(${JSON.stringify(c)})'>&#9685; Chart</button>
         <button class="btn btn-danger btn-sm" onclick="deleteClock('${c.id}')">✕</button>
       </td>
@@ -2254,6 +2284,7 @@ async function loadClocks() {
       <div class="clock-card-sub">${hm}</div>
       ${renderClockPieSVG(c)}
       <div class="clock-card-actions">
+        <button class="btn btn-primary btn-sm" onclick='editClock(${JSON.stringify(c)})'>&#9998; Edit</button>
         <button class="btn btn-muted btn-sm" onclick='openClockPie(${JSON.stringify(c)})'>&#9685; Detail</button>
         <button class="btn btn-danger btn-sm" onclick="deleteClock('${c.id}')">✕</button>
       </div>
@@ -2814,14 +2845,14 @@ const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
 // Daypart definitions — name, color, hours covered, CSS class
 const DAYPARTS = [
-  { name:'Overnight',      color:'#00bcd4', cls:'dp-overnight', hours:[0,1,2,3,4]   },
-  { name:'Early Morning',  color:'#ff8a65', cls:'dp-early',     hours:[5]            },
-  { name:'Morning Drive',  color:'#ffd600', cls:'dp-morning',   hours:[6,7,8,9]      },
-  { name:'Mid-morning',    color:'#66bb6a', cls:'dp-midmorn',   hours:[10,11]        },
-  { name:'Midday',         color:'#ff9800', cls:'dp-midday',    hours:[12,13,14]     },
-  { name:'Afternoon Drive',color:'#e53935', cls:'dp-afternoon', hours:[15,16,17,18]  },
-  { name:'Evening',        color:'#ec407a', cls:'dp-evening',   hours:[19,20,21]     },
-  { name:'Late Night',     color:'#7e57c2', cls:'dp-latenight', hours:[22,23]        },
+  { name:'Overnight',      color:'#00e5ff', cls:'dp-overnight', hours:[0,1,2,3,4]   },
+  { name:'Early Morning',  color:'#ff7043', cls:'dp-early',     hours:[5]            },
+  { name:'Morning Drive',  color:'#ffea00', cls:'dp-morning',   hours:[6,7,8,9]      },
+  { name:'Mid-morning',    color:'#00e676', cls:'dp-midmorn',   hours:[10,11]        },
+  { name:'Midday',         color:'#ffa726', cls:'dp-midday',    hours:[12,13,14]     },
+  { name:'Afternoon Drive',color:'#f44336', cls:'dp-afternoon', hours:[15,16,17,18]  },
+  { name:'Evening',        color:'#e91e63', cls:'dp-evening',   hours:[19,20,21]     },
+  { name:'Late Night',     color:'#9c27b0', cls:'dp-latenight', hours:[22,23]        },
 ];
 const hourDpClass = h => (DAYPARTS.find(d => d.hours.includes(h)) || DAYPARTS[0]).cls;
 const hourDpName  = h => (DAYPARTS.find(d => d.hours.includes(h)) || DAYPARTS[0]).name;
@@ -2963,8 +2994,14 @@ async function pgCellChange(sel) {
     sel.parentElement.style.transition = 'background .05s';
     sel.parentElement.style.background = 'rgba(108,99,255,.35)';
     setTimeout(() => { sel.parentElement.style.background = ''; }, 500);
-    // Sync Day Detail if visible
-    if (_pgView === 'detail') renderDayDetail();
+    // Sync other views
+    if (_pgView === 'detail')  renderDayDetail();
+    // Keep week grid and daypart map in sync without full re-render
+    const peer = sel.classList.contains('dp-sel') ? '.gc-select' : '.dp-sel';
+    $('prog-grid-body').querySelectorAll(`${peer}[data-day="${d}"][data-hour="${h}"]`)
+      .forEach(s => { s.value = clockId || ''; });
+    $('dp-map-body').querySelectorAll(`${peer}[data-day="${d}"][data-hour="${h}"]`)
+      .forEach(s => { s.value = clockId || ''; });
   }
 }
 
@@ -3063,24 +3100,33 @@ function renderDaypLegend() {
 }
 
 function renderDaypartMap() {
-  const clockById = Object.fromEntries(_pgClocks.map(c => [c.id, c]));
+  if (!_pgTmpl) return;
+  const clockOptHTML = '<option value="">— not used —</option>' +
+    _pgClocks.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
+
   let html = '';
   for (let h = 0; h < 24; h++) {
-    const dp    = DAYPARTS.find(d => d.hours.includes(h)) || DAYPARTS[0];
+    const dp = DAYPARTS.find(d => d.hours.includes(h)) || DAYPARTS[0];
+    // Hex to rgba for select background
+    const bg = dp.color + '33'; // 20% opacity tint
     html += `<tr><td class="hour-label" style="border-left:3px solid ${dp.color}">${fmtHour(h)}</td>`;
     for (let d = 0; d < 7; d++) {
-      const clockId  = _pgTmpl ? tmplClockAt(d, h) : null;
-      const clock    = clockId ? clockById[clockId] : null;
-      const tooltip  = clock ? clock.name : '(not assigned)';
-      html += `<td title="${esc(tooltip)}">
-        <div class="dp-map-cell" style="background:${dp.color};opacity:${clock ? 0.85 : 0.25}">
-          ${clock ? esc(clock.name.length > 12 ? clock.name.slice(0,12)+'…' : clock.name) : ''}
-        </div>
+      html += `<td style="padding:1px">
+        <select class="dp-sel" data-day="${d}" data-hour="${h}"
+                onchange="pgCellChange(this)"
+                style="background:${bg};border-color:${dp.color}44">
+          ${clockOptHTML}
+        </select>
       </td>`;
     }
     html += '</tr>';
   }
   $('dp-map-body').innerHTML = html;
+
+  // Set saved values
+  $('dp-map-body').querySelectorAll('select.dp-sel').forEach(sel => {
+    sel.value = tmplClockAt(+sel.dataset.day, +sel.dataset.hour) || '';
+  });
 }
 
 // ── Generate from template ────────────────────────────────────────────────────
