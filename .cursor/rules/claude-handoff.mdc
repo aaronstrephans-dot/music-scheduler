@@ -1,0 +1,15 @@
+---
+description: Pick up handoff tasks from Claude via CURSOR_TASK.md
+alwaysApply: true
+---
+
+# Claude → Cursor handoff
+
+When the user's message is a **handoff trigger** (e.g. "go", "do the handoff", "cursor task", "do the task", "run handoff", "continue from claude"), do this:
+
+1. **Read `CURSOR_TASK.md`** in the project root. If it does not exist, say so and ask what they want to do.
+2. **Treat the contents as the user's request.** If it says "Read HANDOFF.md first", read HANDOFF.md then execute the instructions.
+3. **Execute the task** as specified. Do not ask for confirmation unless the instructions are ambiguous.
+4. **When done**, you may delete or clear `CURSOR_TASK.md` and note that the handoff task is complete (so it is not run again by mistake).
+
+If the user has not used a handoff trigger but you see `CURSOR_TASK.md` in the project, do not run it unless they ask. This rule only applies when they clearly intend to run the handoff (short phrase like "go" or "do the handoff task").

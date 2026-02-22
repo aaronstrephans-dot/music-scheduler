@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clock Editor — Music Scheduler</title>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #252836;
+    --border: #2e3147; --accent: #6c63ff; --accent2: #ff6584;
+    --text: #e2e8f0; --muted: #7c85a2; --success: #48bb78; --danger: #fc8181; --warn: #f6ad55;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; min-height: 100vh; }
+  .ce-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 20px; height: 52px; display: flex; align-items: center; gap: 16px; }
+  .ce-header a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  .ce-header a:hover { text-decoration: underline; }
+  .ce-main { display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: calc(100vh - 52px); }
+  .ce-pane { padding: 20px; overflow: auto; border-right: 1px solid var(--border); }
+  .ce-pane:last-child { border-right: none; }
+  .ce-name { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+  .ce-name input { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 6px; font-size: 16px; width: 100%; max-width: 320px; }
+  .ce-name input:focus { outline: none; border-color: var(--accent); }
+  .slot-tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .slot-tbl th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  .slot-tbl td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .slot-tbl tr:hover td { background: var(--surface2); }
+  .slot-tbl tr.slot-editing td { background: rgba(108,99,255,.12); }
+  .slot-tbl .col-num { width: 32px; color: var(--muted); }
+  .slot-tbl .col-air { width: 70px; font-variant-numeric: tabular-nums; color: var(--warn); }
+  .slot-tbl .col-type { min-width: 80px; }
+  .slot-tbl .col-title { min-width: 140px; }
+  .slot-tbl .col-dur { width: 64px; font-variant-numeric: tabular-nums; }
+  .slot-tbl .col-cart { width: 72px; }
+  .slot-tbl .col-handle { width: 24px; cursor: grab; color: var(--muted); }
+  .slot-tbl .col-handle:active { cursor: grabbing; }
+  .pill { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+  .ce-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+  .ce-total { font-size: 13px; color: var(--muted); }
+  .ce-total span { font-weight: 700; color: var(--text); }
+  .ce-total.under { color: var(--success); }
+  .ce-total.over { color: var(--danger); }
+  .btn { padding: 6px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 500; background: var(--accent); color: #fff; }
+  .btn:hover { opacity: .9; }
+  .btn-muted { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-success { background: var(--success); }
+  #slot-list-tbody tr.sortable-ghost { opacity: 0.4; background: var(--surface2); }
+  .ce-donut-wrap { display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
+  .ce-donut-svg { max-width: 100%; }
+  .ce-tabs { display: flex; gap: 4px; margin-top: 16px; }
+  .ce-tabs button { padding: 8px 16px; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 12px; }
+  .ce-tabs button:hover { color: var(--text); }
+  .ce-tabs button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .ce-tab-panel { display: none; margin-top: 12px; }
+  .ce-tab-panel.active { display: block; }
+  .ce-usage-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .ce-usage-tbl th, .ce-usage-tbl td { padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+  .ce-usage-tbl th { color: var(--muted); font-size: 11px; text-transform: uppercase; }
+  .slot-inline-editor { display: none; padding: 10px; background: var(--surface2); border-radius: 8px; margin-top: 4px; }
+  .slot-inline-editor.open { display: block; }
+  .slot-inline-editor .form-row { display: flex; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+  .slot-inline-editor label { font-size: 11px; color: var(--muted); display: block; margin-bottom: 2px; }
+  .slot-inline-editor select, .slot-inline-editor input { padding: 4px 8px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 12px; }
+  .ce-toast { position: fixed; bottom: 20px; right: 20px; padding: 10px 18px; border-radius: 8px; font-size: 13px; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 4px 20px #0008; opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 999; }
+  .ce-toast.show { opacity: 1; }
+  .ce-toast.ok { border-left: 3px solid var(--success); }
+  .ce-toast.err { border-left: 3px solid var(--danger); }
+  .ce-loading { padding: 40px; text-align: center; color: var(--muted); }
+  .ce-error { padding: 20px; background: rgba(252,129,129,.1); border: 1px solid var(--danger); border-radius: 8px; color: var(--danger); }
+</style>
+</head>
+<body>
+<div class="ce-header">
+  <a href="/library">← Library</a>
+  <span id="ce-breadcrumb">Clock Editor</span>
+  <button class="btn btn-success" id="ce-save-btn" style="margin-left:auto">Save</button>
+</div>
+<div class="ce-main">
+  <div class="ce-pane">
+    <div id="ce-left-loading" class="ce-loading">Loading…</div>
+    <div id="ce-left-content" style="display:none">
+      <div class="ce-name"><input type="text" id="ce-clock-name" placeholder="Clock name" /></div>
+      <div class="ce-toolbar">
+        <button class="btn btn-muted" id="ce-add-slot">+ Add slot</button>
+        <div class="ce-total" id="ce-total-dur">Total: 0:00</div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="slot-tbl">
+          <thead><tr><th class="col-handle"></th><th class="col-num">#</th><th class="col-air">Air Time</th><th class="col-type">Type</th><th class="col-title">Title</th><th class="col-dur">Duration</th><th class="col-cart">Cart</th><th></th></tr></thead>
+          <tbody id="slot-list-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="ce-left-error" class="ce-error" style="display:none"></div>
+  </div>
+  <div class="ce-pane">
+    <div id="ce-right-loading" class="ce-loading">Loading…</div>
+    <div id="ce-right-content" style="display:none">
+      <div class="ce-donut-wrap">
+        <div id="ce-donut-container"></div>
+        <div class="ce-tabs">
+          <button type="button" class="active" data-tab="pie">Pie View</button>
+          <button type="button" data-tab="category">Category Usage</button>
+          <button type="button" data-tab="element">Element Usage</button>
+        </div>
+        <div id="ce-tab-pie" class="ce-tab-panel active"></div>
+        <div id="ce-tab-category" class="ce-tab-panel">
+          <table class="ce-usage-tbl" id="ce-category-usage"></table>
+        </div>
+        <div id="ce-tab-element" class="ce-tab-panel">
+          <table class="ce-usage-tbl" id="ce-element-usage"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="ce-toast" class="ce-toast"></div>
+<script>
+(function() {
+  const clockId = '{{ clock_id }}';
+  const API = (method, url, body) => {
+    const opts = { method, headers: { 'Content-Type': 'application/json' } };
+    if (body) opts.body = JSON.stringify(body);
+    return fetch(url, opts).then(r => r.ok ? r.json() : r.json().then(j => Promise.reject(j)));
+  };
+  const DEFAULT_PALETTE = ['#6c63ff','#48bb78','#ff6584','#f6ad55','#00bcd4','#ec407a','#66bb6a','#7e57c2','#ff9800','#e53935'];
+  let clock = null;
+  let categories = [];
+  let catMap = {};
+  let saveTimer = null;
+  const SAVE_DEBOUNCE_MS = 800;
+
+  function esc(s) {
+    if (s == null) return '';
+    const d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+  function toast(msg, ok = true) {
+    const el = document.getElementById('ce-toast');
+    el.textContent = msg;
+    el.className = 'ce-toast show ' + (ok ? 'ok' : 'err');
+    setTimeout(() => el.classList.remove('show'), 2500);
+  }
+  function categoryColor(catName) {
+    const c = catMap[catName] || categories.find(c => c.name === catName);
+    return (c && c.color) ? c.color : DEFAULT_PALETTE[Math.abs((catName || '').split('').reduce((a,b)=>a+b.charCodeAt(0),0)) % DEFAULT_PALETTE.length];
+  }
+  function shortName(catName) {
+    const c = catMap[catName] || categories.find(c => c.name === catName);
+    if (c && c.short_code) return c.short_code;
+    return (catName || '—').slice(0, 3).toUpperCase();
+  }
+  function slotTypeLabel(t) {
+    const types = { music: 'Music', jingle: 'Jingle', liner: 'Liner', traffic: 'Traffic', voicetrack: 'Voice', spot: 'Spot', imaging: 'Imaging', lognote: 'Log', sweeper: 'Sweeper', void: 'Void' };
+    return types[t] || t || 'Music';
+  }
+  function fmtAir(sec) {
+    const m = Math.floor(sec / 60), s = sec % 60;
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+  function fmtDur(sec) {
+    if (sec == null || sec === 0) return '—';
+    const m = Math.floor(sec / 60), s = sec % 60;
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function totalDuration() {
+    const slots = clock && clock.slots ? clock.slots : [];
+    return slots.reduce((sum, s) => sum + (s.nominal_length_s || s.min_duration_seconds || 210), 0);
+  }
+  function cumulativeAirTimes() {
+    const slots = clock && clock.slots ? clock.slots : [];
+    let cum = 0;
+    return slots.map(s => {
+      const dur = s.nominal_length_s || s.min_duration_seconds || 210;
+      const start = cum;
+      cum += dur;
+      return { start, end: cum, dur };
+    });
+  }
+
+  function buildSlotRows() {
+    const tbody = document.getElementById('slot-list-tbody');
+    tbody.innerHTML = '';
+    const slots = (clock && clock.slots) ? clock.slots : [];
+    const airs = cumulativeAirTimes();
+    slots.forEach((s, i) => {
+      const air = airs[i];
+      const dur = s.nominal_length_s || s.min_duration_seconds || 210;
+      const col = categoryColor(s.category);
+      const title = s.title || s.label || 'Unscheduled position';
+      const tr = document.createElement('tr');
+      tr.dataset.index = i;
+      tr.innerHTML = `
+        <td class="col-handle">&#9865;</td>
+        <td class="col-num">${i + 1}</td>
+        <td class="col-air">${air ? fmtAir(air.start) : '0:00'}</td>
+        <td class="col-type"><span class="pill" style="background:${col}33;color:${col};border:1px solid ${col}66">${esc(shortName(s.category))} / ${slotTypeLabel(s.type)}</span></td>
+        <td class="col-title">${esc(title)}</td>
+        <td class="col-dur">${fmtDur(dur)}</td>
+        <td class="col-cart">${esc(s.fixed_cart || '—')}</td>
+        <td><button type="button" class="btn btn-muted" data-edit="${i}">Edit</button></td>
+      `;
+      tr.querySelector('[data-edit]').addEventListener('click', () => openSlotEditor(i));
+      tbody.appendChild(tr);
+    });
+    renderDonut();
+    renderCategoryUsage();
+    renderElementUsage();
+    updateTotalLabel();
+  }
+
+  function buildSlotEditorForm(s) {
+    const catOpts = categories.length
+      ? categories.map(c => `<option value="${esc(c.name)}"${(s.category === c.name) ? ' selected' : ''}>${esc(c.name)}</option>`).join('')
+      : '<option value="">—</option>';
+    const types = ['music','jingle','liner','traffic','voicetrack','spot','imaging','lognote','sweeper','void'];
+    const typeOpts = types.map(t => `<option value="${t}"${(s.type === t) ? ' selected' : ''}>${slotTypeLabel(t)}</option>`).join('');
+    return `
+      <div class="form-row">
+        <div><label>Category</label><select name="category">${catOpts}</select></div>
+        <div><label>Type</label><select name="type">${typeOpts}</select></div>
+        <div><label>Min (sec)</label><input type="number" name="min_duration_seconds" min="0" value="${s.min_duration_seconds || 0}" style="width:70px" /></div>
+        <div><label>Max (sec)</label><input type="number" name="max_duration_seconds" min="0" value="${s.max_duration_seconds || 0}" style="width:70px" /></div>
+        <div><label>Nominal (sec)</label><input type="number" name="nominal_length_s" min="0" value="${s.nominal_length_s != null ? s.nominal_length_s : 210}" style="width:70px" /></div>
+        <div><label>Label</label><input type="text" name="label" value="${esc(s.label || '')}" placeholder="Optional" style="width:120px" /></div>
+        <div><label>Fixed cart</label><input type="text" name="fixed_cart" value="${esc(s.fixed_cart || '')}" placeholder="—" style="width:80px" /></div>
+      </div>
+      <button type="button" class="btn btn-success" data-save-slot>Apply</button>
+    `;
+  }
+
+  function openSlotEditor(index) {
+    document.querySelectorAll('.slot-editing').forEach(el => el.classList.remove('slot-editing'));
+    const tr = document.getElementById('slot-list-tbody').querySelector(`tr[data-index="${index}"]`);
+    let editor = document.getElementById('ce-slot-editor-panel');
+    if (!editor) {
+      editor = document.createElement('div');
+      editor.id = 'ce-slot-editor-panel';
+      editor.className = 'slot-inline-editor';
+      document.getElementById('ce-left-content').appendChild(editor);
+    }
+    if (!tr) return;
+    tr.classList.add('slot-editing');
+    editor.innerHTML = buildSlotEditorForm(clock.slots[index]);
+    editor.classList.add('open');
+    editor.querySelector('[data-save-slot]').onclick = () => {
+      const s = clock.slots[index];
+      const sel = (name) => editor.querySelector(`[name="${name}"]`);
+      s.category = sel('category').value;
+      s.type = sel('type').value;
+      s.min_duration_seconds = parseInt(sel('min_duration_seconds').value, 10) || 0;
+      s.max_duration_seconds = parseInt(sel('max_duration_seconds').value, 10) || 0;
+      s.nominal_length_s = parseInt(sel('nominal_length_s').value, 10) || 210;
+      s.label = sel('label').value.trim() || '';
+      s.fixed_cart = sel('fixed_cart').value.trim() || '';
+      editor.classList.remove('open');
+      tr.classList.remove('slot-editing');
+      buildSlotRows();
+      scheduleSave();
+    };
+  }
+
+  function renderDonut() {
+    const slots = (clock && clock.slots) ? clock.slots : [];
+    const container = document.getElementById('ce-donut-container');
+    if (!slots.length) {
+      container.innerHTML = '<svg class="ce-donut-svg" width="320" height="260" viewBox="0 0 320 260"><circle cx="160" cy="130" r="80" fill="none" stroke="var(--border)" stroke-width="2"/><text x="160" y="130" text-anchor="middle" dominant-baseline="middle" fill="var(--muted)" font-size="13">No slots</text></svg>';
+      return;
+    }
+    const total = slots.reduce((s, sl) => s + (sl.nominal_length_s || sl.min_duration_seconds || 210), 0);
+    const W = 320; const H = 260; const cx = W/2; const cy = H/2;
+    const rOut = 90; const rIn = rOut * 0.4;
+    let startAngle = -Math.PI / 2;
+    let paths = '';
+    slots.forEach(s => {
+      const dur = s.nominal_length_s || s.min_duration_seconds || 210;
+      const angle = (dur / total) * 2 * Math.PI;
+      const endAngle = startAngle + angle;
+      const midA = startAngle + angle / 2;
+      const col = categoryColor(s.category);
+      const x1o = cx + rOut * Math.cos(startAngle); const y1o = cy + rOut * Math.sin(startAngle);
+      const x2o = cx + rOut * Math.cos(endAngle);   const y2o = cy + rOut * Math.sin(endAngle);
+      const x1i = cx + rIn * Math.cos(startAngle);  const y1i = cy + rIn * Math.sin(startAngle);
+      const x2i = cx + rIn * Math.cos(endAngle);    const y2i = cy + rIn * Math.sin(endAngle);
+      const large = angle > Math.PI ? 1 : 0;
+      paths += `<path d="M ${x1o},${y1o} A ${rOut},${rOut} 0 ${large} 1 ${x2o},${y2o} L ${x2i},${y2i} A ${rIn},${rIn} 0 ${large} 0 ${x1i},${y1i} Z" fill="${col}" stroke="#0f1117" stroke-width="1.5"/>`;
+      if (angle >= 0.12) {
+        const rL = rOut + 18;
+        const tx = cx + rL * Math.cos(midA); const ty = cy + rL * Math.sin(midA);
+        const label = shortName(s.category);
+        paths += `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="middle" fill="${col}" font-size="9" font-weight="600">${esc(label)}</text>`;
+      }
+      startAngle = endAngle;
+    });
+    container.innerHTML = `<svg class="ce-donut-svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${paths}</svg>`;
+  }
+
+  function renderCategoryUsage() {
+    const slots = (clock && clock.slots) ? clock.slots : [];
+    const byCat = {};
+    slots.forEach(s => {
+      const cat = s.category || 'Unknown';
+      const dur = s.nominal_length_s || s.min_duration_seconds || 210;
+      if (!byCat[cat]) byCat[cat] = { count: 0, sec: 0 };
+      byCat[cat].count += 1;
+      byCat[cat].sec += dur;
+    });
+    const total = totalDuration();
+    const rows = Object.entries(byCat).map(([cat, v]) => {
+      const pct = total ? ((v.sec / total) * 100).toFixed(1) : '0';
+      return `<tr><td>${esc(cat)}</td><td>${v.count}</td><td>${fmtDur(v.sec)}</td><td>${pct}%</td></tr>`;
+    }).join('');
+    document.getElementById('ce-category-usage').innerHTML = '<thead><tr><th>Category</th><th>Slots</th><th>Total time</th><th>% of hour</th></tr></thead><tbody>' + rows + '</tbody>';
+  }
+
+  function renderElementUsage() {
+    const slots = (clock && clock.slots) ? clock.slots : [];
+    const byType = {};
+    slots.forEach(s => {
+      const t = s.type || 'music';
+      const dur = s.nominal_length_s || s.min_duration_seconds || 210;
+      if (!byType[t]) byType[t] = { count: 0, sec: 0 };
+      byType[t].count += 1;
+      byType[t].sec += dur;
+    });
+    const total = totalDuration();
+    const rows = Object.entries(byType).map(([type, v]) => {
+      const pct = total ? ((v.sec / total) * 100).toFixed(1) : '0';
+      return `<tr><td>${slotTypeLabel(type)}</td><td>${v.count}</td><td>${fmtDur(v.sec)}</td><td>${pct}%</td></tr>`;
+    }).join('');
+    document.getElementById('ce-element-usage').innerHTML = '<thead><tr><th>Element</th><th>Count</th><th>Total time</th><th>%</th></tr></thead><tbody>' + rows + '</tbody>';
+  }
+
+  function updateTotalLabel() {
+    const tot = totalDuration();
+    const target = 3600;
+    const diff = target - tot;
+    const el = document.getElementById('ce-total-dur');
+    el.innerHTML = `Total: <span>${fmtAir(tot)}</span>${diff !== 0 ? ` (${diff > 0 ? '-' : '+'}${fmtAir(Math.abs(diff))})` : ''}`;
+    el.classList.toggle('under', diff > 0);
+    el.classList.toggle('over', diff < 0);
+  }
+
+  function scheduleSave() {
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(doSave, SAVE_DEBOUNCE_MS);
+  }
+  function doSave() {
+    if (!clock || clockId === 'new') return;
+    const name = document.getElementById('ce-clock-name').value.trim();
+    clock.name = name || clock.name;
+    API('PUT', '/api/clocks/' + clockId, { name: clock.name, slots: clock.slots })
+      .then(updated => { clock = updated; toast('Saved'); })
+      .catch(err => toast((err && err.error) || 'Save failed', false));
+  }
+
+  function initSortable() {
+    const tbody = document.getElementById('slot-list-tbody');
+    if (!tbody) return;
+    new Sortable(tbody, {
+      animation: 150,
+      handle: '.col-handle',
+      ghostClass: 'sortable-ghost',
+      onEnd(evt) {
+        if (evt.oldIndex == null || evt.newIndex == null) return;
+        const arr = [...clock.slots];
+        const [rem] = arr.splice(evt.oldIndex, 1);
+        arr.splice(evt.newIndex, 0, rem);
+        clock.slots = arr;
+        buildSlotRows();
+        scheduleSave();
+      }
+    });
+  }
+
+  function addSlot() {
+    if (!clock) return;
+    if (!clock.slots) clock.slots = [];
+    clock.slots.push({
+      category: '', type: 'music', title: '', label: '', fixed_cart: '',
+      min_duration_seconds: 0, max_duration_seconds: 0, nominal_length_s: 210,
+      position: clock.slots.length
+    });
+    buildSlotRows();
+    initSortable();
+    scheduleSave();
+  }
+
+  function load() {
+    Promise.all([
+      API('GET', '/api/categories').then(r => r.categories || r || []),
+      clockId === 'new' ? Promise.resolve({ id: 'new', name: 'New Clock', slots: [] }) : API('GET', '/api/clocks/' + clockId)
+    ]).then(([cats, c]) => {
+      categories = Array.isArray(cats) ? cats : [];
+      catMap = {};
+      categories.forEach(cat => {
+        if (cat.id) catMap[cat.id] = cat;
+        if (cat.name) catMap[cat.name] = cat;
+      });
+      clock = c;
+      if (!clock.slots) clock.slots = [];
+      document.getElementById('ce-left-loading').style.display = 'none';
+      document.getElementById('ce-right-loading').style.display = 'none';
+      document.getElementById('ce-left-content').style.display = 'block';
+      document.getElementById('ce-right-content').style.display = 'block';
+      document.getElementById('ce-clock-name').value = clock.name || '';
+      document.getElementById('ce-clock-name').addEventListener('input', () => { clock.name = document.getElementById('ce-clock-name').value; scheduleSave(); });
+      document.getElementById('ce-breadcrumb').textContent = 'Clock: ' + (clock.name || 'Untitled');
+      buildSlotRows();
+      renderDonut();
+      renderCategoryUsage();
+      renderElementUsage();
+      updateTotalLabel();
+      initSortable();
+      document.getElementById('ce-add-slot').onclick = addSlot;
+      document.getElementById('ce-save-btn').onclick = doSave;
+      document.querySelectorAll('.ce-tabs button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.ce-tabs button').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.ce-tab-panel').forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById('ce-tab-' + btn.dataset.tab).classList.add('active');
+        });
+      });
+    }).catch(err => {
+      document.getElementById('ce-left-loading').style.display = 'none';
+      document.getElementById('ce-right-loading').style.display = 'none';
+      document.getElementById('ce-left-error').style.display = 'block';
+      document.getElementById('ce-left-error').textContent = (err && err.error) || 'Failed to load clock or categories.';
+    });
+  }
+
+  load();
+})();
+</script>
+</body>
+</html>

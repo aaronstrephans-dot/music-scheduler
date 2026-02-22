@@ -477,7 +477,7 @@
 <div id="tab-clocks" class="tab">
   <div class="card">
     <div class="toolbar" style="justify-content:space-between;flex-wrap:wrap;gap:8px">
-      <button class="btn btn-primary" onclick="openClockModal()">+ New Clock Template</button>
+      <button class="btn btn-primary" id="clocks-new-btn">+ New Clock Template</button>
       <div class="pg-view-toggle">
         <button id="clocks-view-btn-list" class="active" onclick="setClocksView('list')">&#9776; List</button>
         <button id="clocks-view-btn-clock" onclick="setClocksView('clock')">&#9685; Clock View</button>
@@ -2268,7 +2268,7 @@ async function loadClocks() {
       <td>${(c.slots||[]).map(s=>catPill(s.category)).join(' ')}</td>
       <td>${fmtDate(c.created_at)}</td>
       <td style="display:flex;gap:6px">
-        <button class="btn btn-primary btn-sm" onclick='editClock(${JSON.stringify(c)})'>&#9998; Edit</button>
+        <a href="/clock-editor/${c.id}" class="btn btn-primary btn-sm">&#9998; Edit</a>
         <button class="btn btn-muted btn-sm" onclick='openClockPie(${JSON.stringify(c)})'>&#9685; Chart</button>
         <button class="btn btn-danger btn-sm" onclick="deleteClock('${c.id}')">✕</button>
       </td>
@@ -2284,12 +2284,21 @@ async function loadClocks() {
       <div class="clock-card-sub">${hm}</div>
       ${renderClockPieSVG(c)}
       <div class="clock-card-actions">
-        <button class="btn btn-primary btn-sm" onclick='editClock(${JSON.stringify(c)})'>&#9998; Edit</button>
+        <a href="/clock-editor/${c.id}" class="btn btn-primary btn-sm">&#9998; Edit</a>
         <button class="btn btn-muted btn-sm" onclick='openClockPie(${JSON.stringify(c)})'>&#9685; Detail</button>
         <button class="btn btn-danger btn-sm" onclick="deleteClock('${c.id}')">✕</button>
       </div>
     </div>`;
   }).join('');
+  const newBtn = document.getElementById('clocks-new-btn');
+  if (newBtn && !newBtn._bound) {
+    newBtn._bound = true;
+    newBtn.addEventListener('click', async () => {
+      const res = await api('POST', '/api/clocks', { name: 'New Clock', slots: [{ category: '', type: 'music', nominal_length_s: 210 }] });
+      if (res && res.id) window.location.href = '/clock-editor/' + res.id;
+      else toast('Failed to create clock', false);
+    });
+  }
 }
 async function deleteClock(id) {
   if (!confirm('Delete this clock?')) return;

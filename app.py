@@ -197,6 +197,11 @@ def clocks_editor_page():
     return render_template("index.html")
 
 
+@app.route("/clock-editor/<clock_id>")
+def clock_editor_page(clock_id):
+    return render_template("clock_editor.html", clock_id=clock_id)
+
+
 @app.route("/rules-editor")
 def rules_editor_page():
     return render_template("index.html")

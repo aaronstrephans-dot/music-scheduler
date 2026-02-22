@@ -343,10 +343,12 @@ def make_clock(data: dict) -> dict:
 SLOT_DEFAULTS = {
     "category":    "",
     "title":       "",    # display label for this slot
-    "type":        "music",  # music | spot | liner | link | sweeper | void
+    "type":        "music",  # music | jingle | liner | traffic | voicetrack | spot | imaging | lognote | sweeper | void
 
     # Timing (seconds; None = unconstrained / use track's actual length)
-    "nominal_length_s":     None,
+    "nominal_length_s":     210,   # default for pie chart sizing (3:30)
+    "min_duration_seconds": 0,
+    "max_duration_seconds": 0,     # 0 = no max
     "max_length_s":         None,
     "min_length_s":         None,
     "nominal_start_time_s": None,  # offset from top of hour
@@ -398,6 +400,9 @@ SLOT_DEFAULTS = {
     "insert_if_empty": False,
     "notes":           "",
     "color":           None,
+    "fixed_cart":      "",   # force a specific cart/track ID
+    "label":           "",   # optional display label override
+    "position":        0,    # sort order in clock
 
     # --- Lognote (automation command) ---
     # Used when type = "lognote".  The command string is passed through verbatim
