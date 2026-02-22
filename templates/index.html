@@ -318,6 +318,10 @@
     <button onclick="showTab('program',this)">Program</button>
     <button onclick="showTab('export',this)">Export</button>
     <button onclick="showTab('rules',this)">Rules</button>
+    <button onclick="showTab('soundcodes',this)">Sound Codes</button>
+    <button onclick="showTab('bulk',this)">Bulk Actions</button>
+    <button onclick="showTab('traffic',this)">Traffic</button>
+    <button onclick="showTab('announcers',this)">Announcers</button>
   </nav>
 </header>
 
@@ -837,6 +841,145 @@
 
 </div>
 
+<!-- ======================== SOUND CODES TAB ======================== -->
+<div id="tab-soundcodes" class="tab">
+  <div class="toolbar" style="align-items:center;justify-content:space-between;margin-bottom:8px">
+    <h2 style="margin:0">Sound Code Library</h2>
+    <button class="btn btn-primary" onclick="openSCModal()">+ Add Sound Code</button>
+  </div>
+  <p style="color:var(--muted);font-size:12px;margin-bottom:20px">
+    Define names for Music1 sound codes 1–30. Assign codes to tracks to enable sound-code filtering in clock slots.
+  </p>
+  <div class="card">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Code</th><th>Name</th><th>Description</th><th></th></tr></thead>
+        <tbody id="sc-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== BULK ACTIONS TAB ======================== -->
+<div id="tab-bulk" class="tab">
+  <div class="toolbar" style="align-items:center;justify-content:space-between;margin-bottom:8px">
+    <h2 style="margin:0">Bulk Track Operations</h2>
+  </div>
+  <p style="color:var(--muted);font-size:12px;margin-bottom:20px">
+    Apply an action to many tracks at once. Use filters to narrow the selection or enter specific track IDs.
+  </p>
+
+  <div class="card">
+    <h3 style="font-size:14px;font-weight:600;margin-bottom:16px">Filter / Select Tracks</h3>
+    <div class="form-grid" style="margin-bottom:16px">
+      <div class="form-group">
+        <label>Category</label>
+        <select id="bulk-cat"><option value="">All Categories</option></select>
+      </div>
+      <div class="form-group">
+        <label>Tempo</label>
+        <select id="bulk-tempo">
+          <option value="">Any</option>
+          <option value="1">1 — Slow</option>
+          <option value="2">2 — Slow-Med</option>
+          <option value="3">3 — Medium</option>
+          <option value="4">4 — Med-Fast</option>
+          <option value="5">5 — Fast</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Search (title / artist)</label>
+        <input type="text" id="bulk-search" placeholder="e.g. Amazing Grace">
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom:16px">
+      <label>Action</label>
+      <select id="bulk-action" onchange="updateBulkUI()">
+        <option value="activate">Activate tracks</option>
+        <option value="deactivate">Deactivate tracks</option>
+        <option value="recategorize">Move to category</option>
+        <option value="set_field">Set a field value</option>
+        <option value="delete">Delete tracks</option>
+      </select>
+    </div>
+
+    <div id="bulk-recategorize-row" style="display:none" class="form-group">
+      <label>New Category</label>
+      <select id="bulk-new-cat"><option value="">Select…</option></select>
+    </div>
+
+    <div id="bulk-setfield-row" style="display:none">
+      <div class="form-grid" style="margin-bottom:0">
+        <div class="form-group">
+          <label>Field Name</label>
+          <input type="text" id="bulk-field" placeholder="e.g. pct_play">
+        </div>
+        <div class="form-group">
+          <label>New Value</label>
+          <input type="text" id="bulk-value" placeholder="e.g. 50">
+        </div>
+      </div>
+    </div>
+
+    <div id="bulk-delete-warn" style="display:none;background:rgba(252,129,129,.1);border:1px solid rgba(252,129,129,.3);border-radius:8px;padding:10px 14px;margin:12px 0;font-size:13px;color:var(--danger)">
+      ⚠ This will permanently delete the selected tracks. This cannot be undone.
+    </div>
+
+    <button class="btn btn-primary" style="margin-top:12px" onclick="runBulkAction()">Apply Action</button>
+    <span id="bulk-result" style="margin-left:14px;font-size:13px;color:var(--success)"></span>
+  </div>
+</div>
+
+<!-- ======================== TRAFFIC TAB ======================== -->
+<div id="tab-traffic" class="tab">
+  <div class="toolbar" style="align-items:center;justify-content:space-between;margin-bottom:8px">
+    <h2 style="margin:0">Traffic / Spot Components</h2>
+    <button class="btn btn-primary" onclick="openTrafficModal()">+ Add Component</button>
+  </div>
+  <p style="color:var(--muted);font-size:12px;margin-bottom:20px">
+    Manage commercial spots, PSAs, promos, and liners scheduled alongside music.
+  </p>
+  <div class="toolbar" style="margin-bottom:12px">
+    <select id="traffic-type-filter" onchange="loadTraffic()">
+      <option value="">All Types</option>
+      <option value="spot">Spot (Commercial)</option>
+      <option value="psa">PSA</option>
+      <option value="promo">Promo</option>
+      <option value="liner">Liner</option>
+      <option value="jingle">Jingle</option>
+      <option value="news">News</option>
+    </select>
+  </div>
+  <div class="card">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Type</th><th>Client</th><th>Duration</th><th>Cart</th><th>Dates</th><th>Active</th><th></th></tr></thead>
+        <tbody id="traffic-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== ANNOUNCERS TAB ======================== -->
+<div id="tab-announcers" class="tab">
+  <div class="toolbar" style="align-items:center;justify-content:space-between;margin-bottom:8px">
+    <h2 style="margin:0">Announcers / Jocks</h2>
+    <button class="btn btn-primary" onclick="openAnnouncerModal()">+ Add Announcer</button>
+  </div>
+  <p style="color:var(--muted);font-size:12px;margin-bottom:20px">
+    Register announcers / jocks. Assign a required announcer to tracks or clock slots to enforce live-assist assignments.
+  </p>
+  <div class="card">
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Initials</th><th>Active</th><th>Notes</th><th></th></tr></thead>
+        <tbody id="ann-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 </main>
 
 <!-- ======================== MODALS ======================== -->
@@ -1165,7 +1308,8 @@ const catPill = c => {
 function esc(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-const navBtn = name => document.querySelector(`nav button:nth-child(${['dashboard','tracks','clocks','schedules','program','export','rules'].indexOf(name)+1})`);
+const _NAV_TABS = ['dashboard','tracks','clocks','schedules','program','export','rules','soundcodes','bulk','traffic','announcers'];
+const navBtn = name => document.querySelector(`nav button:nth-child(${_NAV_TABS.indexOf(name)+1})`);
 
 // ── Tabs ─────────────────────────────────────────────────────────────────────
 function showTab(name, btn) {
@@ -1177,9 +1321,13 @@ function showTab(name, btn) {
   if (name==='tracks')    initTracksTab();
   if (name==='clocks')    loadClocks();
   if (name==='schedules') { loadSchedules(); loadClocksForGen(); }
-  if (name==='program')   loadProgramTab();
-  if (name==='export')    loadExportTab();
-  if (name==='rules')     loadRules();
+  if (name==='program')    loadProgramTab();
+  if (name==='export')     loadExportTab();
+  if (name==='rules')      loadRules();
+  if (name==='soundcodes') loadSoundCodes();
+  if (name==='bulk')       initBulkTab();
+  if (name==='traffic')    loadTraffic();
+  if (name==='announcers') loadAnnouncers();
 }
 
 // ── Modals ────────────────────────────────────────────────────────────────────
@@ -2720,6 +2868,260 @@ function renderTimeline(s) {
       </div>
     </div>`;
   }).join('');
+}
+
+// ── Sound Codes ───────────────────────────────────────────────────────────────
+let _scEditId = null;
+
+async function loadSoundCodes() {
+  const data = await api('GET', '/api/sound-codes');
+  const rows = data.sound_codes || [];
+  $('sc-tbody').innerHTML = rows.length ? rows.map((sc, i) => `
+    <tr>
+      <td style="color:var(--muted)">${i+1}</td>
+      <td><strong style="color:var(--accent)">SC${sc.number}</strong></td>
+      <td>${esc(sc.name)}</td>
+      <td style="color:var(--muted);font-size:12px">${esc(sc.description||'')}</td>
+      <td>
+        <button class="btn btn-muted btn-sm" onclick="editSC(${JSON.stringify(sc).replace(/"/g,'&quot;')})">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteSC('${sc.id}')">Delete</button>
+      </td>
+    </tr>`).join('') : '<tr><td colspan="5" class="empty">No sound codes defined yet.</td></tr>';
+}
+
+function openSCModal(sc) {
+  _scEditId = sc ? sc.id : null;
+  const html = `
+    <div class="card" style="max-width:440px;margin:24px auto">
+      <h3 style="font-size:15px;font-weight:600;margin-bottom:16px">${_scEditId ? 'Edit' : 'Add'} Sound Code</h3>
+      <div class="form-grid">
+        <div class="form-group"><label>Code Number (1-30)</label><input type="number" id="sc-num" min="1" max="30" value="${sc?sc.number:1}"></div>
+        <div class="form-group"><label>Name</label><input type="text" id="sc-name" value="${sc?esc(sc.name):''}"></div>
+        <div class="form-group" style="grid-column:span 2"><label>Description</label><input type="text" id="sc-desc" value="${sc?esc(sc.description||''):''}"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button class="btn btn-primary" onclick="saveSC()">Save</button>
+        <button class="btn btn-muted" onclick="this.closest('.card').remove()">Cancel</button>
+      </div>
+    </div>`;
+  const el = document.createElement('div');
+  el.innerHTML = html;
+  el.style.cssText = 'position:fixed;inset:0;background:#0009;z-index:200;display:flex;align-items:center;justify-content:center';
+  el.id = 'sc-modal-overlay';
+  el.onclick = e => { if (e.target===el) el.remove(); };
+  document.body.appendChild(el);
+}
+
+function editSC(sc) { openSCModal(sc); }
+
+async function saveSC() {
+  const body = { number: +$('sc-num').value, name: $('sc-name').value, description: $('sc-desc').value };
+  if (!body.name) { toast('Name is required', false); return; }
+  if (_scEditId) await api('PUT', `/api/sound-codes/${_scEditId}`, body);
+  else           await api('POST', '/api/sound-codes', body);
+  document.getElementById('sc-modal-overlay')?.remove();
+  loadSoundCodes();
+  toast(_scEditId ? 'Sound code updated' : 'Sound code added');
+}
+
+async function deleteSC(id) {
+  if (!confirm('Delete this sound code?')) return;
+  await api('DELETE', `/api/sound-codes/${id}`);
+  loadSoundCodes();
+  toast('Deleted');
+}
+
+// ── Bulk Actions ──────────────────────────────────────────────────────────────
+async function initBulkTab() {
+  const catSel = $('bulk-cat');
+  if (catSel.options.length <= 1) {
+    _allCats.forEach(c => catSel.add(new Option(c.name, c.name)));
+  }
+  const newCatSel = $('bulk-new-cat');
+  if (newCatSel.options.length <= 1) {
+    _allCats.forEach(c => newCatSel.add(new Option(c.name, c.name)));
+  }
+  updateBulkUI();
+}
+
+function updateBulkUI() {
+  const action = $('bulk-action').value;
+  $('bulk-recategorize-row').style.display = action==='recategorize' ? '' : 'none';
+  $('bulk-setfield-row').style.display     = action==='set_field'    ? '' : 'none';
+  $('bulk-delete-warn').style.display      = action==='delete'       ? '' : 'none';
+}
+
+async function runBulkAction() {
+  const action = $('bulk-action').value;
+  const body = {
+    action,
+    filters: {
+      category: $('bulk-cat').value,
+      tempo:    $('bulk-tempo').value,
+      search:   $('bulk-search').value,
+    },
+  };
+  if (action === 'recategorize') body.value = $('bulk-new-cat').value;
+  if (action === 'set_field')    { body.field = $('bulk-field').value; body.value = $('bulk-value').value; }
+  if (action === 'delete') {
+    if (!confirm('Permanently delete matching tracks?')) return;
+  }
+  const res = await api('POST', '/api/tracks/bulk-action', body);
+  $('bulk-result').textContent = res.success ? `✓ ${res.affected} track(s) affected` : '✗ Error';
+  if (res.success) toast(`Bulk action complete — ${res.affected} track(s) affected`);
+  else toast('Bulk action failed', false);
+}
+
+// ── Traffic ───────────────────────────────────────────────────────────────────
+let _tcEditId = null;
+
+async function loadTraffic() {
+  const type = $('traffic-type-filter').value;
+  const url  = '/api/traffic' + (type ? `?type=${encodeURIComponent(type)}` : '');
+  const data = await api('GET', url);
+  const rows = data.components || [];
+  $('traffic-tbody').innerHTML = rows.length ? rows.map(tc => `
+    <tr>
+      <td style="font-weight:600">${esc(tc.name)}</td>
+      <td><span class="pill pill-blue">${esc(tc.type)}</span></td>
+      <td style="color:var(--muted)">${esc(tc.client||'')}</td>
+      <td>${tc.duration_s}s</td>
+      <td><code style="font-size:11px;color:var(--accent)">${esc(tc.cart||'—')}</code></td>
+      <td style="font-size:12px;color:var(--muted)">${tc.start_date||'—'} → ${tc.end_date||'∞'}</td>
+      <td>${tc.active ? '<span class="pill pill-green">Active</span>' : '<span class="pill pill-red">Off</span>'}</td>
+      <td>
+        <button class="btn btn-muted btn-sm" onclick="openTrafficModal(${JSON.stringify(tc).replace(/"/g,'&quot;')})">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteTraffic('${tc.id}')">Del</button>
+      </td>
+    </tr>`).join('') : '<tr><td colspan="8" class="empty">No components. Click + Add Component.</td></tr>';
+}
+
+function openTrafficModal(tc) {
+  _tcEditId = tc ? tc.id : null;
+  const html = `
+    <div class="card" style="max-width:520px;margin:24px auto;max-height:80vh;overflow-y:auto">
+      <h3 style="font-size:15px;font-weight:600;margin-bottom:16px">${_tcEditId?'Edit':'Add'} Traffic Component</h3>
+      <div class="form-grid">
+        <div class="form-group" style="grid-column:span 2"><label>Name *</label><input type="text" id="tc-name" value="${tc?esc(tc.name):''}"></div>
+        <div class="form-group"><label>Type</label><select id="tc-type">
+          ${['spot','psa','promo','liner','jingle','news'].map(t=>`<option${tc&&tc.type===t?' selected':''}>${t}</option>`).join('')}
+        </select></div>
+        <div class="form-group"><label>Duration (seconds)</label><input type="number" id="tc-dur" value="${tc?tc.duration_s:30}" min="1"></div>
+        <div class="form-group"><label>Client / Advertiser</label><input type="text" id="tc-client" value="${tc?esc(tc.client||''):''}"></div>
+        <div class="form-group"><label>Cart Number</label><input type="text" id="tc-cart" value="${tc?esc(tc.cart||''):''}"></div>
+        <div class="form-group"><label>Start Date</label><input type="date" id="tc-start" value="${tc&&tc.start_date?tc.start_date:''}"></div>
+        <div class="form-group"><label>End Date</label><input type="date" id="tc-end" value="${tc&&tc.end_date?tc.end_date:''}"></div>
+        <div class="form-group"><label>Target Plays/Day</label><input type="number" id="tc-plays-day" min="0" value="${tc?tc.target_plays_per_day:0}"></div>
+        <div class="form-group"><label>ISCI Code</label><input type="text" id="tc-isci" value="${tc?esc(tc.isci_code||''):''}"></div>
+        <div class="form-group" style="grid-column:span 2"><label>Notes</label><input type="text" id="tc-notes" value="${tc?esc(tc.notes||''):''}"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button class="btn btn-primary" onclick="saveTraffic()">Save</button>
+        <button class="btn btn-muted" onclick="document.getElementById('tc-modal-overlay').remove()">Cancel</button>
+      </div>
+    </div>`;
+  const el = document.createElement('div');
+  el.innerHTML = html;
+  el.style.cssText = 'position:fixed;inset:0;background:#0009;z-index:200;display:flex;align-items:center;justify-content:center';
+  el.id = 'tc-modal-overlay';
+  el.onclick = e => { if (e.target===el) el.remove(); };
+  document.body.appendChild(el);
+}
+
+async function saveTraffic() {
+  const body = {
+    name: $('tc-name').value,
+    type: $('tc-type').value,
+    duration_s: +$('tc-dur').value,
+    client: $('tc-client').value,
+    cart: $('tc-cart').value,
+    start_date: $('tc-start').value || null,
+    end_date: $('tc-end').value || null,
+    target_plays_per_day: +$('tc-plays-day').value,
+    isci_code: $('tc-isci').value,
+    notes: $('tc-notes').value,
+  };
+  if (!body.name) { toast('Name is required', false); return; }
+  if (_tcEditId) await api('PUT', `/api/traffic/${_tcEditId}`, body);
+  else           await api('POST', '/api/traffic', body);
+  document.getElementById('tc-modal-overlay')?.remove();
+  loadTraffic();
+  toast(_tcEditId ? 'Component updated' : 'Component added');
+}
+
+async function deleteTraffic(id) {
+  if (!confirm('Delete this component?')) return;
+  await api('DELETE', `/api/traffic/${id}`);
+  loadTraffic();
+  toast('Deleted');
+}
+
+// ── Announcers ────────────────────────────────────────────────────────────────
+let _annEditId = null;
+
+async function loadAnnouncers() {
+  const data = await api('GET', '/api/announcers');
+  const rows = data.announcers || [];
+  $('ann-tbody').innerHTML = rows.length ? rows.map(a => `
+    <tr>
+      <td style="font-weight:600">${esc(a.name)}</td>
+      <td style="color:var(--muted)">${esc(a.initials||'')}</td>
+      <td>${a.active ? '<span class="pill pill-green">Active</span>' : '<span class="pill pill-red">Off</span>'}</td>
+      <td style="color:var(--muted);font-size:12px">${esc(a.notes||'')}</td>
+      <td>
+        <button class="btn btn-muted btn-sm" onclick="openAnnouncerModal(${JSON.stringify(a).replace(/"/g,'&quot;')})">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteAnnouncer('${a.id}')">Del</button>
+      </td>
+    </tr>`).join('') : '<tr><td colspan="5" class="empty">No announcers. Click + Add Announcer.</td></tr>';
+}
+
+function openAnnouncerModal(ann) {
+  _annEditId = ann ? ann.id : null;
+  const html = `
+    <div class="card" style="max-width:400px;margin:24px auto">
+      <h3 style="font-size:15px;font-weight:600;margin-bottom:16px">${_annEditId?'Edit':'Add'} Announcer</h3>
+      <div class="form-grid">
+        <div class="form-group" style="grid-column:span 2"><label>Name *</label><input type="text" id="ann-name" value="${ann?esc(ann.name):''}"></div>
+        <div class="form-group"><label>Initials</label><input type="text" id="ann-init" maxlength="4" value="${ann?esc(ann.initials||''):''}"></div>
+        <div class="form-group"><label>Active</label><select id="ann-active">
+          <option value="true"${!ann||ann.active?' selected':''}>Yes</option>
+          <option value="false"${ann&&!ann.active?' selected':''}>No</option>
+        </select></div>
+        <div class="form-group" style="grid-column:span 2"><label>Notes</label><input type="text" id="ann-notes" value="${ann?esc(ann.notes||''):''}"></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button class="btn btn-primary" onclick="saveAnnouncer()">Save</button>
+        <button class="btn btn-muted" onclick="document.getElementById('ann-modal-overlay').remove()">Cancel</button>
+      </div>
+    </div>`;
+  const el = document.createElement('div');
+  el.innerHTML = html;
+  el.style.cssText = 'position:fixed;inset:0;background:#0009;z-index:200;display:flex;align-items:center;justify-content:center';
+  el.id = 'ann-modal-overlay';
+  el.onclick = e => { if (e.target===el) el.remove(); };
+  document.body.appendChild(el);
+}
+
+async function saveAnnouncer() {
+  const body = {
+    name: $('ann-name').value,
+    initials: $('ann-init').value,
+    active: $('ann-active').value === 'true',
+    notes: $('ann-notes').value,
+  };
+  if (!body.name) { toast('Name is required', false); return; }
+  if (_annEditId) await api('PUT', `/api/announcers/${_annEditId}`, body);
+  else            await api('POST', '/api/announcers', body);
+  document.getElementById('ann-modal-overlay')?.remove();
+  loadAnnouncers();
+  toast(_annEditId ? 'Announcer updated' : 'Announcer added');
+}
+
+async function deleteAnnouncer(id) {
+  if (!confirm('Delete this announcer?')) return;
+  await api('DELETE', `/api/announcers/${id}`);
+  loadAnnouncers();
+  toast('Deleted');
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────────

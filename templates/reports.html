@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports — Music Scheduler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070a12;--bg2:#0c0f1a;
+  --surface:rgba(255,255,255,0.035);--border:rgba(255,255,255,0.07);--border-bright:rgba(255,255,255,0.14);
+  --accent:#7c6cf0;--accent-dim:rgba(124,108,240,0.18);--accent-glow:rgba(124,108,240,0.35);--accent2:#f472b6;
+  --text:#f1f5f9;--text2:#94a3b8;--text3:#475569;
+  --success:#34d399;--danger:#f87171;--warn:#fbbf24;--info:#60a5fa;--sidebar-w:220px;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px;-webkit-font-smoothing:antialiased}
+.app{display:flex;min-height:100vh}
+.sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;z-index:50}
+.sidebar-logo{display:flex;align-items:center;gap:10px;padding:22px 20px 20px;border-bottom:1px solid var(--border)}
+.logo-icon{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#7c6cf0,#f472b6);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;box-shadow:0 4px 12px rgba(124,108,240,0.4)}
+.logo-text{font-weight:700;font-size:15px;letter-spacing:-.3px}
+.logo-sub{font-size:10px;color:var(--text3);font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+.sidebar-section{padding:16px 12px 8px;font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--text3)}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;margin:2px 8px;border-radius:8px;text-decoration:none;color:var(--text2);font-weight:500;font-size:13.5px;transition:all .15s;position:relative}
+.nav-item:hover{background:rgba(255,255,255,0.05);color:var(--text)}
+.nav-item.active{background:var(--accent-dim);color:var(--accent)}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:18px;background:var(--accent);border-radius:0 2px 2px 0}
+.nav-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.sidebar-bottom{margin-top:auto;padding:16px;border-top:1px solid var(--border)}
+.station-pill{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.station-avatar{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#7c6cf0,#f472b6);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.station-name{font-weight:600;font-size:12.5px}
+.station-role{font-size:11px;color:var(--text3)}
+
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{padding:20px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(7,10,18,0.7);backdrop-filter:blur(20px);position:sticky;top:0;z-index:40}
+.topbar-title{font-size:20px;font-weight:700;letter-spacing:-.4px}
+.topbar-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.topbar-right{display:flex;gap:10px}
+.content{padding:28px 32px;flex:1}
+
+.btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit;text-decoration:none}
+.btn-accent{background:var(--accent);color:#fff}
+.btn-accent:hover{box-shadow:0 0 18px var(--accent-glow);transform:translateY(-1px)}
+.btn-ghost{background:rgba(255,255,255,0.04);color:var(--text2);border:1px solid var(--border)}
+.btn-ghost:hover{background:rgba(255,255,255,0.08);color:var(--text)}
+.btn-sm{padding:5px 12px;font-size:12px}
+.btn-success{background:rgba(52,211,153,0.15);color:var(--success);border:1px solid rgba(52,211,153,0.2)}
+.btn-success:hover{background:rgba(52,211,153,0.25)}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.tab{padding:10px 18px;font-size:13px;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;margin-bottom:-1px}
+.tab:hover{color:var(--text2)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* Summary stat row */
+.stat-row{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.stat-mini{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;flex:1;min-width:130px}
+.stat-mini-label{font-size:11px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+.stat-mini-value{font-size:26px;font-weight:800;letter-spacing:-1px}
+
+/* Card */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;backdrop-filter:blur(12px);margin-bottom:20px}
+.card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:14px;font-weight:700}
+.card-body{padding:16px 20px}
+
+/* Filter bar */
+.filter-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.form-select{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;transition:all .15s}
+.form-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim)}
+.form-select option{background:#1a1d2e}
+.form-input{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;transition:all .15s}
+.form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim)}
+.form-input::placeholder{color:var(--text3)}
+
+/* Table */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:10px 12px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,0.02)}
+.td-mono{font-family:monospace;font-size:12px}
+.td-right{text-align:right}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-green{background:rgba(52,211,153,0.12);color:var(--success);border:1px solid rgba(52,211,153,0.2)}
+.badge-red{background:rgba(248,113,113,0.1);color:var(--danger);border:1px solid rgba(248,113,113,0.2)}
+.badge-yellow{background:rgba(251,191,36,0.12);color:var(--warn);border:1px solid rgba(251,191,36,0.2)}
+.badge-blue{background:rgba(96,165,250,0.12);color:var(--info);border:1px solid rgba(96,165,250,0.2)}
+.badge-purple{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(124,108,240,0.3)}
+
+/* Progress bar */
+.prog-bar{height:5px;background:rgba(255,255,255,0.06);border-radius:5px;overflow:hidden;min-width:60px}
+.prog-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s ease}
+
+.empty-state{text-align:center;padding:40px;color:var(--text3)}
+.empty-icon{font-size:40px;margin-bottom:12px}
+.empty-msg{font-size:14px;font-weight:500}
+
+.alert{padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:13px;font-weight:500;display:none}
+.alert.show{display:flex;align-items:center;gap:10px}
+.alert-err{background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.25);color:var(--danger)}
+.alert-ok{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);color:var(--success)}
+</style>
+</head>
+<body>
+<div class="app">
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">🎵</div>
+    <div><div class="logo-text">MusicSched</div><div class="logo-sub">Pro</div></div>
+  </div>
+  <div class="sidebar-section">Main</div>
+  <a href="/" class="nav-item"><span class="nav-icon">⊞</span>Dashboard</a>
+  <a href="/generate" class="nav-item"><span class="nav-icon">✦</span>Generate Schedule</a>
+  <a href="/view" class="nav-item"><span class="nav-icon">◫</span>View Schedule</a>
+  <a href="/export" class="nav-item"><span class="nav-icon">↑</span>Export Logs</a>
+  <a href="/reports" class="nav-item active"><span class="nav-icon">📊</span>Reports</a>
+  <div class="sidebar-section">Library</div>
+  <a href="/library" class="nav-item"><span class="nav-icon">♪</span>Song Library</a>
+  <a href="/clocks-editor" class="nav-item"><span class="nav-icon">⏱</span>Clock Templates</a>
+  <a href="/rules-editor" class="nav-item"><span class="nav-icon">◈</span>Rules Engine</a>
+  <div class="sidebar-bottom">
+    <div class="station-pill">
+      <div class="station-avatar">P</div>
+      <div><div class="station-name">Praise FM</div><div class="station-role">Administrator</div></div>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <div>
+      <div class="topbar-title">Reports</div>
+      <div class="topbar-sub">Rotation analysis, compliance logs, and play history</div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-ghost btn-sm" onclick="downloadCompliance()">↓ ASCAP/BMI CSV</button>
+      <button class="btn btn-accent btn-sm" onclick="loadAll()">↻ Refresh All</button>
+    </div>
+  </header>
+
+  <div class="content">
+    <div class="alert" id="alertBox"></div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('rotation')">Rotation Report</div>
+      <div class="tab" onclick="switchTab('artists')">Artist Analysis</div>
+      <div class="tab" onclick="switchTab('categories')">Category Analysis</div>
+      <div class="tab" onclick="switchTab('never')">Never Played</div>
+      <div class="tab" onclick="switchTab('compliance')">Compliance Log</div>
+    </div>
+
+    <!-- ── ROTATION REPORT ── -->
+    <div class="tab-panel active" id="panel-rotation">
+      <div class="stat-row" id="rotStatRow">
+        <div class="stat-mini"><div class="stat-mini-label">Total Tracks</div><div class="stat-mini-value" id="rTot">—</div></div>
+        <div class="stat-mini"><div class="stat-mini-label">Played</div><div class="stat-mini-value" id="rPlayed" style="color:var(--success)">—</div></div>
+        <div class="stat-mini"><div class="stat-mini-label">Never Played</div><div class="stat-mini-value" id="rNever" style="color:var(--danger)">—</div></div>
+        <div class="stat-mini"><div class="stat-mini-label">Avg Plays</div><div class="stat-mini-value" id="rAvg" style="color:var(--info)">—</div></div>
+      </div>
+      <div class="filter-bar">
+        <select class="form-select" id="rotCat" onchange="loadRotation()"><option value="">All Categories</option></select>
+        <select class="form-select" id="rotSort" onchange="loadRotation()">
+          <option value="play_count">Sort: Most Played</option>
+          <option value="last_played_at">Sort: Last Played</option>
+          <option value="title">Sort: Title</option>
+          <option value="artist">Sort: Artist</option>
+        </select>
+        <select class="form-select" id="rotOrder" onchange="loadRotation()">
+          <option value="desc">Descending</option>
+          <option value="asc">Ascending</option>
+        </select>
+        <input class="form-input" id="rotSearch" placeholder="Search title / artist…" oninput="filterRotTable()" style="flex:1;min-width:180px">
+        <button class="btn btn-ghost btn-sm" onclick="loadRotation()">↻</button>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Track Rotation Depth</div>
+          <span id="rotCount" style="font-size:12px;color:var(--text3)"></span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th><th>Title</th><th>Artist</th><th>Category</th>
+                <th class="td-right">Plays</th><th>Rotation Depth</th><th>Last Played</th><th>Active</th>
+              </tr>
+            </thead>
+            <tbody id="rotTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ARTIST ANALYSIS ── -->
+    <div class="tab-panel" id="panel-artists">
+      <div class="filter-bar">
+        <input class="form-input" id="artSearch" placeholder="Search artist…" oninput="filterArtTable()" style="flex:1;min-width:200px">
+        <button class="btn btn-ghost btn-sm" onclick="loadArtists()">↻ Refresh</button>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Artist Play Frequency</div>
+          <span id="artCount" style="font-size:12px;color:var(--text3)"></span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th><th>Artist</th><th class="td-right">Tracks</th>
+                <th class="td-right">Total Plays</th><th>Separation</th><th>Group</th><th>Last Played</th>
+              </tr>
+            </thead>
+            <tbody id="artTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CATEGORY ANALYSIS ── -->
+    <div class="tab-panel" id="panel-categories">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Category Rotation Summary</div></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Category</th><th class="td-right">Total</th><th class="td-right">Active</th>
+                <th class="td-right">Never Played</th><th class="td-right">Total Plays</th>
+                <th class="td-right">Avg Plays</th><th>Avg Tempo</th>
+              </tr>
+            </thead>
+            <tbody id="catTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── NEVER PLAYED ── -->
+    <div class="tab-panel" id="panel-never">
+      <div class="filter-bar">
+        <select class="form-select" id="neverCat" onchange="loadNever()"><option value="">All Categories</option></select>
+        <button class="btn btn-ghost btn-sm" onclick="loadNever()">↻ Refresh</button>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Tracks Never Played</div>
+          <span id="neverCount" style="font-size:12px;color:var(--text3)"></span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr><th>#</th><th>Title</th><th>Artist</th><th>Category</th><th>Added</th><th>Active</th></tr>
+            </thead>
+            <tbody id="neverTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── COMPLIANCE LOG ── -->
+    <div class="tab-panel" id="panel-compliance">
+      <div class="filter-bar">
+        <label style="font-size:12px;color:var(--text2);font-weight:600">From</label>
+        <input type="date" class="form-input" id="compStart">
+        <label style="font-size:12px;color:var(--text2);font-weight:600">To</label>
+        <input type="date" class="form-input" id="compEnd">
+        <button class="btn btn-accent btn-sm" onclick="loadCompliance()">Load</button>
+        <button class="btn btn-success btn-sm" onclick="downloadCompliance()">↓ CSV</button>
+      </div>
+      <div class="stat-row">
+        <div class="stat-mini"><div class="stat-mini-label">Total Plays</div><div class="stat-mini-value" id="compTotal">—</div></div>
+        <div class="stat-mini"><div class="stat-mini-label">With ISRC</div><div class="stat-mini-value" id="compIsrc" style="color:var(--success)">—</div></div>
+        <div class="stat-mini"><div class="stat-mini-label">Missing ISRC</div><div class="stat-mini-value" id="compMissing" style="color:var(--warn)">—</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">ASCAP / BMI Broadcast Log</div></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th><th>Air Time</th><th>Title</th><th>Artist</th>
+                <th>Album</th><th>Duration</th><th>ISRC</th><th>Publisher</th><th>Composer</th>
+              </tr>
+            </thead>
+            <tbody id="compTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+let allRotRows  = [];
+let allArtRows  = [];
+let catNames    = [];
+
+function showAlert(msg, ok) {
+  const el = document.getElementById('alertBox');
+  el.className = 'alert show ' + (ok ? 'alert-ok' : 'alert-err');
+  el.innerHTML = (ok ? '✓ ' : '✗ ') + msg;
+  setTimeout(() => el.className = 'alert', 5000);
+}
+
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', t.textContent.toLowerCase().includes(id) || (id==='rotation'&&i===0)));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-'+id));
+}
+// fix tab switching
+document.querySelectorAll('.tab').forEach(t => {
+  t.onclick = () => {
+    const panels = ['rotation','artists','categories','never','compliance'];
+    const idx = Array.from(document.querySelectorAll('.tab')).indexOf(t);
+    document.querySelectorAll('.tab').forEach((tt,i) => tt.classList.toggle('active', i===idx));
+    document.querySelectorAll('.tab-panel').forEach((p,i) => p.classList.toggle('active', i===idx));
+  };
+});
+
+async function loadCategories() {
+  try {
+    const r = await fetch('/api/categories');
+    const d = await r.json();
+    catNames = (d.categories || []).map(c => c.name).sort();
+    ['rotCat','neverCat'].forEach(id => {
+      const sel = document.getElementById(id);
+      if (!sel) return;
+      const cur = sel.value;
+      while (sel.options.length > 1) sel.remove(1);
+      catNames.forEach(n => sel.add(new Option(n, n)));
+      sel.value = cur;
+    });
+  } catch(e) {}
+}
+
+async function loadRotation() {
+  const cat   = document.getElementById('rotCat').value;
+  const sort  = document.getElementById('rotSort').value;
+  const order = document.getElementById('rotOrder').value;
+  try {
+    const url = `/api/reports/rotation?sort=${sort}&order=${order}&limit=500${cat ? '&category='+encodeURIComponent(cat) : ''}`;
+    const r = await fetch(url);
+    const d = await r.json();
+    document.getElementById('rTot').textContent    = d.total ?? '—';
+    document.getElementById('rPlayed').textContent = d.played ?? '—';
+    document.getElementById('rNever').textContent  = d.never_played ?? '—';
+    document.getElementById('rAvg').textContent    = d.avg_plays ?? '—';
+    document.getElementById('rotCount').textContent = `${(d.tracks||[]).length} tracks`;
+    allRotRows = d.tracks || [];
+    renderRotTable(allRotRows);
+  } catch(e) { showAlert('Failed to load rotation report: '+e.message, false); }
+}
+
+function renderRotTable(rows) {
+  const max = Math.max(...rows.map(r => r.play_count||0), 1);
+  document.getElementById('rotTbody').innerHTML = rows.map((r,i) => `
+    <tr>
+      <td style="color:var(--text3)">${i+1}</td>
+      <td><span style="font-weight:600">${esc(r.title||'')}</span></td>
+      <td style="color:var(--text2)">${esc(r.artist||'')}</td>
+      <td><span class="badge badge-blue">${esc(r.category||'')}</span></td>
+      <td class="td-right td-mono" style="font-weight:700">${r.play_count||0}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="prog-bar" style="width:80px"><div class="prog-fill" style="width:${Math.round((r.play_count||0)/max*100)}%"></div></div>
+          <span style="font-size:11px;color:var(--text3)">${Math.round((r.play_count||0)/max*100)}%</span>
+        </div>
+      </td>
+      <td style="color:var(--text3);font-size:12px">${r.last_played_at ? r.last_played_at.slice(0,10) : 'Never'}</td>
+      <td>${r.active ? '<span class="badge badge-green">Active</span>' : '<span class="badge badge-red">Off</span>'}</td>
+    </tr>`).join('') || '<tr><td colspan="8" class="empty-state">No data</td></tr>';
+}
+
+function filterRotTable() {
+  const q = document.getElementById('rotSearch').value.toLowerCase();
+  renderRotTable(q ? allRotRows.filter(r =>
+    (r.title||'').toLowerCase().includes(q) || (r.artist||'').toLowerCase().includes(q)
+  ) : allRotRows);
+}
+
+async function loadArtists() {
+  try {
+    const r = await fetch('/api/reports/artist-separation');
+    const d = await r.json();
+    document.getElementById('artCount').textContent = `${d.total_artists} artists`;
+    allArtRows = d.rows || [];
+    renderArtTable(allArtRows);
+  } catch(e) { showAlert('Failed to load artist report', false); }
+}
+
+function renderArtTable(rows) {
+  document.getElementById('artTbody').innerHTML = rows.map((r,i) => `
+    <tr>
+      <td style="color:var(--text3)">${i+1}</td>
+      <td style="font-weight:600">${esc(r.artist||'')}</td>
+      <td class="td-right td-mono">${r.track_count}</td>
+      <td class="td-right td-mono" style="font-weight:700">${r.total_plays}</td>
+      <td style="color:var(--text2);font-size:12px">${fmtMs(r.separation_ms)}</td>
+      <td>${r.group_id ? '<span class="badge badge-purple">Group</span>' : '<span style="color:var(--text3);font-size:12px">Solo</span>'}</td>
+      <td style="color:var(--text3);font-size:12px">${r.last_played_at ? r.last_played_at.slice(0,10) : 'Never'}</td>
+    </tr>`).join('') || '<tr><td colspan="7" class="empty-state">No data</td></tr>';
+}
+
+function filterArtTable() {
+  const q = document.getElementById('artSearch').value.toLowerCase();
+  renderArtTable(q ? allArtRows.filter(r => (r.artist||'').toLowerCase().includes(q)) : allArtRows);
+}
+
+async function loadCategories2() {
+  try {
+    const r = await fetch('/api/reports/category-analysis');
+    const d = await r.json();
+    document.getElementById('catTbody').innerHTML = (d.rows||[]).map(r => `
+      <tr>
+        <td style="font-weight:600">${esc(r.category)}</td>
+        <td class="td-right td-mono">${r.total_tracks}</td>
+        <td class="td-right td-mono">${r.active_tracks}</td>
+        <td class="td-right td-mono" style="color:${r.never_played>0?'var(--warn)':'var(--text3)'}">${r.never_played}</td>
+        <td class="td-right td-mono" style="font-weight:700">${r.total_plays}</td>
+        <td class="td-right td-mono">${r.avg_plays}</td>
+        <td>${tempoBar(r.avg_tempo)}</td>
+      </tr>`).join('') || '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">📊</div><div class="empty-msg">No categories found</div></div></td></tr>';
+  } catch(e) {}
+}
+
+function tempoBar(v) {
+  if (!v) return '<span style="color:var(--text3);font-size:12px">—</span>';
+  const pct = Math.round((v-1)/4*100);
+  const labels = ['','Slow','Slow-Med','Medium','Med-Fast','Fast'];
+  return `<div style="display:flex;align-items:center;gap:8px"><div class="prog-bar" style="width:60px"><div class="prog-fill" style="width:${pct}%"></div></div><span style="font-size:11px;color:var(--text3)">${v.toFixed(1)}</span></div>`;
+}
+
+async function loadNever() {
+  const cat = document.getElementById('neverCat').value;
+  try {
+    const url = `/api/reports/never-played${cat ? '?category='+encodeURIComponent(cat) : ''}`;
+    const r = await fetch(url);
+    const d = await r.json();
+    document.getElementById('neverCount').textContent = `${d.total} tracks`;
+    document.getElementById('neverTbody').innerHTML = (d.tracks||[]).map((t,i) => `
+      <tr>
+        <td style="color:var(--text3)">${i+1}</td>
+        <td style="font-weight:600">${esc(t.title||'')}</td>
+        <td style="color:var(--text2)">${esc(t.artist||'')}</td>
+        <td><span class="badge badge-blue">${esc(t.category||'')}</span></td>
+        <td style="color:var(--text3);font-size:12px">${(t.added_at||'').slice(0,10)||'—'}</td>
+        <td>${t.active ? '<span class="badge badge-green">Active</span>' : '<span class="badge badge-red">Off</span>'}</td>
+      </tr>`).join('') || '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">✓</div><div class="empty-msg">All tracks have been played</div></div></td></tr>';
+  } catch(e) {}
+}
+
+function initComplianceDates() {
+  const today = new Date();
+  const week  = new Date(today); week.setDate(week.getDate()-7);
+  document.getElementById('compEnd').value   = today.toISOString().slice(0,10);
+  document.getElementById('compStart').value = week.toISOString().slice(0,10);
+}
+
+async function loadCompliance() {
+  const s = document.getElementById('compStart').value;
+  const e = document.getElementById('compEnd').value;
+  try {
+    const r = await fetch(`/api/reports/compliance?start_date=${s}&end_date=${e}`);
+    const d = await r.json();
+    const plays = d.plays || [];
+    document.getElementById('compTotal').textContent   = plays.length;
+    const withIsrc = plays.filter(p => p.isrc_code).length;
+    document.getElementById('compIsrc').textContent   = withIsrc;
+    document.getElementById('compMissing').textContent = plays.length - withIsrc;
+    document.getElementById('compTbody').innerHTML = plays.slice(0, 500).map(p => `
+      <tr>
+        <td class="td-mono" style="font-size:12px">${p.date}</td>
+        <td class="td-mono" style="font-size:12px">${p.air_time||'—'}</td>
+        <td style="font-weight:600">${esc(p.title||'')}</td>
+        <td style="color:var(--text2)">${esc(p.artist||'')}</td>
+        <td style="color:var(--text3)">${esc(p.album||'')}</td>
+        <td class="td-mono" style="font-size:12px">${fmtDur(p.duration_s)}</td>
+        <td class="td-mono" style="font-size:11px;color:${p.isrc_code?'var(--success)':'var(--warn)'}">${p.isrc_code||'—'}</td>
+        <td style="font-size:12px;color:var(--text3)">${esc(p.publisher||'')}</td>
+        <td style="font-size:12px;color:var(--text3)">${esc(p.composer||'')}</td>
+      </tr>`).join('') || '<tr><td colspan="9"><div class="empty-state"><div class="empty-icon">📋</div><div class="empty-msg">No plays in range</div></div></td></tr>';
+  } catch(e) { showAlert('Failed to load compliance log', false); }
+}
+
+async function downloadCompliance() {
+  const s = document.getElementById('compStart')?.value || '';
+  const e = document.getElementById('compEnd')?.value || '';
+  const url = `/api/reports/compliance?format=csv&start_date=${s}&end_date=${e}`;
+  const a = document.createElement('a'); a.href = url; a.download = `compliance_${s}_${e}.csv`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+function fmtMs(ms) {
+  if (!ms) return '—';
+  const m = Math.round(ms/60000);
+  return m >= 60 ? `${Math.floor(m/60)}h ${m%60}m` : `${m}m`;
+}
+function fmtDur(s) {
+  if (!s) return '—';
+  const m = Math.floor(s/60), ss = s%60;
+  return `${m}:${String(ss).padStart(2,'0')}`;
+}
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+async function loadAll() {
+  await loadCategories();
+  await Promise.all([loadRotation(), loadArtists(), loadCategories2(), loadNever()]);
+  initComplianceDates();
+}
+
+loadAll();
+</script>
+</body>
+</html>

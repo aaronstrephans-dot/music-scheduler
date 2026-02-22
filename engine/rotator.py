@@ -147,7 +147,7 @@ def _stack_key(track: dict) -> str:
 
 def _passes_artist_sep(track: dict, scheduled: list, rules: dict,
                         artist_lookup: dict = None) -> bool:
-    """True if artist separation is satisfied."""
+    """True if artist separation is satisfied, including group separation."""
     artist = _artist_key(track)
     if not artist:
         return True
@@ -155,31 +155,41 @@ def _passes_artist_sep(track: dict, scheduled: list, rules: dict,
     # Determine separation in songs (fallback) and ms (if artist record available)
     sep_songs = rules.get("artist_separation_songs", 9)
     sep_ms    = None
+    group_id  = None
 
     if artist_lookup:
-        # Look up by artist name
         art_rec = artist_lookup.get(artist)
         if art_rec:
-            sep_ms = art_rec.get("separation_ms")
-            # Group separation: check if any recent song's artist shares the same group
+            sep_ms   = art_rec.get("separation_ms")
             group_id = art_rec.get("group_id")
-        else:
-            group_id = None
-    else:
-        group_id = None
 
     if sep_ms is not None:
-        # Time-based check: find last play of this artist in scheduled list
-        # We approximate using scheduled list; full time-based needs play history
-        window = min(len(scheduled), sep_songs * 3)  # look back a reasonable window
+        # Time-based check approximated by look-back window
+        window = min(len(scheduled), sep_songs * 3)
         for s in reversed(scheduled[-window:]):
             if _artist_key(s) == artist:
                 return False
+        # Group separation: if this artist belongs to a group, check group members too
+        if group_id and artist_lookup:
+            for s in reversed(scheduled[-window:]):
+                s_artist = _artist_key(s)
+                s_rec    = artist_lookup.get(s_artist)
+                if s_rec and s_rec.get("group_id") == group_id:
+                    return False
         return True
     else:
         # Song-count-based check
         recent = [_artist_key(s) for s in scheduled[-sep_songs:]]
-        return artist not in recent
+        if artist in recent:
+            return False
+        # Group separation
+        if group_id and artist_lookup:
+            for s in scheduled[-sep_songs:]:
+                s_artist = _artist_key(s)
+                s_rec    = artist_lookup.get(s_artist)
+                if s_rec and s_rec.get("group_id") == group_id and s_artist != artist:
+                    return False
+        return True
 
 
 def _passes_title_sep(track: dict, scheduled: list, rules: dict,
@@ -486,6 +496,18 @@ def _passes_slot_filters(track: dict, slot: dict) -> bool:
                 return False
     if not _passes_sound_codes(track, slot):
         return False
+    # Announcer requirement: if slot specifies an announcer, track must match (0 = any)
+    slot_ann = slot.get("announcer")
+    if slot_ann:
+        track_ann = track.get("announcer", 0)
+        if track_ann and track_ann != slot_ann:
+            return False
+    # Track-level announcer requirement: if track requires a specific announcer
+    track_ann = track.get("announcer", 0)
+    if track_ann:
+        slot_ann = slot.get("announcer")
+        if slot_ann is not None and slot_ann != 0 and slot_ann != track_ann:
+            return False
     return True
 
 
@@ -1201,9 +1223,11 @@ def build_schedule(
                 "position":         position,
                 "type":             "music",
                 "category":         effective_cat,
+                "id":               chosen.get("id"),
                 "track_id":         chosen.get("id"),
                 "title":            chosen.get("title"),
                 "artist":           chosen.get("artist"),
+                "album":            chosen.get("album", ""),
                 "duration_seconds": duration_s,
                 "duration_ms":      duration_ms,
                 "intro_ms":         chosen.get("intro_ms", 0),
@@ -1220,6 +1244,15 @@ def build_schedule(
                 "sound_codes":      chosen.get("sound_codes", []),
                 "cart":             chosen.get("cart", ""),
                 "file_path":        chosen.get("file_path", ""),
+                "isrc_code":        chosen.get("isrc_code", ""),
+                "record_label":     chosen.get("record_label", ""),
+                "publisher":        chosen.get("publisher", ""),
+                "composer":         chosen.get("composer", ""),
+                "genre":            chosen.get("genre", ""),
+                "announcer":        chosen.get("announcer", 0),
+                "play_count":       chosen.get("play_count", 0),
+                "last_played_at":   chosen.get("last_played_at"),
+                "stack_key":        chosen.get("stack_key", ""),
                 "notes":            slot.get("notes", ""),
             })
 

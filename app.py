@@ -6,10 +6,12 @@ import uuid
 from collections import Counter
 from datetime import datetime
 
+import ftplib
 import ai
 from engine.models import (
     make_track, make_artist, make_category, make_daypart,
     make_day_template, make_clock, make_slot, DEFAULT_DAYPARTS,
+    make_announcer, make_sound_code, make_traffic_component, make_artist_group,
 )
 from engine.rotator import build_schedule
 from engine.rules import DEFAULT_RULES, merge_rules
@@ -18,18 +20,23 @@ from flask import Flask, Response, jsonify, render_template, request
 
 app = Flask(__name__)
 
-SCHEDULES_DIR     = os.path.join(os.path.dirname(__file__), "data", "schedules")
-TRACKS_DIR        = os.path.join(os.path.dirname(__file__), "data", "tracks")
-CLOCKS_DIR        = os.path.join(os.path.dirname(__file__), "data", "clocks")
-ARTISTS_DIR       = os.path.join(os.path.dirname(__file__), "data", "artists")
-CATEGORIES_DIR    = os.path.join(os.path.dirname(__file__), "data", "categories")
-DAYPARTS_DIR      = os.path.join(os.path.dirname(__file__), "data", "dayparts")
-DAY_TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "data", "day_templates")
-PLAY_HISTORY_DIR  = os.path.join(os.path.dirname(__file__), "data", "play_history")
-RULES_FILE        = os.path.join(os.path.dirname(__file__), "data", "rules.json")
+SCHEDULES_DIR       = os.path.join(os.path.dirname(__file__), "data", "schedules")
+TRACKS_DIR          = os.path.join(os.path.dirname(__file__), "data", "tracks")
+CLOCKS_DIR          = os.path.join(os.path.dirname(__file__), "data", "clocks")
+ARTISTS_DIR         = os.path.join(os.path.dirname(__file__), "data", "artists")
+CATEGORIES_DIR      = os.path.join(os.path.dirname(__file__), "data", "categories")
+DAYPARTS_DIR        = os.path.join(os.path.dirname(__file__), "data", "dayparts")
+DAY_TEMPLATES_DIR   = os.path.join(os.path.dirname(__file__), "data", "day_templates")
+PLAY_HISTORY_DIR    = os.path.join(os.path.dirname(__file__), "data", "play_history")
+ANNOUNCERS_DIR      = os.path.join(os.path.dirname(__file__), "data", "announcers")
+SOUND_CODES_DIR     = os.path.join(os.path.dirname(__file__), "data", "sound_codes")
+TRAFFIC_DIR         = os.path.join(os.path.dirname(__file__), "data", "traffic")
+ARTIST_GROUPS_DIR   = os.path.join(os.path.dirname(__file__), "data", "artist_groups")
+RULES_FILE          = os.path.join(os.path.dirname(__file__), "data", "rules.json")
 
 for _d in (SCHEDULES_DIR, TRACKS_DIR, CLOCKS_DIR, ARTISTS_DIR, CATEGORIES_DIR,
-            DAYPARTS_DIR, DAY_TEMPLATES_DIR, PLAY_HISTORY_DIR):
+            DAYPARTS_DIR, DAY_TEMPLATES_DIR, PLAY_HISTORY_DIR, ANNOUNCERS_DIR,
+            SOUND_CODES_DIR, TRAFFIC_DIR, ARTIST_GROUPS_DIR):
     os.makedirs(_d, exist_ok=True)
 
 
@@ -193,6 +200,11 @@ def clocks_editor_page():
 @app.route("/rules-editor")
 def rules_editor_page():
     return render_template("index.html")
+
+
+@app.route("/reports")
+def reports_page():
+    return render_template("reports.html")
 
 
 @app.route("/api/status")
@@ -1234,120 +1246,7 @@ def api_generate_week():
         return jsonify({"success": False, "error": str(e)}), 500
 
 
-# ---------------------------------------------------------------------------
-# Export  (called by export.html)
-# ---------------------------------------------------------------------------
-
-@app.route("/api/export", methods=["POST"])
-def api_export():
-    data      = request.get_json(silent=True) or {}
-    formats   = data.get("formats", ["zetta-log"])
-    scope     = data.get("scope", "day")
-
-    try:
-        schedules  = _load_all(SCHEDULES_DIR)
-        if not schedules:
-            return jsonify({"success": False, "error": "No schedules to export. Generate a schedule first."}), 400
-
-        # Sort by date, take most recent 7
-        schedules.sort(key=lambda s: s.get("date") or s.get("created_at") or "")
-        recent = schedules[-7:]
-
-        import os
-        export_dir = os.path.join(os.path.dirname(__file__), "data", "exports")
-        os.makedirs(export_dir, exist_ok=True)
-
-        files_created = 0
-        file_names = []
-        for sched in recent:
-            track_list = sched.get("tracks", [])
-            date_str   = sched.get("date") or sched.get("created_at", "unknown")[:10]
-
-            for fmt in formats:
-                try:
-                    if fmt == "csv":
-                        import csv, io
-                        fields = ["position","air_time","title","artist","category","duration_seconds"]
-                        buf = io.StringIO()
-                        w = csv.DictWriter(buf, fieldnames=fields, extrasaction="ignore")
-                        w.writeheader()
-                        for i, t in enumerate(track_list):
-                            t["position"] = i + 1
-                            w.writerow({f: t.get(f, "") for f in fields})
-                        base = f"{date_str}.csv"
-                        fname = os.path.join(export_dir, base)
-                        with open(fname, "w", newline="") as f:
-                            f.write(buf.getvalue())
-                        files_created += 1
-                        file_names.append(base)
-                    elif fmt == "zetta-log":
-                        # Zetta RCS tab-delimited traffic log
-                        base = f"{date_str}_zetta.log"
-                        fname = os.path.join(export_dir, base)
-                        with open(fname, "w", newline="") as f:
-                            f.write("CutID\tMediaType\tLength\tCategory\tTitle\tArtist\tAlbum\tAirTime\n")
-                            for i, t in enumerate(track_list, 1):
-                                dur_s = int(t.get("duration_seconds") or 0)
-                                mm, ss = divmod(dur_s, 60)
-                                length = f"{mm:02d}:{ss:02d}"
-                                f.write("\t".join([
-                                    str(t.get("cart_number") or t.get("id","")[:8]),
-                                    "MUS",
-                                    length,
-                                    str(t.get("category","")),
-                                    str(t.get("title","")),
-                                    str(t.get("artist","")),
-                                    str(t.get("album","")),
-                                    str(t.get("air_time","")),
-                                ]) + "\n")
-                        files_created += 1
-                        file_names.append(base)
-                    elif fmt in ("wideorbit", "enco"):
-                        base = f"{date_str}_{fmt}.log"
-                        fname = os.path.join(export_dir, base)
-                        with open(fname, "w", newline="") as f:
-                            f.write(f"# {fmt.upper()} Traffic Log — {date_str}\n")
-                            f.write("Position\tAirTime\tLength\tTitle\tArtist\tCategory\n")
-                            for i, t in enumerate(track_list, 1):
-                                dur_s = int(t.get("duration_seconds") or 0)
-                                mm, ss = divmod(dur_s, 60)
-                                f.write("\t".join([
-                                    str(i),
-                                    str(t.get("air_time","")),
-                                    f"{mm:02d}:{ss:02d}",
-                                    str(t.get("title","")),
-                                    str(t.get("artist","")),
-                                    str(t.get("category","")),
-                                ]) + "\n")
-                        files_created += 1
-                        file_names.append(base)
-                except Exception:
-                    pass
-
-        return jsonify({
-            "success":       True,
-            "message":       f"Exported {len(recent)} schedule(s)",
-            "files_created": files_created,
-            "file_names":    file_names,
-        })
-
-    except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
-
-
-@app.route("/api/export/download/<path:filename>")
-def api_export_download(filename):
-    """Serve an exported file as a download."""
-    import os
-    from flask import send_file
-    export_dir = os.path.join(os.path.dirname(__file__), "data", "exports")
-    # Security: keep filename inside export_dir
-    safe_path = os.path.normpath(os.path.join(export_dir, filename))
-    if not safe_path.startswith(os.path.normpath(export_dir)):
-        return jsonify({"error": "Invalid path"}), 400
-    if not os.path.exists(safe_path):
-        return jsonify({"error": "File not found"}), 404
-    return send_file(safe_path, as_attachment=True, download_name=os.path.basename(safe_path))
+# Export routes moved to bottom of file (see api_export / api_export_download / api_export_ftp)
 
 
 # ---------------------------------------------------------------------------
@@ -1420,6 +1319,797 @@ def get_schedule_by_date(date):
         })
 
     return jsonify({"date": date, "schedule": schedule, "schedule_ids": schedule_ids})
+
+
+# ---------------------------------------------------------------------------
+# Announcers  (Music1: Jocks / Announcers table)
+# ---------------------------------------------------------------------------
+
+@app.route("/api/announcers", methods=["GET"])
+def list_announcers():
+    anns = _load_all(ANNOUNCERS_DIR)
+    anns.sort(key=lambda a: (a.get("name") or "").lower())
+    return jsonify({"total": len(anns), "announcers": anns})
+
+
+@app.route("/api/announcers", methods=["POST"])
+def create_announcer():
+    data = request.get_json(silent=True) or {}
+    if not data.get("name"):
+        return jsonify({"error": "Missing required field: name"}), 400
+    ann = make_announcer(data)
+    _save(ANNOUNCERS_DIR, ann)
+    return jsonify(ann), 201
+
+
+@app.route("/api/announcers/<ann_id>", methods=["GET"])
+def get_announcer(ann_id):
+    ann = _load_one(ANNOUNCERS_DIR, ann_id)
+    if ann is None:
+        return jsonify({"error": "Announcer not found"}), 404
+    return jsonify(ann)
+
+
+@app.route("/api/announcers/<ann_id>", methods=["PUT"])
+def update_announcer(ann_id):
+    ann = _load_one(ANNOUNCERS_DIR, ann_id)
+    if ann is None:
+        return jsonify({"error": "Announcer not found"}), 404
+    data = request.get_json(silent=True) or {}
+    for k, v in data.items():
+        if k not in {"id", "added_at"}:
+            ann[k] = v
+    ann["updated_at"] = _now()
+    _save(ANNOUNCERS_DIR, ann)
+    return jsonify(ann)
+
+
+@app.route("/api/announcers/<ann_id>", methods=["DELETE"])
+def delete_announcer(ann_id):
+    if not _delete(ANNOUNCERS_DIR, ann_id):
+        return jsonify({"error": "Announcer not found"}), 404
+    return "", 204
+
+
+# ---------------------------------------------------------------------------
+# Sound Codes  (Music1: up to 30 named sound characteristics per track)
+# ---------------------------------------------------------------------------
+
+@app.route("/api/sound-codes", methods=["GET"])
+def list_sound_codes():
+    scs = _load_all(SOUND_CODES_DIR)
+    scs.sort(key=lambda s: s.get("number", 0))
+    return jsonify({"total": len(scs), "sound_codes": scs})
+
+
+@app.route("/api/sound-codes", methods=["POST"])
+def create_sound_code():
+    data = request.get_json(silent=True) or {}
+    if not data.get("name"):
+        return jsonify({"error": "Missing required field: name"}), 400
+    sc = make_sound_code(data)
+    _save(SOUND_CODES_DIR, sc)
+    return jsonify(sc), 201
+
+
+@app.route("/api/sound-codes/<sc_id>", methods=["GET"])
+def get_sound_code(sc_id):
+    sc = _load_one(SOUND_CODES_DIR, sc_id)
+    if sc is None:
+        return jsonify({"error": "Sound code not found"}), 404
+    return jsonify(sc)
+
+
+@app.route("/api/sound-codes/<sc_id>", methods=["PUT"])
+def update_sound_code(sc_id):
+    sc = _load_one(SOUND_CODES_DIR, sc_id)
+    if sc is None:
+        return jsonify({"error": "Sound code not found"}), 404
+    data = request.get_json(silent=True) or {}
+    for k, v in data.items():
+        if k not in {"id", "added_at"}:
+            sc[k] = v
+    sc["updated_at"] = _now()
+    _save(SOUND_CODES_DIR, sc)
+    return jsonify(sc)
+
+
+@app.route("/api/sound-codes/<sc_id>", methods=["DELETE"])
+def delete_sound_code(sc_id):
+    if not _delete(SOUND_CODES_DIR, sc_id):
+        return jsonify({"error": "Sound code not found"}), 404
+    return "", 204
+
+
+# ---------------------------------------------------------------------------
+# Traffic / Spot Components  (Music1: Components / SpotTypes table)
+# ---------------------------------------------------------------------------
+
+@app.route("/api/traffic", methods=["GET"])
+def list_traffic():
+    comps = _load_all(TRAFFIC_DIR)
+    type_filter = request.args.get("type")
+    if type_filter:
+        comps = [c for c in comps if c.get("type") == type_filter]
+    active_only = request.args.get("active", "").lower() == "true"
+    if active_only:
+        comps = [c for c in comps if c.get("active", True)]
+    comps.sort(key=lambda c: (c.get("name") or "").lower())
+    return jsonify({"total": len(comps), "components": comps})
+
+
+@app.route("/api/traffic", methods=["POST"])
+def create_traffic():
+    data = request.get_json(silent=True) or {}
+    if not data.get("name"):
+        return jsonify({"error": "Missing required field: name"}), 400
+    tc = make_traffic_component(data)
+    _save(TRAFFIC_DIR, tc)
+    return jsonify(tc), 201
+
+
+@app.route("/api/traffic/<comp_id>", methods=["GET"])
+def get_traffic(comp_id):
+    tc = _load_one(TRAFFIC_DIR, comp_id)
+    if tc is None:
+        return jsonify({"error": "Component not found"}), 404
+    return jsonify(tc)
+
+
+@app.route("/api/traffic/<comp_id>", methods=["PUT"])
+def update_traffic(comp_id):
+    tc = _load_one(TRAFFIC_DIR, comp_id)
+    if tc is None:
+        return jsonify({"error": "Component not found"}), 404
+    data = request.get_json(silent=True) or {}
+    for k, v in data.items():
+        if k not in {"id", "added_at"}:
+            tc[k] = v
+    tc["updated_at"] = _now()
+    _save(TRAFFIC_DIR, tc)
+    return jsonify(tc)
+
+
+@app.route("/api/traffic/<comp_id>", methods=["DELETE"])
+def delete_traffic(comp_id):
+    if not _delete(TRAFFIC_DIR, comp_id):
+        return jsonify({"error": "Component not found"}), 404
+    return "", 204
+
+
+# ---------------------------------------------------------------------------
+# Artist Groups  (shared separation pool for group members)
+# ---------------------------------------------------------------------------
+
+@app.route("/api/artist-groups", methods=["GET"])
+def list_artist_groups():
+    groups = _load_all(ARTIST_GROUPS_DIR)
+    groups.sort(key=lambda g: (g.get("name") or "").lower())
+    # Annotate each group with member count
+    artists = _load_all(ARTISTS_DIR)
+    for grp in groups:
+        grp["member_count"] = sum(1 for a in artists if a.get("group_id") == grp["id"])
+    return jsonify({"total": len(groups), "artist_groups": groups})
+
+
+@app.route("/api/artist-groups", methods=["POST"])
+def create_artist_group():
+    data = request.get_json(silent=True) or {}
+    if not data.get("name"):
+        return jsonify({"error": "Missing required field: name"}), 400
+    grp = make_artist_group(data)
+    _save(ARTIST_GROUPS_DIR, grp)
+    return jsonify(grp), 201
+
+
+@app.route("/api/artist-groups/<grp_id>", methods=["GET"])
+def get_artist_group(grp_id):
+    grp = _load_one(ARTIST_GROUPS_DIR, grp_id)
+    if grp is None:
+        return jsonify({"error": "Artist group not found"}), 404
+    artists = _load_all(ARTISTS_DIR)
+    grp["members"] = [a for a in artists if a.get("group_id") == grp_id]
+    return jsonify(grp)
+
+
+@app.route("/api/artist-groups/<grp_id>", methods=["PUT"])
+def update_artist_group(grp_id):
+    grp = _load_one(ARTIST_GROUPS_DIR, grp_id)
+    if grp is None:
+        return jsonify({"error": "Artist group not found"}), 404
+    data = request.get_json(silent=True) or {}
+    for k, v in data.items():
+        if k not in {"id", "added_at"}:
+            grp[k] = v
+    grp["updated_at"] = _now()
+    _save(ARTIST_GROUPS_DIR, grp)
+    return jsonify(grp)
+
+
+@app.route("/api/artist-groups/<grp_id>", methods=["DELETE"])
+def delete_artist_group(grp_id):
+    if not _delete(ARTIST_GROUPS_DIR, grp_id):
+        return jsonify({"error": "Artist group not found"}), 404
+    return "", 204
+
+
+# ---------------------------------------------------------------------------
+# Bulk track operations  (activate/deactivate/re-categorize/delete)
+# ---------------------------------------------------------------------------
+
+@app.route("/api/tracks/bulk-action", methods=["POST"])
+def bulk_track_action():
+    """
+    Body:
+        action:   "activate" | "deactivate" | "recategorize" | "delete" | "set_field"
+        track_ids: list of track IDs to operate on (empty = all)
+        filters:  optional {category, tempo, gender, search} to select tracks
+        value:    new value (for recategorize / set_field)
+        field:    field name (for set_field)
+    """
+    data     = request.get_json(silent=True) or {}
+    action   = data.get("action")
+    ids      = set(data.get("track_ids") or [])
+    filters  = data.get("filters") or {}
+    value    = data.get("value")
+    field    = data.get("field")
+
+    valid_actions = {"activate", "deactivate", "recategorize", "delete", "set_field"}
+    if action not in valid_actions:
+        return jsonify({"error": f"action must be one of {sorted(valid_actions)}"}), 400
+
+    tracks = _load_all(TRACKS_DIR)
+
+    # Apply filters if no explicit IDs given
+    if not ids and filters:
+        if filters.get("category"):
+            tracks = [t for t in tracks if t.get("category") == filters["category"]]
+        if filters.get("tempo"):
+            try:
+                tv = int(filters["tempo"])
+                tracks = [t for t in tracks if t.get("tempo") == tv]
+            except (ValueError, TypeError):
+                pass
+        if filters.get("gender"):
+            try:
+                gv = int(filters["gender"])
+                tracks = [t for t in tracks if t.get("gender") == gv]
+            except (ValueError, TypeError):
+                pass
+        if filters.get("search"):
+            q = filters["search"].strip().lower()
+            tracks = [t for t in tracks if q in (t.get("title") or "").lower()
+                      or q in (t.get("artist") or "").lower()]
+        ids = {t["id"] for t in tracks}
+
+    affected = 0
+    for t in _load_all(TRACKS_DIR):
+        if t["id"] not in ids:
+            continue
+        if action == "activate":
+            t["active"] = True
+        elif action == "deactivate":
+            t["active"] = False
+        elif action == "recategorize":
+            if value is None:
+                continue
+            t["category"] = value
+        elif action == "set_field":
+            if not field:
+                continue
+            t[field] = value
+        elif action == "delete":
+            _delete(TRACKS_DIR, t["id"])
+            affected += 1
+            continue
+        t["updated_at"] = _now()
+        _save(TRACKS_DIR, t)
+        affected += 1
+
+    return jsonify({"success": True, "affected": affected})
+
+
+# ---------------------------------------------------------------------------
+# Schedule clone
+# ---------------------------------------------------------------------------
+
+@app.route("/api/schedule/<schedule_id>/clone", methods=["POST"])
+def clone_schedule(schedule_id):
+    """Clone an existing schedule to a new date or with a new name."""
+    original = _load_one(SCHEDULES_DIR, schedule_id)
+    if original is None:
+        return jsonify({"error": "Schedule not found"}), 404
+    data     = request.get_json(silent=True) or {}
+    new_id   = str(uuid.uuid4())
+    cloned   = {**original, "id": new_id, "created_at": _now()}
+    if "name" in data:
+        cloned["name"] = data["name"]
+    else:
+        cloned["name"] = (original.get("name") or "Schedule") + " (copy)"
+    if "date" in data:
+        cloned["date"] = data["date"]
+    _save(SCHEDULES_DIR, cloned)
+    return jsonify(cloned), 201
+
+
+# ---------------------------------------------------------------------------
+# Reports
+# ---------------------------------------------------------------------------
+
+@app.route("/api/reports/rotation", methods=["GET"])
+def report_rotation():
+    """
+    Rotation report: play counts, last-played timestamps, and rotation depth
+    for all tracks, optionally filtered by category.
+
+    Query params:
+        category:    filter to a single category name
+        sort:        play_count | last_played_at | title | artist (default: play_count)
+        order:       asc | desc (default: desc)
+        limit:       max tracks to return (default 200)
+    """
+    tracks   = _load_all(TRACKS_DIR)
+    category = request.args.get("category")
+    if category:
+        tracks = [t for t in tracks if t.get("category") == category]
+
+    sort_by = request.args.get("sort", "play_count")
+    desc    = request.args.get("order", "desc").lower() == "desc"
+    limit   = int(request.args.get("limit", 200))
+
+    _NUM = {"play_count"}
+    if sort_by in _NUM:
+        tracks.sort(key=lambda t: (t.get(sort_by) or 0), reverse=desc)
+    else:
+        tracks.sort(key=lambda t: (t.get(sort_by) or ""), reverse=desc)
+
+    tracks = tracks[:limit]
+
+    report = []
+    for t in tracks:
+        report.append({
+            "id":             t.get("id"),
+            "title":          t.get("title"),
+            "artist":         t.get("artist"),
+            "category":       t.get("category"),
+            "play_count":     t.get("play_count", 0),
+            "last_played_at": t.get("last_played_at"),
+            "active":         t.get("active", True),
+            "cart":           t.get("cart", ""),
+        })
+
+    # Summary
+    total      = len(_load_all(TRACKS_DIR)) if not category else len(
+        [t for t in _load_all(TRACKS_DIR) if t.get("category") == category])
+    played     = sum(1 for r in report if r["play_count"] > 0)
+    never      = sum(1 for r in report if r["play_count"] == 0)
+    avg_plays  = (sum(r["play_count"] for r in report) / len(report)) if report else 0
+
+    return jsonify({
+        "category":    category,
+        "total":       total,
+        "played":      played,
+        "never_played": never,
+        "avg_plays":   round(avg_plays, 2),
+        "tracks":      report,
+    })
+
+
+@app.route("/api/reports/artist-separation", methods=["GET"])
+def report_artist_separation():
+    """Report showing artist play frequency and separation compliance."""
+    tracks  = _load_all(TRACKS_DIR)
+    artists = _load_all(ARTISTS_DIR)
+    art_map = {(a.get("name") or "").lower(): a for a in artists}
+
+    from collections import defaultdict
+    by_artist = defaultdict(list)
+    for t in tracks:
+        key = (t.get("artist") or "").strip().lower()
+        if key:
+            by_artist[key].append(t)
+
+    rows = []
+    for artist_key, artist_tracks in sorted(by_artist.items()):
+        art_rec     = art_map.get(artist_key, {})
+        total_plays = sum(t.get("play_count", 0) for t in artist_tracks)
+        last_played = max(
+            (t.get("last_played_at") or "" for t in artist_tracks), default=""
+        )
+        rows.append({
+            "artist":        artist_tracks[0].get("artist") if artist_tracks else artist_key,
+            "track_count":   len(artist_tracks),
+            "total_plays":   total_plays,
+            "last_played_at": last_played or None,
+            "separation_ms": art_rec.get("separation_ms", 5400000),
+            "group_id":      art_rec.get("group_id"),
+        })
+
+    rows.sort(key=lambda r: r["total_plays"], reverse=True)
+    return jsonify({"total_artists": len(rows), "rows": rows})
+
+
+@app.route("/api/reports/category-analysis", methods=["GET"])
+def report_category_analysis():
+    """Category-level analysis: track count, play count, avg tempo/energy."""
+    tracks     = _load_all(TRACKS_DIR)
+    categories = _load_all(CATEGORIES_DIR)
+    cat_names  = {c["id"]: c["name"] for c in categories}
+
+    from collections import defaultdict
+    by_cat = defaultdict(list)
+    for t in tracks:
+        by_cat[t.get("category") or "Uncategorized"].append(t)
+
+    rows = []
+    for cat_name, cat_tracks in sorted(by_cat.items()):
+        active    = [t for t in cat_tracks if t.get("active", True)]
+        plays     = [t.get("play_count", 0) for t in active]
+        tempos    = [t.get("tempo", 0) for t in active if t.get("tempo")]
+        rows.append({
+            "category":     cat_name,
+            "total_tracks": len(cat_tracks),
+            "active_tracks": len(active),
+            "total_plays":  sum(plays),
+            "avg_plays":    round(sum(plays) / len(plays), 2) if plays else 0,
+            "avg_tempo":    round(sum(tempos) / len(tempos), 2) if tempos else 0,
+            "never_played": sum(1 for p in plays if p == 0),
+        })
+    rows.sort(key=lambda r: r["total_tracks"], reverse=True)
+    return jsonify({"total_categories": len(rows), "rows": rows})
+
+
+@app.route("/api/reports/compliance", methods=["GET"])
+def report_compliance():
+    """
+    ASCAP/BMI-style compliance report for a date range.
+
+    Query params:
+        start_date:  ISO date (default: 7 days ago)
+        end_date:    ISO date (default: today)
+        format:      json | csv (default: json)
+    """
+    from datetime import date, timedelta
+    today      = date.today()
+    start_str  = request.args.get("start_date", (today - timedelta(days=7)).isoformat())
+    end_str    = request.args.get("end_date", today.isoformat())
+    fmt        = request.args.get("format", "json")
+
+    schedules  = _load_all(SCHEDULES_DIR)
+    in_range   = [
+        s for s in schedules
+        if s.get("date") and start_str <= s["date"][:10] <= end_str
+    ]
+    in_range.sort(key=lambda s: s.get("date", ""))
+
+    rows = []
+    for sched in in_range:
+        for t in sched.get("tracks", []):
+            if t.get("type", "music") != "music":
+                continue
+            rows.append({
+                "date":           sched.get("date", ""),
+                "air_time":       t.get("air_time", ""),
+                "title":          t.get("title", ""),
+                "artist":         t.get("artist", ""),
+                "album":          t.get("album", ""),
+                "duration_s":     t.get("duration_seconds", 0),
+                "isrc_code":      t.get("isrc_code", ""),
+                "publisher":      t.get("publisher", ""),
+                "composer":       t.get("composer", ""),
+                "record_label":   t.get("record_label", ""),
+                "cart":           t.get("cart", ""),
+                "category":       t.get("category", ""),
+            })
+
+    if fmt == "csv":
+        buf    = io.StringIO()
+        fields = ["date", "air_time", "title", "artist", "album",
+                  "duration_s", "isrc_code", "publisher", "composer",
+                  "record_label", "cart", "category"]
+        w = csv.DictWriter(buf, fieldnames=fields, extrasaction="ignore")
+        w.writeheader()
+        w.writerows(rows)
+        return Response(
+            buf.getvalue(),
+            mimetype="text/csv",
+            headers={"Content-Disposition":
+                     f"attachment; filename=compliance_{start_str}_{end_str}.csv"},
+        )
+
+    return jsonify({
+        "start_date":    start_str,
+        "end_date":      end_str,
+        "total_entries": len(rows),
+        "plays":         rows,
+    })
+
+
+@app.route("/api/reports/never-played", methods=["GET"])
+def report_never_played():
+    """Tracks that have never been scheduled (play_count == 0)."""
+    tracks   = _load_all(TRACKS_DIR)
+    category = request.args.get("category")
+    if category:
+        tracks = [t for t in tracks if t.get("category") == category]
+
+    never = [
+        {
+            "id":       t.get("id"),
+            "title":    t.get("title"),
+            "artist":   t.get("artist"),
+            "category": t.get("category"),
+            "added_at": t.get("added_at"),
+            "active":   t.get("active", True),
+        }
+        for t in tracks if not t.get("play_count")
+    ]
+    never.sort(key=lambda t: t.get("added_at") or "")
+    return jsonify({"total": len(never), "tracks": never})
+
+
+# ---------------------------------------------------------------------------
+# Export enhancements  (Music1 .txt log, ASCAP/BMI log)
+# ---------------------------------------------------------------------------
+
+def _export_music1_txt(track_list: list, date_str: str) -> str:
+    """
+    Generate a Music1-style text log.
+    Format: fixed-width columns matching Music1's exported .txt log.
+    Fields: Cart | AirTime | Title | Artist | Category | Length | Intro | Outro
+    """
+    lines = [
+        f"Music1 Log — {date_str}",
+        f"{'Cart':<8} {'Time':>7} {'Title':<35} {'Artist':<30} {'Cat':<12} {'Len':>5} {'Intro':>5} {'Outro':>5}",
+        "-" * 108,
+    ]
+    for t in track_list:
+        if t.get("type", "music") != "music":
+            continue
+        dur_s = int(t.get("duration_seconds") or 0)
+        mm, ss = divmod(dur_s, 60)
+        intro_s = int((t.get("intro_ms") or 0) / 1000)
+        outro_s = int((t.get("outro_ms") or 0) / 1000)
+        lines.append(
+            f"{str(t.get('cart','')):<8} "
+            f"{str(t.get('air_time',''))[:5]:>7} "
+            f"{str(t.get('title',''))[:35]:<35} "
+            f"{str(t.get('artist',''))[:30]:<30} "
+            f"{str(t.get('category',''))[:12]:<12} "
+            f"{mm:02d}:{ss:02d} "
+            f"{intro_s:>5} "
+            f"{outro_s:>5}"
+        )
+    return "\n".join(lines) + "\n"
+
+
+def _export_ascap_log(track_list: list, date_str: str) -> str:
+    """ASCAP/BMI broadcast log (pipe-delimited)."""
+    lines = ["DATE|AIRTIME|TITLE|ARTIST|ALBUM|DURATION|ISRC|PUBLISHER|COMPOSER"]
+    for t in track_list:
+        if t.get("type", "music") != "music":
+            continue
+        dur_s = int(t.get("duration_seconds") or 0)
+        mm, ss = divmod(dur_s, 60)
+        lines.append("|".join([
+            date_str,
+            str(t.get("air_time", "")),
+            str(t.get("title", "")),
+            str(t.get("artist", "")),
+            str(t.get("album", "")),
+            f"{mm:02d}:{ss:02d}",
+            str(t.get("isrc_code", "")),
+            str(t.get("publisher", "")),
+            str(t.get("composer", "")),
+        ]))
+    return "\n".join(lines) + "\n"
+
+
+@app.route("/api/export", methods=["POST"])
+def api_export():
+    data      = request.get_json(silent=True) or {}
+    formats   = data.get("formats", ["zetta-log"])
+
+    try:
+        schedules  = _load_all(SCHEDULES_DIR)
+        if not schedules:
+            return jsonify({"success": False,
+                            "error": "No schedules to export. Generate a schedule first."}), 400
+
+        # Date-range filter
+        start_date = data.get("start_date")
+        end_date   = data.get("end_date")
+        if start_date or end_date:
+            filtered = []
+            for s in schedules:
+                d = (s.get("date") or s.get("created_at") or "")[:10]
+                if start_date and d < start_date:
+                    continue
+                if end_date and d > end_date:
+                    continue
+                filtered.append(s)
+            schedules = filtered
+
+        if not schedules:
+            return jsonify({"success": False,
+                            "error": "No schedules found in the specified date range."}), 400
+
+        schedules.sort(key=lambda s: s.get("date") or s.get("created_at") or "")
+        # Default: most recent 7
+        if not (start_date or end_date):
+            schedules = schedules[-7:]
+
+        export_dir = os.path.join(os.path.dirname(__file__), "data", "exports")
+        os.makedirs(export_dir, exist_ok=True)
+
+        files_created = 0
+        file_names    = []
+        for sched in schedules:
+            track_list = sched.get("tracks", [])
+            date_str   = sched.get("date") or sched.get("created_at", "unknown")[:10]
+
+            for fmt in formats:
+                try:
+                    if fmt == "csv":
+                        fields = ["position", "air_time", "title", "artist",
+                                  "category", "duration_seconds", "cart", "album"]
+                        buf = io.StringIO()
+                        w = csv.DictWriter(buf, fieldnames=fields, extrasaction="ignore")
+                        w.writeheader()
+                        for i, t in enumerate(track_list):
+                            t["position"] = i + 1
+                            w.writerow({f: t.get(f, "") for f in fields})
+                        base = f"{date_str}.csv"
+                        with open(os.path.join(export_dir, base), "w", newline="") as f:
+                            f.write(buf.getvalue())
+                        files_created += 1
+                        file_names.append(base)
+
+                    elif fmt == "music1":
+                        base = f"{date_str}_music1.txt"
+                        with open(os.path.join(export_dir, base), "w") as f:
+                            f.write(_export_music1_txt(track_list, date_str))
+                        files_created += 1
+                        file_names.append(base)
+
+                    elif fmt == "ascap":
+                        base = f"{date_str}_ascap.log"
+                        with open(os.path.join(export_dir, base), "w") as f:
+                            f.write(_export_ascap_log(track_list, date_str))
+                        files_created += 1
+                        file_names.append(base)
+
+                    elif fmt == "zetta-log":
+                        base = f"{date_str}_zetta.log"
+                        with open(os.path.join(export_dir, base), "w", newline="") as f:
+                            f.write("CutID\tMediaType\tLength\tCategory\tTitle\tArtist\tAlbum\tAirTime\n")
+                            for i, t in enumerate(track_list, 1):
+                                dur_s = int(t.get("duration_seconds") or 0)
+                                mm, ss = divmod(dur_s, 60)
+                                f.write("\t".join([
+                                    str(t.get("cart") or t.get("id", "")[:8]),
+                                    "MUS",
+                                    f"{mm:02d}:{ss:02d}",
+                                    str(t.get("category", "")),
+                                    str(t.get("title", "")),
+                                    str(t.get("artist", "")),
+                                    str(t.get("album", "")),
+                                    str(t.get("air_time", "")),
+                                ]) + "\n")
+                        files_created += 1
+                        file_names.append(base)
+
+                    elif fmt in ("wideorbit", "enco"):
+                        base = f"{date_str}_{fmt}.log"
+                        with open(os.path.join(export_dir, base), "w", newline="") as f:
+                            f.write(f"# {fmt.upper()} Traffic Log — {date_str}\n")
+                            f.write("Position\tAirTime\tLength\tTitle\tArtist\tCategory\n")
+                            for i, t in enumerate(track_list, 1):
+                                dur_s = int(t.get("duration_seconds") or 0)
+                                mm, ss = divmod(dur_s, 60)
+                                f.write("\t".join([
+                                    str(i),
+                                    str(t.get("air_time", "")),
+                                    f"{mm:02d}:{ss:02d}",
+                                    str(t.get("title", "")),
+                                    str(t.get("artist", "")),
+                                    str(t.get("category", "")),
+                                ]) + "\n")
+                        files_created += 1
+                        file_names.append(base)
+
+                except Exception:
+                    pass
+
+        return jsonify({
+            "success":       True,
+            "message":       f"Exported {len(schedules)} schedule(s)",
+            "files_created": files_created,
+            "file_names":    file_names,
+        })
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route("/api/export/download/<path:filename>")
+def api_export_download(filename):
+    """Serve an exported file as a download."""
+    from flask import send_file
+    export_dir = os.path.join(os.path.dirname(__file__), "data", "exports")
+    safe_path  = os.path.normpath(os.path.join(export_dir, filename))
+    if not safe_path.startswith(os.path.normpath(export_dir)):
+        return jsonify({"error": "Invalid path"}), 400
+    if not os.path.exists(safe_path):
+        return jsonify({"error": "File not found"}), 404
+    return send_file(safe_path, as_attachment=True,
+                     download_name=os.path.basename(safe_path))
+
+
+@app.route("/api/export/ftp", methods=["POST"])
+def api_export_ftp():
+    """
+    Upload one or more exported files to an FTP server.
+
+    Body:
+        host:       FTP hostname
+        port:       FTP port (default 21)
+        username:   FTP username
+        password:   FTP password
+        remote_dir: remote directory path (default "/")
+        filenames:  list of filenames (from data/exports/) to upload
+    """
+    data       = request.get_json(silent=True) or {}
+    host       = data.get("host")
+    port       = int(data.get("port", 21))
+    username   = data.get("username", "")
+    password   = data.get("password", "")
+    remote_dir = data.get("remote_dir", "/")
+    filenames  = data.get("filenames") or []
+
+    if not host:
+        return jsonify({"error": "Missing required field: host"}), 400
+    if not filenames:
+        return jsonify({"error": "Missing required field: filenames"}), 400
+
+    export_dir = os.path.join(os.path.dirname(__file__), "data", "exports")
+    uploaded   = []
+    errors     = []
+
+    try:
+        ftp = ftplib.FTP()
+        ftp.connect(host, port, timeout=30)
+        ftp.login(username, password)
+        try:
+            ftp.cwd(remote_dir)
+        except ftplib.error_perm:
+            pass  # directory may not exist; best-effort
+
+        for fname in filenames:
+            safe = os.path.normpath(os.path.join(export_dir, fname))
+            if not safe.startswith(os.path.normpath(export_dir)):
+                errors.append({"file": fname, "error": "Invalid path"})
+                continue
+            if not os.path.exists(safe):
+                errors.append({"file": fname, "error": "File not found"})
+                continue
+            try:
+                with open(safe, "rb") as fh:
+                    ftp.storbinary(f"STOR {os.path.basename(fname)}", fh)
+                uploaded.append(fname)
+            except Exception as exc:
+                errors.append({"file": fname, "error": str(exc)})
+
+        ftp.quit()
+    except Exception as exc:
+        return jsonify({"success": False, "error": str(exc),
+                        "uploaded": uploaded, "errors": errors}), 502
+
+    return jsonify({
+        "success":  len(errors) == 0,
+        "uploaded": uploaded,
+        "errors":   errors,
+    })
 
 
 if __name__ == "__main__":

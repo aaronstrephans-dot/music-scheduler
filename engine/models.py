@@ -468,3 +468,91 @@ def make_slot(data: dict) -> dict:
     slot = {**SLOT_DEFAULTS}
     slot.update(data)
     return slot
+
+
+# ---------------------------------------------------------------------------
+# Announcer defaults  (mirrors Music1 Announcers / Jocks table)
+# ---------------------------------------------------------------------------
+
+ANNOUNCER_DEFAULTS = {
+    "name":        "",
+    "initials":    "",
+    "active":      True,
+    "notes":       "",
+}
+
+
+def make_announcer(data: dict) -> dict:
+    import uuid
+    ann = {**ANNOUNCER_DEFAULTS, "id": str(uuid.uuid4()), "added_at": _now()}
+    ann.update({k: v for k, v in data.items() if k != "id"})
+    return ann
+
+
+# ---------------------------------------------------------------------------
+# Sound Code library  (names for Music1 sound codes 1-30)
+# ---------------------------------------------------------------------------
+
+SOUND_CODE_DEFAULTS = {
+    "number":      1,      # 1-30
+    "name":        "",     # e.g. "Piano", "Guitar", "Strings"
+    "description": "",
+}
+
+
+def make_sound_code(data: dict) -> dict:
+    import uuid
+    sc = {**SOUND_CODE_DEFAULTS, "id": str(uuid.uuid4()), "added_at": _now()}
+    sc.update({k: v for k, v in data.items() if k != "id"})
+    return sc
+
+
+# ---------------------------------------------------------------------------
+# Traffic / Spot Component  (mirrors Music1 Components / SpotTypes table)
+# ---------------------------------------------------------------------------
+
+TRAFFIC_COMPONENT_DEFAULTS = {
+    "name":            "",          # e.g. "30-Second Spot", "PSA", "News"
+    "type":            "spot",      # spot | psa | promo | liner | jingle | news
+    "duration_s":      30,          # default duration in seconds
+    "category":        "",          # maps to a scheduling category
+    "cart":            "",          # automation cart number
+    "client":          "",          # advertiser / client name
+    "notes":           "",
+    "active":          True,
+    "start_date":      None,        # ISO date
+    "end_date":        None,        # ISO date
+    # Scheduling targets
+    "target_plays_per_day":   0,    # 0 = unscheduled/manual
+    "target_plays_per_week":  0,
+    "scheduled_hours":        [],   # list of hour ints when this can air
+    "scheduled_days":         "1111111",  # Mon-Sun
+    # Compliance
+    "isci_code":       "",          # ISCI/ISRC for spot
+    "contract_num":    "",
+}
+
+
+def make_traffic_component(data: dict) -> dict:
+    import uuid
+    tc = {**TRAFFIC_COMPONENT_DEFAULTS, "id": str(uuid.uuid4()), "added_at": _now()}
+    tc.update({k: v for k, v in data.items() if k != "id"})
+    return tc
+
+
+# ---------------------------------------------------------------------------
+# Artist Group  (for group-separation: members share a separation pool)
+# ---------------------------------------------------------------------------
+
+ARTIST_GROUP_DEFAULTS = {
+    "name":           "",      # e.g. "Eagles", "Fleetwood Mac members"
+    "separation_ms":  5400000, # shared separation (90 min default)
+    "notes":          "",
+}
+
+
+def make_artist_group(data: dict) -> dict:
+    import uuid
+    grp = {**ARTIST_GROUP_DEFAULTS, "id": str(uuid.uuid4()), "added_at": _now()}
+    grp.update({k: v for k, v in data.items() if k != "id"})
+    return grp

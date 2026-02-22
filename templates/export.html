@@ -138,10 +138,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
   <a href="/generate" class="nav-item"><span class="nav-icon">✦</span>Generate Schedule</a>
   <a href="/view" class="nav-item"><span class="nav-icon">◫</span>View Schedule</a>
   <a href="/export" class="nav-item active"><span class="nav-icon">↑</span>Export Logs</a>
+  <a href="/reports" class="nav-item"><span class="nav-icon">📊</span>Reports</a>
   <div class="sidebar-section">Library</div>
-  <a href="#" class="nav-item"><span class="nav-icon">♪</span>Song Library</a>
-  <a href="#" class="nav-item"><span class="nav-icon">⏱</span>Clock Templates</a>
-  <a href="#" class="nav-item"><span class="nav-icon">◈</span>Rules Engine</a>
+  <a href="/library" class="nav-item"><span class="nav-icon">♪</span>Song Library</a>
+  <a href="/clocks-editor" class="nav-item"><span class="nav-icon">⏱</span>Clock Templates</a>
+  <a href="/rules-editor" class="nav-item"><span class="nav-icon">◈</span>Rules Engine</a>
   <div class="sidebar-bottom">
     <div class="station-pill">
       <div class="station-avatar">P</div>
@@ -173,29 +174,41 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
       </div>
       <div class="card-body">
         <div class="format-grid">
-          <div class="format-card on" onclick="toggleFormat(this)">
+          <div class="format-card on" data-fmt="zetta-log" onclick="toggleFormat(this)">
             <span class="format-icon">📻</span>
             <div class="format-name">Zetta</div>
             <div class="format-desc">RCS Zetta broadcast automation</div>
-            <div class="format-tags"><span class="format-tag">LOG</span><span class="format-tag">XML</span></div>
+            <div class="format-tags"><span class="format-tag">LOG</span></div>
           </div>
-          <div class="format-card" onclick="toggleFormat(this)">
+          <div class="format-card" data-fmt="wideorbit" onclick="toggleFormat(this)">
             <span class="format-icon">🎛️</span>
             <div class="format-name">WideOrbit</div>
             <div class="format-desc">WideOrbit Traffic &amp; Billing</div>
-            <div class="format-tags"><span class="format-tag">WO</span></div>
+            <div class="format-tags"><span class="format-tag">LOG</span></div>
           </div>
-          <div class="format-card" onclick="toggleFormat(this)">
+          <div class="format-card" data-fmt="enco" onclick="toggleFormat(this)">
             <span class="format-icon">🎚️</span>
             <div class="format-name">ENCO</div>
             <div class="format-desc">ENCO DAD automation system</div>
             <div class="format-tags"><span class="format-tag">TXT</span></div>
           </div>
-          <div class="format-card" onclick="toggleFormat(this)">
+          <div class="format-card" data-fmt="csv" onclick="toggleFormat(this)">
             <span class="format-icon">📊</span>
             <div class="format-name">CSV</div>
             <div class="format-desc">Universal spreadsheet format</div>
             <div class="format-tags"><span class="format-tag">CSV</span></div>
+          </div>
+          <div class="format-card" data-fmt="music1" onclick="toggleFormat(this)">
+            <span class="format-icon">🎼</span>
+            <div class="format-name">Music1 Log</div>
+            <div class="format-desc">Native Music1 fixed-width text log</div>
+            <div class="format-tags"><span class="format-tag">M1</span><span class="format-tag">TXT</span></div>
+          </div>
+          <div class="format-card" data-fmt="ascap" onclick="toggleFormat(this)">
+            <span class="format-icon">📋</span>
+            <div class="format-name">ASCAP / BMI</div>
+            <div class="format-desc">Broadcast compliance log with ISRC</div>
+            <div class="format-tags"><span class="format-tag">PIPE</span><span class="format-tag">LOG</span></div>
           </div>
         </div>
       </div>
@@ -208,45 +221,66 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
 
         <div class="form-group">
           <label class="form-label">Date Range</label>
-          <select class="form-select" id="dateRange">
-            <option value="current">Current Week — Feb 16–22, 2026</option>
-            <option value="next">Next Week — Feb 23–Mar 1, 2026</option>
-            <option value="month">This Month — February 2026</option>
+          <select class="form-select" id="dateRange" onchange="toggleCustomDates()">
+            <option value="recent">Most Recent 7 Days</option>
             <option value="custom">Custom Range...</option>
           </select>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Export Scope</label>
-          <div class="radio-row" id="scopeRow">
-            <label class="radio-card on">
-              <input type="radio" name="scope" value="day" checked>
-              <div class="radio-dot"></div>
-              <span class="radio-label">One file per day</span>
-            </label>
-            <label class="radio-card">
-              <input type="radio" name="scope" value="week">
-              <div class="radio-dot"></div>
-              <span class="radio-label">Single week file</span>
-            </label>
+        <div id="customDates" style="display:none;display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+          <div class="form-group" style="flex:1;min-width:140px;margin:0">
+            <label class="form-label">Start Date</label>
+            <input type="date" class="form-select" id="startDate">
           </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Additional Options</label>
-          <div class="check-row" id="addlOpts">
-            <label class="check-pill on"><input type="checkbox" checked><span>Overnight fill</span></label>
-            <label class="check-pill"><input type="checkbox"><span>Cart IDs</span></label>
-            <label class="check-pill"><input type="checkbox"><span>Full metadata</span></label>
-            <label class="check-pill"><input type="checkbox"><span>Timestamps</span></label>
+          <div class="form-group" style="flex:1;min-width:140px;margin:0">
+            <label class="form-label">End Date</label>
+            <input type="date" class="form-select" id="endDate">
           </div>
         </div>
 
         <div class="export-btn-row">
           <button class="btn btn-accent" onclick="doExport()">↑ &nbsp;Export Files</button>
-          <button class="btn btn-ghost">👁 Preview</button>
+          <button class="btn btn-ghost" onclick="window.location='/reports'">📊 View Reports</button>
         </div>
 
+      </div>
+    </div>
+
+    <!-- FTP Upload -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">FTP Upload</div>
+        <span style="font-size:12px;color:var(--text3)">Push exported files directly to your automation server</span>
+      </div>
+      <div class="card-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div class="form-group" style="margin:0">
+            <label class="form-label">FTP Host</label>
+            <input type="text" class="form-select" id="ftpHost" placeholder="ftp.yourstation.com">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Port</label>
+            <input type="number" class="form-select" id="ftpPort" value="21" min="1" max="65535">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-select" id="ftpUser" placeholder="username">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-select" id="ftpPass" placeholder="••••••••">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:12px">
+          <label class="form-label">Remote Directory</label>
+          <input type="text" class="form-select" id="ftpDir" placeholder="/logs" value="/">
+        </div>
+        <div id="ftpFileList" style="margin-bottom:12px;font-size:12px;color:var(--text3)">
+          Export files first, then upload via FTP.
+        </div>
+        <button class="btn btn-ghost" onclick="doFtpUpload()" id="ftpBtn" disabled>
+          ↑ Upload Last Export via FTP
+        </button>
       </div>
     </div>
 
@@ -300,28 +334,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
 </div>
 
 <script>
+let lastExportedFiles = [];
+
 function toggleFormat(el) { el.classList.toggle('on'); }
 
-// Radio cards
-document.querySelectorAll('#scopeRow .radio-card').forEach(card => {
-  card.addEventListener('click', () => {
-    document.querySelectorAll('#scopeRow .radio-card').forEach(c => {
-      c.classList.remove('on');
-      c.querySelector('input').checked = false;
-    });
-    card.classList.add('on');
-    card.querySelector('input').checked = true;
-  });
-});
-
-// Check pills
-document.querySelectorAll('#addlOpts .check-pill').forEach(pill => {
-  const cb = pill.querySelector('input');
-  pill.addEventListener('click', () => {
-    cb.checked = !cb.checked;
-    pill.classList.toggle('on', cb.checked);
-  });
-});
+function toggleCustomDates() {
+  const custom = document.getElementById('dateRange').value === 'custom';
+  document.getElementById('customDates').style.display = custom ? 'flex' : 'none';
+}
 
 function showAlert(msg, ok) {
   const el = document.getElementById('alertBox');
@@ -334,26 +354,33 @@ async function doExport() {
   const cards = document.querySelectorAll('.format-card.on');
   if (!cards.length) { showAlert('Select at least one format first.', false); return; }
 
-  const formats = Array.from(cards).map(c => {
-    const n = c.querySelector('.format-name').textContent.toLowerCase();
-    if (n.includes('zetta'))     return 'zetta-log';
-    if (n.includes('wideorbit')) return 'wideorbit';
-    if (n.includes('enco'))      return 'enco';
-    if (n.includes('csv'))       return 'csv';
-  }).filter(Boolean);
+  const formats = Array.from(cards).map(c => c.dataset.fmt).filter(Boolean);
 
-  const scope = document.querySelector('input[name=scope]:checked')?.value || 'day';
+  const body = { formats };
+  if (document.getElementById('dateRange').value === 'custom') {
+    const s = document.getElementById('startDate').value;
+    const e = document.getElementById('endDate').value;
+    if (s) body.start_date = s;
+    if (e) body.end_date   = e;
+  }
 
   try {
     const res  = await fetch('/api/export', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ formats, scope, date_range: document.getElementById('dateRange').value })
+      body: JSON.stringify(body)
     });
     const data = await res.json();
     if (data.success) {
       showAlert(data.message + ` — ${data.files_created} file(s) created`, true);
-      // Trigger browser download for each generated file
-      (data.file_names || []).forEach((fname, i) => {
+      lastExportedFiles = data.file_names || [];
+      // Update FTP file list
+      const ftpList = document.getElementById('ftpFileList');
+      ftpList.innerHTML = lastExportedFiles.length
+        ? 'Ready to upload: ' + lastExportedFiles.map(f => `<strong>${f}</strong>`).join(', ')
+        : 'No files available.';
+      document.getElementById('ftpBtn').disabled = lastExportedFiles.length === 0;
+      // Download each file
+      lastExportedFiles.forEach((fname, i) => {
         setTimeout(() => {
           const a = document.createElement('a');
           a.href = `/api/export/download/${encodeURIComponent(fname)}`;
@@ -361,13 +388,58 @@ async function doExport() {
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-        }, i * 300); // stagger slightly so browser doesn't block multiple downloads
+        }, i * 400);
       });
     } else {
       showAlert(data.error || 'Export failed', false);
     }
   } catch(e) { showAlert('Network error: ' + e.message, false); }
 }
+
+async function doFtpUpload() {
+  const host = document.getElementById('ftpHost').value.trim();
+  if (!host) { showAlert('Enter an FTP host.', false); return; }
+  if (!lastExportedFiles.length) { showAlert('Export files first.', false); return; }
+
+  const btn = document.getElementById('ftpBtn');
+  btn.disabled = true;
+  btn.textContent = '↑ Uploading…';
+
+  try {
+    const res  = await fetch('/api/export/ftp', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        host:       host,
+        port:       parseInt(document.getElementById('ftpPort').value) || 21,
+        username:   document.getElementById('ftpUser').value,
+        password:   document.getElementById('ftpPass').value,
+        remote_dir: document.getElementById('ftpDir').value || '/',
+        filenames:  lastExportedFiles,
+      }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      showAlert(`FTP upload complete — ${data.uploaded.length} file(s) sent`, true);
+    } else {
+      const errs = (data.errors||[]).map(e => e.file+': '+e.error).join('; ');
+      showAlert((data.error || 'FTP upload failed') + (errs ? ' — ' + errs : ''), false);
+    }
+  } catch(e) {
+    showAlert('FTP error: ' + e.message, false);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '↑ Upload Last Export via FTP';
+  }
+}
+
+// Init custom date defaults
+(function() {
+  const today = new Date();
+  const week  = new Date(today); week.setDate(week.getDate()-7);
+  document.getElementById('endDate').value   = today.toISOString().slice(0,10);
+  document.getElementById('startDate').value = week.toISOString().slice(0,10);
+  toggleCustomDates();
+})();
 </script>
 </body>
 </html>
