@@ -14,11 +14,12 @@
   --accent:#7c6cf0;--accent-dim:rgba(124,108,240,0.18);--accent-glow:rgba(124,108,240,0.35);--accent2:#f472b6;
   --text:#f1f5f9;--text2:#94a3b8;--text3:#475569;
   --success:#34d399;--danger:#f87171;--warn:#fbbf24;--info:#60a5fa;--sidebar-w:220px;
+  --tempo-sl:#60a5fa;--tempo-ms:#34d399;--tempo-me:#fbbf24;--tempo-mf:#fb923c;--tempo-fa:#f87171;
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:14px;-webkit-font-smoothing:antialiased}
 .app{display:flex;min-height:100vh}
 
-/* Sidebar */
+/* ── Sidebar ── */
 .sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;inset:0 auto 0 0;z-index:50}
 .sidebar-logo{display:flex;align-items:center;gap:10px;padding:22px 20px 20px;border-bottom:1px solid var(--border)}
 .logo-icon{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#7c6cf0,#f472b6);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;box-shadow:0 4px 12px rgba(124,108,240,0.4)}
@@ -36,126 +37,196 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
 .station-name{font-weight:600;font-size:12.5px}
 .station-role{font-size:11px;color:var(--text3)}
 
-/* Main */
+/* ── Main ── */
 .main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh}
-.topbar{padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--border);background:rgba(7,10,18,0.7);backdrop-filter:blur(20px);position:sticky;top:0;z-index:40;flex-wrap:wrap}
+.topbar{padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border);background:rgba(7,10,18,0.85);backdrop-filter:blur(20px);position:sticky;top:0;z-index:40;flex-wrap:wrap}
 .topbar-left{min-width:0}
-.topbar-title{font-size:18px;font-weight:700;letter-spacing:-.3px}
-.topbar-sub{font-size:12px;color:var(--text2);margin-top:1px}
+.topbar-title{font-size:17px;font-weight:700;letter-spacing:-.3px}
+.topbar-sub{font-size:11.5px;color:var(--text2);margin-top:1px}
 .topbar-center{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.topbar-right{display:flex;gap:8px;flex-shrink:0}
+.topbar-right{display:flex;gap:8px;flex-shrink:0;align-items:center}
 
 /* Buttons */
-.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:none;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit;white-space:nowrap}
 .btn-accent{background:var(--accent);color:#fff}
-.btn-accent:hover{box-shadow:0 0 14px var(--accent-glow);transform:translateY(-1px)}
+.btn-accent:hover{box-shadow:0 0 12px var(--accent-glow);transform:translateY(-1px)}
 .btn-ghost{background:rgba(255,255,255,0.04);color:var(--text2);border:1px solid var(--border)}
 .btn-ghost:hover{background:rgba(255,255,255,0.08);color:var(--text)}
-.btn-warn{background:rgba(251,191,36,0.12);color:var(--warn);border:1px solid rgba(251,191,36,0.2)}
-.btn-warn:hover{background:rgba(251,191,36,0.2)}
+.btn-warn{background:rgba(251,191,36,0.1);color:var(--warn);border:1px solid rgba(251,191,36,0.2)}
+.btn-success{background:rgba(52,211,153,0.1);color:var(--success);border:1px solid rgba(52,211,153,0.2)}
+.btn-danger{background:rgba(248,113,113,0.1);color:var(--danger);border:1px solid rgba(248,113,113,0.2)}
+
+/* View toggle */
+.view-toggle{display:flex;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.vt-btn{padding:6px 14px;font-size:12px;font-weight:600;border:none;background:none;color:var(--text2);cursor:pointer;transition:all .15s}
+.vt-btn.active{background:var(--accent-dim);color:var(--accent)}
 
 /* Day navigator */
 .day-nav{display:flex;align-items:center;gap:8px}
-.nav-arrow{width:30px;height:30px;border:1px solid var(--border);background:rgba(255,255,255,0.04);border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;color:var(--text2);font-size:14px}
+.nav-arrow{width:28px;height:28px;border:1px solid var(--border);background:rgba(255,255,255,0.04);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;color:var(--text2);font-size:13px}
 .nav-arrow:hover{background:var(--accent-dim);border-color:rgba(124,108,240,0.4);color:var(--accent)}
-.nav-date{font-weight:700;font-size:13px;min-width:170px;text-align:center;color:var(--text)}
-.today-btn{padding:5px 10px;font-size:11.5px;font-weight:600;border:1px solid var(--border);border-radius:6px;background:rgba(255,255,255,0.04);cursor:pointer;color:var(--text2);transition:all .15s}
-.today-btn:hover{background:var(--accent-dim);border-color:rgba(124,108,240,0.4);color:var(--accent)}
+.nav-date{font-weight:700;font-size:12.5px;min-width:160px;text-align:center;color:var(--text)}
+.today-btn{padding:4px 9px;font-size:11px;font-weight:600;border:1px solid var(--border);border-radius:5px;background:rgba(255,255,255,0.04);cursor:pointer;color:var(--text2);transition:all .15s}
+.today-btn:hover{background:var(--accent-dim);color:var(--accent)}
 
 /* Week strip */
-.week-strip{display:flex;gap:4px;padding:10px 24px;border-bottom:1px solid var(--border);overflow-x:auto;background:rgba(255,255,255,0.01)}
-.day-chip{padding:6px 12px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid transparent;color:var(--text3);flex-shrink:0;text-align:center}
+.week-strip{display:flex;gap:4px;padding:8px 24px;border-bottom:1px solid var(--border);overflow-x:auto;background:rgba(255,255,255,0.01)}
+.day-chip{padding:5px 10px;border-radius:6px;font-size:11.5px;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid transparent;color:var(--text3);flex-shrink:0;text-align:center}
 .day-chip:hover{background:rgba(255,255,255,0.05);color:var(--text2)}
 .day-chip.active{background:var(--accent-dim);border-color:rgba(124,108,240,0.35);color:var(--accent)}
 .day-chip.has-err{border-color:rgba(248,113,113,0.3);background:rgba(248,113,113,0.06);color:var(--danger)}
 .day-chip.has-warn{border-color:rgba(251,191,36,0.25);background:rgba(251,191,36,0.06);color:var(--warn)}
-.day-num{font-size:16px;font-weight:800;display:block}
+.day-num{font-size:15px;font-weight:800;display:block}
 .day-name{font-size:10px;opacity:.7}
 
 /* Content */
-.content{padding:16px 24px;flex:1}
+.content{padding:14px 22px;flex:1}
 
 /* Tool bar */
-.toolbar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
-.toolbar-left{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
-.search-box{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:9px;padding:7px 12px;transition:all .15s;min-width:200px}
+.toolbar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.search-box{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:7px 12px;transition:all .15s;min-width:180px}
 .search-box:focus-within{border-color:var(--accent);background:rgba(124,108,240,0.06)}
-.search-box input{background:none;border:none;outline:none;color:var(--text);font-size:13px;font-family:inherit;width:100%}
+.search-box input{background:none;border:none;outline:none;color:var(--text);font-size:12.5px;font-family:inherit;width:100%}
 .search-box input::placeholder{color:var(--text3)}
-.filter-select{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text2);font-size:12.5px;font-family:inherit;outline:none;cursor:pointer}
+.filter-select{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:7px;padding:7px 10px;color:var(--text2);font-size:12px;font-family:inherit;outline:none;cursor:pointer}
 .filter-select:focus{border-color:var(--accent)}
 .filter-select option{background:#1a1d2e}
 
 /* Hour strip */
-.hour-strip{display:flex;gap:4px;overflow-x:auto;padding-bottom:12px;margin-bottom:4px;scrollbar-width:thin;scrollbar-color:var(--accent) rgba(255,255,255,0.04)}
+.hour-strip{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;margin-bottom:12px;scrollbar-width:thin;scrollbar-color:var(--accent) rgba(255,255,255,0.04)}
 .hour-strip::-webkit-scrollbar{height:4px}
 .hour-strip::-webkit-scrollbar-track{background:rgba(255,255,255,0.03);border-radius:2px}
 .hour-strip::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
-.hour-chip{padding:5px 10px;border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;color:var(--text3)}
+.hour-chip{padding:5px 10px;border:1px solid var(--border);border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;color:var(--text3)}
 .hour-chip:hover{border-color:var(--border-bright);color:var(--text2)}
 .hour-chip.active{background:var(--accent-dim);border-color:rgba(124,108,240,0.4);color:var(--accent)}
 .hour-chip.err{border-color:rgba(248,113,113,0.3);color:var(--danger)}
 .hour-chip.warn{border-color:rgba(251,191,36,0.25);color:var(--warn)}
 
+/* Ring config bar */
+.ring-bar{display:flex;gap:8px;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:8px;margin-bottom:12px;flex-wrap:wrap;font-size:11.5px;color:var(--text2)}
+.ring-toggle{display:flex;align-items:center;gap:5px;cursor:pointer;padding:3px 8px;border-radius:5px;border:1px solid var(--border);transition:all .15s;user-select:none}
+.ring-toggle.on{background:var(--accent-dim);border-color:rgba(124,108,240,0.4);color:var(--accent)}
+.ring-toggle input{display:none}
+
 /* Violations panel */
-.violations-panel{background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.2);border-radius:12px;padding:16px;margin-bottom:14px;display:none}
+.violations-panel{background:rgba(248,113,113,0.05);border:1px solid rgba(248,113,113,0.18);border-radius:10px;padding:14px;margin-bottom:12px;display:none}
 .violations-panel.show{display:block}
-.vp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.vp-title{font-size:13px;font-weight:700;color:var(--danger)}
-.vp-close{background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px}
-.vp-stats{display:flex;gap:16px;margin-bottom:12px}
-.vp-stat{font-size:12px;color:var(--text2)}
-.vp-stat strong{font-size:16px;font-weight:800;margin-right:4px}
+.vp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.vp-title{font-size:12.5px;font-weight:700;color:var(--danger)}
+.vp-close{background:none;border:none;color:var(--text3);cursor:pointer;font-size:15px}
+.vp-stats{display:flex;gap:14px;margin-bottom:10px;flex-wrap:wrap}
+.vp-stat{font-size:11.5px;color:var(--text2)}
+.vp-stat strong{font-size:15px;font-weight:800;margin-right:3px}
 .vp-stat strong.red{color:var(--danger)}
 .vp-stat strong.yellow{color:var(--warn)}
 .vp-stat strong.green{color:var(--success)}
-.violation-item{padding:8px 12px;background:rgba(248,113,113,0.08);border-left:2px solid var(--danger);border-radius:6px;margin-bottom:6px;font-size:12px}
-.violation-item.warn{background:rgba(251,191,36,0.07);border-left-color:var(--warn)}
+.violation-item{padding:7px 10px;background:rgba(248,113,113,0.07);border-left:2px solid var(--danger);border-radius:5px;margin-bottom:5px;font-size:11.5px}
+.violation-item.warn{background:rgba(251,191,36,0.06);border-left-color:var(--warn)}
 .vi-head{font-weight:600;color:var(--text);margin-bottom:2px}
 .vi-msg{color:var(--text3)}
 
-/* Schedule table */
-.table-wrap{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+/* ── VIEW: LIST (M1-style) ── */
+.table-wrap{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:10px;overflow:hidden}
 .schedule-table{width:100%;border-collapse:collapse}
-.schedule-table thead th{
-  padding:10px 14px;background:rgba(255,255,255,0.03);
-  text-align:left;font-size:10.5px;font-weight:600;
-  letter-spacing:.5px;text-transform:uppercase;color:var(--text3);
-  border-bottom:1px solid var(--border);white-space:nowrap;
-}
-.schedule-table tbody tr{transition:background .1s;border-bottom:1px solid rgba(255,255,255,0.04)}
+.schedule-table thead th{padding:8px 12px;background:rgba(255,255,255,0.025);text-align:left;font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap}
+.schedule-table tbody tr{transition:background .1s;border-bottom:1px solid rgba(255,255,255,0.035)}
 .schedule-table tbody tr:last-child{border-bottom:none}
-.schedule-table tbody tr:hover{background:rgba(255,255,255,0.03)}
-.schedule-table tbody tr.err-row{background:rgba(248,113,113,0.04);border-left:2px solid rgba(248,113,113,0.4)}
-.schedule-table tbody tr.warn-row{background:rgba(251,191,36,0.04);border-left:2px solid rgba(251,191,36,0.3)}
-.schedule-table td{padding:10px 14px;vertical-align:middle}
-
-.time-pill{display:inline-block;padding:3px 9px;border-radius:5px;font-size:11.5px;font-weight:700;background:var(--accent-dim);color:var(--accent);white-space:nowrap;font-variant-numeric:tabular-nums}
-.song-title{font-size:13px;font-weight:600;color:var(--text);line-height:1.2;margin-bottom:2px}
-.song-artist{font-size:11.5px;color:var(--text3)}
-.err-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:600;background:rgba(248,113,113,0.15);color:var(--danger);margin-left:6px;vertical-align:middle}
-.warn-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:600;background:rgba(251,191,36,0.12);color:var(--warn);margin-left:6px;vertical-align:middle}
-
-.cat-pill{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10.5px;font-weight:600}
-.cat-current  {background:rgba(96,165,250,0.12);color:var(--info)}
-.cat-powergold{background:rgba(52,211,153,0.1);color:var(--success)}
-.cat-power    {background:rgba(52,211,153,0.1);color:var(--success)}
-.cat-recurrent{background:rgba(167,139,250,0.12);color:#a78bfa}
-.cat-gold     {background:rgba(251,191,36,0.1);color:var(--warn)}
-.cat-default  {background:rgba(255,255,255,0.06);color:var(--text3)}
-
-.row-actions{display:flex;gap:4px;opacity:0;transition:opacity .15s}
+.schedule-table tbody tr:hover{background:rgba(255,255,255,0.025)}
+.schedule-table tbody tr.err-row{background:rgba(248,113,113,0.04)}
+.schedule-table tbody tr.warn-row{background:rgba(251,191,36,0.035)}
+.schedule-table td{padding:8px 12px;vertical-align:middle}
+.cat-swatch{width:12px;height:38px;border-radius:3px;flex-shrink:0;display:inline-block;vertical-align:middle}
+.time-pill{display:inline-block;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:700;background:var(--accent-dim);color:var(--accent);white-space:nowrap;font-variant-numeric:tabular-nums}
+.song-title{font-size:12.5px;font-weight:600;color:var(--text);line-height:1.2;margin-bottom:2px}
+.song-title.err-text{color:var(--danger)}
+.song-artist{font-size:11px;color:var(--text3)}
+.viol-badge{display:inline;font-size:10px;font-weight:600;color:var(--danger);margin-left:6px}
+.viol-badge.warn{color:var(--warn)}
+.cat-pill{display:inline-block;padding:2px 7px;border-radius:12px;font-size:10.5px;font-weight:600}
+.tempo-badge{display:inline-block;padding:1px 6px;border-radius:4px;font-size:10.5px;font-weight:700}
+.tempo-1{background:rgba(96,165,250,.15);color:var(--tempo-sl)}
+.tempo-2{background:rgba(52,211,153,.12);color:var(--tempo-ms)}
+.tempo-3{background:rgba(251,191,36,.12);color:var(--tempo-me)}
+.tempo-4{background:rgba(251,146,60,.12);color:var(--tempo-mf)}
+.tempo-5{background:rgba(248,113,113,.15);color:var(--tempo-fa)}
+.cart-text{font-size:11px;color:var(--warn);font-family:monospace}
+.row-actions{display:flex;gap:3px;opacity:0;transition:opacity .15s}
 .schedule-table tbody tr:hover .row-actions{opacity:1}
-.ra-btn{width:26px;height:26px;border:1px solid var(--border);background:rgba(255,255,255,0.04);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text2);transition:all .15s}
+.ra-btn{width:24px;height:24px;border:1px solid var(--border);background:rgba(255,255,255,0.04);border-radius:5px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text2);transition:all .15s}
 .ra-btn:hover{background:rgba(255,255,255,0.1);border-color:var(--border-bright);color:var(--text)}
-.ra-btn.move{background:var(--accent-dim);border-color:rgba(124,108,240,0.3);color:var(--accent);font-weight:800}
+.ra-btn.move{background:var(--accent-dim);border-color:rgba(124,108,240,0.3);color:var(--accent)}
+.ra-btn.replace{background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.25);color:var(--success)}
+.ra-btn.remove{background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.25);color:var(--danger)}
 
-.empty-state{padding:60px 20px;text-align:center;color:var(--text3)}
-.empty-icon{font-size:48px;margin-bottom:14px;opacity:.6}
-.empty-title{font-size:16px;font-weight:700;color:var(--text2);margin-bottom:6px}
-.empty-sub{font-size:13px}
+/* ── VIEW: DAY GRID ── */
+#view-daygrid{display:none;overflow-x:auto;padding-bottom:12px}
+.day-grid{display:flex;gap:8px;min-width:max-content;padding:4px 0}
+.hour-col{width:160px;flex-shrink:0;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.hour-col-head{padding:6px 10px;background:rgba(255,255,255,0.04);border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text2);display:flex;align-items:center;justify-content:space-between}
+.hour-col-head .hr-label{color:var(--accent)}
+.hour-col-head .hr-count{font-size:10px;color:var(--text3)}
+.hour-col-body{padding:4px 0}
+.dg-song{padding:4px 8px;border-bottom:1px solid rgba(255,255,255,0.03);display:flex;gap:6px;align-items:flex-start;cursor:pointer;transition:background .1s}
+.dg-song:last-child{border-bottom:none}
+.dg-song:hover{background:rgba(255,255,255,0.04)}
+.dg-swatch{width:4px;border-radius:2px;flex-shrink:0;align-self:stretch;min-height:28px}
+.dg-info{flex:1;min-width:0}
+.dg-title{font-size:11px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.dg-title.err-text{color:var(--danger)}
+.dg-meta{font-size:10px;color:var(--text3);line-height:1.2}
+.hour-col.err-hour .hour-col-head{background:rgba(248,113,113,0.08)}
+.hour-col.warn-hour .hour-col-head{background:rgba(251,191,36,0.07)}
+.hour-empty{padding:10px 8px;font-size:11px;color:var(--text3);text-align:center;opacity:.6}
 
-.loading-row td{text-align:center;padding:40px;color:var(--text3);font-size:13px}
+/* ── VIEW: CLOCK ── */
+#view-clock{display:none}
+.clock-container{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
+.clock-svg-wrap{position:relative;flex-shrink:0}
+.clock-svg-wrap svg{display:block}
+.clock-panel{flex:1;min-width:260px}
+.clock-legend{display:flex;flex-direction:column;gap:5px;margin-top:8px}
+.cl-item{display:flex;align-items:center;gap:8px;padding:6px 10px;background:rgba(255,255,255,0.025);border-radius:6px;font-size:12px;cursor:pointer;border:1px solid transparent;transition:all .15s}
+.cl-item:hover{border-color:var(--border-bright);background:rgba(255,255,255,0.04)}
+.cl-item.highlight{border-color:rgba(124,108,240,0.4);background:var(--accent-dim)}
+.cl-swatch{width:14px;height:14px;border-radius:4px;flex-shrink:0}
+.cl-title{font-weight:600;color:var(--text);flex:1}
+.cl-artist{color:var(--text3);font-size:11px}
+.cl-time{font-size:11px;color:var(--accent);white-space:nowrap;font-variant-numeric:tabular-nums}
+.cl-dur{font-size:11px;color:var(--text3);white-space:nowrap}
+.cl-tempo{font-size:10px;font-weight:700;padding:1px 5px;border-radius:3px}
+.clock-hour-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.chn-btn{padding:5px 11px;font-size:11px;font-weight:600;border:1px solid var(--border);border-radius:6px;background:rgba(255,255,255,0.03);cursor:pointer;color:var(--text3);transition:all .15s}
+.chn-btn:hover{border-color:var(--border-bright);color:var(--text2)}
+.chn-btn.active{background:var(--accent-dim);border-color:rgba(124,108,240,0.4);color:var(--accent)}
+.chn-btn.err{border-color:rgba(248,113,113,0.3);color:var(--danger)}
+
+/* ── Replace Modal ── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-bg.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;width:min(620px,96vw);max-height:90vh;overflow-y:auto;position:relative}
+.modal h3{font-size:15px;font-weight:700;margin-bottom:16px}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;line-height:1}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+.replace-search{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.replace-search input{flex:1;min-width:160px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none}
+.replace-search input:focus{border-color:var(--accent)}
+.replace-search select{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:7px;padding:8px 10px;color:var(--text2);font-size:12px;font-family:inherit;outline:none}
+.replace-results{max-height:320px;overflow-y:auto;border:1px solid var(--border);border-radius:8px}
+.rep-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--border);transition:background .1s}
+.rep-row:last-child{border-bottom:none}
+.rep-row:hover{background:rgba(255,255,255,0.03)}
+.rep-info{flex:1;min-width:0}
+.rep-title{font-size:13px;font-weight:600;color:var(--text)}
+.rep-artist{font-size:11.5px;color:var(--text3)}
+.rep-meta{font-size:11px;color:var(--text3);display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
+
+/* Empty / loading */
+.empty-state{padding:50px 20px;text-align:center;color:var(--text3)}
+.empty-icon{font-size:44px;margin-bottom:12px;opacity:.6}
+.empty-title{font-size:15px;font-weight:700;color:var(--text2);margin-bottom:5px}
+.empty-sub{font-size:12.5px}
+.loading-row td{text-align:center;padding:36px;color:var(--text3);font-size:12.5px}
 </style>
 </head>
 <body>
@@ -172,9 +243,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
   <a href="/view" class="nav-item active"><span class="nav-icon">◫</span>View Schedule</a>
   <a href="/export" class="nav-item"><span class="nav-icon">↑</span>Export Logs</a>
   <div class="sidebar-section">Library</div>
-  <a href="#" class="nav-item"><span class="nav-icon">♪</span>Song Library</a>
-  <a href="#" class="nav-item"><span class="nav-icon">⏱</span>Clock Templates</a>
-  <a href="#" class="nav-item"><span class="nav-icon">◈</span>Rules Engine</a>
+  <a href="/" class="nav-item"><span class="nav-icon">♪</span>Song Library</a>
+  <a href="/" class="nav-item"><span class="nav-icon">⏱</span>Clock Templates</a>
+  <a href="/" class="nav-item"><span class="nav-icon">◈</span>Rules Engine</a>
   <div class="sidebar-bottom">
     <div class="station-pill">
       <div class="station-avatar">P</div>
@@ -185,11 +256,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
 
 <div class="main">
 
-  <!-- Topbar with navigator -->
   <header class="topbar">
     <div class="topbar-left">
       <div class="topbar-title">View Schedule</div>
-      <div class="topbar-sub" id="topbarSub">Loading...</div>
+      <div class="topbar-sub" id="topbarSub">Loading…</div>
     </div>
     <div class="topbar-center">
       <div class="day-nav">
@@ -200,7 +270,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
       </div>
     </div>
     <div class="topbar-right">
-      <button class="btn btn-warn" onclick="toggleViolations()">⚠ Violations</button>
+      <div class="view-toggle">
+        <button class="vt-btn active" id="vt-list"    onclick="setView('list',this)">☰ List</button>
+        <button class="vt-btn"        id="vt-daygrid" onclick="setView('daygrid',this)">⊞ Day Grid</button>
+        <button class="vt-btn"        id="vt-clock"   onclick="setView('clock',this)">◉ Clock</button>
+      </div>
+      <button class="btn btn-warn" id="violBtn" onclick="toggleViolations()">⚠ Violations</button>
       <button class="btn btn-ghost" onclick="window.location.href='/export'">↑ Export</button>
     </div>
   </header>
@@ -210,22 +285,24 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
 
   <div class="content">
 
-    <!-- Toolbar -->
-    <div class="toolbar">
-      <div class="toolbar-left">
-        <div class="search-box">
-          <span style="color:var(--text3);font-size:13px">⌕</span>
-          <input type="text" id="searchInput" placeholder="Search songs, artists..." oninput="applyFilters()">
-        </div>
-        <select class="filter-select" id="catFilter" onchange="applyFilters()">
-          <option value="">All categories</option>
-          <option value="Current">Current</option>
-          <option value="PowerGold">PowerGold</option>
-          <option value="Recurrent">Recurrent</option>
-          <option value="Gold">Gold</option>
-        </select>
+    <!-- Toolbar (List + DayGrid only) -->
+    <div class="toolbar" id="toolbarRow">
+      <div class="search-box" style="flex:1;min-width:0">
+        <span style="color:var(--text3);font-size:13px">⌕</span>
+        <input type="text" id="searchInput" placeholder="Search songs, artists…" oninput="applyFilters()">
       </div>
-      <div style="font-size:12px;color:var(--text3)" id="trackCount">—</div>
+      <select class="filter-select" id="catFilter" onchange="applyFilters()">
+        <option value="">All categories</option>
+      </select>
+      <select class="filter-select" id="tempoFilter" onchange="applyFilters()">
+        <option value="">All tempos</option>
+        <option value="1">Slow</option>
+        <option value="2">Med-Slow</option>
+        <option value="3">Medium</option>
+        <option value="4">Med-Fast</option>
+        <option value="5">Fast</option>
+      </select>
+      <div style="font-size:11.5px;color:var(--text3)" id="trackCount">—</div>
     </div>
 
     <!-- Hour strip -->
@@ -236,7 +313,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
     <!-- Violations panel -->
     <div class="violations-panel" id="vPanel">
       <div class="vp-header">
-        <div class="vp-title">⚠ Violations Detected</div>
+        <div class="vp-title">⚑ Violations Detected</div>
         <button class="vp-close" onclick="toggleViolations()">✕</button>
       </div>
       <div class="vp-stats">
@@ -247,224 +324,675 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
       <div id="vList"></div>
     </div>
 
-    <!-- Table -->
-    <div class="table-wrap">
-      <table class="schedule-table">
-        <thead>
-          <tr>
-            <th style="width:90px">#  Time</th>
-            <th>Song</th>
-            <th style="width:120px">Category</th>
-            <th style="width:70px">Length</th>
-            <th style="width:110px">Actions</th>
-          </tr>
-        </thead>
-        <tbody id="scheduleBody">
-          <tr class="loading-row"><td colspan="5">⏳  Loading schedule...</td></tr>
-        </tbody>
-      </table>
+    <!-- ── LIST VIEW ── -->
+    <div id="view-list">
+      <div class="table-wrap">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th style="width:16px"></th>
+              <th style="width:80px">Time</th>
+              <th>Song</th>
+              <th style="width:70px">Cart</th>
+              <th style="width:60px">Length</th>
+              <th style="width:120px">Category</th>
+              <th style="width:50px">Tempo</th>
+              <th>Violations</th>
+              <th style="width:100px">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody">
+            <tr class="loading-row"><td colspan="9">⏳ Loading schedule…</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
+    <!-- ── DAY GRID VIEW ── -->
+    <div id="view-daygrid">
+      <div class="day-grid" id="dayGridContent"></div>
+    </div>
+
+    <!-- ── CLOCK VIEW ── -->
+    <div id="view-clock">
+      <!-- Ring config bar -->
+      <div class="ring-bar">
+        <span style="font-size:11px;font-weight:700;color:var(--text2)">Rings:</span>
+        <label class="ring-toggle on" id="ring-cat" onclick="toggleRing('cat',this)">
+          <input type="checkbox" checked> Category
+        </label>
+        <label class="ring-toggle on" id="ring-tempo" onclick="toggleRing('tempo',this)">
+          <input type="checkbox" checked> Tempo
+        </label>
+        <label class="ring-toggle" id="ring-mood" onclick="toggleRing('mood',this)">
+          <input type="checkbox"> Mood
+        </label>
+        <label class="ring-toggle" id="ring-gender" onclick="toggleRing('gender',this)">
+          <input type="checkbox"> Gender
+        </label>
+        <div style="margin-left:auto;font-size:11px;color:var(--text3)">Select an hour below to view its clock</div>
+      </div>
+      <!-- Hour navigation buttons (M1-style) -->
+      <div class="clock-hour-nav" id="clockHourNav"></div>
+      <!-- Clock content -->
+      <div class="clock-container">
+        <div class="clock-svg-wrap">
+          <svg id="clockSvg" width="300" height="300" viewBox="0 0 300 300"></svg>
+        </div>
+        <div class="clock-panel">
+          <div id="clockHourLabel" style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:10px"></div>
+          <div class="clock-legend" id="clockLegend"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ── Replace Song Modal ── -->
+<div class="modal-bg" id="replaceModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeReplaceModal()">✕</button>
+    <h3>Replace Song</h3>
+    <div id="replacingInfo" style="font-size:12px;color:var(--text3);margin-bottom:14px;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:6px;border:1px solid var(--border)"></div>
+    <div class="replace-search">
+      <input type="text" id="repSearchInput" placeholder="Search title, artist, cart…" oninput="searchReplacement()">
+      <select id="repCatFilter" onchange="searchReplacement()">
+        <option value="">All categories</option>
+      </select>
+      <select id="repTempoFilter" onchange="searchReplacement()">
+        <option value="">All tempos</option>
+        <option value="1">Slow</option>
+        <option value="2">Med-Slow</option>
+        <option value="3">Medium</option>
+        <option value="4">Med-Fast</option>
+        <option value="5">Fast</option>
+      </select>
+    </div>
+    <div class="replace-results" id="repResults">
+      <div style="padding:20px;text-align:center;color:var(--text3);font-size:12px">Type to search…</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeReplaceModal()">Cancel</button>
+    </div>
   </div>
-</div>
 </div>
 
 <script>
+// ────────────────────────────────────────────────────────────
+// State
+// ────────────────────────────────────────────────────────────
 let currentDate = new Date().toISOString().split('T')[0];
 let allTracks   = [];
 let activeHour  = null;
+let currentView = 'list';
+let activeClockHour = null;
+let rings = { cat: true, tempo: true, mood: false, gender: false };
+let _replaceTarget = null; // { scheduleId, localIdx, position, title }
+let _categoryMap   = {};   // category name → hex color
 
-// Week days
-function getWeekDates(dateStr) {
-  const d   = new Date(dateStr + 'T12:00:00');
-  const dow = d.getDay();
-  const sun = new Date(d); sun.setDate(d.getDate() - dow);
-  return Array.from({length:7}, (_, i) => {
-    const x = new Date(sun); x.setDate(sun.getDate() + i);
-    return x.toISOString().split('T')[0];
-  });
-}
+// ────────────────────────────────────────────────────────────
+// Colours / Utilities
+// ────────────────────────────────────────────────────────────
+const TEMPO_ABBR   = ['','SL','MS','ME','MF','FA'];
+const TEMPO_COLORS = ['','#60a5fa','#34d399','#fbbf24','#fb923c','#f87171'];
+const MOOD_COLORS  = ['','#a78bfa','#60a5fa','#fbbf24','#fb923c','#f87171'];
+const GENDER_COLORS= ['','#60a5fa','#f472b6','#a78bfa','#94a3b8'];
 
-function fmtDisplay(dateStr) {
-  return new Date(dateStr + 'T12:00:00').toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric'});
+function catColor(name) {
+  if (_categoryMap[name]) return _categoryMap[name];
+  // Hash the name to a hue
+  let h = 0;
+  for (let i = 0; i < (name||'').length; i++) h = ((h<<5)-h + name.charCodeAt(i))|0;
+  return `hsl(${Math.abs(h)%360},60%,55%)`;
 }
-function fmtShort(dateStr) {
-  return new Date(dateStr + 'T12:00:00').toLocaleDateString('en-US', {month:'short', day:'numeric'});
-}
+function tempoColor(v)  { return TEMPO_COLORS[+v] || '#475569'; }
+function moodColor(v)   { return MOOD_COLORS[Math.min(+v||0, 5)] || '#475569'; }
+function genderColor(v) { return GENDER_COLORS[Math.min(+v||0, 4)] || '#475569'; }
 
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmtDur(s){ return s ? `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}` : '—'; }
+function getHour(t) {
+  if (t == null) return -1;
+  if (typeof t === 'number') return t;
+  const m = String(t).match(/^(\d+):\d+\s*(AM|PM)/i);
+  if (!m) return -1;
+  let h = parseInt(m[1]); const pm = m[2].toUpperCase()==='PM';
+  if (pm && h!==12) h+=12; if (!pm && h===12) h=0; return h;
+}
+function hrLabel(h){ return h===0?'12 AM':h<12?`${h} AM`:h===12?'12 PM':`${h-12} PM`; }
+function fmtDisplay(d){ return new Date(d+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'}); }
+function fmtShort(d){ return new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}); }
+
+// ────────────────────────────────────────────────────────────
+// Date navigation
+// ────────────────────────────────────────────────────────────
+function getWeekDates(ds) {
+  const d=new Date(ds+'T12:00:00'), dow=d.getDay();
+  const sun=new Date(d); sun.setDate(d.getDate()-dow);
+  return Array.from({length:7},(_,i)=>{ const x=new Date(sun); x.setDate(sun.getDate()+i); return x.toISOString().split('T')[0]; });
+}
 function buildWeekStrip(dates) {
-  const strip = document.getElementById('weekStrip');
-  const days  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  strip.innerHTML = dates.map((d,i) => {
-    const num = parseInt(d.split('-')[2]);
-    const isActive = d === currentDate;
+  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  document.getElementById('weekStrip').innerHTML = dates.map((d,i)=>{
+    const num=parseInt(d.split('-')[2]), isActive=d===currentDate;
     return `<div class="day-chip ${isActive?'active':''}" onclick="jumpToDate('${d}',this)">
-      <span class="day-num">${num}</span>
-      <span class="day-name">${days[i]}</span>
-    </div>`;
+      <span class="day-num">${num}</span><span class="day-name">${days[i]}</span></div>`;
   }).join('');
 }
-
 function jumpToDate(date, el) {
   currentDate = date;
-  document.querySelectorAll('.day-chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.day-chip').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('navDate').textContent = fmtDisplay(date);
-  document.getElementById('topbarSub').textContent = 'Loading...';
+  document.getElementById('topbarSub').textContent = 'Loading…';
   loadSchedule(date);
 }
-
 function shiftDay(dir) {
-  const d = new Date(currentDate + 'T12:00:00');
-  d.setDate(d.getDate() + dir);
-  currentDate = d.toISOString().split('T')[0];
-  refreshAll();
+  const d=new Date(currentDate+'T12:00:00'); d.setDate(d.getDate()+dir);
+  currentDate=d.toISOString().split('T')[0]; refreshAll();
 }
-
-function goToday() {
-  currentDate = new Date().toISOString().split('T')[0];
-  refreshAll();
-}
-
+function goToday(){ currentDate=new Date().toISOString().split('T')[0]; refreshAll(); }
 function refreshAll() {
-  const dates = getWeekDates(currentDate);
-  buildWeekStrip(dates);
+  buildWeekStrip(getWeekDates(currentDate));
   document.getElementById('navDate').textContent = fmtDisplay(currentDate);
   loadSchedule(currentDate);
 }
 
+// ────────────────────────────────────────────────────────────
+// View switching
+// ────────────────────────────────────────────────────────────
+function setView(name, btn) {
+  currentView = name;
+  document.querySelectorAll('.vt-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('view-list').style.display    = name==='list'    ? '' : 'none';
+  document.getElementById('view-daygrid').style.display = name==='daygrid' ? 'block' : 'none';
+  document.getElementById('view-clock').style.display   = name==='clock'   ? 'block' : 'none';
+  const tb = document.getElementById('toolbarRow');
+  const hs = document.getElementById('hourStrip');
+  tb.style.display = name==='clock' ? 'none' : '';
+  hs.style.display = name==='clock' ? 'none' : '';
+  if (name==='daygrid') renderDayGrid(allTracks);
+  if (name==='clock')   renderClockView(allTracks, activeClockHour);
+}
+
+// ────────────────────────────────────────────────────────────
 // Hour strip
+// ────────────────────────────────────────────────────────────
 function buildHourStrip(tracks) {
-  const strip = document.getElementById('hourStrip');
-  const hours = new Set(tracks.map(t => getHour(t.time)).filter(h => h >= 0));
+  const hours = new Set(tracks.map(t=>t.hour!=null?t.hour:getHour(t.time)).filter(h=>h>=0));
   const sorted = Array.from(hours).sort((a,b)=>a-b);
-  strip.innerHTML = '<div class="hour-chip active" onclick="filterHour(null,this)">All Hours</div>';
-  sorted.forEach(h => {
-    const label = h===0?'12 AM':h<12?`${h} AM`:h===12?'12 PM':`${h-12} PM`;
-    const hasErr  = tracks.some(t => getHour(t.time)===h && t.has_error);
-    const hasWarn = tracks.some(t => getHour(t.time)===h && t.has_warning);
-    const cls = hasErr ? 'err' : hasWarn ? 'warn' : '';
-    strip.innerHTML += `<div class="hour-chip ${cls}" onclick="filterHour(${h},this)">${label}</div>`;
+  const strip = document.getElementById('hourStrip');
+  strip.innerHTML = '<div class="hour-chip active" onclick="filterHour(null,this)">All</div>';
+  sorted.forEach(h=>{
+    const hasErr  = tracks.some(t=>(t.hour!=null?t.hour:getHour(t.time))===h && t.has_error);
+    const hasWarn = tracks.some(t=>(t.hour!=null?t.hour:getHour(t.time))===h && t.has_warning);
+    const cls = hasErr?'err':hasWarn?'warn':'';
+    strip.innerHTML += `<div class="hour-chip ${cls}" onclick="filterHour(${h},this)">${hrLabel(h)}</div>`;
   });
 }
-
-function getHour(timeStr) {
-  if (!timeStr) return -1;
-  const m = timeStr.match(/^(\d+):\d+\s*(AM|PM)/i);
-  if (!m) return -1;
-  let h = parseInt(m[1]);
-  const pm = m[2].toUpperCase()==='PM';
-  if (pm && h!==12) h+=12;
-  if (!pm && h===12) h=0;
-  return h;
-}
-
 function filterHour(hour, btn) {
   activeHour = hour;
   document.querySelectorAll('.hour-chip').forEach(c=>c.classList.remove('active'));
   btn.classList.add('active');
-  applyFilters();
+  if (currentView==='list') applyFilters();
+  if (currentView==='daygrid') renderDayGrid(allTracks);
 }
 
+// ────────────────────────────────────────────────────────────
+// Category colors (async fetch from categories API)
+// ────────────────────────────────────────────────────────────
+async function loadCategoryColors() {
+  try {
+    const res = await fetch('/api/categories');
+    const data = await res.json();
+    (data.categories||[]).forEach(c=>{ if (c.name && c.color) _categoryMap[c.name]=c.color; });
+    // Also populate filter dropdowns
+    const opts = (data.categories||[]).filter(c=>c.name).map(c=>`<option value="${esc(c.name)}">${esc(c.name)}</option>`).join('');
+    ['catFilter','repCatFilter'].forEach(id=>{
+      const el=document.getElementById(id);
+      if (el) el.innerHTML='<option value="">All categories</option>'+opts;
+    });
+  } catch {}
+}
+
+// ────────────────────────────────────────────────────────────
+// Filters / Search
+// ────────────────────────────────────────────────────────────
 function applyFilters() {
   const q   = (document.getElementById('searchInput').value||'').toLowerCase();
   const cat = document.getElementById('catFilter').value;
+  const tpo = document.getElementById('tempoFilter').value;
   let rows  = allTracks;
-  if (activeHour !== null) rows = rows.filter(t => getHour(t.time) === activeHour);
-  if (cat) rows = rows.filter(t => t.category === cat);
-  if (q)   rows = rows.filter(t => (t.title||'').toLowerCase().includes(q) || (t.artist||'').toLowerCase().includes(q));
-  renderRows(rows);
+  if (activeHour !== null) rows = rows.filter(t=>(t.hour!=null?t.hour:getHour(t.time))===activeHour);
+  if (cat) rows = rows.filter(t=>t.category===cat);
+  if (tpo) rows = rows.filter(t=>String(t.tempo||'')===tpo);
+  if (q)   rows = rows.filter(t=>(t.title||'').toLowerCase().includes(q)||(t.artist||'').toLowerCase().includes(q));
+  renderListRows(rows);
 }
 
-function catClass(cat) {
-  const k = (cat||'').toLowerCase().replace(/\s+/g,'').replace('power gold','powergold');
-  const map = {current:'cat-current',powergold:'cat-powergold',power:'cat-power',recurrent:'cat-recurrent',gold:'cat-gold'};
-  return map[k] || 'cat-default';
+// ────────────────────────────────────────────────────────────
+// LIST VIEW rendering
+// ────────────────────────────────────────────────────────────
+function tempoBadge(v) {
+  if (!v) return '—';
+  return `<span class="tempo-badge tempo-${v}">${TEMPO_ABBR[v]||v}</span>`;
+}
+function catBadge(name) {
+  const col = catColor(name);
+  return `<span class="cat-pill" style="background:${col}22;color:${col};border:1px solid ${col}44">${esc(name||'—')}</span>`;
 }
 
-function renderRows(rows) {
+function renderListRows(rows) {
   const tbody = document.getElementById('scheduleBody');
   document.getElementById('trackCount').textContent = `${rows.length} track${rows.length===1?'':'s'}`;
   if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="5">
-      <div class="empty-state">
-        <div class="empty-icon">♫</div>
-        <div class="empty-title">No tracks found</div>
-        <div class="empty-sub">Try a different filter, or generate a schedule first.</div>
-      </div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state">
+      <div class="empty-icon">♫</div>
+      <div class="empty-title">No tracks found</div>
+      <div class="empty-sub">Try a different filter, or generate a schedule first.</div>
+    </div></td></tr>`;
     return;
   }
-  tbody.innerHTML = rows.map((t,i) => {
-    const rowCls = t.has_error ? 'err-row' : t.has_warning ? 'warn-row' : '';
-    const errB   = t.has_error   ? `<span class="err-badge">⚑ ${t.error||'Error'}</span>`     : '';
-    const warnB  = t.has_warning ? `<span class="warn-badge">⚠ ${t.warning||'Warning'}</span>` : '';
-    return `<tr class="${rowCls}">
+  const swatchW = 12;
+  tbody.innerHTML = rows.map((t,i)=>{
+    const isErr  = t.has_error, isWarn = t.has_warning;
+    const rowCls = isErr?'err-row':isWarn?'warn-row':'';
+    const titleCls = isErr?'err-text':'';
+    const col    = catColor(t.category||'');
+    const violText = isErr ? `<span class="viol-badge">${esc(t.error)}</span>`
+                           : isWarn ? `<span class="viol-badge warn">${esc(t.warning)}</span>` : '—';
+    const cart   = t.cart_number ? `<span class="cart-text">${esc(t.cart_number)}</span>` : '<span style="color:var(--text3)">—</span>';
+    const sidx   = esc(JSON.stringify({sid:t.schedule_id,idx:t.local_track_index,pos:t.position,title:t.title}));
+    return `<tr class="${rowCls}" data-pos="${t.position||i+1}">
+      <td><span class="cat-swatch" style="background:${col}"></span></td>
+      <td><span class="time-pill">${esc(t.time||'—')}</span></td>
       <td>
-        <div style="font-size:10px;color:var(--text3);margin-bottom:2px">#${t.position||i+1}</div>
-        <span class="time-pill">${t.time||'—'}</span>
+        <div class="song-title ${titleCls}">${esc(t.title||'Unknown')}</div>
+        <div class="song-artist">${esc(t.artist||'')}</div>
       </td>
-      <td>
-        <div class="song-title">${t.title||'Unknown'}${errB}${warnB}</div>
-        <div class="song-artist">${t.artist||''}</div>
-      </td>
-      <td><span class="cat-pill ${catClass(t.category)}">${t.category||'—'}</span></td>
-      <td style="font-size:12px;color:var(--text2);font-variant-numeric:tabular-nums">${t.length||'—'}</td>
+      <td>${cart}</td>
+      <td style="font-size:11.5px;color:var(--text2);font-variant-numeric:tabular-nums">${esc(t.length||'—')}</td>
+      <td>${catBadge(t.category)}</td>
+      <td>${tempoBadge(t.tempo)}</td>
+      <td style="font-size:11px;color:${isErr?'var(--danger)':isWarn?'var(--warn)':'var(--text3)'}">${violText}</td>
       <td>
         <div class="row-actions">
-          <button class="ra-btn move" title="Move up" onclick="alert('Move up: '+${t.position||0})">↑</button>
-          <button class="ra-btn move" title="Move down" onclick="alert('Move down: '+${t.position||0})">↓</button>
-          <button class="ra-btn" title="Replace" onclick="alert('Replace: ${(t.title||'').replace(/'/g,"\\'")}')">⇄</button>
-          <button class="ra-btn" title="Remove" onclick="alert('Remove: ${(t.title||'').replace(/'/g,"\\'")}')">✕</button>
+          <button class="ra-btn move" title="Move up"   onclick="moveTrack('${esc(t.schedule_id)}',${t.local_track_index},'up')">↑</button>
+          <button class="ra-btn move" title="Move down" onclick="moveTrack('${esc(t.schedule_id)}',${t.local_track_index},'down')">↓</button>
+          <button class="ra-btn replace" title="Replace" onclick="openReplaceModal('${esc(t.schedule_id)}',${t.local_track_index},${t.position||i+1},'${(t.title||'').replace(/'/g,"\\'")}','${esc(t.category)}',${t.tempo||0})">⇄</button>
+          <button class="ra-btn remove" title="Remove" onclick="removeTrack('${esc(t.schedule_id)}',${t.local_track_index})">✕</button>
         </div>
       </td>
     </tr>`;
   }).join('');
 }
 
+// ────────────────────────────────────────────────────────────
+// DAY GRID VIEW rendering
+// ────────────────────────────────────────────────────────────
+function renderDayGrid(tracks) {
+  const grid = document.getElementById('dayGridContent');
+  // Group by hour
+  const byHour = {};
+  tracks.forEach(t=>{
+    const h = t.hour!=null ? t.hour : getHour(t.time);
+    if (h < 0) return;
+    if (!byHour[h]) byHour[h] = [];
+    byHour[h].push(t);
+  });
+  const hours = activeHour !== null ? [activeHour]
+    : Object.keys(byHour).map(Number).sort((a,b)=>a-b);
+  if (!hours.length) {
+    grid.innerHTML = `<div class="empty-state" style="min-width:300px"><div class="empty-icon">♫</div><div class="empty-title">No schedule data</div></div>`;
+    return;
+  }
+  grid.innerHTML = hours.map(h=>{
+    const songs = byHour[h] || [];
+    const hasErr  = songs.some(t=>t.has_error);
+    const hasWarn = songs.some(t=>t.has_warning);
+    const colCls  = hasErr?'err-hour':hasWarn?'warn-hour':'';
+    const songsHtml = songs.length
+      ? songs.map(t=>{
+          const col = catColor(t.category||'');
+          const titleCls = t.has_error?'err-text':'';
+          return `<div class="dg-song" title="${esc(t.title)} — ${esc(t.artist||'')}">
+            <div class="dg-swatch" style="background:${col}"></div>
+            <div class="dg-info">
+              <div class="dg-title ${titleCls}">${esc(t.title||'')}</div>
+              <div class="dg-meta">${esc(t.artist||'')}&nbsp;·&nbsp;${esc(t.length||'')}</div>
+            </div>
+          </div>`;
+        }).join('')
+      : '<div class="hour-empty">Empty</div>';
+    return `<div class="hour-col ${colCls}">
+      <div class="hour-col-head">
+        <span class="hr-label">${hrLabel(h)}</span>
+        <span class="hr-count">${songs.length} tracks</span>
+      </div>
+      <div class="hour-col-body">${songsHtml}</div>
+    </div>`;
+  }).join('');
+}
+
+// ────────────────────────────────────────────────────────────
+// CLOCK VIEW rendering  (multi-ring SVG pie)
+// ────────────────────────────────────────────────────────────
+function toggleRing(name, el) {
+  rings[name] = !rings[name];
+  el.classList.toggle('on', rings[name]);
+  renderClockView(allTracks, activeClockHour);
+}
+
+function buildClockHourNav(tracks) {
+  const nav = document.getElementById('clockHourNav');
+  const hours = new Set(tracks.map(t=>t.hour!=null?t.hour:getHour(t.time)).filter(h=>h>=0));
+  const sorted = Array.from(hours).sort((a,b)=>a-b);
+  nav.innerHTML = sorted.map(h=>{
+    const hasErr  = tracks.some(t=>(t.hour!=null?t.hour:getHour(t.time))===h && t.has_error);
+    const cls = hasErr?'err':'';
+    const active = h===activeClockHour?'active':'';
+    return `<button class="chn-btn ${cls} ${active}" onclick="selectClockHour(${h},this)">${hrLabel(h)}</button>`;
+  }).join('');
+}
+
+function selectClockHour(h, btn) {
+  activeClockHour = h;
+  document.querySelectorAll('.chn-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderClockView(allTracks, h);
+}
+
+function renderClockView(tracks, hour) {
+  const svgEl  = document.getElementById('clockSvg');
+  const legend = document.getElementById('clockLegend');
+  const label  = document.getElementById('clockHourLabel');
+  if (!svgEl) return;
+  buildClockHourNav(tracks);
+
+  const cx=150, cy=150;
+  // Determine ring radii based on active rings
+  const activeRings = ['cat','tempo','mood','gender'].filter(r=>rings[r]);
+  // Inner pie = first ring, outer rings as donuts
+  // Ring widths: innermost = big pie, each outer ring = 18px band
+  const outerRingW = 18;
+  const numOuter = activeRings.length > 1 ? activeRings.length - 1 : 0;
+  const innerR   = Math.max(30, 130 - numOuter * outerRingW);
+  const ringBands = activeRings.slice(1).map((r,i)=>({
+    name:r, innerR: innerR + i*outerRingW, outerR: innerR + (i+1)*outerRingW
+  }));
+
+  let hourTracks = hour !== null
+    ? tracks.filter(t=>(t.hour!=null?t.hour:getHour(t.time))===hour)
+    : [];
+
+  label.textContent = hour !== null ? `${hrLabel(hour)} — ${hourTracks.length} tracks` : 'Select an hour above';
+
+  if (!hourTracks.length) {
+    svgEl.innerHTML = `<text x="150" y="155" text-anchor="middle" fill="#475569" font-size="13" font-family="Inter,sans-serif">Select an hour</text>`;
+    legend.innerHTML = '';
+    return;
+  }
+
+  const totalDur = hourTracks.reduce((s,t)=>s+(t.duration_seconds||240),0);
+  let svg = '';
+
+  // Draw inner pie (first active ring attribute)
+  const pieAttr = activeRings[0] || 'cat';
+  let angle = -Math.PI/2;
+  hourTracks.forEach((t,i)=>{
+    const dur  = t.duration_seconds || 240;
+    const span = (dur / totalDur) * 2 * Math.PI;
+    const midA = angle + span/2;
+    const col  = pieAttr==='cat'    ? catColor(t.category||'')
+               : pieAttr==='tempo'  ? tempoColor(t.tempo)
+               : pieAttr==='mood'   ? moodColor(t.mood)
+               : genderColor(t.gender);
+    // Pie slice
+    const x1=cx+innerR*Math.cos(angle),  y1=cy+innerR*Math.sin(angle);
+    const x2=cx+innerR*Math.cos(angle+span), y2=cy+innerR*Math.sin(angle+span);
+    const lf = span>Math.PI?1:0;
+    svg += `<path d="M${cx},${cy} L${x1},${y1} A${innerR},${innerR} 0 ${lf},1 ${x2},${y2} Z"
+      fill="${col}" stroke="var(--bg2)" stroke-width="1.5" style="cursor:pointer"
+      onmouseover="highlightClockItem(${i})" onmouseout="unhighlightClockItem(${i})"/>`;
+    // Label (title abbreviated)
+    if (span > 0.18) {
+      const lx=cx+(innerR*0.6)*Math.cos(midA), ly=cy+(innerR*0.6)*Math.sin(midA);
+      const shortTitle = (t.title||'').split(' ').slice(0,3).join(' ');
+      svg += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle"
+        fill="#fff" font-size="${Math.max(7,Math.min(11,span*18))}" font-family="Inter,sans-serif"
+        style="pointer-events:none;font-weight:600">${esc(shortTitle)}</text>`;
+    }
+    angle += span;
+  });
+
+  // Draw outer donut rings
+  ringBands.forEach(band=>{
+    let a2 = -Math.PI/2;
+    hourTracks.forEach(t=>{
+      const dur  = t.duration_seconds || 240;
+      const span = (dur / totalDur) * 2 * Math.PI;
+      const col  = band.name==='tempo'  ? tempoColor(t.tempo)
+                 : band.name==='mood'   ? moodColor(t.mood)
+                 : band.name==='gender' ? genderColor(t.gender)
+                 : catColor(t.category||'');
+      const x1=cx+band.innerR*Math.cos(a2),       y1=cy+band.innerR*Math.sin(a2);
+      const x2=cx+band.outerR*Math.cos(a2),       y2=cy+band.outerR*Math.sin(a2);
+      const x3=cx+band.outerR*Math.cos(a2+span),  y3=cy+band.outerR*Math.sin(a2+span);
+      const x4=cx+band.innerR*Math.cos(a2+span),  y4=cy+band.innerR*Math.sin(a2+span);
+      const lf=span>Math.PI?1:0;
+      svg += `<path d="M${x1},${y1} L${x2},${y2} A${band.outerR},${band.outerR} 0 ${lf},1 ${x3},${y3} L${x4},${y4} A${band.innerR},${band.innerR} 0 ${lf},0 ${x1},${y1} Z"
+        fill="${col}" stroke="var(--bg2)" stroke-width="1"/>`;
+      a2 += span;
+    });
+    // Ring label
+    const midR = (band.innerR + band.outerR)/2;
+    svg += `<text x="${cx+5}" y="${cy - midR}" text-anchor="middle" fill="rgba(255,255,255,0.4)"
+      font-size="8" font-family="Inter,sans-serif">${band.name.toUpperCase()}</text>`;
+  });
+
+  // Centre hole label
+  svg += `<circle cx="${cx}" cy="${cy}" r="22" fill="var(--bg2)"/>
+    <text x="${cx}" y="${cy-5}" text-anchor="middle" fill="var(--text2)" font-size="10" font-family="Inter,sans-serif" font-weight="700">${hrLabel(hour||0)}</text>
+    <text x="${cx}" y="${cy+9}" text-anchor="middle" fill="var(--text3)" font-size="9" font-family="Inter,sans-serif">${hourTracks.length} tracks</text>`;
+
+  svgEl.innerHTML = svg;
+
+  // Legend
+  legend.innerHTML = hourTracks.map((t,i)=>{
+    const col = catColor(t.category||'');
+    const tc  = tempoColor(t.tempo);
+    const ta  = TEMPO_ABBR[t.tempo||0]||'';
+    return `<div class="cl-item" id="cli-${i}" onmouseover="highlightClockItem(${i})" onmouseout="unhighlightClockItem(${i})">
+      <span class="cl-swatch" style="background:${col}"></span>
+      <span class="cl-title">${esc(t.title||'Unknown')}</span>
+      <span class="cl-artist">${esc(t.artist||'')}</span>
+      <span class="cl-time">${esc(t.time||'')}</span>
+      ${ta ? `<span class="cl-tempo" style="background:${tc}22;color:${tc}">${ta}</span>` : ''}
+      <span class="cl-dur">${esc(t.length||'')}</span>
+    </div>`;
+  }).join('');
+}
+
+let _hlTimer = null;
+function highlightClockItem(idx) {
+  document.querySelectorAll('.cl-item').forEach((el,i)=>el.classList.toggle('highlight',i===idx));
+}
+function unhighlightClockItem() {
+  document.querySelectorAll('.cl-item').forEach(el=>el.classList.remove('highlight'));
+}
+
+// ────────────────────────────────────────────────────────────
+// Violations
+// ────────────────────────────────────────────────────────────
 function updateViolations(tracks) {
-  const errs  = tracks.filter(t => t.has_error);
-  const warns = tracks.filter(t => t.has_warning);
+  const errs  = tracks.filter(t=>t.has_error);
+  const warns = tracks.filter(t=>t.has_warning);
   document.getElementById('vErrCount').textContent  = errs.length;
   document.getElementById('vWarnCount').textContent = warns.length;
   const pct = tracks.length ? Math.round(((tracks.length-errs.length)/tracks.length)*100) : 100;
-  document.getElementById('vPassRate').textContent  = pct + '%';
+  document.getElementById('vPassRate').textContent  = pct+'%';
   document.getElementById('vList').innerHTML = [
-    ...errs.map(t  => `<div class="violation-item"><div class="vi-head">${t.time} — "${t.title}"</div><div class="vi-msg">${t.error}</div></div>`),
-    ...warns.map(t => `<div class="violation-item warn"><div class="vi-head">${t.time} — "${t.title}"</div><div class="vi-msg">${t.warning}</div></div>`)
+    ...errs.map(t=>`<div class="violation-item"><div class="vi-head">${esc(t.time)} — "${esc(t.title)}"</div><div class="vi-msg">${esc(t.error)}</div></div>`),
+    ...warns.map(t=>`<div class="violation-item warn"><div class="vi-head">${esc(t.time)} — "${esc(t.title)}"</div><div class="vi-msg">${esc(t.warning)}</div></div>`)
   ].join('') || '<div style="font-size:12px;color:var(--success);padding:6px">✓ No violations found</div>';
-
-  // Colour topbar button
-  const btn = document.querySelector('.btn-warn');
-  if (errs.length)  btn.textContent = `⚑ ${errs.length} Error${errs.length>1?'s':''}`;
-  else if (warns.length) btn.textContent = `⚠ ${warns.length} Warning${warns.length>1?'s':''}`;
-  else { btn.textContent = '✓ No Issues'; btn.style.background='rgba(52,211,153,0.1)'; btn.style.borderColor='rgba(52,211,153,0.2)'; btn.style.color='var(--success)'; }
+  const btn = document.getElementById('violBtn');
+  if (errs.length)       { btn.textContent=`⚑ ${errs.length} Error${errs.length>1?'s':''}`; btn.className='btn btn-danger'; }
+  else if (warns.length) { btn.textContent=`⚠ ${warns.length} Warning${warns.length>1?'s':''}`; btn.className='btn btn-warn'; }
+  else                   { btn.textContent='✓ Clean'; btn.className='btn btn-success'; }
 }
+function toggleViolations(){ document.getElementById('vPanel').classList.toggle('show'); }
 
-function toggleViolations() {
-  document.getElementById('vPanel').classList.toggle('show');
-}
-
+// ────────────────────────────────────────────────────────────
+// Load schedule
+// ────────────────────────────────────────────────────────────
 async function loadSchedule(date) {
-  document.getElementById('scheduleBody').innerHTML = '<tr class="loading-row"><td colspan="5">⏳ Loading schedule...</td></tr>';
+  document.getElementById('scheduleBody').innerHTML = '<tr class="loading-row"><td colspan="9">⏳ Loading schedule…</td></tr>';
   try {
-    const res  = await fetch('/api/schedule/date/' + date);
+    const res  = await fetch('/api/schedule/date/'+date);
     const data = await res.json();
     allTracks  = data.schedule || [];
+    activeClockHour = null;
     buildHourStrip(allTracks);
-    activeHour = null;
+    // Reset hour filter
     document.querySelectorAll('.hour-chip').forEach(c=>c.classList.remove('active'));
     document.querySelector('.hour-chip')?.classList.add('active');
+    activeHour = null;
     applyFilters();
     updateViolations(allTracks);
     document.getElementById('topbarSub').textContent = `${allTracks.length} tracks scheduled`;
+    if (currentView==='daygrid') renderDayGrid(allTracks);
+    if (currentView==='clock')   renderClockView(allTracks, activeClockHour);
+    // Auto-select first hour for clock view
+    if (allTracks.length) {
+      const firstHour = allTracks[0].hour != null ? allTracks[0].hour : getHour(allTracks[0].time);
+      if (firstHour >= 0) { activeClockHour = firstHour; buildClockHourNav(allTracks); }
+    }
   } catch(e) {
-    document.getElementById('scheduleBody').innerHTML = `<tr class="loading-row"><td colspan="5" style="color:var(--danger)">Error: ${e.message}</td></tr>`;
+    document.getElementById('scheduleBody').innerHTML = `<tr class="loading-row"><td colspan="9" style="color:var(--danger)">Error: ${esc(e.message)}</td></tr>`;
   }
 }
 
+// ────────────────────────────────────────────────────────────
+// Track actions: Move / Replace / Remove
+// ────────────────────────────────────────────────────────────
+async function moveTrack(scheduleId, localIdx, dir) {
+  if (!scheduleId) return alert('Cannot move: no schedule ID');
+  // Find the track and its neighbour in the same schedule
+  const sameSched = allTracks.filter(t=>t.schedule_id===scheduleId);
+  const pos = sameSched.findIndex(t=>t.local_track_index===localIdx);
+  if (pos < 0) return;
+  const toPos = dir==='up' ? pos-1 : pos+1;
+  if (toPos < 0 || toPos >= sameSched.length) return;
+  const fromIdx = sameSched[pos].local_track_index;
+  const toIdx   = sameSched[toPos].local_track_index;
+  const res = await fetch(`/api/schedule/${scheduleId}/move-track`, {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ from_index: fromIdx, to_index: toIdx })
+  });
+  const data = await res.json();
+  if (data.success) loadSchedule(currentDate);
+  else alert('Move failed: '+(data.error||'Unknown error'));
+}
+
+async function removeTrack(scheduleId, localIdx) {
+  if (!confirm('Remove this song from the schedule?')) return;
+  // Load schedule, remove the track, PUT back
+  const res  = await fetch(`/api/schedule/${scheduleId}`);
+  const sched= await res.json();
+  if (!sched.tracks) return alert('Could not load schedule');
+  sched.tracks.splice(localIdx, 1);
+  const upd = await fetch(`/api/schedule/${scheduleId}`, {
+    method:'PUT', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ tracks: sched.tracks })
+  });
+  const data = await upd.json();
+  if (!data.error) loadSchedule(currentDate);
+  else alert('Remove failed: '+data.error);
+}
+
+// ────────────────────────────────────────────────────────────
+// Replace modal
+// ────────────────────────────────────────────────────────────
+function openReplaceModal(scheduleId, localIdx, position, title, category, tempo) {
+  _replaceTarget = { scheduleId, localIdx, position, title, category, tempo };
+  document.getElementById('replacingInfo').innerHTML =
+    `Replacing: <strong>${esc(title)}</strong> (slot ${position}) &nbsp;·&nbsp; Category: ${esc(category||'—')} &nbsp;·&nbsp; Tempo: ${tempo?TEMPO_ABBR[tempo]||tempo:'—'}`;
+  document.getElementById('repSearchInput').value = '';
+  document.getElementById('repCatFilter').value = category || '';
+  document.getElementById('repTempoFilter').value = tempo || '';
+  document.getElementById('repResults').innerHTML = '<div style="padding:20px;text-align:center;color:var(--text3);font-size:12px">Type to search…</div>';
+  document.getElementById('replaceModal').classList.add('open');
+  document.getElementById('repSearchInput').focus();
+  setTimeout(searchReplacement, 50);
+}
+function closeReplaceModal() {
+  document.getElementById('replaceModal').classList.remove('open');
+  _replaceTarget = null;
+}
+let _repTimer = null;
+function searchReplacement() {
+  clearTimeout(_repTimer);
+  _repTimer = setTimeout(_doSearchReplacement, 300);
+}
+async function _doSearchReplacement() {
+  const q   = document.getElementById('repSearchInput').value.trim();
+  const cat = document.getElementById('repCatFilter').value;
+  const tpo = document.getElementById('repTempoFilter').value;
+  let url = `/api/tracks?limit=50&sort=title&order=asc`;
+  if (q)   url += `&search=${encodeURIComponent(q)}`;
+  if (cat) url += `&category=${encodeURIComponent(cat)}`;
+  if (tpo) url += `&tempo=${encodeURIComponent(tpo)}`;
+  const res  = document.getElementById('repResults');
+  res.innerHTML = '<div style="padding:12px;text-align:center;color:var(--text3);font-size:12px">Searching…</div>';
+  try {
+    const data = await (await fetch(url)).json();
+    const tracks = data.tracks||[];
+    if (!tracks.length) {
+      res.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text3);font-size:12px">No songs found</div>';
+      return;
+    }
+    res.innerHTML = tracks.map(t=>{
+      const col = catColor(t.category||'');
+      const ta  = t.tempo ? `<span style="font-size:10px;font-weight:700;padding:1px 5px;border-radius:3px;background:${tempoColor(t.tempo)}22;color:${tempoColor(t.tempo)}">${TEMPO_ABBR[t.tempo]||''}</span>` : '';
+      const cart= t.cart_number ? `<span style="color:var(--warn);font-family:monospace;font-size:11px">${esc(t.cart_number)}</span>` : '';
+      return `<div class="rep-row">
+        <div style="width:8px;height:36px;border-radius:2px;background:${col};flex-shrink:0"></div>
+        <div class="rep-info">
+          <div class="rep-title">${esc(t.title)}</div>
+          <div class="rep-artist">${esc(t.artist||'')}</div>
+          <div class="rep-meta">${catBadge(t.category)} ${ta} ${cart} <span>${fmtDur(t.duration_seconds)}</span></div>
+        </div>
+        <button class="btn btn-success" style="font-size:11px;padding:5px 10px" onclick="confirmReplace('${esc(t.id)}')">Use ⇄</button>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    res.innerHTML = `<div style="padding:12px;color:var(--danger);font-size:12px">Error: ${esc(e.message)}</div>`;
+  }
+}
+async function confirmReplace(newSongId) {
+  if (!_replaceTarget) return;
+  const r = await fetch(`/api/schedule/${_replaceTarget.scheduleId}/replace-track`, {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ track_index: _replaceTarget.localIdx, new_song_id: newSongId })
+  });
+  const data = await r.json();
+  if (data.success) { closeReplaceModal(); loadSchedule(currentDate); }
+  else alert('Replace failed: '+(data.error||'Unknown error'));
+}
+
+// ────────────────────────────────────────────────────────────
 // Init
-window.addEventListener('DOMContentLoaded', () => {
+// ────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', ()=>{
+  loadCategoryColors();
   refreshAll();
+  // Init view
+  document.getElementById('view-list').style.display    = '';
+  document.getElementById('view-daygrid').style.display = 'none';
+  document.getElementById('view-clock').style.display   = 'none';
 });
 </script>
 </body>

@@ -280,6 +280,29 @@
   .cr-action-type { flex: 2; min-width: 240px; }
   .cr-action-val { flex: 1; min-width: 90px; }
   .cr-action-val input, .cr-action-val select { width: 100%; }
+
+  /* ── Track modal tabs ── */
+  .tm-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin: -24px -24px 20px; padding: 0 20px; overflow-x: auto; }
+  .tm-tab  { padding: 11px 14px; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; background: none; border-top: none; border-left: none; border-right: none; transition: all .15s; }
+  .tm-tab:hover  { color: var(--text); }
+  .tm-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tm-panel { display: none; } .tm-panel.active { display: block; }
+  /* Tempo badges */
+  .tempo-sl { background: rgba(96,165,250,.15); color: #60a5fa; padding: 1px 6px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+  .tempo-ms { background: rgba(52,211,153,.12); color: #34d399; padding: 1px 6px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+  .tempo-me { background: rgba(251,191,36,.12); color: #fbbf24; padding: 1px 6px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+  .tempo-mf { background: rgba(251,146,60,.12); color: #fb923c; padding: 1px 6px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+  .tempo-fa { background: rgba(248,113,113,.15); color: #f87171; padding: 1px 6px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+  /* Sound code chips */
+  .sc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 6px; }
+  .sc-item { display: flex; align-items: center; gap: 6px; font-size: 12px; cursor: pointer; }
+  .sc-item input[type=checkbox] { width: auto; flex-shrink: 0; accent-color: var(--accent); }
+  /* Wide track modal */
+  .modal-wide { width: min(760px, 96vw); }
+  /* Cart/intro chip in table */
+  .cart-chip { font-family: monospace; font-size: 11.5px; color: var(--warn); background: rgba(246,173,85,.1); padding: 1px 5px; border-radius: 4px; }
+  /* Last played date */
+  .lp-date { font-size: 11px; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -337,29 +360,49 @@
   <div class="stats" id="track-stats"></div>
   <div class="card">
     <div class="toolbar">
-      <input type="text" id="track-search" placeholder="Search title / artist…" oninput="loadTracks()">
+      <input type="text" id="track-search" placeholder="Search title, artist, cart, genre…" oninput="loadTracks()" style="min-width:220px">
       <select id="track-cat" onchange="loadTracks()">
         <option value="">All categories</option>
       </select>
+      <select id="track-tempo" onchange="loadTracks()">
+        <option value="">All tempos</option>
+        <option value="1">Slow</option>
+        <option value="2">Med-Slow</option>
+        <option value="3">Medium</option>
+        <option value="4">Med-Fast</option>
+        <option value="5">Fast</option>
+      </select>
+      <select id="track-gender" onchange="loadTracks()">
+        <option value="">All genders</option>
+        <option value="1">Male</option>
+        <option value="2">Female</option>
+        <option value="3">Duo/Group</option>
+        <option value="4">Instrumental</option>
+      </select>
       <select id="track-sort" onchange="loadTracks()">
-        <option value="title" selected>Title</option>
-        <option value="artist">Artist</option>
-        <option value="added_at">Date added</option>
-        <option value="play_count">Play count</option>
-        <option value="bpm">BPM</option>
-        <option value="energy">Energy</option>
+        <option value="title" selected>Sort: Title</option>
+        <option value="artist">Sort: Artist</option>
+        <option value="added_at">Sort: Date Added</option>
+        <option value="play_count">Sort: Plays</option>
+        <option value="last_played_at">Sort: Last Play</option>
+        <option value="tempo">Sort: Tempo</option>
+        <option value="cart_number">Sort: Cart #</option>
+        <option value="bpm">Sort: BPM</option>
+        <option value="energy">Sort: Energy</option>
+        <option value="intro_seconds">Sort: Intro</option>
       </select>
       <select id="track-order" onchange="loadTracks()">
-        <option value="asc">Asc</option>
-        <option value="desc">Desc</option>
+        <option value="asc">↑ Asc</option>
+        <option value="desc">↓ Desc</option>
       </select>
       <button class="btn btn-primary" onclick="openAddTrack()">+ Add Track</button>
     </div>
     <div class="tbl-wrap">
       <table>
         <thead><tr>
-          <th>#</th><th>Title</th><th>Artist</th><th>Category</th>
-          <th>Duration</th><th>BPM</th><th>Energy</th><th>Plays</th><th></th>
+          <th>#</th><th>Title</th><th>Artist</th><th>Cart</th>
+          <th>Duration</th><th>Intro</th><th>Category</th><th>Tempo</th>
+          <th>Sound Codes</th><th>Plays</th><th>Last Play</th><th></th>
         </tr></thead>
         <tbody id="tracks-body"></tbody>
       </table>
@@ -800,24 +843,184 @@
 
 <!-- Add Track -->
 <div class="modal-bg" id="modal-track">
-  <div class="modal">
-    <h3>Add Track</h3>
-    <div class="form-grid">
-      <div class="form-group"><label>Title *</label><input type="text" id="t-title"></div>
-      <div class="form-group"><label>Artist *</label><input type="text" id="t-artist"></div>
-      <div class="form-group">
-        <label>Category *</label>
-        <select id="t-category"></select>
-      </div>
-      <div class="form-group"><label>Duration (seconds)</label><input type="number" id="t-duration" min="1"></div>
-      <div class="form-group"><label>BPM</label><input type="number" id="t-bpm" min="1" max="300"></div>
-      <div class="form-group"><label>Energy (1–10)</label><input type="number" id="t-energy" min="1" max="10"></div>
-      <div class="form-group"><label>Mood</label><input type="text" id="t-mood" placeholder="e.g. Upbeat"></div>
-      <div class="form-group"><label>Notes</label><input type="text" id="t-notes"></div>
+  <div class="modal modal-wide">
+    <h3 id="modal-track-title">Add Track</h3>
+
+    <!-- Tab bar -->
+    <div class="tm-tabs">
+      <button class="tm-tab active" onclick="showTmTab('basic',this)">Basic Info</button>
+      <button class="tm-tab" onclick="showTmTab('timing',this)">Timing</button>
+      <button class="tm-tab" onclick="showTmTab('attrs',this)">Attributes</button>
+      <button class="tm-tab" onclick="showTmTab('scodes',this)">Sound Codes</button>
+      <button class="tm-tab" onclick="showTmTab('restrict',this)">Restrictions</button>
+      <button class="tm-tab" onclick="showTmTab('license',this)">Licensing</button>
     </div>
+
+    <!-- Tab 1: Basic Info -->
+    <div class="tm-panel active" id="tmp-basic">
+      <div class="form-grid">
+        <div class="form-group" style="grid-column:span 2"><label>Title *</label><input type="text" id="t-title"></div>
+        <div class="form-group" style="grid-column:span 2"><label>Artist *</label><input type="text" id="t-artist"></div>
+        <div class="form-group"><label>Alt. Artists</label><input type="text" id="t-alt-artists" placeholder="feat. / with …"></div>
+        <div class="form-group">
+          <label>Category *</label>
+          <select id="t-category"></select>
+        </div>
+        <div class="form-group"><label>Duration (sec)</label><input type="number" id="t-duration" min="1" placeholder="e.g. 225"></div>
+        <div class="form-group"><label>Cart Number</label><input type="text" id="t-cart" placeholder="e.g. T1234"></div>
+        <div class="form-group"><label>Genre</label><input type="text" id="t-genre" placeholder="e.g. CCM"></div>
+        <div class="form-group"><label>Album</label><input type="text" id="t-album"></div>
+        <div class="form-group"><label>Record Label</label><input type="text" id="t-record-label"></div>
+        <div class="form-group"><label>Chart Position</label><input type="number" id="t-chart-pos" min="1"></div>
+        <div class="form-group" style="grid-column:span 2"><label>Notes / Announcer Notes</label><textarea id="t-notes" rows="2" style="width:100%;resize:vertical"></textarea></div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Timing -->
+    <div class="tm-panel" id="tmp-timing">
+      <div class="form-grid">
+        <div class="form-group"><label>Intro (sec)</label><input type="number" id="t-intro" min="0" step="0.1" placeholder="0.0"></div>
+        <div class="form-group"><label>Outro (sec)</label><input type="number" id="t-outro" min="0" step="0.1" placeholder="0.0"></div>
+        <div class="form-group"><label>Hook In (sec)</label><input type="number" id="t-hookin" min="0" step="0.1" placeholder="0.0"></div>
+        <div class="form-group"><label>Hook Out (sec)</label><input type="number" id="t-hookout" min="0" step="0.1" placeholder="0.0"></div>
+        <div class="form-group"><label>Mix In (sec)</label><input type="number" id="t-mixin" min="0" step="0.1" placeholder="0.0"></div>
+        <div class="form-group"><label>Mix Out (sec)</label><input type="number" id="t-mixout" min="0" step="0.1" placeholder="0.0"></div>
+        <div class="form-group"><label>BPM</label><input type="number" id="t-bpm" min="1" max="300"></div>
+        <div class="form-group"><label>Energy (1–10)</label><input type="number" id="t-energy" min="1" max="10"></div>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:12px">Intro: length before vocals start. Hook: memorable section. Mix: crossfade points.</p>
+    </div>
+
+    <!-- Tab 3: Attributes -->
+    <div class="tm-panel" id="tmp-attrs">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Tempo</label>
+          <select id="t-tempo">
+            <option value="">— unset —</option>
+            <option value="1">1 — Slow</option>
+            <option value="2">2 — Med-Slow</option>
+            <option value="3">3 — Medium</option>
+            <option value="4">4 — Med-Fast</option>
+            <option value="5">5 — Fast</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Gender / Vocal Style</label>
+          <select id="t-gender">
+            <option value="">— unset —</option>
+            <option value="1">Male</option>
+            <option value="2">Female</option>
+            <option value="3">Duo / Group</option>
+            <option value="4">Instrumental</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mood (1–5)</label>
+          <select id="t-mood">
+            <option value="">— unset —</option>
+            <option value="1">1 — Subdued</option>
+            <option value="2">2 — Contemplative</option>
+            <option value="3">3 — Neutral</option>
+            <option value="4">4 — Upbeat</option>
+            <option value="5">5 — Celebratory</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Texture (1–5)</label>
+          <select id="t-texture">
+            <option value="">— unset —</option>
+            <option value="1">1 — Sparse / Acoustic</option>
+            <option value="2">2 — Light</option>
+            <option value="3">3 — Medium</option>
+            <option value="4">4 — Full</option>
+            <option value="5">5 — Heavy / Dense</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Key (Primary)</label>
+          <select id="t-key1">
+            <option value="">— unset —</option>
+            <option value="1">C</option><option value="2">C#/Db</option>
+            <option value="3">D</option><option value="4">D#/Eb</option>
+            <option value="5">E</option><option value="6">F</option>
+            <option value="7">F#/Gb</option><option value="8">G</option>
+            <option value="9">G#/Ab</option><option value="10">A</option>
+            <option value="11">A#/Bb</option><option value="12">B</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Key (Secondary / Minor)</label>
+          <select id="t-key2">
+            <option value="">— unset —</option>
+            <option value="1">C</option><option value="2">C#/Db</option>
+            <option value="3">D</option><option value="4">D#/Eb</option>
+            <option value="5">E</option><option value="6">F</option>
+            <option value="7">F#/Gb</option><option value="8">G</option>
+            <option value="9">G#/Ab</option><option value="10">A</option>
+            <option value="11">A#/Bb</option><option value="12">B</option>
+          </select>
+        </div>
+        <div class="form-group"><label>User Field 1</label><input type="text" id="t-user1"></div>
+        <div class="form-group"><label>User Field 2</label><input type="text" id="t-user2"></div>
+        <div class="form-group"><label>User Field 3</label><input type="text" id="t-user3"></div>
+        <div class="form-group"><label>User Field 4</label><input type="text" id="t-user4"></div>
+      </div>
+    </div>
+
+    <!-- Tab 4: Sound Codes -->
+    <div class="tm-panel" id="tmp-scodes">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Sound codes are style/content flags used for scheduling rules and separation. Check all that apply.</p>
+      <div class="sc-grid" id="sc-checkboxes"></div>
+    </div>
+
+    <!-- Tab 5: Restrictions -->
+    <div class="tm-panel" id="tmp-restrict">
+      <div class="form-grid">
+        <div class="form-group"><label>Start Hour (0–23)</label><input type="number" id="t-start-hour" min="0" max="23" placeholder="0"></div>
+        <div class="form-group"><label>End Hour (0–23)</label><input type="number" id="t-end-hour" min="0" max="23" placeholder="23"></div>
+        <div class="form-group"><label>Active From Date</label><input type="date" id="t-start-date"></div>
+        <div class="form-group"><label>Active Until Date</label><input type="date" id="t-end-date"></div>
+        <div class="form-group"><label>Hit Date</label><input type="date" id="t-hit-date"></div>
+        <div class="form-group"><label>ID in Player / Automation</label><input type="text" id="t-player-id" placeholder="e.g. VINE-921"></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:14px">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;text-transform:none;letter-spacing:0;color:var(--text)">
+          <input type="checkbox" id="t-beginning" style="width:auto;accent-color:var(--accent)"> Beginning of hour only
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;text-transform:none;letter-spacing:0;color:var(--text)">
+          <input type="checkbox" id="t-ending" style="width:auto;accent-color:var(--accent)"> End of hour only
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;text-transform:none;letter-spacing:0;color:var(--text)">
+          <input type="checkbox" id="t-hr-restricted" style="width:auto;accent-color:var(--accent)"> Hour restricted
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;text-transform:none;letter-spacing:0;color:var(--text)">
+          <input type="checkbox" id="t-native" style="width:auto;accent-color:var(--accent)"> Native Content
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;text-transform:none;letter-spacing:0;color:var(--text)">
+          <input type="checkbox" id="t-prior-approval" style="width:auto;accent-color:var(--accent)"> Prior Approval Required
+        </label>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;text-transform:none;letter-spacing:0;color:var(--text)">
+          <input type="checkbox" id="t-mcps" style="width:auto;accent-color:var(--accent)"> MCPS Licensed
+        </label>
+      </div>
+    </div>
+
+    <!-- Tab 6: Licensing -->
+    <div class="tm-panel" id="tmp-license">
+      <div class="form-grid">
+        <div class="form-group"><label>Composer</label><input type="text" id="t-composer"></div>
+        <div class="form-group"><label>Arranger</label><input type="text" id="t-arranger"></div>
+        <div class="form-group"><label>Publisher</label><input type="text" id="t-publisher"></div>
+        <div class="form-group"><label>Catalog Number</label><input type="text" id="t-catalog-num"></div>
+        <div class="form-group"><label>Work Code</label><input type="text" id="t-work-code"></div>
+        <div class="form-group"><label>Recording Code</label><input type="text" id="t-recording-code"></div>
+        <div class="form-group"><label>ISCI Code</label><input type="text" id="t-isci"></div>
+        <div class="form-group"><label>Origin / Source</label><input type="text" id="t-origin" placeholder="e.g. Domestic"></div>
+      </div>
+    </div>
+
     <div class="modal-actions">
       <button class="btn btn-muted" onclick="closeModal('modal-track')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveTrack()">Add Track</button>
+      <button class="btn btn-primary" id="modal-track-save-btn" onclick="saveTrack()">Add Track</button>
     </div>
   </div>
 </div>
@@ -1037,11 +1240,13 @@ function initTracksTab() {
 async function loadTracks() {
   const search = $('track-search').value.trim();
   const cat    = $('track-cat').value;
+  const tempo  = $('track-tempo') ? $('track-tempo').value : '';
+  const gender = $('track-gender') ? $('track-gender').value : '';
   const sort   = $('track-sort').value;
   const order  = $('track-order').value;
 
   // No filter set — return to prompt state without hitting the API
-  if (!search && !cat) {
+  if (!search && !cat && !tempo && !gender) {
     $('tracks-body').innerHTML = '';
     $('tracks-empty').textContent = 'Select a category or type in the search box to browse your library.';
     $('tracks-empty').style.display = '';
@@ -1051,13 +1256,15 @@ async function loadTracks() {
   }
 
   // Show loading state immediately so user knows button worked
-  $('tracks-body').innerHTML = `<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--muted)">Loading library…</td></tr>`;
+  $('tracks-body').innerHTML = `<tr><td colspan="12" style="text-align:center;padding:24px;color:var(--muted)">Loading library…</td></tr>`;
   $('tracks-empty').style.display = 'none';
   $('tracks-footer').style.display = 'none';
 
   let url = `/api/tracks?sort=${sort}&order=${order}&limit=${TRACKS_PER_PAGE}`;
   if (search) url += `&search=${encodeURIComponent(search)}`;
   if (cat)    url += `&category=${encodeURIComponent(cat)}`;
+  if (tempo)  url += `&tempo=${encodeURIComponent(tempo)}`;
+  if (gender) url += `&gender=${encodeURIComponent(gender)}`;
   const data = await api('GET', url);
   const tracks = data.tracks || [];
   _tracksTotal = data.total || tracks.length;
@@ -1112,17 +1319,52 @@ function populateCatFilter() {
       return `<option value="${esc(v)}" ${v===cur?'selected':''}>${esc(c.name)}</option>`;
     }).join('');
 }
+const TEMPO_LABELS = ['','SL','MS','ME','MF','FA'];
+const TEMPO_CLASSES = ['','tempo-sl','tempo-ms','tempo-me','tempo-mf','tempo-fa'];
+function fmtTempo(v) {
+  if (!v) return '<span style="color:var(--muted)">—</span>';
+  const cls = TEMPO_CLASSES[v] || '';
+  const lbl = TEMPO_LABELS[v] || v;
+  return `<span class="${cls}">${lbl}</span>`;
+}
+function fmtIntro(sec) {
+  if (!sec) return '<span style="color:var(--muted)">—</span>';
+  return `<span style="font-size:11px;color:var(--muted)">${(+sec).toFixed(1)}s</span>`;
+}
+function fmtLastPlay(dt) {
+  if (!dt) return '<span class="lp-date">Never</span>';
+  try {
+    const d = new Date(dt);
+    return `<span class="lp-date">${d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'2-digit'})}</span>`;
+  } catch { return '<span class="lp-date">—</span>'; }
+}
+function fmtSoundCodes(t) {
+  const active = [];
+  for (let i = 1; i <= 30; i++) {
+    if (t[`sc${i}`] || t[`SC${i}`]) active.push(i);
+  }
+  if (!active.length) return '<span style="color:var(--muted)">—</span>';
+  return active.slice(0,4).map(n => `<span style="font-size:10px;background:rgba(108,99,255,.15);color:#b8b0ff;padding:1px 4px;border-radius:3px">${n}</span>`).join(' ')
+    + (active.length > 4 ? `<span style="font-size:10px;color:var(--muted)"> +${active.length-4}</span>` : '');
+}
 function renderTrackRow(t, i) {
+  const cart = t.cart_number ? `<span class="cart-chip">${esc(t.cart_number)}</span>` : '<span style="color:var(--muted)">—</span>';
   return `<tr>
     <td class="track-pos">${i+1}</td>
-    <td><strong>${esc(t.title)}</strong></td>
+    <td><strong>${esc(t.title)}</strong><div style="font-size:11px;color:var(--muted)">${esc(t.alt_artists||'')}</div></td>
     <td>${esc(t.artist)}</td>
-    <td>${catPill(t.category)}</td>
+    <td>${cart}</td>
     <td class="dur">${fmtDur(t.duration_seconds)}</td>
-    <td>${t.bpm||'—'}</td>
-    <td>${t.energy||'—'}</td>
+    <td>${fmtIntro(t.intro_seconds)}</td>
+    <td>${catPill(t.category)}</td>
+    <td>${fmtTempo(t.tempo)}</td>
+    <td>${fmtSoundCodes(t)}</td>
     <td>${t.play_count||0}</td>
-    <td><button class="btn btn-danger btn-sm" onclick="deleteTrack('${t.id}')">✕</button></td>
+    <td>${fmtLastPlay(t.last_played_at)}</td>
+    <td style="white-space:nowrap">
+      <button class="btn btn-muted btn-sm" onclick="openEditTrack('${t.id}')" style="margin-right:4px">Edit</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteTrack('${t.id}')">✕</button>
+    </td>
   </tr>`;
 }
 function renderTracks(tracks) {
@@ -1144,30 +1386,200 @@ function updateTrackStats(tracks, total) {
     ['Categories', cats],
   ].map(([l,v]) => `<div class="stat"><div class="stat-val">${v}</div><div class="stat-label">${l}</div></div>`).join('');
 }
+// Sound code names (from PraiseFM M1 database — stations can customise in Vars)
+const SC_NAMES = [
+  null,                             // 0 (unused)
+  'Call To Worship','Proclamation','Testimony','Horizontal','Vertical',
+  'SC 6','Christmas','Easter','SC 9','SC 10',
+  'Africa Call','Africa Proc','Africa Test','Africa Hori','Africa Vert',
+  'SC 16','SC 17','SC 18','SC 19','SC 20',
+  'SC 21','SC 22','SC 23','SC 24','SC 25',
+  'SC 26','SC 27','SC 28','SC 29','SC 30',
+];
+
+function buildScCheckboxes(track) {
+  const container = $('sc-checkboxes');
+  container.innerHTML = '';
+  for (let i = 1; i <= 30; i++) {
+    const name = SC_NAMES[i] || `SC ${i}`;
+    const key  = `sc${i}`;
+    const checked = track && (track[key] || track[`SC${i}`]) ? 'checked' : '';
+    const dim = (i > 15 && name.startsWith('SC ')) ? 'style="opacity:.45"' : '';
+    container.innerHTML += `<label class="sc-item" ${dim}>
+      <input type="checkbox" id="t-sc${i}" ${checked}>
+      <span>${i}. ${esc(name)}</span>
+    </label>`;
+  }
+}
+
+function showTmTab(name, btn) {
+  document.querySelectorAll('.tm-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tm-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  $('tmp-' + name).classList.add('active');
+}
+
+let _editingTrackId = null;
+
+function _resetTrackForm() {
+  // Reset all tabs to show Basic
+  document.querySelectorAll('.tm-tab').forEach((t,i) => t.classList.toggle('active', i===0));
+  document.querySelectorAll('.tm-panel').forEach((p,i) => p.classList.toggle('active', i===0));
+  // Text + number inputs
+  ['t-title','t-artist','t-alt-artists','t-cart','t-genre','t-album','t-record-label','t-notes',
+   't-duration','t-intro','t-outro','t-hookin','t-hookout','t-mixin','t-mixout','t-bpm','t-energy',
+   't-user1','t-user2','t-user3','t-user4',
+   't-chart-pos','t-player-id','t-origin',
+   't-composer','t-arranger','t-publisher','t-catalog-num','t-work-code','t-recording-code','t-isci',
+  ].forEach(id => { if ($(id)) $(id).value = ''; });
+  // Date inputs
+  ['t-start-date','t-end-date','t-hit-date'].forEach(id => { if ($(id)) $(id).value = ''; });
+  // Selects
+  ['t-category','t-tempo','t-gender','t-mood','t-texture','t-key1','t-key2'].forEach(id => {
+    if ($(id)) $(id).value = '';
+  });
+  // Checkboxes
+  ['t-beginning','t-ending','t-hr-restricted','t-native','t-prior-approval','t-mcps'].forEach(id => {
+    if ($(id)) $(id).checked = false;
+  });
+}
+
+function _fillTrackForm(t) {
+  const set = (id, val) => { if ($(id) && val != null) $(id).value = val; };
+  const setChk = (id, val) => { if ($(id)) $(id).checked = !!val; };
+  set('t-title', t.title);
+  set('t-artist', t.artist);
+  set('t-alt-artists', t.alt_artists);
+  set('t-cart', t.cart_number);
+  set('t-genre', t.genre);
+  set('t-album', t.album);
+  set('t-record-label', t.record_label);
+  set('t-notes', t.notes);
+  set('t-duration', t.duration_seconds);
+  set('t-intro', t.intro_seconds);
+  set('t-outro', t.outro_seconds);
+  set('t-hookin', t.hook_in_seconds);
+  set('t-hookout', t.hook_out_seconds);
+  set('t-mixin', t.mix_in_seconds);
+  set('t-mixout', t.mix_out_seconds);
+  set('t-bpm', t.bpm);
+  set('t-energy', t.energy);
+  set('t-tempo', t.tempo);
+  set('t-gender', t.gender);
+  set('t-mood', t.mood);
+  set('t-texture', t.texture);
+  set('t-key1', t.key1);
+  set('t-key2', t.key2);
+  set('t-user1', t.user1);
+  set('t-user2', t.user2);
+  set('t-user3', t.user3);
+  set('t-user4', t.user4);
+  set('t-chart-pos', t.chart_position);
+  set('t-player-id', t.id_in_player);
+  set('t-origin', t.origin);
+  set('t-start-date', t.start_date);
+  set('t-end-date', t.end_date);
+  set('t-hit-date', t.hit_date);
+  set('t-start-hour', t.start_hour);
+  set('t-end-hour', t.end_hour);
+  setChk('t-beginning', t.beginning);
+  setChk('t-ending', t.ending);
+  setChk('t-hr-restricted', t.hr_restricted);
+  setChk('t-native', t.native_content);
+  setChk('t-prior-approval', t.prior_approval);
+  setChk('t-mcps', t.mcps);
+  set('t-composer', t.composer);
+  set('t-arranger', t.arranger);
+  set('t-publisher', t.publisher);
+  set('t-catalog-num', t.catalog_number);
+  set('t-work-code', t.work_code);
+  set('t-recording-code', t.recording_code);
+  set('t-isci', t.isci_code);
+  $('t-category').innerHTML = _buildCatOptions(t.category);
+  buildScCheckboxes(t);
+}
+
+function _collectTrackBody() {
+  const g = id => $(id) ? $(id).value.trim() : '';
+  const n = id => { const v = $(id) ? +$(id).value : NaN; return isNaN(v) || $(id).value==='' ? undefined : v; };
+  const chk = id => $(id) ? $(id).checked : false;
+  const body = { title: g('t-title'), artist: g('t-artist'), category: $('t-category').value };
+  const str  = (key, id) => { const v = g(id); if (v) body[key] = v; };
+  const num  = (key, id) => { const v = n(id); if (v !== undefined) body[key] = v; };
+  str('alt_artists','t-alt-artists');  str('cart_number','t-cart');
+  str('genre','t-genre');              str('album','t-album');
+  str('record_label','t-record-label'); str('notes','t-notes');
+  num('duration_seconds','t-duration'); num('intro_seconds','t-intro');
+  num('outro_seconds','t-outro');       num('hook_in_seconds','t-hookin');
+  num('hook_out_seconds','t-hookout');  num('mix_in_seconds','t-mixin');
+  num('mix_out_seconds','t-mixout');    num('bpm','t-bpm');
+  num('energy','t-energy');            num('chart_position','t-chart-pos');
+  const tempo = n('t-tempo');   if (tempo)  body.tempo   = tempo;
+  const gender= n('t-gender');  if (gender) body.gender  = gender;
+  const mood  = n('t-mood');    if (mood)   body.mood    = mood;
+  const tex   = n('t-texture'); if (tex)    body.texture = tex;
+  const k1    = n('t-key1');    if (k1)     body.key1    = k1;
+  const k2    = n('t-key2');    if (k2)     body.key2    = k2;
+  str('user1','t-user1'); str('user2','t-user2'); str('user3','t-user3'); str('user4','t-user4');
+  str('id_in_player','t-player-id'); str('origin','t-origin');
+  str('start_date','t-start-date'); str('end_date','t-end-date'); str('hit_date','t-hit-date');
+  num('start_hour','t-start-hour'); num('end_hour','t-end-hour');
+  body.beginning    = chk('t-beginning');
+  body.ending       = chk('t-ending');
+  body.hr_restricted= chk('t-hr-restricted');
+  body.native_content = chk('t-native');
+  body.prior_approval = chk('t-prior-approval');
+  body.mcps           = chk('t-mcps');
+  str('composer','t-composer'); str('arranger','t-arranger'); str('publisher','t-publisher');
+  str('catalog_number','t-catalog-num'); str('work_code','t-work-code');
+  str('recording_code','t-recording-code'); str('isci_code','t-isci');
+  // Sound codes
+  for (let i = 1; i <= 30; i++) {
+    const el = $(`t-sc${i}`);
+    if (el) body[`sc${i}`] = el.checked;
+  }
+  return body;
+}
+
 function openAddTrack() {
-  ['t-title','t-artist','t-mood','t-notes'].forEach(id => $(id).value='');
-  ['t-duration','t-bpm','t-energy'].forEach(id => $(id).value='');
+  _editingTrackId = null;
+  $('modal-track-title').textContent = 'Add Track';
+  $('modal-track-save-btn').textContent = 'Add Track';
+  _resetTrackForm();
+  buildScCheckboxes(null);
   $('t-category').innerHTML = _buildCatOptions('');
   openModal('modal-track');
 }
+
+async function openEditTrack(id) {
+  _editingTrackId = id;
+  $('modal-track-title').textContent = 'Edit Track';
+  $('modal-track-save-btn').textContent = 'Save Changes';
+  _resetTrackForm();
+  const t = await api('GET', `/api/tracks/${id}`);
+  if (t.error) return toast('Could not load track.', false);
+  _fillTrackForm(t);
+  openModal('modal-track');
+}
+
 async function saveTrack() {
-  const body = {
-    title: $('t-title').value.trim(),
-    artist: $('t-artist').value.trim(),
-    category: $('t-category').value,
-  };
+  const body = _collectTrackBody();
   if (!body.title || !body.artist) return toast('Title and Artist are required.', false);
-  if ($('t-duration').value) body.duration_seconds = +$('t-duration').value;
-  if ($('t-bpm').value)      body.bpm = +$('t-bpm').value;
-  if ($('t-energy').value)   body.energy = +$('t-energy').value;
-  if ($('t-mood').value)     body.mood = $('t-mood').value.trim();
-  if ($('t-notes').value)    body.notes = $('t-notes').value.trim();
-  const res = await api('POST', '/api/tracks', body);
-  if (res.error) return toast(res.error, false);
-  closeModal('modal-track');
-  toast('Track added!');
+  let res;
+  if (_editingTrackId) {
+    res = await api('PUT', `/api/tracks/${_editingTrackId}`, body);
+    if (res.error) return toast(res.error, false);
+    closeModal('modal-track');
+    toast('Track updated!');
+  } else {
+    res = await api('POST', '/api/tracks', body);
+    if (res.error) return toast(res.error, false);
+    closeModal('modal-track');
+    toast('Track added!');
+  }
   loadTracks();
 }
+
 async function deleteTrack(id) {
   if (!confirm('Delete this track?')) return;
   await api('DELETE', `/api/tracks/${id}`);

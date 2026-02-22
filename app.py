@@ -446,19 +446,38 @@ def list_tracks():
     if category:
         tracks = [t for t in tracks if t.get("category") == category]
 
+    tempo = request.args.get("tempo")
+    if tempo:
+        try:
+            tempo_val = int(tempo)
+            tracks = [t for t in tracks if t.get("tempo") == tempo_val]
+        except (ValueError, TypeError):
+            pass
+
+    gender = request.args.get("gender")
+    if gender:
+        try:
+            gender_val = int(gender)
+            tracks = [t for t in tracks if t.get("gender") == gender_val]
+        except (ValueError, TypeError):
+            pass
+
     search = (request.args.get("search") or "").strip().lower()
     if search:
         tracks = [
             t for t in tracks
-            if search in (t.get("title")  or "").lower()
-            or search in (t.get("artist") or "").lower()
+            if search in (t.get("title")   or "").lower()
+            or search in (t.get("artist")  or "").lower()
+            or search in (t.get("cart_number") or "").lower()
+            or search in (t.get("genre")   or "").lower()
+            or search in (t.get("album")   or "").lower()
         ]
 
     sort_by    = request.args.get("sort", "added_at")
     order_desc = request.args.get("order", "asc").lower() == "desc"
     _SORTABLE  = {"added_at", "title", "artist", "play_count", "last_played_at",
-                  "bpm", "energy", "tempo", "mood", "gender"}
-    _NUMERIC   = {"play_count", "bpm", "energy", "tempo", "mood", "gender"}
+                  "bpm", "energy", "tempo", "mood", "gender", "cart_number", "intro_seconds"}
+    _NUMERIC   = {"play_count", "bpm", "energy", "tempo", "mood", "gender", "intro_seconds"}
     if sort_by in _SORTABLE:
         # Always use title as a stable secondary sort key to break ties
         # (especially important when many tracks share the same added_at timestamp)
@@ -727,6 +746,56 @@ def validate_schedule_route(schedule_id):
 
     result = validate_schedule(schedule.get("tracks", []), rules, categories=categories)
     return jsonify(result)
+
+
+@app.route("/api/schedule/<schedule_id>/move-track", methods=["POST"])
+def move_track(schedule_id):
+    """Swap two adjacent tracks within a schedule by index."""
+    schedule = _load_one(SCHEDULES_DIR, schedule_id)
+    if schedule is None:
+        return jsonify({"error": "Schedule not found"}), 404
+    data        = request.get_json(silent=True) or {}
+    from_idx    = data.get("from_index")
+    to_idx      = data.get("to_index")
+    tracks      = schedule.get("tracks", [])
+    if from_idx is None or to_idx is None:
+        return jsonify({"error": "from_index and to_index required"}), 400
+    if not (0 <= from_idx < len(tracks) and 0 <= to_idx < len(tracks)):
+        return jsonify({"error": "Index out of range"}), 400
+    tracks[from_idx], tracks[to_idx] = tracks[to_idx], tracks[from_idx]
+    schedule["tracks"]     = tracks
+    schedule["updated_at"] = _now()
+    _save(SCHEDULES_DIR, schedule)
+    return jsonify({"success": True})
+
+
+@app.route("/api/schedule/<schedule_id>/replace-track", methods=["POST"])
+def replace_track(schedule_id):
+    """Replace a track at a given index with a different song."""
+    schedule = _load_one(SCHEDULES_DIR, schedule_id)
+    if schedule is None:
+        return jsonify({"error": "Schedule not found"}), 404
+    data        = request.get_json(silent=True) or {}
+    track_index = data.get("track_index")
+    new_song_id = data.get("new_song_id")
+    tracks      = schedule.get("tracks", [])
+    if track_index is None or new_song_id is None:
+        return jsonify({"error": "track_index and new_song_id required"}), 400
+    if not (0 <= track_index < len(tracks)):
+        return jsonify({"error": "Index out of range"}), 400
+    # Load the replacement song
+    song = _load_one(TRACKS_DIR, new_song_id)
+    if song is None:
+        return jsonify({"error": "Song not found"}), 404
+    # Preserve air_time from the original slot
+    old_track = tracks[track_index]
+    song["air_time"] = old_track.get("air_time", "")
+    song["position"] = old_track.get("position", track_index + 1)
+    tracks[track_index] = song
+    schedule["tracks"]     = tracks
+    schedule["updated_at"] = _now()
+    _save(SCHEDULES_DIR, schedule)
+    return jsonify({"success": True, "track": song})
 
 
 @app.route("/api/schedule/<schedule_id>/export", methods=["GET"])
@@ -1040,9 +1109,15 @@ def get_stats():
 @app.route("/api/generate", methods=["POST"])
 def api_generate_week():
     """Generate a full week schedule via the scheduler engine."""
-    data       = request.get_json(silent=True) or {}
-    start_date = data.get("start_date")
-    strategy   = data.get("strategy", "standard")
+    data            = request.get_json(silent=True) or {}
+    start_date      = data.get("start_date")
+    strategy        = data.get("strategy", "standard")
+    overnight_fill  = data.get("overnight_fill", True)
+    # overnight_hours: list of hour ints [0-5] to include in overnight fill
+    # Default: all six overnight hours (0-5)
+    overnight_hours = set(data.get("overnight_hours", [0, 1, 2, 3, 4, 5]))
+    if not isinstance(overnight_hours, set):
+        overnight_hours = set(map(int, overnight_hours))
 
     try:
         from datetime import date, timedelta
@@ -1106,6 +1181,9 @@ def api_generate_week():
 
             all_slots = []
             for hour in range(24):
+                # Skip overnight hours (0-5 AM) not selected for auto-fill
+                if hour < 6 and (not overnight_fill or hour not in overnight_hours):
+                    continue
                 clock_id = hour_clock_map.get(str(hour))
                 if not clock_id:
                     total_slots += 1
@@ -1284,25 +1362,30 @@ def get_schedule_by_date(date):
     # Find schedules matching the date
     matching = [s for s in schedules if (s.get("date") or "").startswith(date)]
     if not matching:
-        # No exact match — return empty schedule
-        return jsonify({"date": date, "schedule": []})
+        return jsonify({"date": date, "schedule": [], "schedule_ids": []})
 
     # Merge all matching schedules' tracks, sorted by air_time
+    # Track which schedule_id and local index each track came from
     all_tracks = []
+    schedule_ids = [s["id"] for s in matching if s.get("id")]
     for s in matching:
-        all_tracks.extend(s.get("tracks", []))
+        sid = s.get("id", "")
+        for local_idx, t in enumerate(s.get("tracks", [])):
+            all_tracks.append({**t, "_schedule_id": sid, "_local_idx": local_idx})
 
-    all_tracks.sort(key=lambda t: t.get("air_time") or t.get("position") or 0)
+    all_tracks.sort(key=lambda t: t.get("air_time") or str(t.get("position") or 0).zfill(6))
 
     schedule = []
-    for t in all_tracks:
+    for i, t in enumerate(all_tracks):
         air = t.get("air_time", "")
+        hour = None
         if air:
             try:
                 h, m, s2 = [int(x) for x in air.split(":")]
                 suffix = "AM" if h < 12 else "PM"
                 dh = h % 12 or 12
                 time_str = f"{dh}:{m:02d} {suffix}"
+                hour = h
             except Exception:
                 time_str = air
         else:
@@ -1312,20 +1395,31 @@ def get_schedule_by_date(date):
         dur_str  = f"{dur_secs // 60}:{dur_secs % 60:02d}" if dur_secs else "—"
 
         schedule.append({
-            "time":        time_str,
-            "song_id":     t.get("id") or t.get("song_id") or "",
-            "title":       t.get("title") or "Unknown",
-            "artist":      t.get("artist") or "",
-            "category":    t.get("category") or "Uncategorized",
-            "length":      dur_str,
-            "has_error":   bool(t.get("has_error")),
-            "has_warning": bool(t.get("has_warning")),
-            "error":       t.get("error") or "",
-            "warning":     t.get("warning") or "",
-            "position":    t.get("position") or 0,
+            "position":          i + 1,
+            "time":              time_str,
+            "air_time":          air,
+            "hour":              hour,
+            "song_id":           t.get("id") or t.get("song_id") or "",
+            "schedule_id":       t.get("_schedule_id", ""),
+            "local_track_index": t.get("_local_idx", i),
+            "title":             t.get("title") or "Unknown",
+            "artist":            t.get("artist") or "",
+            "category":          t.get("category") or "Uncategorized",
+            "cart_number":       t.get("cart_number") or "",
+            "length":            dur_str,
+            "duration_seconds":  dur_secs,
+            "tempo":             t.get("tempo"),
+            "mood":              t.get("mood"),
+            "energy":            t.get("energy"),
+            "gender":            t.get("gender"),
+            "sound_codes":       t.get("sound_codes"),
+            "has_error":         bool(t.get("has_error")),
+            "has_warning":       bool(t.get("has_warning")),
+            "error":             t.get("error") or "",
+            "warning":           t.get("warning") or "",
         })
 
-    return jsonify({"date": date, "schedule": schedule})
+    return jsonify({"date": date, "schedule": schedule, "schedule_ids": schedule_ids})
 
 
 if __name__ == "__main__":

@@ -258,7 +258,36 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
           </div>
           <div class="check-grid">
             <label class="check-card"><input type="checkbox" value="clear-history"><div class="check-box">✓</div><span class="check-label">Clear history</span></label>
-            <label class="check-card on"><input type="checkbox" value="overnight-fill" checked><div class="check-box">✓</div><span class="check-label">Overnight fill</span></label>
+            <label class="check-card on"><input type="checkbox" id="overnightFillChk" value="overnight-fill" checked onchange="toggleOvernightHours(this)"><div class="check-box">✓</div><span class="check-label">Overnight fill</span></label>
+          </div>
+
+          <!-- Overnight hour range selector (shown when overnight fill is checked) -->
+          <div id="overnight-hours-panel" style="margin-top:14px;padding:14px;background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:10px">
+            <div style="font-size:11.5px;font-weight:700;color:var(--text2);margin-bottom:10px">Overnight Hours to Fill</div>
+            <div style="font-size:11px;color:var(--text3);margin-bottom:10px">Select which overnight hours to auto-fill. Uncheck hours covered by a live host.</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;background:var(--accent-dim);color:var(--accent);border-color:rgba(124,108,240,0.4);transition:all .15s" id="oh-lbl-0">
+                <input type="checkbox" id="oh-0" value="0" checked style="accent-color:var(--accent);width:auto"> 12 AM
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;background:var(--accent-dim);color:var(--accent);border-color:rgba(124,108,240,0.4);transition:all .15s" id="oh-lbl-1">
+                <input type="checkbox" id="oh-1" value="1" checked style="accent-color:var(--accent);width:auto"> 1 AM
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;background:var(--accent-dim);color:var(--accent);border-color:rgba(124,108,240,0.4);transition:all .15s" id="oh-lbl-2">
+                <input type="checkbox" id="oh-2" value="2" checked style="accent-color:var(--accent);width:auto"> 2 AM
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;background:var(--accent-dim);color:var(--accent);border-color:rgba(124,108,240,0.4);transition:all .15s" id="oh-lbl-3">
+                <input type="checkbox" id="oh-3" value="3" checked style="accent-color:var(--accent);width:auto"> 3 AM
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;background:var(--accent-dim);color:var(--accent);border-color:rgba(124,108,240,0.4);transition:all .15s" id="oh-lbl-4">
+                <input type="checkbox" id="oh-4" value="4" checked style="accent-color:var(--accent);width:auto"> 4 AM
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;background:var(--accent-dim);color:var(--accent);border-color:rgba(124,108,240,0.4);transition:all .15s" id="oh-lbl-5">
+                <input type="checkbox" id="oh-5" value="5" checked style="accent-color:var(--accent);width:auto"> 5 AM
+              </label>
+            </div>
+            <div style="font-size:11px;color:var(--text3);margin-top:10px">
+              Example: If a host covers 2 AM–4 AM, uncheck <strong>2 AM</strong>, <strong>3 AM</strong>, <strong>4 AM</strong>.
+            </div>
           </div>
         </div>
 
@@ -298,8 +327,14 @@ document.querySelectorAll('.check-card').forEach(card => {
   card.addEventListener('click', () => {
     cb.checked = !cb.checked;
     card.classList.toggle('on', cb.checked);
+    if (cb.id === 'overnightFillChk') toggleOvernightHours(cb);
   });
 });
+
+function toggleOvernightHours(chk) {
+  const panel = document.getElementById('overnight-hours-panel');
+  if (panel) panel.style.display = chk.checked ? '' : 'none';
+}
 
 const steps = ['s1','s2','s3','s4','s5'];
 function setStep(i, state) {
@@ -337,13 +372,17 @@ function startGeneration() {
     if (p >= 90) clearInterval(iv);
   }, 150);
 
-  const startDate = document.getElementById('startDate').value;
-  const strategy  = document.getElementById('strategy').value;
+  const startDate     = document.getElementById('startDate').value;
+  const strategy      = document.getElementById('strategy').value;
+  const overnightFill = document.getElementById('overnightFillChk').checked;
+  const overnightHours = overnightFill
+    ? [0,1,2,3,4,5].filter(h => { const el = document.getElementById(`oh-${h}`); return el && el.checked; })
+    : [];
 
   fetch('/api/generate', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({start_date: startDate, strategy})
+    body: JSON.stringify({start_date: startDate, strategy, overnight_fill: overnightFill, overnight_hours: overnightHours})
   })
   .then(r => r.json())
   .then(res => {
