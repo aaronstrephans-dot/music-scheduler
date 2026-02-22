@@ -303,6 +303,33 @@
   .cart-chip { font-family: monospace; font-size: 11.5px; color: var(--warn); background: rgba(246,173,85,.1); padding: 1px 5px; border-radius: 4px; }
   /* Last played date */
   .lp-date { font-size: 11px; color: var(--muted); }
+  /* Column picker */
+  .col-picker-wrap { position: relative; display: inline-block; }
+  .col-picker-btn { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; white-space: nowrap; }
+  .col-picker-btn:hover { border-color: var(--accent); color: var(--text); }
+  .col-picker-panel {
+    display: none; position: absolute; top: calc(100% + 4px); right: 0; z-index: 90;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px; width: 560px; max-height: 60vh; overflow-y: auto;
+    box-shadow: 0 8px 32px #0009;
+  }
+  .col-picker-panel.open { display: block; }
+  .col-picker-panel h4 { font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 8px; }
+  .col-picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 4px; margin-bottom: 10px; }
+  .col-pill { display: flex; align-items: center; gap: 6px; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 12px; border: 1px solid transparent; }
+  .col-pill:hover { background: var(--surface2); }
+  .col-pill.on { background: rgba(108,99,255,.12); border-color: rgba(108,99,255,.3); color: var(--accent); }
+  .col-pill input { width: auto; accent-color: var(--accent); flex-shrink: 0; }
+  /* Attribute mini-chips */
+  .attr-chip { display: inline-block; padding: 1px 5px; border-radius: 3px; font-size: 10px; font-weight: 600; }
+  .mood-1 { background: rgba(52,211,153,.15); color: #34d399; }
+  .mood-2 { background: rgba(96,165,250,.15); color: #60a5fa; }
+  .mood-3 { background: rgba(251,191,36,.15); color: #fbbf24; }
+  .mood-4 { background: rgba(251,146,60,.15); color: #fb923c; }
+  .mood-5 { background: rgba(248,113,113,.15); color: #f87171; }
+  .tex-chip { background: rgba(244,114,182,.12); color: #f472b6; }
+  .gen-chip { background: rgba(167,139,250,.12); color: #a78bfa; }
+  .pct-chip { background: rgba(52,211,153,.1); color: var(--success); }
 </style>
 </head>
 <body>
@@ -363,18 +390,23 @@
 <div id="tab-tracks" class="tab">
   <div class="stats" id="track-stats"></div>
   <div class="card">
-    <div class="toolbar">
+    <div class="toolbar" style="flex-wrap:wrap;gap:6px">
       <input type="text" id="track-search" placeholder="Search title, artist, cart, genre…" oninput="loadTracks()" style="min-width:220px">
       <select id="track-cat" onchange="loadTracks()">
         <option value="">All categories</option>
       </select>
+      <select id="track-active" onchange="loadTracks()">
+        <option value="">Active + inactive</option>
+        <option value="true">Active only</option>
+        <option value="false">Inactive only</option>
+      </select>
       <select id="track-tempo" onchange="loadTracks()">
         <option value="">All tempos</option>
-        <option value="1">Slow</option>
-        <option value="2">Med-Slow</option>
-        <option value="3">Medium</option>
-        <option value="4">Med-Fast</option>
-        <option value="5">Fast</option>
+        <option value="1">1 — Slow</option>
+        <option value="2">2 — Med-Slow</option>
+        <option value="3">3 — Medium</option>
+        <option value="4">4 — Med-Fast</option>
+        <option value="5">5 — Fast</option>
       </select>
       <select id="track-gender" onchange="loadTracks()">
         <option value="">All genders</option>
@@ -382,6 +414,14 @@
         <option value="2">Female</option>
         <option value="3">Duo/Group</option>
         <option value="4">Instrumental</option>
+      </select>
+      <select id="track-mood" onchange="loadTracks()">
+        <option value="">All moods</option>
+        <option value="1">1 — Joyful</option>
+        <option value="2">2 — Inspirational</option>
+        <option value="3">3 — Reflective</option>
+        <option value="4">4 — Contemplative</option>
+        <option value="5">5 — Somber</option>
       </select>
       <select id="track-sort" onchange="loadTracks()">
         <option value="title" selected>Sort: Title</option>
@@ -392,22 +432,33 @@
         <option value="tempo">Sort: Tempo</option>
         <option value="cart_number">Sort: Cart #</option>
         <option value="bpm">Sort: BPM</option>
-        <option value="energy">Sort: Energy</option>
-        <option value="intro_seconds">Sort: Intro</option>
+        <option value="chart_position">Sort: Chart Pos</option>
+        <option value="pct_play">Sort: % Play</option>
       </select>
       <select id="track-order" onchange="loadTracks()">
         <option value="asc">↑ Asc</option>
         <option value="desc">↓ Desc</option>
       </select>
+      <!-- Column picker -->
+      <div class="col-picker-wrap" id="col-picker-wrap">
+        <button class="col-picker-btn" onclick="toggleColPicker(event)">⊞ Columns</button>
+        <div class="col-picker-panel" id="col-picker-panel">
+          <h4>Always visible</h4>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:10px">#, Title, Artist, Actions are always shown.</div>
+          <h4>Toggle columns</h4>
+          <div class="col-picker-grid" id="col-picker-grid"></div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="btn btn-muted btn-sm" onclick="selectAllCols()">All</button>
+            <button class="btn btn-muted btn-sm" onclick="selectDefaultCols()">Default</button>
+            <button class="btn btn-muted btn-sm" onclick="selectNoneCols()">None</button>
+          </div>
+        </div>
+      </div>
       <button class="btn btn-primary" onclick="openAddTrack()">+ Add Track</button>
     </div>
     <div class="tbl-wrap">
       <table>
-        <thead><tr>
-          <th>#</th><th>Title</th><th>Artist</th><th>Cart</th>
-          <th>Duration</th><th>Intro</th><th>Category</th><th>Tempo</th>
-          <th>Sound Codes</th><th>Plays</th><th>Last Play</th><th></th>
-        </tr></thead>
+        <thead id="tracks-thead"><tr></tr></thead>
         <tbody id="tracks-body"></tbody>
       </table>
     </div>
@@ -995,6 +1046,7 @@
       <button class="tm-tab" onclick="showTmTab('timing',this)">Timing</button>
       <button class="tm-tab" onclick="showTmTab('attrs',this)">Attributes</button>
       <button class="tm-tab" onclick="showTmTab('scodes',this)">Sound Codes</button>
+      <button class="tm-tab" onclick="showTmTab('sched',this)">Scheduling</button>
       <button class="tm-tab" onclick="showTmTab('restrict',this)">Restrictions</button>
       <button class="tm-tab" onclick="showTmTab('license',this)">Licensing</button>
     </div>
@@ -1049,36 +1101,69 @@
           </select>
         </div>
         <div class="form-group">
+          <label>Tempo Range (Min–Max)</label>
+          <div style="display:flex;gap:6px;align-items:center">
+            <select id="t-tempo-min" style="flex:1">
+              <option value="">Min</option>
+              <option value="1">1 Slow</option><option value="2">2</option>
+              <option value="3">3</option><option value="4">4</option><option value="5">5 Fast</option>
+            </select>
+            <span style="color:var(--muted)">–</span>
+            <select id="t-tempo-max" style="flex:1">
+              <option value="">Max</option>
+              <option value="1">1 Slow</option><option value="2">2</option>
+              <option value="3">3</option><option value="4">4</option><option value="5">5 Fast</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
           <label>Gender / Vocal Style</label>
           <select id="t-gender">
             <option value="">— unset —</option>
-            <option value="1">Male</option>
-            <option value="2">Female</option>
-            <option value="3">Duo / Group</option>
-            <option value="4">Instrumental</option>
+            <option value="1">1 — Male</option>
+            <option value="2">2 — Female</option>
+            <option value="3">3 — Duo / Group</option>
+            <option value="4">4 — Instrumental</option>
+            <option value="5">5 — Mixed</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Mood (1–5)</label>
+          <label>Mood (Music1 scale)</label>
           <select id="t-mood">
             <option value="">— unset —</option>
-            <option value="1">1 — Subdued</option>
-            <option value="2">2 — Contemplative</option>
-            <option value="3">3 — Neutral</option>
-            <option value="4">4 — Upbeat</option>
-            <option value="5">5 — Celebratory</option>
+            <option value="1">1 — Joyful</option>
+            <option value="2">2 — Inspirational</option>
+            <option value="3">3 — Reflective</option>
+            <option value="4">4 — Contemplative</option>
+            <option value="5">5 — Somber</option>
           </select>
         </div>
         <div class="form-group">
           <label>Texture (1–5)</label>
           <select id="t-texture">
             <option value="">— unset —</option>
-            <option value="1">1 — Sparse / Acoustic</option>
+            <option value="1">1 — Open / Sparse</option>
             <option value="2">2 — Light</option>
             <option value="3">3 — Medium</option>
             <option value="4">4 — Full</option>
-            <option value="5">5 — Heavy / Dense</option>
+            <option value="5">5 — Busy / Dense</option>
           </select>
+        </div>
+        <div class="form-group">
+          <label>Texture Range (Min–Max)</label>
+          <div style="display:flex;gap:6px;align-items:center">
+            <select id="t-texture-min" style="flex:1">
+              <option value="">Min</option>
+              <option value="1">1 Open</option><option value="2">2</option>
+              <option value="3">3</option><option value="4">4</option><option value="5">5 Busy</option>
+            </select>
+            <span style="color:var(--muted)">–</span>
+            <select id="t-texture-max" style="flex:1">
+              <option value="">Max</option>
+              <option value="1">1 Open</option><option value="2">2</option>
+              <option value="3">3</option><option value="4">4</option><option value="5">5 Busy</option>
+            </select>
+          </div>
         </div>
         <div class="form-group"><label>Key (Primary)</label>
           <select id="t-key1">
@@ -1115,7 +1200,65 @@
       <div class="sc-grid" id="sc-checkboxes"></div>
     </div>
 
-    <!-- Tab 5: Restrictions -->
+    <!-- Tab 5: Scheduling -->
+    <div class="tm-panel" id="tmp-sched">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Active / Schedulable</label>
+          <select id="t-active">
+            <option value="true">Yes — include in rotation</option>
+            <option value="false">No — exclude from scheduling</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>% Play Weight (1–200, default 100)</label>
+          <input type="number" id="t-pct-play" min="0" max="200" placeholder="100" title="Higher = more likely to be selected within its category">
+        </div>
+        <div class="form-group">
+          <label>Required Announcer (0 = any)</label>
+          <select id="t-announcer">
+            <option value="0">0 — Any announcer</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Link Type</label>
+          <select id="t-link-type">
+            <option value="0">0 — None</option>
+            <option value="1">1 — Hard-link to NEXT track</option>
+            <option value="2">2 — Hard-link to PREV track</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Chart Position</label>
+          <input type="number" id="t-chart-pos2" min="0" placeholder="e.g. 42">
+        </div>
+        <div class="form-group">
+          <label>File Path (automation system)</label>
+          <input type="text" id="t-file-path" placeholder="e.g. HOSA-42">
+        </div>
+        <div class="form-group">
+          <label>Auto Parameters</label>
+          <input type="text" id="t-auto-params" placeholder="extra automation params">
+        </div>
+        <div class="form-group">
+          <label>Program Type</label>
+          <input type="text" id="t-prog-type" placeholder="e.g. Music">
+        </div>
+        <div class="form-group">
+          <label>Production Source</label>
+          <input type="text" id="t-prod-source" placeholder="e.g. Live, Library">
+        </div>
+        <div class="form-group">
+          <label>Music Usage</label>
+          <input type="text" id="t-music-usage" placeholder="e.g. Feature, Background">
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:10px">
+        % Play weight: 100 = normal; 200 = twice as likely; 50 = half as likely. Announcer 0 = no restriction.
+      </p>
+    </div>
+
+    <!-- Tab 6: Restrictions -->
     <div class="tm-panel" id="tmp-restrict">
       <div class="form-grid">
         <div class="form-group"><label>Start Hour (0–23)</label><input type="number" id="t-start-hour" min="0" max="23" placeholder="0"></div>
@@ -1371,6 +1514,8 @@ let _tracksLoaded = 0;
 
 function initTracksTab() {
   populateCatFilter();   // fill dropdown from full category list immediately
+  buildColPicker();      // render column picker panel
+  renderTableHeader();   // render thead based on active columns
   // Only reload if a filter is already active (e.g. user switched away and back)
   const search = $('track-search').value.trim();
   const cat    = $('track-cat').value;
@@ -1388,13 +1533,15 @@ function initTracksTab() {
 async function loadTracks() {
   const search = $('track-search').value.trim();
   const cat    = $('track-cat').value;
-  const tempo  = $('track-tempo') ? $('track-tempo').value : '';
-  const gender = $('track-gender') ? $('track-gender').value : '';
+  const tempo  = $('track-tempo')?.value || '';
+  const gender = $('track-gender')?.value || '';
+  const mood   = $('track-mood')?.value  || '';
+  const active = $('track-active')?.value || '';
   const sort   = $('track-sort').value;
   const order  = $('track-order').value;
 
   // No filter set — return to prompt state without hitting the API
-  if (!search && !cat && !tempo && !gender) {
+  if (!search && !cat && !tempo && !gender && !mood && !active) {
     $('tracks-body').innerHTML = '';
     $('tracks-empty').textContent = 'Select a category or type in the search box to browse your library.';
     $('tracks-empty').style.display = '';
@@ -1403,8 +1550,8 @@ async function loadTracks() {
     return;
   }
 
-  // Show loading state immediately so user knows button worked
-  $('tracks-body').innerHTML = `<tr><td colspan="12" style="text-align:center;padding:24px;color:var(--muted)">Loading library…</td></tr>`;
+  const colCount = 3 + _loadCols().length + 1;
+  $('tracks-body').innerHTML = `<tr><td colspan="${colCount}" style="text-align:center;padding:24px;color:var(--muted)">Loading library…</td></tr>`;
   $('tracks-empty').style.display = 'none';
   $('tracks-footer').style.display = 'none';
 
@@ -1413,16 +1560,17 @@ async function loadTracks() {
   if (cat)    url += `&category=${encodeURIComponent(cat)}`;
   if (tempo)  url += `&tempo=${encodeURIComponent(tempo)}`;
   if (gender) url += `&gender=${encodeURIComponent(gender)}`;
+  if (mood)   url += `&mood=${encodeURIComponent(mood)}`;
+  if (active) url += `&active=${encodeURIComponent(active)}`;
   const data = await api('GET', url);
   const tracks = data.tracks || [];
-  _tracksTotal = data.total || tracks.length;
+  _tracksTotal  = data.total || tracks.length;
   _tracksLoaded = tracks.length;
 
   renderTracks(tracks);
   updateTrackStats(tracks, _tracksTotal);
   populateCatFilter();
 
-  // Show footer with count + load-more if needed
   $('tracks-footer').style.display = 'flex';
   $('tracks-count').textContent = _tracksLoaded >= _tracksTotal
     ? `Showing all ${_tracksTotal.toLocaleString()} tracks`
@@ -1433,6 +1581,10 @@ async function loadTracks() {
 async function loadMoreTracks() {
   const search = $('track-search').value.trim();
   const cat    = $('track-cat').value;
+  const tempo  = $('track-tempo')?.value || '';
+  const gender = $('track-gender')?.value || '';
+  const mood   = $('track-mood')?.value  || '';
+  const active = $('track-active')?.value || '';
   const sort   = $('track-sort').value;
   const order  = $('track-order').value;
 
@@ -1442,6 +1594,10 @@ async function loadMoreTracks() {
   let url = `/api/tracks?sort=${sort}&order=${order}&limit=${TRACKS_PER_PAGE}&offset=${_tracksLoaded}`;
   if (search) url += `&search=${encodeURIComponent(search)}`;
   if (cat)    url += `&category=${encodeURIComponent(cat)}`;
+  if (tempo)  url += `&tempo=${encodeURIComponent(tempo)}`;
+  if (gender) url += `&gender=${encodeURIComponent(gender)}`;
+  if (mood)   url += `&mood=${encodeURIComponent(mood)}`;
+  if (active) url += `&active=${encodeURIComponent(active)}`;
   const data = await api('GET', url);
   const newTracks = data.tracks || [];
   _tracksLoaded += newTracks.length;
@@ -1467,48 +1623,210 @@ function populateCatFilter() {
       return `<option value="${esc(v)}" ${v===cur?'selected':''}>${esc(c.name)}</option>`;
     }).join('');
 }
-const TEMPO_LABELS = ['','SL','MS','ME','MF','FA'];
-const TEMPO_CLASSES = ['','tempo-sl','tempo-ms','tempo-me','tempo-mf','tempo-fa'];
+const TEMPO_LABELS   = ['','SL','MS','ME','MF','FA'];
+const TEMPO_CLASSES  = ['','tempo-sl','tempo-ms','tempo-me','tempo-mf','tempo-fa'];
+const MOOD_LABELS    = ['','Joyful','Inspir.','Reflect.','Contemp.','Somber'];
+const MOOD_CLASSES   = ['','mood-1','mood-2','mood-3','mood-4','mood-5'];
+const TEX_LABELS     = ['','Open','Light','Med','Full','Busy'];
+const GENDER_LABELS  = ['','Male','Female','Group','Instr.','Mixed'];
+const KEY_LABELS     = ['','C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+
 function fmtTempo(v) {
   if (!v) return '<span style="color:var(--muted)">—</span>';
-  const cls = TEMPO_CLASSES[v] || '';
-  const lbl = TEMPO_LABELS[v] || v;
-  return `<span class="${cls}">${lbl}</span>`;
+  return `<span class="${TEMPO_CLASSES[v]||''}">${TEMPO_LABELS[v]||v}</span>`;
 }
-function fmtIntro(sec) {
+function fmtMood(v) {
+  if (!v) return '<span style="color:var(--muted)">—</span>';
+  return `<span class="attr-chip ${MOOD_CLASSES[v]||''}">${MOOD_LABELS[v]||v}</span>`;
+}
+function fmtTexture(v) {
+  if (!v) return '<span style="color:var(--muted)">—</span>';
+  return `<span class="attr-chip tex-chip">${TEX_LABELS[v]||v}</span>`;
+}
+function fmtGender(v) {
+  if (!v) return '<span style="color:var(--muted)">—</span>';
+  return `<span class="attr-chip gen-chip">${GENDER_LABELS[v]||v}</span>`;
+}
+function fmtSec(sec) {
   if (!sec) return '<span style="color:var(--muted)">—</span>';
-  return `<span style="font-size:11px;color:var(--muted)">${(+sec).toFixed(1)}s</span>`;
+  const s = +sec;
+  if (s >= 60) return `<span style="font-size:11px;color:var(--muted)">${Math.floor(s/60)}:${String(Math.round(s%60)).padStart(2,'0')}</span>`;
+  return `<span style="font-size:11px;color:var(--muted)">${s.toFixed(1)}s</span>`;
+}
+function fmtMs(ms) {
+  if (!ms) return '<span style="color:var(--muted)">—</span>';
+  return fmtSec(ms/1000);
 }
 function fmtLastPlay(dt) {
   if (!dt) return '<span class="lp-date">Never</span>';
   try {
-    const d = new Date(dt);
-    return `<span class="lp-date">${d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'2-digit'})}</span>`;
+    return `<span class="lp-date">${new Date(dt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'2-digit'})}</span>`;
   } catch { return '<span class="lp-date">—</span>'; }
 }
 function fmtSoundCodes(t) {
-  const active = [];
-  for (let i = 1; i <= 30; i++) {
-    if (t[`sc${i}`] || t[`SC${i}`]) active.push(i);
+  // Accept both sound_codes array and legacy sc1..sc30 booleans
+  let active = Array.isArray(t.sound_codes) ? [...t.sound_codes] : [];
+  if (!active.length) {
+    for (let i = 1; i <= 30; i++) { if (t[`sc${i}`] || t[`SC${i}`]) active.push(i); }
   }
   if (!active.length) return '<span style="color:var(--muted)">—</span>';
   return active.slice(0,4).map(n => `<span style="font-size:10px;background:rgba(108,99,255,.15);color:#b8b0ff;padding:1px 4px;border-radius:3px">${n}</span>`).join(' ')
     + (active.length > 4 ? `<span style="font-size:10px;color:var(--muted)"> +${active.length-4}</span>` : '');
 }
+function fmtActive(v) {
+  if (v === false) return '<span style="font-size:10px;background:rgba(252,129,129,.15);color:#f87171;padding:1px 6px;border-radius:3px">OFF</span>';
+  return '<span style="font-size:10px;background:rgba(72,187,120,.12);color:#68d391;padding:1px 6px;border-radius:3px">ON</span>';
+}
+function fmtPct(v) {
+  if (!v && v !== 0) return '<span style="color:var(--muted)">—</span>';
+  const n = +v;
+  const col = n > 100 ? '#68d391' : n < 100 ? '#f6ad55' : 'var(--muted)';
+  return `<span class="attr-chip pct-chip" style="color:${col}">${n}%</span>`;
+}
+
+// ── Column Definitions (order = display order; key = t[key] field) ───────────
+const TRACK_COLS = [
+  { id: 'cart',          label: 'Cart #',       group: 'Core',
+    render: t => (t.cart||t.cart_number) ? `<span class="cart-chip">${esc(t.cart||t.cart_number)}</span>` : '<span style="color:var(--muted)">—</span>' },
+  { id: 'duration',      label: 'Duration',     group: 'Core',
+    render: t => `<span class="dur">${fmtDur(t.duration_seconds)}</span>` },
+  { id: 'category',      label: 'Category',     group: 'Core',
+    render: t => catPill(t.category) },
+  { id: 'intro',         label: 'Intro',        group: 'Timing',
+    render: t => fmtMs(t.intro_ms) },
+  { id: 'outro',         label: 'Outro',        group: 'Timing',
+    render: t => fmtMs(t.outro_ms) },
+  { id: 'hook_in',       label: 'Hook In',      group: 'Timing',
+    render: t => fmtMs(t.hook_in_ms) },
+  { id: 'mix_in',        label: 'Mix In',       group: 'Timing',
+    render: t => fmtMs(t.mix_in_ms) },
+  { id: 'mix_out',       label: 'Mix Out',      group: 'Timing',
+    render: t => fmtMs(t.mix_out_ms) },
+  { id: 'bpm',           label: 'BPM',          group: 'Timing',
+    render: t => t.bpm ? `<span style="font-size:11px;color:var(--muted)">${t.bpm}</span>` : '<span style="color:var(--muted)">—</span>' },
+  { id: 'tempo',         label: 'Tempo',        group: 'Attributes',
+    render: t => fmtTempo(t.tempo) },
+  { id: 'mood',          label: 'Mood',         group: 'Attributes',
+    render: t => fmtMood(t.mood) },
+  { id: 'texture',       label: 'Texture',      group: 'Attributes',
+    render: t => fmtTexture(t.texture) },
+  { id: 'gender',        label: 'Gender',       group: 'Attributes',
+    render: t => fmtGender(t.gender) },
+  { id: 'key',           label: 'Key',          group: 'Attributes',
+    render: t => t.key1 ? `<span style="font-size:11px;color:var(--muted)">${KEY_LABELS[t.key1]||'?'}${t.key2?'/'+KEY_LABELS[t.key2]:''}</span>` : '<span style="color:var(--muted)">—</span>' },
+  { id: 'sound_codes',   label: 'Sound Codes',  group: 'Attributes',
+    render: t => fmtSoundCodes(t) },
+  { id: 'play_count',    label: 'Plays',        group: 'Play History',
+    render: t => `<span style="font-size:12px">${t.play_count||0}</span>` },
+  { id: 'last_played_at',label: 'Last Play',    group: 'Play History',
+    render: t => fmtLastPlay(t.last_played_at) },
+  { id: 'active',        label: 'Active',       group: 'Scheduling',
+    render: t => fmtActive(t.active) },
+  { id: 'pct_play',      label: '% Play',       group: 'Scheduling',
+    render: t => fmtPct(t.pct_play) },
+  { id: 'chart_position',label: 'Chart Pos',    group: 'Scheduling',
+    render: t => t.chart_position ? `<span style="font-size:11px;color:var(--muted)">#${t.chart_position}</span>` : '<span style="color:var(--muted)">—</span>' },
+  { id: 'announcer',     label: 'Announcer',    group: 'Scheduling',
+    render: t => t.announcer ? `<span style="font-size:11px;color:var(--accent)">${t.announcer}</span>` : '<span style="color:var(--muted)">—</span>' },
+  { id: 'album',         label: 'Album',        group: 'Metadata',
+    render: t => t.album ? `<span style="font-size:11px">${esc(t.album)}</span>` : '<span style="color:var(--muted)">—</span>' },
+  { id: 'genre',         label: 'Genre',        group: 'Metadata',
+    render: t => t.genre ? `<span style="font-size:11px">${esc(t.genre)}</span>` : '<span style="color:var(--muted)">—</span>' },
+  { id: 'record_label',  label: 'Label',        group: 'Metadata',
+    render: t => t.record_label ? `<span style="font-size:11px">${esc(t.record_label)}</span>` : '<span style="color:var(--muted)">—</span>' },
+  { id: 'composer',      label: 'Composer',     group: 'Metadata',
+    render: t => t.composer ? `<span style="font-size:11px">${esc(t.composer)}</span>` : '<span style="color:var(--muted)">—</span>' },
+  { id: 'isrc_code',     label: 'ISRC',         group: 'Licensing',
+    render: t => (t.isrc_code||t.isci_code) ? `<span class="cart-chip">${esc(t.isrc_code||t.isci_code)}</span>` : '<span style="color:var(--muted)">—</span>' },
+  { id: 'file_path',     label: 'File Path',    group: 'Automation',
+    render: t => t.file_path ? `<span style="font-size:11px;font-family:monospace;color:var(--muted)">${esc(t.file_path)}</span>` : '<span style="color:var(--muted)">—</span>' },
+  { id: 'added_at',      label: 'Date Added',   group: 'History',
+    render: t => t.added_at ? `<span style="font-size:11px;color:var(--muted)">${t.added_at.slice(0,10)}</span>` : '<span style="color:var(--muted)">—</span>' },
+];
+
+const DEFAULT_COLS = ['cart','duration','category','intro','tempo','sound_codes','play_count','last_played_at'];
+const LS_KEY = 'trackLibCols';
+
+let _activeCols = null; // null = not loaded yet
+
+function _loadCols() {
+  if (_activeCols) return _activeCols;
+  try {
+    const saved = JSON.parse(localStorage.getItem(LS_KEY) || 'null');
+    _activeCols = Array.isArray(saved) ? saved : [...DEFAULT_COLS];
+  } catch { _activeCols = [...DEFAULT_COLS]; }
+  return _activeCols;
+}
+function _saveCols() {
+  localStorage.setItem(LS_KEY, JSON.stringify(_activeCols));
+}
+function isColActive(id) { return _loadCols().includes(id); }
+
+function buildColPicker() {
+  const grid = $('col-picker-grid');
+  if (!grid) return;
+  const cols = _loadCols();
+  // Group by group
+  const groups = {};
+  TRACK_COLS.forEach(c => { (groups[c.group] = groups[c.group]||[]).push(c); });
+  grid.innerHTML = Object.entries(groups).map(([grp, cs]) =>
+    `<div style="font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:2px;margin-top:6px;grid-column:1/-1">${grp}</div>` +
+    cs.map(c => {
+      const on = cols.includes(c.id);
+      return `<label class="col-pill ${on?'on':''}" id="cp-${c.id}">
+        <input type="checkbox" ${on?'checked':''} onchange="toggleCol('${c.id}',this.checked)">
+        ${esc(c.label)}
+      </label>`;
+    }).join('')
+  ).join('');
+}
+function toggleCol(id, on) {
+  _loadCols();
+  if (on && !_activeCols.includes(id)) _activeCols.push(id);
+  if (!on) _activeCols = _activeCols.filter(x => x !== id);
+  const pill = document.getElementById('cp-'+id);
+  if (pill) pill.classList.toggle('on', on);
+  _saveCols();
+  renderTableHeader();
+  renderTracks(_lastTracks);
+}
+function selectAllCols()     { _activeCols = TRACK_COLS.map(c=>c.id); _saveCols(); buildColPicker(); renderTableHeader(); renderTracks(_lastTracks); }
+function selectNoneCols()    { _activeCols = []; _saveCols(); buildColPicker(); renderTableHeader(); renderTracks(_lastTracks); }
+function selectDefaultCols() { _activeCols = [...DEFAULT_COLS]; _saveCols(); buildColPicker(); renderTableHeader(); renderTracks(_lastTracks); }
+
+function toggleColPicker(e) {
+  e.stopPropagation();
+  const panel = $('col-picker-panel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) buildColPicker();
+}
+document.addEventListener('click', e => {
+  const wrap = $('col-picker-wrap');
+  if (wrap && !wrap.contains(e.target)) $('col-picker-panel')?.classList.remove('open');
+});
+
+function renderTableHeader() {
+  const cols = _loadCols();
+  const thead = $('tracks-thead');
+  if (!thead) return;
+  const defs = TRACK_COLS.filter(c => cols.includes(c.id));
+  thead.innerHTML = `<tr>
+    <th>#</th><th>Title</th><th>Artist</th>
+    ${defs.map(c => `<th>${esc(c.label)}</th>`).join('')}
+    <th></th>
+  </tr>`;
+}
+
+let _lastTracks = [];
+
 function renderTrackRow(t, i) {
-  const cart = t.cart_number ? `<span class="cart-chip">${esc(t.cart_number)}</span>` : '<span style="color:var(--muted)">—</span>';
+  const cols = _loadCols();
+  const defs = TRACK_COLS.filter(c => cols.includes(c.id));
   return `<tr>
     <td class="track-pos">${i+1}</td>
-    <td><strong>${esc(t.title)}</strong><div style="font-size:11px;color:var(--muted)">${esc(t.alt_artists||'')}</div></td>
-    <td>${esc(t.artist)}</td>
-    <td>${cart}</td>
-    <td class="dur">${fmtDur(t.duration_seconds)}</td>
-    <td>${fmtIntro(t.intro_seconds)}</td>
-    <td>${catPill(t.category)}</td>
-    <td>${fmtTempo(t.tempo)}</td>
-    <td>${fmtSoundCodes(t)}</td>
-    <td>${t.play_count||0}</td>
-    <td>${fmtLastPlay(t.last_played_at)}</td>
+    <td><strong>${esc(t.title)}</strong>${t.alt_artists?`<div style="font-size:11px;color:var(--muted)">${esc(t.alt_artists)}</div>`:''}</td>
+    <td>${esc(t.artist||'')}</td>
+    ${defs.map(c => `<td>${c.render(t)}</td>`).join('')}
     <td style="white-space:nowrap">
       <button class="btn btn-muted btn-sm" onclick="openEditTrack('${t.id}')" style="margin-right:4px">Edit</button>
       <button class="btn btn-danger btn-sm" onclick="deleteTrack('${t.id}')">✕</button>
@@ -1516,6 +1834,8 @@ function renderTrackRow(t, i) {
   </tr>`;
 }
 function renderTracks(tracks) {
+  _lastTracks = tracks;
+  renderTableHeader();
   const empty = $('tracks-empty');
   if (tracks.length) {
     empty.style.display = 'none';
@@ -1577,52 +1897,92 @@ function _resetTrackForm() {
   ['t-title','t-artist','t-alt-artists','t-cart','t-genre','t-album','t-record-label','t-notes',
    't-duration','t-intro','t-outro','t-hookin','t-hookout','t-mixin','t-mixout','t-bpm','t-energy',
    't-user1','t-user2','t-user3','t-user4',
-   't-chart-pos','t-player-id','t-origin',
+   't-chart-pos','t-chart-pos2','t-player-id','t-origin',
    't-composer','t-arranger','t-publisher','t-catalog-num','t-work-code','t-recording-code','t-isci',
+   't-pct-play','t-file-path','t-auto-params','t-prog-type','t-prod-source','t-music-usage',
   ].forEach(id => { if ($(id)) $(id).value = ''; });
   // Date inputs
   ['t-start-date','t-end-date','t-hit-date'].forEach(id => { if ($(id)) $(id).value = ''; });
-  // Selects
-  ['t-category','t-tempo','t-gender','t-mood','t-texture','t-key1','t-key2'].forEach(id => {
-    if ($(id)) $(id).value = '';
-  });
+  // Selects with empty default
+  ['t-category','t-tempo','t-tempo-min','t-tempo-max',
+   't-gender','t-mood','t-texture','t-texture-min','t-texture-max','t-key1','t-key2',
+   't-link-type'].forEach(id => { if ($(id)) $(id).value = ''; });
+  // Selects with non-empty default
+  if ($('t-active')) $('t-active').value = 'true';
+  if ($('t-announcer')) $('t-announcer').value = '0';
   // Checkboxes
   ['t-beginning','t-ending','t-hr-restricted','t-native','t-prior-approval','t-mcps'].forEach(id => {
     if ($(id)) $(id).checked = false;
   });
 }
 
+async function _populateAnnouncerSelect(selectedId) {
+  const sel = $('t-announcer');
+  if (!sel) return;
+  try {
+    const data = await api('GET', '/api/announcers');
+    const announcers = data.announcers || data || [];
+    const current = sel.value || selectedId || '0';
+    sel.innerHTML = '<option value="0">— Any announcer —</option>' +
+      announcers.filter(a => a.active !== false).map(a =>
+        `<option value="${esc(String(a.id))}" ${String(a.id) === String(current) ? 'selected' : ''}>${esc(a.name)}</option>`
+      ).join('');
+    if (selectedId) sel.value = String(selectedId);
+  } catch (e) {
+    // If announcers not loaded, just leave default option
+  }
+}
+
 function _fillTrackForm(t) {
   const set = (id, val) => { if ($(id) && val != null) $(id).value = val; };
   const setChk = (id, val) => { if ($(id)) $(id).checked = !!val; };
+  // Basic Info
   set('t-title', t.title);
   set('t-artist', t.artist);
   set('t-alt-artists', t.alt_artists);
-  set('t-cart', t.cart_number);
+  set('t-cart', t.cart || t.cart_number);
   set('t-genre', t.genre);
   set('t-album', t.album);
   set('t-record-label', t.record_label);
   set('t-notes', t.notes);
+  set('t-chart-pos', t.chart_position);
+  // Timing
   set('t-duration', t.duration_seconds);
-  set('t-intro', t.intro_seconds);
-  set('t-outro', t.outro_seconds);
-  set('t-hookin', t.hook_in_seconds);
-  set('t-hookout', t.hook_out_seconds);
-  set('t-mixin', t.mix_in_seconds);
-  set('t-mixout', t.mix_out_seconds);
+  set('t-intro', t.intro_seconds ?? (t.intro_ms ? t.intro_ms/1000 : null));
+  set('t-outro', t.outro_seconds ?? (t.outro_ms ? t.outro_ms/1000 : null));
+  set('t-hookin', t.hook_in_seconds ?? (t.hook_in_ms ? t.hook_in_ms/1000 : null));
+  set('t-hookout', t.hook_out_seconds ?? (t.hook_out_ms ? t.hook_out_ms/1000 : null));
+  set('t-mixin', t.mix_in_seconds ?? (t.mix_in_ms ? t.mix_in_ms/1000 : null));
+  set('t-mixout', t.mix_out_seconds ?? (t.mix_out_ms ? t.mix_out_ms/1000 : null));
   set('t-bpm', t.bpm);
   set('t-energy', t.energy);
+  // Attributes
   set('t-tempo', t.tempo);
+  set('t-tempo-min', t.tempo_min);
+  set('t-tempo-max', t.tempo_max);
   set('t-gender', t.gender);
   set('t-mood', t.mood);
   set('t-texture', t.texture);
+  set('t-texture-min', t.texture_min);
+  set('t-texture-max', t.texture_max);
   set('t-key1', t.key1);
   set('t-key2', t.key2);
   set('t-user1', t.user1);
   set('t-user2', t.user2);
   set('t-user3', t.user3);
   set('t-user4', t.user4);
-  set('t-chart-pos', t.chart_position);
+  // Scheduling
+  if ($('t-active'))    $('t-active').value    = t.active === false ? 'false' : 'true';
+  set('t-pct-play', t.pct_play);
+  if ($('t-announcer')) $('t-announcer').value = t.announcer ?? 0;
+  if ($('t-link-type')) $('t-link-type').value = t.link_type ?? 0;
+  set('t-chart-pos2', t.chart_position);
+  set('t-file-path', t.file_path);
+  set('t-auto-params', t.auto_params);
+  set('t-prog-type', t.prog_type);
+  set('t-prod-source', t.prod_source);
+  set('t-music-usage', t.music_usage);
+  // Restrictions
   set('t-player-id', t.id_in_player);
   set('t-origin', t.origin);
   set('t-start-date', t.start_date);
@@ -1630,62 +1990,95 @@ function _fillTrackForm(t) {
   set('t-hit-date', t.hit_date);
   set('t-start-hour', t.start_hour);
   set('t-end-hour', t.end_hour);
-  setChk('t-beginning', t.beginning);
-  setChk('t-ending', t.ending);
-  setChk('t-hr-restricted', t.hr_restricted);
+  setChk('t-beginning', !t.can_open_hour);
+  setChk('t-ending', !t.can_close_hour);
+  setChk('t-hr-restricted', t.hour_restricted || t.hr_restricted);
   setChk('t-native', t.native_content);
   setChk('t-prior-approval', t.prior_approval);
   setChk('t-mcps', t.mcps);
+  // Licensing
   set('t-composer', t.composer);
   set('t-arranger', t.arranger);
   set('t-publisher', t.publisher);
-  set('t-catalog-num', t.catalog_number);
+  set('t-catalog-num', t.catalog_num || t.catalog_number);
   set('t-work-code', t.work_code);
   set('t-recording-code', t.recording_code);
-  set('t-isci', t.isci_code);
+  set('t-isci', t.isrc_code || t.isci_code);
+  // Category + Sound Codes
   $('t-category').innerHTML = _buildCatOptions(t.category);
   buildScCheckboxes(t);
+  // Populate announcer select if needed
+  _populateAnnouncerSelect(t.announcer);
 }
 
 function _collectTrackBody() {
-  const g = id => $(id) ? $(id).value.trim() : '';
-  const n = id => { const v = $(id) ? +$(id).value : NaN; return isNaN(v) || $(id).value==='' ? undefined : v; };
+  const g   = id => $(id) ? $(id).value.trim() : '';
+  const n   = id => { const v = $(id) ? +$(id).value : NaN; return isNaN(v) || !$(id) || $(id).value==='' ? undefined : v; };
   const chk = id => $(id) ? $(id).checked : false;
+
   const body = { title: g('t-title'), artist: g('t-artist'), category: $('t-category').value };
-  const str  = (key, id) => { const v = g(id); if (v) body[key] = v; };
-  const num  = (key, id) => { const v = n(id); if (v !== undefined) body[key] = v; };
-  str('alt_artists','t-alt-artists');  str('cart_number','t-cart');
+  const str  = (key, id)   => { const v = g(id);  if (v !== '') body[key] = v; };
+  const num  = (key, id)   => { const v = n(id);  if (v !== undefined) body[key] = v; };
+  const sel  = (key, id)   => { const v = n(id);  if (v) body[key] = v; };
+
+  // Basic Info
+  str('alt_artists','t-alt-artists');  str('cart','t-cart');
   str('genre','t-genre');              str('album','t-album');
   str('record_label','t-record-label'); str('notes','t-notes');
-  num('duration_seconds','t-duration'); num('intro_seconds','t-intro');
-  num('outro_seconds','t-outro');       num('hook_in_seconds','t-hookin');
-  num('hook_out_seconds','t-hookout');  num('mix_in_seconds','t-mixin');
-  num('mix_out_seconds','t-mixout');    num('bpm','t-bpm');
-  num('energy','t-energy');            num('chart_position','t-chart-pos');
-  const tempo = n('t-tempo');   if (tempo)  body.tempo   = tempo;
-  const gender= n('t-gender');  if (gender) body.gender  = gender;
-  const mood  = n('t-mood');    if (mood)   body.mood    = mood;
-  const tex   = n('t-texture'); if (tex)    body.texture = tex;
-  const k1    = n('t-key1');    if (k1)     body.key1    = k1;
-  const k2    = n('t-key2');    if (k2)     body.key2    = k2;
+  sel('chart_position','t-chart-pos');
+
+  // Timing (seconds → ms for m1 fields)
+  num('duration_seconds','t-duration');
+  num('intro_seconds','t-intro');      num('outro_seconds','t-outro');
+  num('hook_in_seconds','t-hookin');   num('hook_out_seconds','t-hookout');
+  num('mix_in_seconds','t-mixin');     num('mix_out_seconds','t-mixout');
+  num('bpm','t-bpm');                  num('energy','t-energy');
+
+  // Attributes
+  sel('tempo','t-tempo');     sel('tempo_min','t-tempo-min');   sel('tempo_max','t-tempo-max');
+  sel('gender','t-gender');   sel('mood','t-mood');
+  sel('texture','t-texture'); sel('texture_min','t-texture-min'); sel('texture_max','t-texture-max');
+  sel('key1','t-key1');       sel('key2','t-key2');
   str('user1','t-user1'); str('user2','t-user2'); str('user3','t-user3'); str('user4','t-user4');
+
+  // Scheduling
+  if ($('t-active'))    body.active     = $('t-active').value === 'true';
+  sel('pct_play','t-pct-play');
+  const ann = n('t-announcer'); if (ann !== undefined) body.announcer = ann;
+  const lnk = n('t-link-type'); if (lnk !== undefined) body.link_type = lnk;
+  sel('chart_position','t-chart-pos2');    // chart-pos2 takes precedence if set
+  str('file_path','t-file-path');
+  str('auto_params','t-auto-params');
+  str('prog_type','t-prog-type');          str('prod_source','t-prod-source');
+  str('music_usage','t-music-usage');
+
+  // Restrictions
   str('id_in_player','t-player-id'); str('origin','t-origin');
   str('start_date','t-start-date'); str('end_date','t-end-date'); str('hit_date','t-hit-date');
-  num('start_hour','t-start-hour'); num('end_hour','t-end-hour');
-  body.beginning    = chk('t-beginning');
-  body.ending       = chk('t-ending');
-  body.hr_restricted= chk('t-hr-restricted');
-  body.native_content = chk('t-native');
-  body.prior_approval = chk('t-prior-approval');
-  body.mcps           = chk('t-mcps');
+  const sh = n('t-start-hour'); if (sh !== undefined) body.start_hour = sh;
+  const eh = n('t-end-hour');   if (eh !== undefined) body.end_hour   = eh;
+  body.can_open_hour    = !chk('t-beginning');
+  body.can_close_hour   = !chk('t-ending');
+  body.hour_restricted  = chk('t-hr-restricted');
+  body.native_content   = chk('t-native');
+  body.prior_approval   = chk('t-prior-approval');
+  body.mcps             = chk('t-mcps');
+
+  // Licensing
   str('composer','t-composer'); str('arranger','t-arranger'); str('publisher','t-publisher');
-  str('catalog_number','t-catalog-num'); str('work_code','t-work-code');
-  str('recording_code','t-recording-code'); str('isci_code','t-isci');
-  // Sound codes
+  str('catalog_num','t-catalog-num'); str('work_code','t-work-code');
+  str('recording_code','t-recording-code'); str('isrc_code','t-isci');
+
+  // Sound codes — store as array in sound_codes field (1-indexed)
+  const codes = [];
   for (let i = 1; i <= 30; i++) {
     const el = $(`t-sc${i}`);
+    if (el && el.checked) codes.push(i);
+    // Also set legacy sc fields for backwards compatibility
     if (el) body[`sc${i}`] = el.checked;
   }
+  body.sound_codes = codes;
+
   return body;
 }
 

@@ -474,13 +474,27 @@ def list_tracks():
         except (ValueError, TypeError):
             pass
 
+    mood = request.args.get("mood")
+    if mood:
+        try:
+            mood_val = int(mood)
+            tracks = [t for t in tracks if t.get("mood") == mood_val]
+        except (ValueError, TypeError):
+            pass
+
+    active_filter = request.args.get("active")
+    if active_filter == "true":
+        tracks = [t for t in tracks if t.get("active", True)]
+    elif active_filter == "false":
+        tracks = [t for t in tracks if not t.get("active", True)]
+
     search = (request.args.get("search") or "").strip().lower()
     if search:
         tracks = [
             t for t in tracks
             if search in (t.get("title")   or "").lower()
             or search in (t.get("artist")  or "").lower()
-            or search in (t.get("cart_number") or "").lower()
+            or search in (t.get("cart_number") or t.get("cart") or "").lower()
             or search in (t.get("genre")   or "").lower()
             or search in (t.get("album")   or "").lower()
         ]
@@ -488,8 +502,10 @@ def list_tracks():
     sort_by    = request.args.get("sort", "added_at")
     order_desc = request.args.get("order", "asc").lower() == "desc"
     _SORTABLE  = {"added_at", "title", "artist", "play_count", "last_played_at",
-                  "bpm", "energy", "tempo", "mood", "gender", "cart_number", "intro_seconds"}
-    _NUMERIC   = {"play_count", "bpm", "energy", "tempo", "mood", "gender", "intro_seconds"}
+                  "bpm", "energy", "tempo", "mood", "gender", "cart_number", "cart",
+                  "intro_seconds", "chart_position", "pct_play"}
+    _NUMERIC   = {"play_count", "bpm", "energy", "tempo", "mood", "gender",
+                  "intro_seconds", "chart_position", "pct_play"}
     if sort_by in _SORTABLE:
         # Always use title as a stable secondary sort key to break ties
         # (especially important when many tracks share the same added_at timestamp)
