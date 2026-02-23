@@ -1144,6 +1144,7 @@ def api_generate_week():
     """Generate a full week schedule via the scheduler engine."""
     data            = request.get_json(silent=True) or {}
     start_date      = data.get("start_date")
+    day_template_id = data.get("day_template_id")  # optional: use this template for all 7 days
     strategy        = data.get("strategy", "standard")
     overnight_fill  = data.get("overnight_fill", True)
     # overnight_hours: list of hour ints [0-5] to include in overnight fill
@@ -1175,6 +1176,12 @@ def api_generate_week():
         tmpls = _load_all(DAY_TEMPLATES_DIR)
         clocks_list = _load_all(CLOCKS_DIR)
 
+        # Resolve which day template to use for the week
+        if day_template_id:
+            tmpl = next((t for t in tmpls if t.get("id") == day_template_id), None)
+        else:
+            tmpl = next((t for t in tmpls), None)
+
         slots_filled = 0
         total_slots  = 0
         days_generated = 0
@@ -1183,8 +1190,7 @@ def api_generate_week():
             day = target + timedelta(days=day_offset)
             day_str = day.isoformat()
 
-            # Pick a day template or use first available
-            tmpl = next((t for t in tmpls), None)
+            # Use the selected template (or first) for this day
             if tmpl is None and clocks_list:
                 # No templates: just use first clock for every hour
                 clock = clocks_list[0]
@@ -1199,6 +1205,7 @@ def api_generate_week():
                         artists=artists,
                         categories=categories,
                         prev_day_plays=prev_day_plays,
+                        sched_date=day_str,
                     )
                     slots_filled += len(hour_slots)
                     total_slots  += 18  # 6am-midnight
@@ -1234,6 +1241,7 @@ def api_generate_week():
                     artists=artists,
                     categories=categories,
                     prev_day_plays=prev_day_plays,
+                    sched_date=day_str,
                 )
                 for i, slot in enumerate(hour_slots):
                     slot["hour"] = hour
@@ -1325,7 +1333,8 @@ def get_schedule_by_date(date):
             "title":             t.get("title") or "Unknown",
             "artist":            t.get("artist") or "",
             "category":          t.get("category") or "Uncategorized",
-            "cart_number":       t.get("cart_number") or "",
+            "cart_number":       t.get("cart_number") or t.get("cart") or "",
+            "cart":              t.get("cart") or t.get("cart_number") or "",
             "length":            dur_str,
             "duration_seconds":  dur_secs,
             "tempo":             t.get("tempo"),

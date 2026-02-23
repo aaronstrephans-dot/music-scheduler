@@ -757,10 +757,11 @@ function renderClockView(tracks, hour) {
     svg += `<path d="M${cx},${cy} L${x1},${y1} A${innerR},${innerR} 0 ${lf},1 ${x2},${y2} Z"
       fill="${col}" stroke="var(--bg2)" stroke-width="1.5" style="cursor:pointer"
       onmouseover="highlightClockItem(${i})" onmouseout="unhighlightClockItem(${i})"/>`;
-    // Label (title abbreviated)
+    // Label: for music show song title; for liners/spots/lognote show type or slot title
     if (span > 0.18) {
       const lx=cx+(innerR*0.6)*Math.cos(midA), ly=cy+(innerR*0.6)*Math.sin(midA);
-      const shortTitle = (t.title||'').split(' ').slice(0,3).join(' ');
+      const slotLabel = t.type === 'music' ? (t.title || '') : (t.title || (t.type === 'lognote' ? 'Log' : (t.type || 'Slot')));
+      const shortTitle = slotLabel.split(' ').slice(0,3).join(' ');
       svg += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle"
         fill="#fff" font-size="${Math.max(7,Math.min(11,span*18))}" font-family="Inter,sans-serif"
         style="pointer-events:none;font-weight:600">${esc(shortTitle)}</text>`;

@@ -2246,7 +2246,8 @@ function renderClockPieSVG(clock) {
       const tx   = cx + rTx  * Math.cos(midA), ty  = cy + rTx  * Math.sin(midA);
       const cosM = Math.cos(midA);
       const anchor = cosM > 0.12 ? 'start' : cosM < -0.12 ? 'end' : 'middle';
-      const label  = cat.length > 15 ? cat.slice(0, 14) + '…' : cat;
+      const rawLabel = (!cat || /^\d+$/.test(cat)) ? 'Slot' : cat;
+      const label  = rawLabel.length > 15 ? rawLabel.slice(0, 14) + '…' : rawLabel;
       paths += `<line x1="${lx1.toFixed(1)}" y1="${ly1.toFixed(1)}" x2="${lx2.toFixed(1)}" y2="${ly2.toFixed(1)}" stroke="${col}" stroke-width="1.2" opacity="0.8"/>`;
       paths += `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="${anchor}" dominant-baseline="middle" fill="${col}" font-size="8.5" font-weight="600">${esc(label)}</text>`;
     }

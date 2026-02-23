@@ -173,14 +173,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
               <div class="form-hint">Schedule runs Sun → Sat (7 days)</div>
             </div>
             <div class="form-group">
-              <label class="form-label">Week Template</label>
+              <label class="form-label">Day Template</label>
               <select class="form-select" id="weekTemplate">
-                <option value="standard">Standard Week</option>
-                <option value="holiday">Holiday Week</option>
-                <option value="special">Special Event Week</option>
-                <option value="custom">Custom Template</option>
+                <option value="">— Loading —</option>
               </select>
-              <div class="form-hint">Pre-configured hour-by-hour clock mapping</div>
+              <div class="form-hint">Which day template to use for each hour (same template for all 7 days)</div>
             </div>
           </div>
         </div>
@@ -321,6 +318,22 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
 </div>
 
 <script>
+// Load day templates for Week Template dropdown
+(async function loadDayTemplates() {
+  const sel = document.getElementById('weekTemplate');
+  try {
+    const r = await fetch('/api/day-templates');
+    const data = await r.json();
+    const tmpls = data.day_templates || [];
+    sel.innerHTML = tmpls.length
+      ? tmpls.map(t => '<option value="' + (t.id || '') + '">' + (t.name || 'Unnamed') + '</option>').join('')
+      : '<option value="">No day templates — create one in Program</option>';
+    if (tmpls.length) sel.value = tmpls[0].id || '';
+  } catch (e) {
+    sel.innerHTML = '<option value="">Failed to load templates</option>';
+  }
+})();
+
 // Toggle check cards
 document.querySelectorAll('.check-card').forEach(card => {
   const cb = card.querySelector('input[type=checkbox]');
@@ -373,6 +386,7 @@ function startGeneration() {
   }, 150);
 
   const startDate     = document.getElementById('startDate').value;
+  const dayTemplateId = document.getElementById('weekTemplate').value || null;
   const strategy      = document.getElementById('strategy').value;
   const overnightFill = document.getElementById('overnightFillChk').checked;
   const overnightHours = overnightFill
@@ -382,7 +396,13 @@ function startGeneration() {
   fetch('/api/generate', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({start_date: startDate, strategy, overnight_fill: overnightFill, overnight_hours: overnightHours})
+    body: JSON.stringify({
+      start_date: startDate,
+      day_template_id: dayTemplateId,
+      strategy,
+      overnight_fill: overnightFill,
+      overnight_hours: overnightHours
+    })
   })
   .then(r => r.json())
   .then(res => {

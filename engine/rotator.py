@@ -94,15 +94,18 @@ def _current_run(scheduled: list, attr: str) -> int:
 # Date / hour restriction checks
 # ---------------------------------------------------------------------------
 
-def _passes_date_restriction(track: dict, rules: dict) -> bool:
+def _passes_date_restriction(track: dict, rules: dict, sched_date: str = None) -> bool:
+    """Use sched_date (YYYY-MM-DD) for checks when generating a specific day; else today."""
     if not rules.get("enforce_date_range", True):
         return True
-    today = _today_iso()
+    ref_date = (sched_date or _today_iso()).strip()
+    if not ref_date:
+        ref_date = _today_iso()
     start = track.get("start_date")
     end   = track.get("end_date")
-    if start and today < start:
+    if start and ref_date < start:
         return False
-    if end and today > end:
+    if end and ref_date > end:
         return False
     return True
 
@@ -547,11 +550,11 @@ def _is_eligible(track: dict, scheduled: list, slot: dict, rules: dict,
                   hour: int = 0, position_in_hour: int = 0,
                   total_in_hour: int = 0, clock: dict = None,
                   artist_lookup: dict = None, cat_lookup: dict = None,
-                  effective_cat: str = "") -> bool:
+                  effective_cat: str = "", sched_date: str = None) -> bool:
     """Return True if track passes ALL hard constraints for this slot."""
     if not track.get("active", True):
         return False
-    if not _passes_date_restriction(track, rules):
+    if not _passes_date_restriction(track, rules, sched_date):
         return False
     if not _passes_hour_restriction(track, hour):
         return False
@@ -622,11 +625,10 @@ def _get_rank_index(cat_name: str, rank_state: dict) -> int:
 # Pool builder with alternate category fallback
 # ---------------------------------------------------------------------------
 
-def _build_pool(slot: dict, by_cat: dict, cat_lookup: dict) -> list:
+def _build_pool(slot: dict, by_cat: dict, cat_lookup: dict) -> tuple:
     """
     Return the track pool for a slot, following alternate category fallback.
-    by_cat: dict mapping category_name → list of tracks
-    cat_lookup: dict mapping category_name → category record
+    Returns (pool, effective_cat). Uses first non-empty pool: primary, then alternate1/2/3.
     """
     category = slot.get("category", "")
     pool = by_cat.get(category) or []
@@ -639,14 +641,35 @@ def _build_pool(slot: dict, by_cat: dict, cat_lookup: dict) -> list:
         for alt_key in ("alternate1", "alternate2", "alternate3"):
             alt_id = cat_rec.get(alt_key)
             if alt_id:
-                # alt_id may be name or id; try name first
                 alt_pool = by_cat.get(alt_id) or []
                 if alt_pool:
                     return alt_pool, alt_id
 
-    # No match and no alternates configured — return empty pool so the slot
-    # is skipped cleanly rather than pulling from an unrelated category.
     return [], category
+
+
+def _build_pool_try_order(slot: dict, by_cat: dict, cat_lookup: dict) -> list:
+    """
+    Return a list of (pool, category_name) in try order: primary first, then
+    alternate1, alternate2, alternate3. Only includes (pool, cat) where pool is non-empty.
+    Caller should try each in order and use the first that yields eligible tracks.
+    """
+    category = slot.get("category", "")
+    out = []
+    primary_pool = by_cat.get(category) or []
+    if primary_pool:
+        out.append((primary_pool, category))
+
+    cat_rec = cat_lookup.get(category)
+    if cat_rec:
+        for alt_key in ("alternate1", "alternate2", "alternate3"):
+            alt_id = cat_rec.get(alt_key)
+            if alt_id:
+                alt_pool = by_cat.get(alt_id) or []
+                if alt_pool:
+                    out.append((alt_pool, alt_id))
+
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -1033,6 +1056,7 @@ def build_schedule(
                             artist_lookup=artist_lookup,
                             cat_lookup=cat_lookup,
                             effective_cat=item_cat,
+                            sched_date=sched_date,
                         )
                         and t.get("id") not in prev_day_set
                     ]
@@ -1049,6 +1073,7 @@ def build_schedule(
                                 artist_lookup=artist_lookup,
                                 cat_lookup=cat_lookup,
                                 effective_cat=item_cat,
+                                sched_date=sched_date,
                             )
                         ]
 
@@ -1101,6 +1126,7 @@ def build_schedule(
                         artist_lookup=artist_lookup,
                         cat_lookup=cat_lookup,
                         effective_cat=effective_cat,
+                        sched_date=sched_date,
                     )
                     and t.get("id") not in prev_day_set
                 ]
@@ -1116,6 +1142,7 @@ def build_schedule(
                             artist_lookup=artist_lookup,
                             cat_lookup=cat_lookup,
                             effective_cat=effective_cat,
+                            sched_date=sched_date,
                         )
                     ]
 
@@ -1136,39 +1163,26 @@ def build_schedule(
                                    cat_name=effective_cat)
 
             # ---------------------------------------------------------------
-            # fill_mode = "category"  (default — single category + alternates)
+            # fill_mode = "category"  (default — prefer primary, then alternates)
             # ---------------------------------------------------------------
             else:
-                # --- Build candidate pool with alternate fallback ---
-                pool, effective_cat = _build_pool(slot, by_cat, cat_lookup)
-                if not pool:
+                # Try primary category first, then alternate1, alternate2, alternate3.
+                # Use the first pool that yields at least one eligible track.
+                try_order = _build_pool_try_order(slot, by_cat, cat_lookup)
+                if not try_order:
                     slot_idx += 1
                     if target_seconds == 0 and slot_idx >= len(slots):
                         break
                     continue
 
-                # --- Force-rank rotation? ---
-                cat_rec    = cat_lookup.get(effective_cat, {})
-                force_rank = cat_rec.get("force_rank_rotation", False) if cat_rec else False
+                chosen = None
+                effective_cat = None
+                pool = None
 
-                # --- Filter eligible candidates ---
-                eligible = [
-                    t for t in pool
-                    if _is_eligible(
-                        t, scheduled, slot, rules,
-                        hour=hour,
-                        position_in_hour=pos_in_hr,
-                        total_in_hour=est_total,
-                        clock=clock,
-                        artist_lookup=artist_lookup,
-                        cat_lookup=cat_lookup,
-                        effective_cat=effective_cat,
-                    )
-                    and t.get("id") not in prev_day_set
-                ]
+                for pool, effective_cat in try_order:
+                    cat_rec = cat_lookup.get(effective_cat, {})
+                    force_rank = cat_rec.get("force_rank_rotation", False) if cat_rec else False
 
-                # Relax prev-day restriction if needed
-                if not eligible:
                     eligible = [
                         t for t in pool
                         if _is_eligible(
@@ -1180,26 +1194,45 @@ def build_schedule(
                             artist_lookup=artist_lookup,
                             cat_lookup=cat_lookup,
                             effective_cat=effective_cat,
+                            sched_date=sched_date,
                         )
+                        and t.get("id") not in prev_day_set
                     ]
+                    if not eligible:
+                        eligible = [
+                            t for t in pool
+                            if _is_eligible(
+                                t, scheduled, slot, rules,
+                                hour=hour,
+                                position_in_hour=pos_in_hr,
+                                total_in_hour=est_total,
+                                clock=clock,
+                                artist_lookup=artist_lookup,
+                                cat_lookup=cat_lookup,
+                                effective_cat=effective_cat,
+                                sched_date=sched_date,
+                            )
+                        ]
 
-                # --- Apply stack rotation: enforce FIFO order within each stack_key ---
-                if stack_pool and eligible:
-                    eligible = _apply_stack_rotation(eligible, stack_ptrs, stack_pool)
+                    if stack_pool and eligible:
+                        eligible = _apply_stack_rotation(eligible, stack_ptrs, stack_pool)
 
-                if not eligible:
-                    # Tiny library — relax all constraints, but still honour stack rotation
+                    if eligible:
+                        chosen = _pick(eligible, scheduled, slot, rules,
+                                      force_rank=force_rank,
+                                      rank_state=rank_state,
+                                      cat_name=effective_cat)
+                        break
+
+                if chosen is None:
+                    # No eligible in any pool — fallback pick from first pool
+                    pool, effective_cat = try_order[0]
                     fallback_pool = pool
                     if stack_pool:
                         rotated = _apply_stack_rotation(pool, stack_ptrs, stack_pool)
                         if rotated:
                             fallback_pool = rotated
                     chosen = _fallback_pick(fallback_pool, scheduled)
-                else:
-                    chosen = _pick(eligible, scheduled, slot, rules,
-                                   force_rank=force_rank,
-                                   rank_state=rank_state,
-                                   cat_name=effective_cat)
 
             # Advance the stack pointer when a stacked track is chosen
             sk = _stack_key(chosen)

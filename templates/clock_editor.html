@@ -30,7 +30,8 @@
   .slot-tbl .col-num { width: 32px; color: var(--muted); }
   .slot-tbl .col-air { width: 70px; font-variant-numeric: tabular-nums; color: var(--warn); }
   .slot-tbl .col-type { min-width: 80px; }
-  .slot-tbl .col-title { min-width: 140px; }
+  .slot-tbl .col-title { min-width: 180px; max-width: 280px; }
+  .slot-tbl .col-logic { font-size: 11px; color: var(--muted); line-height: 1.35; }
   .slot-tbl .col-dur { width: 64px; font-variant-numeric: tabular-nums; }
   .slot-tbl .col-cart { width: 72px; }
   .slot-tbl .col-handle { width: 24px; cursor: grab; color: var(--muted); }
@@ -87,7 +88,7 @@
       </div>
       <div class="tbl-wrap">
         <table class="slot-tbl">
-          <thead><tr><th class="col-handle"></th><th class="col-num">#</th><th class="col-air">Air Time</th><th class="col-type">Type</th><th class="col-title">Title</th><th class="col-dur">Duration</th><th class="col-cart">Cart</th><th></th></tr></thead>
+          <thead><tr><th class="col-handle"></th><th class="col-num">#</th><th class="col-air">Air Time</th><th class="col-type">Type</th><th class="col-title">Slot logic</th><th class="col-dur">Duration</th><th class="col-cart">Cart</th><th></th></tr></thead>
           <tbody id="slot-list-tbody"></tbody>
         </table>
       </div>
@@ -166,6 +167,32 @@
     return m + ':' + (s < 10 ? '0' : '') + s;
   }
 
+  /** Human-readable description of what this slot pulls (for clock template view). */
+  function slotLogicText(s) {
+    if (s.type && s.type !== 'music' && s.type !== '') {
+      const t = slotTypeLabel(s.type);
+      return s.title || s.label ? t + ': ' + (s.title || s.label) : t;
+    }
+    const mode = s.fill_mode || 'category';
+    if (mode === 'chain') {
+      const chain = s.chain || [];
+      const parts = chain.slice(0, 5).map(it => {
+        if (it.type === 'void') return 'Skip';
+        if (it.type === 'category') return it.category || it.label || '?';
+        if (it.type === 'query') return it.label || 'Query';
+        return it.label || '?';
+      });
+      return parts.length ? 'Try: ' + parts.join(' → ') + (chain.length > 5 ? ' …' : '') : 'Pick from ' + (s.category || '—');
+    }
+    if (mode === 'query') return 'Custom query' + (s.category ? ' (' + s.category + ')' : '');
+    const primary = s.category || '—';
+    const rec = catMap[primary] || categories.find(c => c.name === primary);
+    const altIds = rec ? [rec.alternate1, rec.alternate2, rec.alternate3].filter(Boolean) : [];
+    const altNames = altIds.map(a => (catMap[a] && catMap[a].name) ? catMap[a].name : a);
+    if (altNames.length === 0) return 'Pick from ' + primary;
+    return 'Pick from ' + primary + ' or ' + altNames.join(', ') + ' (prefer ' + primary + ')';
+  }
+
   function totalDuration() {
     const slots = clock && clock.slots ? clock.slots : [];
     return slots.reduce((sum, s) => sum + (s.nominal_length_s || s.min_duration_seconds || 210), 0);
@@ -190,7 +217,7 @@
       const air = airs[i];
       const dur = s.nominal_length_s || s.min_duration_seconds || 210;
       const col = categoryColor(s.category);
-      const title = s.title || s.label || 'Unscheduled position';
+      const logic = slotLogicText(s);
       const tr = document.createElement('tr');
       tr.dataset.index = i;
       tr.innerHTML = `
@@ -198,7 +225,7 @@
         <td class="col-num">${i + 1}</td>
         <td class="col-air">${air ? fmtAir(air.start) : '0:00'}</td>
         <td class="col-type"><span class="pill" style="background:${col}33;color:${col};border:1px solid ${col}66">${esc(shortName(s.category))} / ${slotTypeLabel(s.type)}</span></td>
-        <td class="col-title">${esc(title)}</td>
+        <td class="col-title col-logic" title="${esc(logic)}">${esc(logic)}</td>
         <td class="col-dur">${fmtDur(dur)}</td>
         <td class="col-cart">${esc(s.fixed_cart || '—')}</td>
         <td><button type="button" class="btn btn-muted" data-edit="${i}">Edit</button></td>
