@@ -948,6 +948,8 @@ def build_schedule(
         for c in categories:
             cat_lookup[c.get("name", "")] = c
             cat_lookup[c.get("id",   "")] = c
+            if c.get("m1_id") is not None:   # Music1-imported data uses m1_id as category key
+                cat_lookup[str(c["m1_id"])] = c
 
     prev_day_set = set(prev_day_plays or [])
 

@@ -175,9 +175,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
             <div class="form-group">
               <label class="form-label">Day Template</label>
               <select class="form-select" id="weekTemplate">
-                <option value="">— Loading —</option>
+                <option value="">⚙ Auto (match Weekday / Saturday / Sunday)</option>
               </select>
-              <div class="form-hint">Which day template to use for each hour (same template for all 7 days)</div>
+              <div class="form-hint">Choose a specific template or let the scheduler auto-match by day of week</div>
             </div>
           </div>
         </div>
@@ -325,13 +325,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
     const r = await fetch('/api/day-templates');
     const data = await r.json();
     const tmpls = data.day_templates || [];
-    sel.innerHTML = tmpls.length
-      ? tmpls.map(t => '<option value="' + (t.id || '') + '">' + (t.name || 'Unnamed') + '</option>').join('')
-      : '<option value="">No day templates — create one in Program</option>';
-    if (tmpls.length) sel.value = tmpls[0].id || '';
-  } catch (e) {
-    sel.innerHTML = '<option value="">Failed to load templates</option>';
-  }
+    // Keep the Auto option at top, then append actual templates
+    sel.innerHTML = '<option value="">⚙ Auto (match Weekday / Saturday / Sunday)</option>';
+    tmpls.forEach(t => {
+      sel.innerHTML += '<option value="' + (t.id || '') + '">' + (t.name || 'Unnamed') + '</option>';
+    });
+  } catch (e) { /* keep the default Auto option on failure */ }
 })();
 
 // Toggle check cards
@@ -348,6 +347,7 @@ function toggleOvernightHours(chk) {
   const panel = document.getElementById('overnight-hours-panel');
   if (panel) panel.style.display = chk.checked ? '' : 'none';
 }
+
 
 const steps = ['s1','s2','s3','s4','s5'];
 function setStep(i, state) {
@@ -385,10 +385,10 @@ function startGeneration() {
     if (p >= 90) clearInterval(iv);
   }, 150);
 
-  const startDate     = document.getElementById('startDate').value;
-  const dayTemplateId = document.getElementById('weekTemplate').value || null;
-  const strategy      = document.getElementById('strategy').value;
-  const overnightFill = document.getElementById('overnightFillChk').checked;
+  const startDate      = document.getElementById('startDate').value;
+  const dayTemplateId  = document.getElementById('weekTemplate').value || null;
+  const strategy       = document.getElementById('strategy').value;
+  const overnightFill  = document.getElementById('overnightFillChk').checked;
   const overnightHours = overnightFill
     ? [0,1,2,3,4,5].filter(h => { const el = document.getElementById(`oh-${h}`); return el && el.checked; })
     : [];
@@ -401,7 +401,7 @@ function startGeneration() {
       day_template_id: dayTemplateId,
       strategy,
       overnight_fill: overnightFill,
-      overnight_hours: overnightHours
+      overnight_hours: overnightHours,
     })
   })
   .then(r => r.json())

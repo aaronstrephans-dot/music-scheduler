@@ -2235,7 +2235,11 @@ function renderClockPieSVG(clock) {
     const x2 = cx + r * Math.cos(endAngle);
     const y2 = cy + r * Math.sin(endAngle);
     const large = angle > Math.PI ? 1 : 0;
-    const col   = PIE_COLORS[i % PIE_COLORS.length];
+    // Resolve category record via _catMap (handles m1_id strings like "40033")
+    const catRec = _catMap[cat] || null;
+    const col    = (catRec && catRec.color) ? catRec.color : PIE_COLORS[i % PIE_COLORS.length];
+    // Display the human-readable category name, not the raw M1 id
+    const catName = (catRec && catRec.name) ? catRec.name : cat;
 
     paths += `<path d="M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${large} 1 ${x2.toFixed(1)},${y2.toFixed(1)} Z" fill="${col}" stroke="#0c0f1a" stroke-width="2"/>`;
 
@@ -2246,8 +2250,7 @@ function renderClockPieSVG(clock) {
       const tx   = cx + rTx  * Math.cos(midA), ty  = cy + rTx  * Math.sin(midA);
       const cosM = Math.cos(midA);
       const anchor = cosM > 0.12 ? 'start' : cosM < -0.12 ? 'end' : 'middle';
-      const rawLabel = (!cat || /^\d+$/.test(cat)) ? 'Slot' : cat;
-      const label  = rawLabel.length > 15 ? rawLabel.slice(0, 14) + '…' : rawLabel;
+      const label  = catName.length > 15 ? catName.slice(0, 14) + '…' : catName;
       paths += `<line x1="${lx1.toFixed(1)}" y1="${ly1.toFixed(1)}" x2="${lx2.toFixed(1)}" y2="${ly2.toFixed(1)}" stroke="${col}" stroke-width="1.2" opacity="0.8"/>`;
       paths += `<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="${anchor}" dominant-baseline="middle" fill="${col}" font-size="8.5" font-weight="600">${esc(label)}</text>`;
     }

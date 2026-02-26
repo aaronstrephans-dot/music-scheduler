@@ -426,6 +426,7 @@
       categories.forEach(cat => {
         if (cat.id) catMap[cat.id] = cat;
         if (cat.name) catMap[cat.name] = cat;
+        if (cat.m1_id != null) catMap[String(cat.m1_id)] = cat;
       });
       clock = c;
       if (!clock.slots) clock.slots = [];

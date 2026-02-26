@@ -1153,6 +1153,11 @@ def api_generate_week():
     if not isinstance(overnight_hours, set):
         overnight_hours = set(map(int, overnight_hours))
 
+    # day_template_id: single template used for all 7 days
+    # day_template_ids: dict mapping weekday int (0=Mon…6=Sun) → template_id
+    day_template_id  = data.get("day_template_id")
+    day_template_ids = data.get("day_template_ids") or {}
+
     try:
         from datetime import date, timedelta
         if start_date:
@@ -1176,11 +1181,50 @@ def api_generate_week():
         tmpls = _load_all(DAY_TEMPLATES_DIR)
         clocks_list = _load_all(CLOCKS_DIR)
 
-        # Resolve which day template to use for the week
-        if day_template_id:
-            tmpl = next((t for t in tmpls if t.get("id") == day_template_id), None)
-        else:
-            tmpl = next((t for t in tmpls), None)
+        # Build template index for fast lookup
+        tmpl_by_id   = {t["id"]: t for t in tmpls if t.get("id")}
+        tmpl_by_name = {(t.get("name") or "").lower(): t for t in tmpls}
+
+        def _pick_template_for_day(weekday_int):
+            """Select the best day template for a given day of week (0=Mon, 6=Sun).
+
+            Priority:
+            1. Explicit day_template_ids[weekday] override
+            2. Global day_template_id (same template for every day)
+            3. Smart day-of-week name match (Weekday/Saturday/Sunday)
+            4. First non-Christmas template
+            5. Any template (last resort)
+            """
+            # 1. Per-day override
+            tid = day_template_ids.get(str(weekday_int)) or day_template_ids.get(weekday_int)
+            if tid and tid in tmpl_by_id:
+                return tmpl_by_id[tid]
+
+            # 2. Global template override
+            if day_template_id and day_template_id in tmpl_by_id:
+                return tmpl_by_id[day_template_id]
+
+            # 3. Smart name matching
+            if weekday_int == 6:          # Sunday
+                keywords = ["sunday"]
+            elif weekday_int == 5:        # Saturday
+                keywords = ["saturday"]
+            else:                         # Monday–Friday
+                keywords = ["weekday", "monday", "tuesday", "wednesday",
+                            "thursday", "friday", "weekdays"]
+            for kw in keywords:
+                for name_lc, t in tmpl_by_name.items():
+                    if kw in name_lc and "christmas" not in name_lc and "holiday" not in name_lc:
+                        return t
+
+            # 4. First non-Christmas/non-holiday template
+            for t in tmpls:
+                name_lc = (t.get("name") or "").lower()
+                if "christmas" not in name_lc and "holiday" not in name_lc:
+                    return t
+
+            # 5. Anything available
+            return tmpls[0] if tmpls else None
 
         slots_filled = 0
         total_slots  = 0
@@ -1190,7 +1234,8 @@ def api_generate_week():
             day = target + timedelta(days=day_offset)
             day_str = day.isoformat()
 
-            # Use the selected template (or first) for this day
+            # Pick a day template appropriate for this day of week
+            tmpl = _pick_template_for_day(day.weekday())
             if tmpl is None and clocks_list:
                 # No templates: just use first clock for every hour
                 clock = clocks_list[0]
